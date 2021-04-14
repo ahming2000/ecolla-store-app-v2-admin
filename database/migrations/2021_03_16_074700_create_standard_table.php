@@ -17,10 +17,10 @@ class CreateStandardTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_en')->nullable();
-            $table->text('desc');
-            $table->string('brand');
+            $table->text('desc')->nullable();
+            $table->string('brand')->nullable();
             $table->string('brand_en')->nullable();
-            $table->string('origin');
+            $table->string('origin')->nullable();
             $table->string('origin_en')->nullable();
 
             $table->timestamps();
@@ -112,7 +112,6 @@ class CreateStandardTable extends Migration
             $table->string('code');
             $table->string('mode')->default('pickup'); // pickup/delivery
             $table->string('delivery_id')->nullable(); // Use to track delivery mode's delivery status
-            $table->string('order_verify_id')->nullable(); // Use to verify the pick up mode's order
             $table->double('shipping_fee')->default(0.0);
             $table->string('payment_method'); // boost/tng/bank-in/quin-pay/duit-now
             $table->string('status')->default('pending'); // pending/prepared/completed/refunded/canceled
@@ -128,9 +127,9 @@ class CreateStandardTable extends Migration
             $table->string('email')->nullable();
             $table->string('addressLine1');
             $table->string('addressLine2')->nullable();
-            $table->string('postal_code');
-            $table->string('area');
-            $table->string('state');
+            $table->string('postal_code')->default('31900');
+            $table->string('area')->default('Kampar');
+            $table->string('state')->default('Perak');
             $table->string('country')->default("Malaysia");
 
             $table->timestamps();
