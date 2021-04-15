@@ -79,7 +79,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 1,
                 'item_id' => 1,
-                'image' => 'img/items/1/0.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/1/0.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/1/0.jpg'
             )
         );
 
@@ -87,7 +88,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 2,
                 'item_id' => 1,
-                'image' => 'img/items/1/1.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/1/1.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/1/1.jpg'
             )
         );
 
@@ -95,7 +97,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 3,
                 'item_id' => 1,
-                'image' => 'img/items/1/2.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/1/2.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/1/2.jpg'
             )
         );
 
@@ -103,7 +106,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 4,
                 'item_id' => 1,
-                'image' => 'img/items/1/3.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/1/3.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/1/3.jpg'
             )
         );
 
@@ -111,7 +115,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 5,
                 'item_id' => 2,
-                'image' => 'img/items/2/0.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/2/0.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/0.jpg'
             )
         );
 
@@ -119,7 +124,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 6,
                 'item_id' => 2,
-                'image' => 'img/items/2/1.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/2/1.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/1.jpg'
             )
         );
 
@@ -127,7 +133,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 7,
                 'item_id' => 2,
-                'image' => 'img/items/2/2.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/2/2.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/2.jpg'
             )
         );
 
@@ -135,7 +142,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 8,
                 'item_id' => 2,
-                'image' => 'img/items/2/3.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/2/3.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/3.jpg'
             )
         );
 
@@ -143,7 +151,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 9,
                 'item_id' => 2,
-                'image' => 'img/items/2/4.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/2/4.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/4.jpg'
             )
         );
 
@@ -151,7 +160,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 10,
                 'item_id' => 3,
-                'image' => 'img/items/3/0.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/3/0.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/3/0.jpg'
             )
         );
 
@@ -159,7 +169,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 11,
                 'item_id' => 3,
-                'image' => 'img/items/3/1.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/3/1.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/3/1.jpg'
             )
         );
 
@@ -167,7 +178,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 12,
                 'item_id' => 3,
-                'image' => 'img/items/3/2.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/3/2.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/3/2.jpg'
             )
         );
 
@@ -175,7 +187,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 13,
                 'item_id' => 3,
-                'image' => 'img/items/3/3.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/3/3.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/3/3.jpg'
             )
         );
 
@@ -183,7 +196,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 14,
                 'item_id' => 3,
-                'image' => 'img/items/3/4.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/3/4.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/3/4.jpg'
             )
         );
 
@@ -191,7 +205,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 15,
                 'item_id' => 4,
-                'image' => 'img/items/4/0.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/4/0.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/0.jpg'
             )
         );
 
@@ -199,7 +214,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 16,
                 'item_id' => 4,
-                'image' => 'img/items/4/1.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/4/1.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/1.jpg'
             )
         );
 
@@ -207,7 +223,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 17,
                 'item_id' => 4,
-                'image' => 'img/items/4/2.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/4/2.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/2.jpg'
             )
         );
 
@@ -215,7 +232,8 @@ class ImportExampleData extends Migration
             array(
                 'id' => 18,
                 'item_id' => 5,
-                'image' => 'img/items/5/0.jpg'
+                'image' => 'http://management.ecolla.laravel/storage/items/5/0.jpg'
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/5/0.jpg'
             )
         );
 
@@ -375,7 +393,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '500ml',
                 'weight' => 0.5,
                 'price' => 4.8,
-                'image' => 'img/items/1/6902538007862.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/1/6902538007862.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/1/6902538007862.jpg',
                 'item_id' => 1
             )
         );
@@ -390,7 +409,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '500ml',
                 'weight' => 0.5,
                 'price' => 4.8,
-                'image' => 'img/items/1/6902538007886.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/1/6902538007886.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/1/6902538007886.jpg',
                 'item_id' => 1
             )
         );
@@ -405,7 +425,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '26g',
                 'weight' => 0.026,
                 'price' => 1.5,
-                'image' => 'img/items/2/6931754804900.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/2/6931754804900.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/6931754804900.jpg',
                 'item_id' => 2
             )
         );
@@ -420,7 +441,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '26g',
                 'weight' => 0.026,
                 'price' => 1.5,
-                'image' => 'img/items/2/6931754804917.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/2/6931754804917.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/6931754804917.jpg',
                 'item_id' => 2
             )
         );
@@ -435,7 +457,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '26g',
                 'weight' => 0.026,
                 'price' => 1.5,
-                'image' => 'img/items/2/6931754804924.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/2/6931754804924.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/6931754804924.jpg',
                 'item_id' => 2
             )
         );
@@ -450,7 +473,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '26g',
                 'weight' => 0.026,
                 'price' => 1.5,
-                'image' => 'img/items/2/6931754804931.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/2/6931754804931.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/6931754804931.jpg',
                 'item_id' => 2
             )
         );
@@ -465,7 +489,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '26g',
                 'weight' => 0.026,
                 'price' => 1.5,
-                'image' => 'img/items/2/6931754805655.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/2/6931754805655.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/2/6931754805655.jpg',
                 'item_id' => 2
             )
         );
@@ -480,7 +505,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/4/6935145301016.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/4/6935145301016.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/6935145301016.jpg',
                 'item_id' => 4
             )
         );
@@ -495,7 +521,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/4/6935145301030.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/4/6935145301030.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/6935145301030.jpg',
                 'item_id' => 4
             )
         );
@@ -510,7 +537,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/4/6935145301047.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/4/6935145301047.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/6935145301047.jpg',
                 'item_id' => 4
             )
         );
@@ -525,7 +553,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/4/6935145301061.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/4/6935145301061.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/6935145301061.jpg',
                 'item_id' => 4
             )
         );
@@ -540,7 +569,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/4/6935145301078.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/4/6935145301078.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/4/6935145301078.jpg',
                 'item_id' => 4
             )
         );
@@ -555,7 +585,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/5/6935145343030.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/5/6935145343030.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/5/6935145343030.jpg',
                 'item_id' => 5
             )
         );
@@ -570,7 +601,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/5/6935145343047.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/5/6935145343047.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/5/6935145343047.jpg',
                 'item_id' => 5
             )
         );
@@ -585,7 +617,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/5/6935145343061.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/5/6935145343061.jpg',
+//                'image' => 'http://www.management.newrainbowmarket.com/storage/items/5/6935145343061.jpg',
                 'item_id' => 5
             )
         );
@@ -600,7 +633,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/5/6935145343092.jpg',
+                'image' => 'http://management.ecolla.laravel/storage/items/5/6935145343092.jpg',
+                // 'image' => 'http://www.management.newrainbowmarket.com/storage/items/5/6935145343092.jpg',
                 'item_id' => 5
             )
         );
