@@ -293,7 +293,7 @@
 
         function addButtonClicked() {
             untickAll();
-            document.location.href = "item-create.php";
+            document.location.href = "{{ url('/item/create') }}";
         }
 
         function editButtonClicked() {

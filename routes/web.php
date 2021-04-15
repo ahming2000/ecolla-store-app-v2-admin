@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +28,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/item', [App\Http\Controllers\ItemsController::class, 'index'])->name('item.home');
-Route::get('/order', [App\Http\Controllers\OrdersController::class, 'index'])->name('order.home');
-Route::get('/setting', [App\Http\Controllers\SettingsController::class, 'index'])->name('setting.home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/item', [ItemsController::class, 'index'])->name('item.home');
+Route::get('/item/create', [ItemsController::class, 'create'])->name('item.create');
+Route::post('/item/create', [ItemsController::class, 'save'])->name('item.store');
+Route::get('/item/edit/{item}', [ItemsController::class, 'edit'])->name('item.edit');
+Route::post('/item/edit/{item}', [ItemsController::class, 'update'])->name('item.update');
+
+Route::get('/order', [OrdersController::class, 'index'])->name('order.home');
+
+Route::get('/setting', [SettingsController::class, 'index'])->name('setting.home');
