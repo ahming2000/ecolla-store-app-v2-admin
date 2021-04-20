@@ -27,8 +27,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
 
 Route::get('/item', [ItemsController::class, 'index'])->name('item.home');
 Route::get('/item/create', [ItemsController::class, 'create'])->name('item.create');

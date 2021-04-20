@@ -1,23 +1,331 @@
 @extends('layouts.app')
 
+@push('head')
+    <link href="{{ asset('css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" id="bootstrap-css">
+    <link href="{{ asset('css/font-awesome/font-awesome-ie7.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/selectize/selectize.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/selectize.min.js') }}" defer></script>
+@endpush
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">{{ __('Dashboard') }}</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+            {{-- <div class="card-body">
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                {{ __('You are logged in!') }}
+            </div> --}}
+
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav class="nav-justified ">
+                                <div class="nav nav-tabs " id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="pop1-tab" data-toggle="tab" href="#pop1"
+                                        role="tab" aria-controls="pop1" aria-selected="true">Daily</a>
+                                    <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2"
+                                        role="tab" aria-controls="pop2" aria-selected="false">Weekly</a>
+                                    <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3"
+                                        role="tab" aria-controls="pop3" aria-selected="false">Monthly</a>
+                                </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="pop1" role="tabpanel"
+                                    aria-labelledby="pop1-tab">
+                                    <div class="pt-3"></div>
+
+                                    <form action="{{ url('/home') }}" method="GET" id="day_form">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label for="day">Choose A Date: </label>
+                                            </div>
+                                            <div class="col-3">
+                                                <select class="search_select" name="day" form="day_form">
+                                                    <option value="">Enter a Day...</option>
+                                                    @foreach ($date_option_arr as $date_str)
+                                                        <option value="{{ $date_str }}">{{ $date_str }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-success" type="submit" name="type"
+                                                value="daily">Submit</button>
+                                        </div>
+                                    </form>
+
+                                    <div class="container">
+                                        <div class="row mb-3">
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-success">
+                                                    <div class="card-block bg-success">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-user fa-5x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase" >Number of Orders</h6>
+                                                        <h1 class="display-3">{{ sizeof($daily_date_arr) }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-danger">
+                                                    <div class="card-block bg-danger">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-list fa-4x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase">Number Of Products Sold</h6>
+                                                        <h1 class="display-3">{{ $daily_product_count }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-info">
+                                                    <div class="card-block bg-info">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-twitter fa-5x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase">Total Sales Revenue</h6>
+                                                        <h1 class="display-3">{{ $daily_product_sales_revenue }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="row">
+                                            <div class="col-6 p-3">
+                                                <div class="border border-danger" style="height: 400px;">
+                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-6 p-3">
+                                                <div class="border border-primary" style="height: 400px;">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr class="table-primary">
+                                                                <th>Name</th>
+                                                                <th>Price Each</th>
+                                                                <th>Quantity</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($daily_product_arr as $product)
+                                                            <tr>
+                                                                <td>{{ $product->name }}</td>
+                                                                <td>RM {{ $product->price }}</td>
+                                                                <td>{{ $product->quantity }}</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
+                                    <div class="pt-3"></div>
+
+                                    <form action="{{ url('/home') }}" method="GET" id="week_form">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label for="week">Choose A Week: </label>
+                                            </div>
+                                            <div class="col-5">
+                                                <select class="search_select" name="week" form="week_form">
+                                                    <option value="">Enter a Week...</option>
+                                                    @foreach ($week_option_arr as $week_str)
+                                                        <option value="{{ $week_str }}">{{ $week_str }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-success" type="submit" name="type"
+                                                value="weekly">Submit</button>
+                                        </div>
+                                    </form>
+
+                                    <div class="container">
+                                        <div class="row mb-3">
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-success">
+                                                    <div class="card-block bg-success">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-user fa-5x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase" >Number of Orders</h6>
+                                                        <h1 class="display-3">{{ sizeof($week_arr) }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-danger">
+                                                    <div class="card-block bg-danger">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-list fa-4x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase">Number Of Products Sold</h6>
+                                                        <h1 class="display-3">{{ $week_product_count }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-info">
+                                                    <div class="card-block bg-info">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-twitter fa-5x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase">Total Sales Revenue</h6>
+                                                        <h1 class="display-3">{{ $week_product_sales_revenue }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="row">
+                                            <div class="col-6 p-3">
+                                                <div class="border border-danger" style="height: 400px;">
+                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-6 p-3">
+                                                <div class="border border-primary" style="height: 400px;">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr class="table-primary">
+                                                                <th>Name</th>
+                                                                <th>Price Each</th>
+                                                                <th>Quantity</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($week_product_arr as $product)
+                                                            <tr>
+                                                                <td>{{ $product->name }}</td>
+                                                                <td>RM {{ $product->price }}</td>
+                                                                <td>{{ $product->quantity }}</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="pop3" role="tabpanel" aria-labelledby="pop3-tab">
+                                    <div class="pt-3"></div>
+
+                                    <form action="{{ url('/home') }}" method="GET" id="month_form">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label for="month">Choose A Month: </label>
+                                            </div>
+                                            <div class="col-3">
+                                                <select class="search_select" name="month" form="month_form">
+                                                    <option value="">Enter a Month...</option>
+                                                    @foreach ($month_option_arr as $option)
+                                                    <option value="{{ $option }}">{{ $option }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-success" type="submit" name="type"
+                                                value="monthly">Submit</button>
+                                        </div>
+                                    </form>
+
+                                    <div class="container">
+                                        <div class="row mb-3">
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-success">
+                                                    <div class="card-block bg-success">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-user fa-5x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase" >Number of Orders</h6>
+                                                        <h1 class="display-3">{{ sizeof($month_arr) }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-danger">
+                                                    <div class="card-block bg-danger">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-list fa-4x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase">Number Of Products Sold</h6>
+                                                        <h1 class="display-3">{{ $month_product_count }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6">
+                                                <div class="card card-inverse card-info">
+                                                    <div class="card-block bg-info">
+                                                        <div class="rotate">
+                                                            <i class="fa fa-twitter fa-5x"></i>
+                                                        </div>
+                                                        <h6 class="text-uppercase">Total Sales Revenue</h6>
+                                                        <h1 class="display-3">{{ $month_product_sales_revenue }}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="row">
+                                            <div class="col-6 p-3">
+                                                <div class="border border-danger" style="height: 400px;">
+                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-6 p-3">
+                                                <div class="border border-primary" style="height: 400px;">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr class="table-primary">
+                                                                <th>Name</th>
+                                                                <th>Price Each</th>
+                                                                <th>Quantity</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($month_product_arr as $product)
+                                                            <tr>
+                                                                <td>{{ $product->name }}</td>
+                                                                <td>RM {{ $product->price }}</td>
+                                                                <td>{{ $product->quantity }}</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    </div>
                 </div>
-            </div>
+            </section>
+
         </div>
     </div>
-</div>
+@endsection
+
+@section('page-js-script')
+    <script>
+        $(function() {
+            $(".search_select").selectize({
+            });
+        });
+    </script>
 @endsection

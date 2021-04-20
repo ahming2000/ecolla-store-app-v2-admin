@@ -47,7 +47,6 @@ class ItemsController extends Controller
     }
 
     public function update(){
-
         dd(request()->get('variations'));
     }
 
