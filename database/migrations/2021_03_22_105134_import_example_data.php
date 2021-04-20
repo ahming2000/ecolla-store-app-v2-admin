@@ -289,7 +289,7 @@ class ImportExampleData extends Migration
                 'step' => 1,
                 'min' => 20,
                 'max' => 29,
-                'rate' => 0.866667
+                'rate' => 0.933333
             )
         );
 
@@ -300,7 +300,7 @@ class ImportExampleData extends Migration
                 'step' => 2,
                 'min' => 30,
                 'max' => 39,
-                'rate' => 0.8
+                'rate' => 0.866667
             )
         );
 
@@ -311,7 +311,7 @@ class ImportExampleData extends Migration
                 'step' => 3,
                 'min' => 40,
                 'max' => 49,
-                'rate' => 0.733333
+                'rate' => 0.8
             )
         );
 
@@ -322,7 +322,7 @@ class ImportExampleData extends Migration
                 'step' => 4,
                 'min' => 50,
                 'max' => 59,
-                'rate' => 0.933333
+                'rate' => 0.733333
             )
         );
 
