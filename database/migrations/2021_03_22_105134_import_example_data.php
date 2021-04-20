@@ -1176,7 +1176,7 @@ class ImportExampleData extends Migration
                 'payment_method' => 'tng',
                 'status' => 'pending',
 //                'receipt_image' => 'http://www.newrainbowmarket.com/uploads/ECOLLA20210317143138.jpg'
-                'receipt_image' => 'http://www.nmanagement.ecolla.laravelads/ECOLLA20210317143138.jpg'
+                'receipt_image' => 'http://www.management.ecolla.laravelads/ECOLLA20210317143138.jpg'
             )
         );
 
