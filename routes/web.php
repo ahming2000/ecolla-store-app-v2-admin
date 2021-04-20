@@ -6,6 +6,7 @@ use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use \App\Http\Controllers\OrderItemsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,6 @@ Route::get('/item/edit/{item}', [ItemsController::class, 'edit'])->name('item.ed
 Route::post('/item/edit/{item}', [ItemsController::class, 'update'])->name('item.update');
 
 Route::get('/order', [OrdersController::class, 'index'])->name('order.home');
+Route::get('/order/{order}/item', [OrderItemsController::class, 'index']);
 
 Route::get('/setting', [SettingsController::class, 'index'])->name('setting.home');

@@ -20,8 +20,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     @stack('head')
+    @yield('extraStyle')
+
 </head>
 <body>
+
+    @yield('extraScript')
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -75,6 +80,9 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        @yield('extraScriptEnd')
+
     </div>
     
     @yield('page-js-script')
