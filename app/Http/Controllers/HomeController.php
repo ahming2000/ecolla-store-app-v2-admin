@@ -59,7 +59,9 @@ class HomeController extends Controller
         $week_product_sales_revenue = (sizeof($week_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($week_product_arr);
         $week_product_arr = (sizeof($week_product_arr) > 7) ? array_slice($week_product_arr, 0, 7) : $week_product_arr;
 
-
+        $week_hashmap = HomeController::get_week_graph_hashmap($week_arr, $week_str);
+        $week_graph_arr = HomeController::get_graph_arr($week_hashmap);
+        
         $month_option_arr = HomeController::get_month_options($order_arr);
 
         //Get Month
@@ -72,11 +74,19 @@ class HomeController extends Controller
         $month_product_sales_revenue = (sizeof($month_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($month_product_arr);
         $month_product_arr = (sizeof($month_product_arr) > 7) ? array_slice($month_product_arr, 0, 7) : $month_product_arr;
 
+        $month_hashmap = HomeController::get_month_graph_hashmap($month_arr, $month_str);
+        $month_graph_arr = HomeController::get_graph_arr($month_hashmap);
+
+
+
+        $test =  $week_graph_arr;
+        // $test = $daily_date;
+
 
         return view('home', compact(
             'daily_date_arr', 'date_option_arr', 'daily_product_arr', 'daily_product_count', 'daily_product_sales_revenue', 
-            'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 
-            'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue'));
+            'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 'month_graph_arr',  
+            'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue', 'week_graph_arr'));
     }
 
     static function get_date_options($order_arr) {
@@ -127,6 +137,76 @@ class HomeController extends Controller
             $year_match = date('Y', strtotime($obj->created_at));
             return $month_match == $month_chosen && $year_match == $year_chosen;
         });
+
+        return $arr;
+    }
+
+    static function get_graph_arr($hashmap){
+        $str = "";
+        $str2 = "";
+        $str3 = "";
+        $graph_arr = $hashmap;
+        $label_arr = array_keys($graph_arr);
+
+        foreach($label_arr as $label){
+            $str .= $label . "/" . $graph_arr[$label][2] . "/";
+            $str2 .= $label . "/" . $graph_arr[$label][1] . "/";
+            $str3 .= $label . "/" . $graph_arr[$label][0] . "/";
+        }
+
+        $str = substr($str, 0, strlen($str) - 1);
+        $str2 = substr($str2, 0, strlen($str2) - 1);
+        $str3 = substr($str3, 0, strlen($str3) - 1);
+
+        return array($str, $str2, $str3);
+    }
+
+    static function get_month_graph_hashmap($month_arr, $month_str) {
+        $tmp_split = explode(" ", $month_str);
+        $month = $tmp_split[0];
+        $year = $tmp_split[1];
+
+        $arr = HomeController::get_all_week_option($month_str);
+        $hashmap = [];
+
+        foreach($arr as $week_str){
+            $week_arr = HomeController::get_order_arr_week($month_arr, $week_str);
+            $week_product_arr = HomeController::get_product_arr($week_arr);
+            $week_product_count = (sizeof($week_product_arr) == 0) ? 0 : HomeController::get_product_count($week_product_arr);
+            $week_product_sales_revenue = (sizeof($week_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($week_product_arr);
+            $tmp_split = explode(" ", $week_str);
+            $hashmap[$tmp_split[0] . " " . $tmp_split[1]] = array(sizeof($week_arr), $week_product_count, $week_product_sales_revenue);
+        }
+
+        return $hashmap;
+    }
+
+    static function get_week_graph_hashmap($week_arr, $week_str){
+        $year = substr(explode(" ", $week_str)[3], 0, 4);
+        $month = substr(explode(" ", $week_str)[3], -2, 2);
+        $all_date_arr = HomeController::weeks_in_month($month, $year)[explode("(", $week_str)[0]];
+
+        $hashmap = [];
+
+        foreach($all_date_arr as $date){
+            $date = date('Y-m-d', strtotime(str_replace('/', '-', $date)));
+            $daily_date_arr = HomeController::get_order_arr_date($week_arr, $date);
+            $daily_product_arr = HomeController::get_product_arr($daily_date_arr);
+            $daily_product_count = (sizeof($daily_product_arr) == 0) ? 0 : HomeController::get_product_count($daily_product_arr);
+            $daily_product_sales_revenue = (sizeof($daily_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($daily_product_arr);
+            $hashmap[$date] = array(sizeof($daily_date_arr), $daily_product_count, $daily_product_sales_revenue);
+        }
+        return $hashmap;
+    }
+
+    static function get_all_week_option($month_str){
+        $tmp_split = explode(" ", $month_str);
+        $month = $tmp_split[0];
+        $year = $tmp_split[1];
+        $week_arr = HomeController::weeks_in_month($month, $year);
+
+        $arr = [];
+        foreach(array_keys($week_arr) as $key) array_push($arr, $key . "(" . substr($week_arr[$key][0], 0, -5) . " - " . substr(end($week_arr[$key]), 0, -5) . ")");
 
         return $arr;
     }

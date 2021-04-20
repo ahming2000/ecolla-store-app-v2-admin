@@ -8,6 +8,7 @@
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/selectize.min.js') }}" defer></script>
+    <script src="{{ asset('js/canvasjs.min.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -93,7 +94,7 @@
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Total Sales Revenue</h6>
-                                                        <h1 class="display-3">{{ $daily_product_sales_revenue }}</h1>
+                                                        <h1 class="display-3">RM {{ $daily_product_sales_revenue }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +103,7 @@
                                         <div class="row">
                                             <div class="col-6 p-3">
                                                 <div class="border border-danger" style="height: 400px;">
-                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-6 p-3">
@@ -183,7 +184,7 @@
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Total Sales Revenue</h6>
-                                                        <h1 class="display-3">{{ $week_product_sales_revenue }}</h1>
+                                                        <h1 class="display-3">RM {{ $week_product_sales_revenue }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,7 +193,7 @@
                                         <div class="row">
                                             <div class="col-6 p-3">
                                                 <div class="border border-danger" style="height: 400px;">
-                                    
+                                                    <div id="daily_sales_chart" style="height: 370px"></div>
                                                 </div>
                                             </div>
                                             <div class="col-6 p-3">
@@ -273,7 +274,7 @@
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Total Sales Revenue</h6>
-                                                        <h1 class="display-3">{{ $month_product_sales_revenue }}</h1>
+                                                        <h1 class="display-3">RM {{ $month_product_sales_revenue }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -282,11 +283,11 @@
                                         <div class="row">
                                             <div class="col-6 p-3">
                                                 <div class="border border-danger" style="height: 400px;">
-                                    
+                                                    <div id="weekly_sales_chart" style="height: 370px"></div>
                                                 </div>
                                             </div>
                                             <div class="col-6 p-3">
-                                                <div class="border border-primary" style="height: 400px;">
+                                                <div class="border border-primary" style="height: 370px;">
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
@@ -319,13 +320,147 @@
 
         </div>
     </div>
+
+    <p id="month_1" style="display: none">{{ $month_graph_arr[0] }}</p>
+    <p id="month_2" style="display: none">{{ $month_graph_arr[1] }}</p>
+    <p id="month_3" style="display: none">{{ $month_graph_arr[2] }}</p>
+
+    <p id="week_1" style="display: none">{{ $week_graph_arr[0] }}</p>
+    <p id="week_2" style="display: none">{{ $week_graph_arr[1] }}</p>
+    <p id="week_3" style="display: none">{{ $week_graph_arr[2] }}</p>
 @endsection
 
 @section('page-js-script')
     <script>
         $(function() {
-            $(".search_select").selectize({
+            $(".search_select").selectize();
+            let month_1 = $("#month_1").html(),
+                month_2 = $("#month_2").html(),
+                month_3 = $("#month_3").html();
+
+            let weekly_sales_chart = new CanvasJS.Chart("weekly_sales_chart", {
+                title: {
+                    text: "Weekly Order Analysis"
+                },
+                exportEnabled: true,
+                animationEnabled: true,
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    itemclick: toggleDataSeries
+                },
+                axisY: {
+                    title: "Transaction Information",
+                    lineColor: "black",
+                    tickColor: "black",
+                    labelFontColor: "black",
+                    titleFontColor: "black"
+                },
+                data: [{
+                    type: "area",
+                    name: "Total Sales Revenue",
+                    color: "rgba(40,175,101,0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Products Sold",
+                    color: "rgba(194, 70, 66, 0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Orders",
+                    color: "rgba(0,75,141,0.7)",
+                    showInLegend: true,
+                    axisYIndex: 1,
+                    dataPoints: []
+                }]
             });
+
+            weekly_sales_chart.options.data[0].dataPoints = parseDataPoints(month_1);
+            weekly_sales_chart.options.data[1].dataPoints = parseDataPoints(month_2);
+            weekly_sales_chart.options.data[2].dataPoints = parseDataPoints(month_3);
+            weekly_sales_chart.render();
+
+            let week_1 = $("#week_1").html(),
+                week_2 = $("#week_2").html(),
+                week_3 = $("#week_3").html();
+
+            let daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
+                title: {
+                    text: "Daily Order Analysis"
+                },
+                exportEnabled: true,
+                animationEnabled: true,
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    itemclick: toggleDataSeries
+                },
+                axisY: {
+                    title: "Transaction Information",
+                    lineColor: "black",
+                    tickColor: "black",
+                    labelFontColor: "black",
+                    titleFontColor: "black"
+                },
+                data: [{
+                    type: "area",
+                    name: "Total Sales Revenue",
+                    color: "rgba(40,175,101,0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Products Sold",
+                    color: "rgba(194, 70, 66, 0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Orders",
+                    color: "rgba(0,75,141,0.7)",
+                    showInLegend: true,
+                    axisYIndex: 1,
+                    dataPoints: []
+                }]
+            });
+
+            daily_sales_chart.options.data[0].dataPoints = parseDataPoints(week_1);
+            daily_sales_chart.options.data[1].dataPoints = parseDataPoints(week_2);
+            daily_sales_chart.options.data[2].dataPoints = parseDataPoints(week_3);
+            daily_sales_chart.render();
         });
+
+        function toggleDataSeries(e) {
+            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            } else {
+                e.dataSeries.visible = true;
+            }
+            e.chart.render();
+        }
+
+        function parseDataPoints(str) {
+            let arr = [];
+            let arr_split = str.split("/");
+            for (let i = 0; i < arr_split.length; i += 2)
+                arr.push(new new_obj(arr_split[i], parseInt(arr_split[i + 1])));
+            return arr;
+        };
+
+        function new_obj(label, y) {
+            this.label = label;
+            this.y = y;
+        }
     </script>
 @endsection
