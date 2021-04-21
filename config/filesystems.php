@@ -44,7 +44,7 @@ return [
 
         'public_folder' => [
             'driver' => 'local',
-            'root' => public_path() . '/items'
+            'root' => public_path() . '/img'
         ],
 
         's3' => [
