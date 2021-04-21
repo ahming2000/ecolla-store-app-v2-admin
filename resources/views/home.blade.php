@@ -287,7 +287,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-6 p-3">
-                                                <div class="border border-primary" style="height: 370px;">
+                                                <div class="border border-primary" style="height: 400px;">
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
