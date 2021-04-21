@@ -103,7 +103,7 @@
                                         <div class="row">
                                             <div class="col-6 p-3">
                                                 <div class="border border-danger" style="height: 400px;">
-
+                                                    <div id="timestamp_sales_chart" style="height: 370px"></div>
                                                 </div>
                                             </div>
                                             <div class="col-6 p-3">
@@ -321,13 +321,19 @@
         </div>
     </div>
 
-    <p id="month_1" style="display: none">{{ $month_graph_arr[0] }}</p>
-    <p id="month_2" style="display: none">{{ $month_graph_arr[1] }}</p>
-    <p id="month_3" style="display: none">{{ $month_graph_arr[2] }}</p>
+    <div style="display: none">
+        <p id="month_1">{{ $month_graph_arr[0] }}</p>
+        <p id="month_2">{{ $month_graph_arr[1] }}</p>
+        <p id="month_3">{{ $month_graph_arr[2] }}</p>
 
-    <p id="week_1" style="display: none">{{ $week_graph_arr[0] }}</p>
-    <p id="week_2" style="display: none">{{ $week_graph_arr[1] }}</p>
-    <p id="week_3" style="display: none">{{ $week_graph_arr[2] }}</p>
+        <p id="week_1">{{ $week_graph_arr[0] }}</p>
+        <p id="week_2">{{ $week_graph_arr[1] }}</p>
+        <p id="week_3">{{ $week_graph_arr[2] }}</p>
+
+        <p id="daily_1">{{ $daily_graph_arr[0] }}</p>
+        <p id="daily_2">{{ $daily_graph_arr[1] }}</p>
+        <p id="daily_3">{{ $daily_graph_arr[2] }}</p>
+    </div>
 @endsection
 
 @section('page-js-script')
@@ -336,11 +342,105 @@
             $(".search_select").selectize();
             let month_1 = $("#month_1").html(),
                 month_2 = $("#month_2").html(),
-                month_3 = $("#month_3").html();
+                month_3 = $("#month_3").html(),
+                week_1 = $("#week_1").html(),
+                week_2 = $("#week_2").html(),
+                week_3 = $("#week_3").html(),
+                daily_1 = $("#daily_1").html(),
+                daily_2 = $("#daily_2").html(),
+                daily_3 = $("#daily_3").html();
 
             let weekly_sales_chart = new CanvasJS.Chart("weekly_sales_chart", {
                 title: {
                     text: "Weekly Order Analysis"
+                },
+                exportEnabled: true,
+                animationEnabled: true,
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    itemclick: toggleDataSeries
+                },
+                axisY: {
+                    title: "Transaction Information",
+                    lineColor: "black",
+                    tickColor: "black",
+                    labelFontColor: "black",
+                    titleFontColor: "black"
+                },
+                data: [{
+                    type: "area",
+                    name: "Total Sales Revenue",
+                    color: "rgba(40,175,101,0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Products Sold",
+                    color: "rgba(194, 70, 66, 0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Orders",
+                    color: "rgba(0,75,141,0.7)",
+                    showInLegend: true,
+                    axisYIndex: 1,
+                    dataPoints: []
+                }]
+            });
+
+            let daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
+                title: {
+                    text: "Daily Order Analysis"
+                },
+                exportEnabled: true,
+                animationEnabled: true,
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    itemclick: toggleDataSeries
+                },
+                axisY: {
+                    title: "Transaction Information",
+                    lineColor: "black",
+                    tickColor: "black",
+                    labelFontColor: "black",
+                    titleFontColor: "black"
+                },
+                data: [{
+                    type: "area",
+                    name: "Total Sales Revenue",
+                    color: "rgba(40,175,101,0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Products Sold",
+                    color: "rgba(194, 70, 66, 0.6)",
+                    axisYIndex: 0,
+                    showInLegend: true,
+                    dataPoints: []
+                }, {
+                    type: "area",
+                    name: "Number of Orders",
+                    color: "rgba(0,75,141,0.7)",
+                    showInLegend: true,
+                    axisYIndex: 1,
+                    dataPoints: []
+                }]
+            });
+
+            let timestamp_sales_chart = new CanvasJS.Chart("timestamp_sales_chart", {
+                title: {
+                    text: "Time Stamp Order Analysis"
                 },
                 exportEnabled: true,
                 animationEnabled: true,
@@ -387,58 +487,15 @@
             weekly_sales_chart.options.data[2].dataPoints = parseDataPoints(month_3);
             weekly_sales_chart.render();
 
-            let week_1 = $("#week_1").html(),
-                week_2 = $("#week_2").html(),
-                week_3 = $("#week_3").html();
-
-            let daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
-                title: {
-                    text: "Daily Order Analysis"
-                },
-                exportEnabled: true,
-                animationEnabled: true,
-                toolTip: {
-                    shared: true
-                },
-                legend: {
-                    cursor: "pointer",
-                    itemclick: toggleDataSeries
-                },
-                axisY: {
-                    title: "Transaction Information",
-                    lineColor: "black",
-                    tickColor: "black",
-                    labelFontColor: "black",
-                    titleFontColor: "black"
-                },
-                data: [{
-                    type: "area",
-                    name: "Total Sales Revenue",
-                    color: "rgba(40,175,101,0.6)",
-                    axisYIndex: 0,
-                    showInLegend: true,
-                    dataPoints: []
-                }, {
-                    type: "area",
-                    name: "Number of Products Sold",
-                    color: "rgba(194, 70, 66, 0.6)",
-                    axisYIndex: 0,
-                    showInLegend: true,
-                    dataPoints: []
-                }, {
-                    type: "area",
-                    name: "Number of Orders",
-                    color: "rgba(0,75,141,0.7)",
-                    showInLegend: true,
-                    axisYIndex: 1,
-                    dataPoints: []
-                }]
-            });
-
             daily_sales_chart.options.data[0].dataPoints = parseDataPoints(week_1);
             daily_sales_chart.options.data[1].dataPoints = parseDataPoints(week_2);
             daily_sales_chart.options.data[2].dataPoints = parseDataPoints(week_3);
             daily_sales_chart.render();
+
+            timestamp_sales_chart.options.data[0].dataPoints = parseDataPoints(daily_1);
+            timestamp_sales_chart.options.data[1].dataPoints = parseDataPoints(daily_2);
+            timestamp_sales_chart.options.data[2].dataPoints = parseDataPoints(daily_3);
+            timestamp_sales_chart.render();
         });
 
         function toggleDataSeries(e) {

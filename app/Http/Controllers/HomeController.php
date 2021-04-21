@@ -47,6 +47,9 @@ class HomeController extends Controller
         $daily_product_sales_revenue = (sizeof($daily_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($daily_product_arr);
         $daily_product_arr = (sizeof($daily_product_arr) > 7) ? array_slice($daily_product_arr, 0, 7) : $daily_product_arr;
 
+        $daily_hashmap = HomeController::get_time_graph_hashmap($daily_date_arr);
+        $daily_graph_arr = HomeController::get_graph_arr($daily_hashmap);
+
         $week_option_arr = HomeController::get_week_options($order_arr);
 
         //Get Week
@@ -77,14 +80,8 @@ class HomeController extends Controller
         $month_hashmap = HomeController::get_month_graph_hashmap($month_arr, $month_str);
         $month_graph_arr = HomeController::get_graph_arr($month_hashmap);
 
-
-
-        $test =  $week_graph_arr;
-        // $test = $daily_date;
-
-
         return view('home', compact(
-            'daily_date_arr', 'date_option_arr', 'daily_product_arr', 'daily_product_count', 'daily_product_sales_revenue', 
+            'daily_date_arr', 'date_option_arr', 'daily_product_arr', 'daily_product_count', 'daily_product_sales_revenue', 'daily_graph_arr',
             'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 'month_graph_arr',  
             'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue', 'week_graph_arr'));
     }
@@ -109,6 +106,22 @@ class HomeController extends Controller
             return date('M', strtotime($obj->created_at)) . " " . date('Y', strtotime($obj->created_at));
         }, $order_arr);
         return array_unique($arr);
+    }
+
+    static function check_time_group($time_stamp) {
+        $hour = date('H', strtotime($time_stamp));
+        if($hour < 6) return "0:01 - 6:00";
+        else if($hour >= 6 && $hour < 12) return "6:01 - 12:00";
+        else if ($hour >= 12 && $hour < 18) return "12:01 - 18:00";
+        return "18:01 - 0:00";
+    }
+
+    static function get_order_arr_time($order_arr, $time_range) {
+        $arr = array_filter($order_arr, function($obj) use ($time_range) {
+            $time_match = HomeController::check_time_group($obj->created_at);
+            return $time_match == $time_range;
+        });
+        return $arr;
     }
 
     static function get_order_arr_date($order_arr, $daily_date){
@@ -195,6 +208,21 @@ class HomeController extends Controller
             $daily_product_count = (sizeof($daily_product_arr) == 0) ? 0 : HomeController::get_product_count($daily_product_arr);
             $daily_product_sales_revenue = (sizeof($daily_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($daily_product_arr);
             $hashmap[$date] = array(sizeof($daily_date_arr), $daily_product_count, $daily_product_sales_revenue);
+        }
+        return $hashmap;
+    }
+
+    static function get_time_graph_hashmap($daily_date_arr) {
+        $time_options = array("0:01 - 6:00", "6:01 - 12:00", "12:01 - 18:00", "18:01 - 0:00");
+
+        $hashmap = [];
+
+        foreach($time_options as $time_range){
+            $time_arr = HomeController::get_order_arr_time($daily_date_arr, $time_range);
+            $time_product_arr = HomeController::get_product_arr($time_arr);
+            $time_product_count = (sizeof($time_product_arr) == 0) ? 0 : HomeController::get_product_count($time_product_arr);
+            $time_product_sales_revenue = (sizeof($time_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($time_product_arr);
+            $hashmap[$time_range] = array(sizeof($time_arr), $time_product_count, $time_product_sales_revenue);
         }
         return $hashmap;
     }
@@ -291,3 +319,4 @@ class HomeController extends Controller
         return $dates;
     }
 }
+;
