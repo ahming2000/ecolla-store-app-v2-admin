@@ -1437,6 +1437,19 @@ class ImportExampleData extends Migration
             )
         );
 
+        DB::table('order_items')->insert(
+            array(
+                'id' => 10,
+                'order_id' => 6,
+                'name' => '脉动维生素功能饮料 水蜜桃味600ml',
+                'barcode' => '6902538005141',
+                'price' => 4.8,
+                'discount_rate' => 0.520833,
+                'quantity' => 2,
+                'expire_date' => '2022-01-01',
+            )
+        );
+
     }
 
     /**
