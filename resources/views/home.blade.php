@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@push('head')
-    <link href="{{ asset('css/bootstrap/bootstrap.min.css') }}" rel="stylesheet" id="bootstrap-css">
+@section('extraStyle')
     <link href="{{ asset('css/font-awesome/font-awesome-ie7.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/home_styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/selectize/selectize.css') }}" rel="stylesheet" />
-    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/selectize.min.js') }}" defer></script>
-    <script src="{{ asset('js/canvasjs.min.js') }}" defer></script>
-@endpush
+@endsection
+
+@section('extraScript')
+    <script src="{{ asset('js/selectize/selectize.min.js') }}" defer></script>
+    <script src="{{ asset('js/canvasjs/canvasjs.min.js') }}" defer></script>
+@endsection
 
 @section('content')
     <div class="container">
@@ -58,8 +58,9 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button class="btn btn-success" type="submit" name="type"
-                                                value="daily">Submit</button>
+                                            <div class="col"><button class="btn btn-success" type="submit" name="type"
+                                                                     value="daily">Submit</button></div>
+
                                         </div>
                                     </form>
 
@@ -99,7 +100,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    
+
                                         <div class="row">
                                             <div class="col-6 p-3">
                                                 <div class="border border-danger" style="height: 400px;">
@@ -130,7 +131,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
                                     <div class="pt-3"></div>
@@ -148,8 +149,9 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button class="btn btn-success" type="submit" name="type"
-                                                value="weekly">Submit</button>
+                                            <div class="col"><button class="btn btn-success" type="submit" name="type"
+                                                                     value="weekly">Submit</button></div>
+
                                         </div>
                                     </form>
 
@@ -189,7 +191,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    
+
                                         <div class="row">
                                             <div class="col-6 p-3">
                                                 <div class="border border-danger" style="height: 400px;">
@@ -238,8 +240,8 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button class="btn btn-success" type="submit" name="type"
-                                                value="monthly">Submit</button>
+                                            <div class="col"><button class="btn btn-success" type="submit" name="type"
+                                                value="monthly">Submit</button></div>
                                         </div>
                                     </form>
 
@@ -279,7 +281,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    
+
                                         <div class="row">
                                             <div class="col-6 p-3">
                                                 <div class="border border-danger" style="height: 400px;">
@@ -336,7 +338,7 @@
     </div>
 @endsection
 
-@section('page-js-script')
+@section('extraScriptEnd')
     <script>
         $(function() {
             $(".search_select").selectize();
