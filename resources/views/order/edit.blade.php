@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-md-6 offset-md-3 col-sm-12 mb-3" id="additional">
-                    @if($order->mode == 'delivery' && $order->status == 'prepared')
+                    @if($order->mode == 'delivery' && $order->status != 'pending')
                         <label for="delivery_id">邮寄追踪ID</label>
                         <input type="text"
                                class="form-control @error('delivery_id') is-invalid @enderror"
