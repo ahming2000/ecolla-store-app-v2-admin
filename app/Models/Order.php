@@ -11,6 +11,7 @@ class Order extends Model
 
     protected $guarded = [];
 
+
     public function getSubtotal(){
         $total = 0.0;
         foreach ($this->orderItems as $orderItem){
