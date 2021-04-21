@@ -37,6 +37,9 @@ Route::get('/item/edit/{item}', [ItemsController::class, 'edit'])->name('item.ed
 Route::post('/item/edit/{item}', [ItemsController::class, 'update'])->name('item.update');
 
 Route::get('/order', [OrdersController::class, 'index'])->name('order.home');
+Route::get('/order/{order}', [OrdersController::class, 'edit']);
+Route::post('/order/{order}', [OrdersController::class, 'update']);
+
 Route::get('/order/{order}/item', [OrderItemsController::class, 'index']);
 
 Route::get('/setting', [SettingsController::class, 'index'])->name('setting.home');

@@ -46,7 +46,7 @@
                             <a class="btn btn-primary" href="{{ url('/order/' . $order->id . '/item') }}">显示订单物品</a>
                         </td>
                         <td>
-                            Null
+                            <a class="btn btn-primary" href="{{ url('/order/' . $order->id) }}">更改订单状态</a>
                         </td>
                     </tr>
                 @endforeach
