@@ -258,10 +258,11 @@
 
                                 <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                                     <div id="category-section">
-
                                         @if(!empty(old('categories')))
+                                            <input type="hidden" value="{{ sizeof(old('categories.name')) }}"
+                                                   id="currentCategoryCount">
                                             @for($i = 0; $i < sizeof(old('categories.name')); $i++)
-                                                <div class="row category_item">
+                                                <div class="row category-item">
                                                     <div class="col-11 mb-1 mr-0 pr-0">
                                                         <div class="row">
                                                             <div class="col-md-6 col-sm-12 pr-md-1">
@@ -304,15 +305,17 @@
 
                                                     <div class="col-1 mb-1 ml-0 pl-0">
                                                         <button type="button"
-                                                                class="btn default-color white-text btn-sm remove-button px-3 py-1">
+                                                                class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
                                                             X
                                                         </button>
                                                     </div>
                                                 </div>
                                             @endfor
                                         @elseif(!empty($item->categories->toArray()))
+                                            <input type="hidden" value="{{ sizeof($item->categories) }}"
+                                                   id="currentCategoryCount">
                                             @for($i = 0; $i < sizeof($item->categories); $i++)
-                                                <div class="row category_item">
+                                                <div class="row category-item">
                                                     <div class="col-11 mb-1 mr-0 pr-0">
                                                         <div class="row">
                                                             <div class="col-md-6 col-sm-12 pr-md-1">
@@ -343,14 +346,15 @@
 
                                                     <div class="col-1 mb-1 ml-0 pl-0">
                                                         <button type="button"
-                                                                class="btn default-color white-text btn-sm remove-button px-3 py-1">
+                                                                class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
                                                             X
                                                         </button>
                                                     </div>
                                                 </div>
                                             @endfor
                                         @else
-                                            <div class="row category_item">
+                                            <input type="hidden" value="1" id="currentCategoryCount">
+                                            <div class="row category-item">
                                                 <div class="col-11 mb-1 mr-0 pr-0">
                                                     <div class="row">
                                                         <div class="col-md-6 col-sm-12 pr-md-1">z
@@ -379,7 +383,7 @@
 
                                                 <div class="col-1 mb-1 ml-0 pl-0">
                                                     <button type="button"
-                                                            class="btn default-color white-text btn-sm remove-button px-3 py-1">
+                                                            class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
                                                         X
                                                     </button>
                                                 </div>
@@ -872,12 +876,12 @@
 
         // Category js
         function getCategoryCount() {
-            return $("#category-section div.category_item").length;
+            return $("#category-section div.category-item").length;
         }
 
         function getExtraCategoryHTML(categoryCount) {
             return `
-            <div class="row">
+            <div class="row category-item">
                 <div class="col-11 mb-1 mr-0 pr-0">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 pr-md-1">
@@ -891,7 +895,7 @@
                 </div>
 
                 <div class="col-1 mb-1 ml-0 pl-0">
-                    <button type="button" class="btn default-color white-text btn-sm remove-button px-3 py-1">
+                    <button type="button" class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
                         X
                     </button>
                 </div>
@@ -899,14 +903,13 @@
             `;
         }
 
-        $(document).ready(function(){
+        $(document).ready(function () {
+
             $("#extra-category-button").on("click", function () {
                 $("#category-section").append(getExtraCategoryHTML(getCategoryCount()));
+                $('#currentCategoryCount').val(parseInt($('#currentCategoryCount').val()) + 1);
             });
         });
-
-
-
 
 
         function getExtraPropertyHTML(propertyCount) {
@@ -1071,6 +1074,18 @@
                 $(".w-max").removeAttr("disabled");
                 $(".w-max").last().attr("disabled", "disabled");
             }
+
+            // Restore the template html for removed until no markup
+            if ($(this).hasClass("category-remove-button")) {
+                let selector = $('#currentCategoryCount');
+                let currentCategoryCount = parseInt(selector.val());
+                if(currentCategoryCount === 1){
+                    $("#category-section").append(getExtraCategoryHTML(getCategoryCount()));
+                } else{
+                    selector.val(currentCategoryCount - 1);
+                }
+            }
+
         });
 
         // Disable wholesales if all variety price is difference
