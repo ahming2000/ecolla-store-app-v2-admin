@@ -10,7 +10,7 @@
 
             <div class="col-12 text-center">当前版本</div>
             <div class="col-12 text-center" style="font-size: 30px; color: {{ $color }}">{{ $currentVersion }}</div>
-            <div class="col-12 text-center mb-5">最后更新：{{ $updateDate }}</div>
+            <div class="col-12 text-center mb-5">更新日期：{{ $updateDate }}</div>
 
             <div class="col-md-6 offset-md-3 col-sm-12">
                 <div class="h2 mb-3">更新日志</div>
