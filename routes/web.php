@@ -33,8 +33,8 @@ Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
 Route::get('/item', [ItemsController::class, 'index'])->name('item.home');
 Route::get('/item/create', [ItemsController::class, 'create'])->name('item.create');
 Route::post('/item/create', [ItemsController::class, 'save'])->name('item.store');
-Route::get('/item/edit/{item}', [ItemsController::class, 'edit'])->name('item.edit');
-Route::post('/item/edit/{item}', [ItemsController::class, 'update'])->name('item.update');
+Route::get('/item/{item}/edit', [ItemsController::class, 'edit'])->name('item.edit');
+Route::post('/item/{item}/edit', [ItemsController::class, 'update'])->name('item.update');
 
 Route::get('/order', [OrdersController::class, 'index'])->name('order.home');
 Route::get('/order/{order}', [OrdersController::class, 'edit']);
@@ -43,3 +43,4 @@ Route::post('/order/{order}', [OrdersController::class, 'update']);
 Route::get('/order/{order}/item', [OrderItemsController::class, 'index']);
 
 Route::get('/setting', [SettingsController::class, 'index'])->name('setting.home');
+Route::get('/changing-log', [SettingsController::class, 'changingLog']);
