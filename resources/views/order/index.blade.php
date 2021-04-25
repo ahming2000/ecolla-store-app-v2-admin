@@ -29,7 +29,7 @@
                     <tr>
                         <td>
                             {{ $order->code }}<br>
-                            {{ $order->created_at }}<br>
+                            {{ $order->getOrderCreateDateTime() }}<br>
                             订单状态：{{ $order->getStatusDesc() }}<br>
                             <button class="btn btn-primary" onclick="viewReceipt(this)" value="{{ url($order->receipt_image) }}">查看订单收据</button>
                         </td>
