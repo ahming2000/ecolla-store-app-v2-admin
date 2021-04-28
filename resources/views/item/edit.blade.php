@@ -259,24 +259,24 @@
                                 <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                                     <div id="category-section">
                                         @if(!empty(old('categories')))
-                                            <input type="hidden" value="{{ sizeof(old('categories.name')) }}"
+                                            <input type="hidden" value="{{ sizeof(old('categories')) }}"
                                                    id="currentCategoryCount">
-                                            @for($i = 0; $i < sizeof(old('categories.name')); $i++)
+                                            @for($i = 0; $i < sizeof(old('categories')); $i++)
                                                 <div class="row category-item">
                                                     <div class="col-11 mb-1 mr-0 pr-0">
                                                         <div class="row">
                                                             <div class="col-md-6 col-sm-12 pr-md-1">
                                                                 <input type="text"
-                                                                       class="form-control @error('categories.name.' . $i) is-invalid @enderror"
-                                                                       name="categories[name][{{$i}}]"
+                                                                       class="form-control @error('categories.' . $i . '.name') is-invalid @enderror"
+                                                                       name="categories[{{$i}}][name]"
                                                                        aria-describedby="categories"
                                                                        list="category-list"
                                                                        maxlength="20"
                                                                        placeholder="中文"
-                                                                       value="{{ old('categories.name.' . $i) ?? "" }}"
+                                                                       value="{{ old('categories.' . $i . '.name') ?? "" }}"
                                                                 >
 
-                                                                @error('categories.name.' . $i)
+                                                                @error('categories.' . $i . '.name')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -285,16 +285,16 @@
 
                                                             <div class="col-md-6 col-sm-12 pl-md-1">
                                                                 <input type="text"
-                                                                       class="form-control @error('categories.name_en.' . $i) is-invalid @enderror"
-                                                                       name="categories[name_en][{{$i}}]"
+                                                                       class="form-control @error('categories.' . $i . '.name_en') is-invalid @enderror"
+                                                                       name="categories[{{$i}}][name_en]"
                                                                        aria-describedby="categories"
                                                                        list="category-list"
                                                                        maxlength="20"
                                                                        placeholder="英文"
-                                                                       value="{{ old('categories.name_en.' . $i) ?? "" }}"
+                                                                       value="{{ old('categories.' . $i . '.name_en') ?? "" }}"
                                                                 >
 
-                                                                @error('categories.name_en.' . $i)
+                                                                @error('categories.' . $i . '.name_en')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -321,7 +321,7 @@
                                                             <div class="col-md-6 col-sm-12 pr-md-1">
                                                                 <input type="text"
                                                                        class="form-control"
-                                                                       name="categories[name][{{$i}}]"
+                                                                       name="categories[{{$i}}][name]"
                                                                        aria-describedby="categories"
                                                                        list="category-list"
                                                                        maxlength="20"
@@ -333,7 +333,7 @@
                                                             <div class="col-md-6 col-sm-12 pl-md-1">
                                                                 <input type="text"
                                                                        class="form-control"
-                                                                       name="categories[name_en][{{$i}}]"
+                                                                       name="categories[{{$i}}][name_en]"
                                                                        aria-describedby="categories"
                                                                        list="category-list"
                                                                        maxlength="20"
@@ -404,10 +404,9 @@
                         </div>
                         <!-- Add extra category button -->
 
-
                         <div class="h2" id="step-two">规格资讯</div>
 
-                        <!-- Property -->
+                        <!-- Variation Name -->
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
@@ -415,53 +414,40 @@
                                 </div>
 
                                 <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
-                                    <div id="property-section">
-                                        @if(empty($item->variations))
-                                            <div class="row">
-                                                <div class="col-11 mb-1 mr-0 pr-0">
-                                                    <div class="row">
-                                                        <div class="col pr-0 mr-0">
-                                                            <input type="text" class="form-control v-property"
-                                                                   name="variations[0][name1]"
-                                                                   aria-describedby="variations" maxlength="100">
-                                                        </div>
-                                                        <div class="col">
-                                                            <input type="text" class="form-control v-property"
-                                                                   name="variations[0][name2]"
-                                                                   aria-describedby="variations" maxlength="100">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-1 mb-1 ml-0 pl-0">
-                                                    <button type="button"
-                                                            class="btn default-color white-text btn-sm remove-button property-remove-button px-3 py-1">
-                                                        X
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @else
+                                    <div id="variation-section">
+                                        @if(!empty(old('variations')))
+                                            <input type="hidden"
+                                                   value="{{ sizeof(old('variations')) }}"
+                                                   id="currentVariationCount"
+                                            >
+
                                             @for($i = 0; $i < sizeof($item->variations); $i++)
-                                                <div class="row">
+                                                <div class="row variation-item">
                                                     <div class="col-11 mb-1 mr-0 pr-0">
                                                         <div class="row">
-                                                            <div class="col pr-0 mr-0">
+                                                            <div class="col-md-6 col-sm-12 pr-md-1">
                                                                 <input type="text"
-                                                                       class="form-control v-property @error('variations.' . $i . '.name1') is-invalid @enderror"
+                                                                       class="form-control variation-name @error('variations.' . $i . '.name1') is-invalid @enderror"
                                                                        name="variations[{{ $i }}][name1]"
-                                                                       aria-describedby="variations" maxlength="100"
-                                                                       value="{{ old('variations.' . $i . '.name1') ?? $item->variations[$i]->name1 ?? "" }}">
+                                                                       aria-describedby="variations"
+                                                                       maxlength="100"
+                                                                       value="{{ old('variations.' . $i . '.name1') ?? "" }}"
+                                                                >
+
                                                                 @error('variations.' . $i . '.name1')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
                                                                 @enderror
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-6 col-sm-12 pl-md-1">
                                                                 <input type="text"
-                                                                       class="form-control v-property @error('variations.' . $i . '.name1') is-invalid @enderror"
+                                                                       class="form-control variation-name @error('variations.' . $i . '.name2') is-invalid @enderror"
                                                                        name="variations[{{ $i }}][name2]"
                                                                        aria-describedby="variations" maxlength="100"
-                                                                       value="{{ old('variations.' . $i . '.name2') ?? $item->variations[$i]->name2 ?? "" }}">
+                                                                       value="{{ old('variations.' . $i . '.name2') ?? "" }}"
+                                                                >
+
                                                                 @error('variations.' . $i . '.name2')
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
@@ -472,173 +458,305 @@
                                                     </div>
                                                     <div class="col-1 mb-1 ml-0 pl-0">
                                                         <button type="button"
-                                                                class="btn default-color white-text btn-sm remove-button property-remove-button px-3 py-1">
+                                                                class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
                                                             X
                                                         </button>
                                                     </div>
                                                 </div>
                                             @endfor
+                                        @elseif(!empty($item->variations->toArray()))
+                                            <input type="hidden"
+                                                   value="{{ sizeof($item->variations) }}"
+                                                   id="currentVariationCount"
+                                            >
+                                            @for($i = 0; $i < sizeof($item->variations); $i++)
+                                                <div class="row variation-item">
+                                                    <div class="col-11 mb-1 mr-0 pr-0">
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-sm-12 pr-md-1">
+                                                                <input type="text"
+                                                                       class="form-control variation-name"
+                                                                       name="variations[{{ $i }}][name1]"
+                                                                       aria-describedby="variations"
+                                                                       maxlength="100"
+                                                                       value="{{ $item->variations[$i]->name1 ?? "" }}"
+                                                                >
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-12 pl-md-1">
+                                                                <input type="text"
+                                                                       class="form-control variation-name"
+                                                                       name="variations[{{ $i }}][name2]"
+                                                                       aria-describedby="variations"
+                                                                       maxlength="100"
+                                                                       value="{{ $item->variations[$i]->name2 ?? "" }}"
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-1 mb-1 ml-0 pl-0">
+                                                        <button type="button"
+                                                                class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                            X
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endfor
+                                        @else
+                                            <input type="hidden" value="1" id="currentVariationCount">
+                                            <div class="row variation-item">
+                                                <div class="col-11 mb-1 mr-0 pr-0">
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-sm-12 pr-md-1">
+                                                            <input type="text"
+                                                                   class="form-control variation-name"
+                                                                   name="variations[0][name1]"
+                                                                   aria-describedby="variations"
+                                                                   maxlength="100"
+                                                            >
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12 pl-md-1">
+                                                            <input type="text"
+                                                                   class="form-control variation-name"
+                                                                   name="variations[0][name2]"
+                                                                   aria-describedby="variations"
+                                                                   maxlength="100"
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-1 mb-1 ml-0 pl-0">
+                                                    <button type="button"
+                                                            class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                        X
+                                                    </button>
+                                                </div>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Property -->
+                        <!-- Variation Name -->
 
-                        <!-- Add extra variety button -->
+                        <!-- Add extra variation button -->
                         <div class="col-12 text-center">
-                            <button type="button" class="btn btn-secondary mb-3" id="extra-property-button">
+                            <button type="button" class="btn btn-secondary mb-3" id="extra-variation-button">
                                 添加更多规格
                             </button>
                         </div>
-                        <!-- Add extra variety button -->
+                        <!-- Add extra variation button -->
 
-                        <!-- Variety -->
-                        <div class="col-12"><label>规格销售</label></div>
-                        <div class="col-12 mb-3" style="overflow-x: scroll;">
-                            <table class="table table-bordered" style="width: 900px;">
+                        <!-- Variation Detail -->
+                        <div class="col-12">
+                            <label for="variations">规格销售</label>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th scope="col">选择</th>
-                                    <th scope="col">商品货号</th>
+                                    <th scope="col">名称</th>
+                                    <th scope="col">货号</th>
                                     <th scope="col">价格(RM)</th>
                                     <th scope="col">重量(kg)</th>
-                                    <th scope="col">折扣价钱</th>
                                 </tr>
                                 </thead>
 
-                                <tbody id="variety-table-section">
-                                @if(empty($item->variations))
-                                    <tr>
-                                        <td><input type="text" class="form-control v-property-view" disabled></td>
-                                        <td><input type="text" class="form-control" name="variations[0][barcode]"
-                                                   maxlength="20"></td>
-                                        <td><input type="number" step="0.01" min="0" class="form-control v-price"
-                                                   name="variations[0][price]"></td>
-                                        <td><input type="number" step="0.001" min="0" class="form-control"
-                                                   name="variations[0][weight]"></td>
-                                        <td><input type="number" step="0.01" min="0"
-                                                   class="form-control v-discounted-price"
-                                                   name="variations[0][discount][rate]"></td>
-                                    </tr>
-                                @else
+                                <tbody id="variation-table-section">
+                                @if(!empty(old('variations')))
                                     @for($i = 0; $i < sizeof($item->variations); $i++)
-                                        <tr>
-                                            <td><input type="text" class="form-control v-property-view"
-                                                       value="{{ $item->variations[$i]->name1 . $item->variations[$i]->name2 ?? "" }}"
-                                                       disabled></td>
-                                            <td><input type="text" class="form-control"
-                                                       name="variations[{{ $i }}][barcode]" aria-describedby="v-barcode"
-                                                       maxlength="20"
-                                                       value="{{ old('variations.' . $i . '.barcode') ?? $item->variations[$i]->barcode ?? "" }}">
-                                            </td>
-                                            <td><input type="number" step="0.01" min="0" class="form-control v-price"
-                                                       name="v[{{ $i }}][v_price]"
-                                                       value="{{ old('variations.' . $i . '.price') ?? number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}"/>
-                                            </td>
-                                            <td><input type="number" step="0.001" min="0" class="form-control"
-                                                       name="v[{{ $i }}][v_weight]"
-                                                       value="{{ old('variations.' . $i . '.weight') ?? number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}"/>
+                                        <tr class="variation-table-item">
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control variation-table-variation-name-display"
+                                                       value="{{ (old("variation.$i.name1") ?? "") . (old("variation.$i.name2") ?? "") }}"
+                                                       disabled
+                                                >
                                             </td>
                                             <td>
-                                                @if($item->variations[$i]->discount == null)
-                                                    <input type="number" step="0.01" min="0"
-                                                           max="{{ $item->variations[$i]->price }}"
-                                                           class="form-control v-discounted-price"
-                                                           name="v[{{ $i }}][v_discounted_price]"
-                                                           value="{{ number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}"/>
-                                                @else
-                                                    <input type="number" step="0.01" min="0"
-                                                           max="{{ $item->variations[$i]->price }}"
-                                                           class="form-control v-discounted-price"
-                                                           name="v[{{ $i }}][v_discounted_price]"
-                                                           value="{{ number_format($item->variations[$i]->price * $item->variations[$i]->discount->rate, 2, '.', '') ?? "" }}"/>
-                                                @endif
+                                                <input type="text"
+                                                       class="form-control"
+                                                       name="variations[{{ $i }}][barcode]"
+                                                       maxlength="20"
+                                                       value="{{ old('variations.' . $i . '.barcode') ?? $item->variations[$i]->barcode ?? "" }}"
+                                                >
+                                            </td>
+                                            <td><input type="number"
+                                                       step="0.01"
+                                                       min="0"
+                                                       class="form-control variation-price-display"
+                                                       name="v[{{ $i }}][price]"
+                                                       value="{{ old('variations.' . $i . '.price') ?? number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}"
+                                                >
+                                            </td>
+                                            <td><input type="number"
+                                                       step="0.001"
+                                                       min="0"
+                                                       class="form-control"
+                                                       name="v[{{ $i }}][weight]"
+                                                       value="{{ old('variations.' . $i . '.weight') ?? number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}"
+                                                >
                                             </td>
                                         </tr>
                                     @endfor
+                                @elseif(!empty($item->variations->toArray()))
+                                    @for($i = 0; $i < sizeof($item->variations); $i++)
+
+                                        <tr class="variation-table-item">
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control variation-table-variation-name-display"
+                                                       value="{{ $item->variations[$i]->name1 . $item->variations[$i]->name2 }}"
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       name="variations[{{ $i }}][barcode]"
+                                                       maxlength="20"
+                                                       value="{{ $item->variations[$i]->barcode ?? "" }}"
+                                                >
+                                            </td>
+                                            <td><input type="number"
+                                                       step="0.01"
+                                                       min="0"
+                                                       class="form-control variation-price-display"
+                                                       name="v[{{ $i }}][price]"
+                                                       value="{{ number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}"
+                                                >
+                                            </td>
+                                            <td><input type="number"
+                                                       step="0.001"
+                                                       min="0"
+                                                       class="form-control"
+                                                       name="v[{{ $i }}][weight]"
+                                                       value="{{ number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}"
+                                                >
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @else
+                                    <tr class="variation-table-item">
+                                        <td>
+                                            <input type="text"
+                                                   class="form-control variation-table-variation-name-display"
+                                                   disabled
+                                            >
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="variations[0][barcode]"
+                                                   maxlength="20"
+                                            >
+                                        </td>
+                                        <td><input type="number"
+                                                   step="0.01"
+                                                   min="0"
+                                                   class="form-control variation-price-display"
+                                                   name="v[0][price]"
+                                            >
+                                        </td>
+                                        <td><input type="number"
+                                                   step="0.001"
+                                                   min="0"
+                                                   class="form-control"
+                                                   name="v[0][weight]"
+                                            >
+                                        </td>
+                                    </tr>
                                 @endif
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Variety -->
+                        <!-- Variation Detail -->
 
                         <!-- Inventory -->
-                        <div class="col-12"><label>规格库存</label></div>
-                        <div class="col-12 mb-3" style="overflow-x: scroll;">
-                            <table class="table table-bordered" style="width: 900px;">
+                        <div class="col-12">
+                            <label for="inventories">规格库存</label>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th scope="col">选择</th>
-                                    <th scope="col">过期日期</th>
+                                    <th scope="col">规格</th>
                                     <th scope="col">数量</th>
                                 </tr>
                                 </thead>
 
                                 <tbody id="inventory-table-section">
-                                <tr>
-                                    <td><input type="text" class="form-control v-property-view" disabled/></td>
-                                    <td colspan="2">
-                                        <div class="variety-inventory-table-section">
-                                            <div class="row">
-                                                <div class="col-6"><input type="date" class="form-control mb-1"
-                                                                          name="v[0][inv][0][inv_expire_date]"
-                                                                          aria-describedby="inv-expire-date"/></div>
-                                                <div class="col-5"><input type="number" min="0"
-                                                                          class="form-control mb-1"
-                                                                          name="v[0][inv][0][inv_quantity]"
-                                                                          aria-describedby="inv-quantity"/></div>
-                                                <div class="col-1 mb-1 ml-0 pl-0">
-                                                    <button type="button"
-                                                            class="btn default-color white-text btn-sm remove-button px-3 py-1">
-                                                        X
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Add extra inventory button -->
-                                        <div class="text-center">
-                                            <button type="button" class="btn btn-secondary mt-1 extra-inventory-button">
-                                                添加更多库存
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {{--                                <?php if ($propertyCount == 0) : ?>--}}
-                                {{--                                --}}
-                                {{--                                <?php else : ?>--}}
-                                {{--                                <?php for ($i = 0; $i < $propertyCount; $i++) : ?>--}}
-                                {{--                                <tr>--}}
-                                {{--                                    <td><input type="text" class="form-control v-property-view" value="<?= $item->getVarieties()[$i]->getProperty(); ?>" disabled /></td>--}}
-                                {{--                                    <td colspan="2">--}}
-                                {{--                                        <div class="variety-inventory-table-section">--}}
-                                {{--                                            <?php $currentIventoryCount = sizeof($item->getVarieties()[$i]->getInventories()); ?>--}}
-                                {{--                                            <?php if ($currentIventoryCount == 0) : ?>--}}
-                                {{--                                            <div class="row">--}}
-                                {{--                                                <div class="col-6"><input type="date" class="form-control mb-1" name="v[<?= $i; ?>][inv][0][inv_expire_date]" aria-describedby="inv-expire-date" /></div>--}}
-                                {{--                                                <div class="col-5"><input type="number" min="0" class="form-control mb-1" name="v[<?= $i; ?>][inv][0][inv_quantity]" aria-describedby="inv-quantity" /></div>--}}
-                                {{--                                                <div class="col-1 mb-1 ml-0 pl-0"><button type="button" class="btn default-color white-text btn-sm remove-button px-3 py-1">X</button></div>--}}
-                                {{--                                            </div>--}}
-                                {{--                                            <?php else : ?>--}}
-                                {{--                                            <?php for ($j = 0; $j < $currentIventoryCount; $j++) : ?>--}}
-                                {{--                                            <div class="row">--}}
-                                {{--                                                <div class="col-6"><input type="date" class="form-control mb-1" name="v[<?= $i; ?>][inv][<?= $j; ?>][inv_expire_date]" aria-describedby="inv-expire-date" value="<?= $item->getVarieties()[$i]->getInventories()[$j]->getExpireDate(); ?>" /></div>--}}
-                                {{--                                                <div class="col-5"><input type="number" min="0" class="form-control mb-1" name="v[<?= $i; ?>][inv][<?= $j; ?>][inv_quantity]" aria-describedby="inv-quantity" value="<?= $item->getVarieties()[$i]->getInventories()[$j]->getQuantity(); ?>" /></div>--}}
-                                {{--                                                <div class="col-1 mb-1 ml-0 pl-0"><button type="button" class="btn default-color white-text btn-sm remove-button px-3 py-1">X</button></div>--}}
-                                {{--                                            </div>--}}
-                                {{--                                            <?php endfor; ?>--}}
-                                {{--                                            <?php endif; ?>--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <!-- Add extra inventory button -->--}}
-                                {{--                                        <div class="text-center"><button type="button" class="btn btn-secondary mt-1 extra-inventory-button">添加更多库存</button></div>--}}
-                                {{--                                    </td>--}}
-                                {{--                                </tr>--}}
-                                {{--                                <?php endfor; ?>--}}
-                                {{--                                <?php endif; ?>--}}
+                                @if(!empty(old('variations')))
+                                    @for($i = 0; $i < sizeof(old('variations')); $i++)
+                                        <tr class="inventory-table-item">
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control inventory-table-variation-name-display"
+                                                       value="{{ (old("variation.$i.name1") ?? "") . (old("variation.$i.name2") ?? "") }}"
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       min="0"
+                                                       class="form-control"
+                                                       name="variation[{{$i}}][inventories][0][stock]"
+                                                       value="{{ old("variations.$i.inventories.0.stock") ?? 0 }}"
+                                                >
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @elseif(!empty($item->variations->toArray()))
+                                    @for($i = 0; $i < sizeof($item->variations); $i++)
+                                        <tr class="inventory-table-item">
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control inventory-table-variation-name-display"
+                                                       value="{{ $item->variations[$i]->name1 . $item->variations[$i]->name2 ?? "" }}"
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       min="0"
+                                                       class="form-control"
+                                                       name="variation[{{$i}}][inventories][0][stock]"
+                                                       value="{{ $item->variations[$i]->inventories->toArray()[0]['stock'] ?? 0 }}"
+                                                >
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @else
+                                    <tr class="inventory-table-item">
+                                        <td>
+                                            <input type="text"
+                                                   class="form-control inventory-table-variation-name-display"
+                                                   disabled
+                                            >
+                                        </td>
+                                        <td>
+                                            <input type="number"
+                                                   min="0"
+                                                   class="form-control"
+                                                   name="variation[0][inventories][0][stock]"
+                                            >
+                                        </td>
+                                    </tr>
+                                @endif
                                 </tbody>
                             </table>
                         </div>
                         <!-- Inventory -->
+
+
+
+
+
+
+
+
+
+
+
 
                         <!-- Wholesale -->
                         <div class="col-12 wholesale-section"><label>批发价管理（单件规格折扣后的规格将无视此设定）</label></div>
@@ -755,7 +873,7 @@
 
                         {{--                            <div class="row" id="variety-image-section">--}}
                         {{--                                <div class="col-12"><label>规格照片<label></div>--}}
-                        {{--                                <?php if ($propertyCount == 0) : ?>--}}
+                        {{--                                <?php if ($variationCount == 0) : ?>--}}
                         {{--                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">--}}
                         {{--                                    <input type="file" name="variety-image[0]" class="image-file-selector" style="display:none;" />--}}
                         {{--                                    <figure class="figure">--}}
@@ -774,7 +892,7 @@
                         {{--                                    </figure>--}}
                         {{--                                </div>--}}
                         {{--                                <?php else : ?>--}}
-                        {{--                                <?php for ($i = 0; $i < $propertyCount; $i++) : ?>--}}
+                        {{--                                <?php for ($i = 0; $i < $variationCount; $i++) : ?>--}}
                         {{--                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">--}}
                         {{--                                    <input type="file" name="variety-image[<?= $i; ?>]" class="image-file-selector" style="display:none;" />--}}
                         {{--                                    <figure class="figure">--}}
@@ -790,7 +908,7 @@
                         {{--                                                </div>--}}
                         {{--                                            </div>--}}
                         {{--                                        </div>--}}
-                        {{--                                        <figcaption class="figure-caption text-center variety-property-caption"><?= $item->getVarieties()[$i]->getProperty(); ?></figcaption>--}}
+                        {{--                                        <figcaption class="figure-caption text-center variety-variation-caption"><?= $item->getVarieties()[$i]->getvariation(); ?></figcaption>--}}
                         {{--                                    </figure>--}}
                         {{--                                </div>--}}
                         {{--                                <?php endfor; ?>--}}
@@ -911,40 +1029,204 @@
             });
         });
 
+        // Variation js
 
-        function getExtraPropertyHTML(propertyCount) {
-            return `` +
-                `<div class="row">` +
-                `<div class="col-11 mb-1 mr-0 pr-0"><input type="text" class="form-control v-property" name="v[${propertyCount}][v_property]" aria-describedby="v-property" maxlength="100"/></div>` +
-                `<div class="col-1 mb-1 ml-0 pl-0"><button type="button" class="btn default-color white-text btn-sm remove-button px-3 py-1">X</button></div>` +
-                `</div>`;
+        function getVariationCount() {
+            return $("#variation-section div.variation-item").length;
         }
 
-        function getExtraVarietyTableRowHTML(propertyCount) {
-            return `` +
-                `<tr>` +
-                `<td><input type="text" class="form-control v-property-view" disabled/></td>` +
-                `<td><input type="text" class="form-control" name="v[${propertyCount}][v_barcode]" aria-describedby="v-barcode" maxlength="20"/></td>` +
-                `<td><input type="number" step="0.01" min="0" class="form-control v-price" name="v[${propertyCount}][v_price]" aria-describedby="v-price"/></td>` +
-                `<td><input type="number" step="0.001" min="0" class="form-control" name="v[${propertyCount}][v_weight]" aria-describedby="v-weight"/></td>` +
-                `<td><input type="number" step="0.01" min="0" class="form-control v-discounted-price" name="v[${propertyCount}][v_discount_price]" aria-describedby="v-discounted-price"/></td>` +
-                `</tr>`;
+        function getExtraVariationHTML(variationCount) {
+            return `
+            <div class="row variation-item">
+                <div class="col-11 mb-1 mr-0 pr-0">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 pr-md-1">
+                            <input type="text"
+                                   class="form-control variation-name"
+                                   name="variations[${variationCount}][name1]"
+                                   aria-describedby="variations"
+                                   maxlength="100"
+                            >
+                        </div>
+                        <div class="col-md-6 col-sm-12 pl-md-1">
+                            <input type="text"
+                                   class="form-control variation-name"
+                                   name="variations[${variationCount}][name2]"
+                                   aria-describedby="variations"
+                                   maxlength="100"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 mb-1 ml-0 pl-0">
+                    <button type="button"
+                            class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                        X
+                    </button>
+                </div>
+            </div>
+            `;
         }
 
-        function getExtraInventoryTableRowHTML(propertyCount) {
-            return `` +
-                `<tr>` +
-                `<td><input type="text" class="form-control v-property-view" disabled/></td>` +
-                `<td colspan="2">` +
-                `<div class="variety-inventory-table-section">` +
-                `<div class="row">` +
-                `<div class="col-6"><input type="date" class="form-control mb-1" name="v[${propertyCount}][inv][0][inv_expire_date]" aria-describedby="inv-expire-date"/></div>` +
-                `<div class="col-5"><input type="number" min="0" class="form-control mb-1" name="v[${propertyCount}][inv][0][inv_quantity]" aria-describedby="inv-quantity"/></div>` +
-                `<div class="col-1 mb-1 ml-0 pl-0"><button type="button" class="btn default-color white-text btn-sm remove-button px-3 py-1">X</button></div>` +
-                `</div>` +
-                `</div>` +
-                `<div class="text-center"><button type="button" class="btn btn-secondary mt-1 extra-inventory-button">添加更多库存</button></div></td></tr>`;
+        function getExtraVariationTableRowHTML(variationCount) {
+            return `
+            <tr class="variation-table-item">
+                <td>
+                    <input type="text"
+                           class="form-control variation-table-variation-name-display"
+                           disabled
+                    >
+                </td>
+                <td>
+                    <input type="text"
+                           class="form-control"
+                           name="variations[${variationCount}][barcode]"
+                           maxlength="20"
+                    >
+                </td>
+                <td><input type="number"
+                           step="0.01"
+                           min="0"
+                           class="form-control variation-price-display"
+                           name="v[${variationCount}][price]"
+                >
+                </td>
+                <td><input type="number"
+                           step="0.001"
+                           min="0"
+                           class="form-control"
+                           name="v[${variationCount}][weight]"
+                >
+                </td>
+            </tr>
+            `;
         }
+
+        function getExtraInventoryTableRowHTML(variationCount) {
+            return `
+            <tr class="inventory-table-item">
+                <td>
+                    <input type="text"
+                           class="form-control inventory-table-variation-name-display"
+                           disabled
+                    >
+                </td>
+                <td>
+                    <input type="number"
+                           min="0"
+                           class="form-control"
+                           name="variation[${variationCount}][inventories][0][stock]"
+                    >
+                </td>
+            </tr>
+            `;
+        }
+
+
+        $(document).ready(function(){
+            $("#extra-variation-button").on("click", function () {
+                let variationCount = getVariationCount();
+
+                $("#variation-section").append(getExtraVariationHTML(variationCount));
+                $('#variation-table-section').append(getExtraVariationTableRowHTML(variationCount));
+                $('#inventory-table-section').append(getExtraInventoryTableRowHTML(variationCount));
+                // $("#variety-image-section").append(getExtraVarietyImageBoxHTML(variationCount));
+
+                let selector = $('#currentVariationCount');
+                selector.val(parseInt(selector.val()) + 1);
+            });
+        })
+
+
+
+
+
+
+
+        // Attribute utility js (variation name auto sync, remove button)
+        // Auto sync variation display
+        $(document).on("change", ".variation-name", function (e) {
+            e.preventDefault();
+
+            let sourceSelector = $(this).closest('.row');
+            let value = sourceSelector.find('.variation-name').eq(0).val() + sourceSelector.find('.variation-name').eq(1).val();
+            let variationIndex = $(".variation-item").index($(this).closest('.variation-item'));
+
+            $(".variation-table-variation-name-display").eq(variationIndex).val(value);
+            $(".inventory-table-variation-name-display").eq(variationIndex).val(value);
+            // $(".variety-variation-caption").eq(variationIndex).html(value); // Variety Image Box Caption
+        });
+
+
+        // Category or variation or inventory remove button
+        $(document).on("click", ".remove-button", function () {
+
+            // Variation: Remove variation table row
+            if ($(this).hasClass("variation-remove-button")) {
+                let variationCount = getVariationCount();
+                let variationIndex = $(".variation-item").index($(this).closest('.variation-item'));
+
+                $(".variation-table-item").eq(variationIndex).html('');
+                $(".inventory-table-item").eq(variationIndex).html('');
+
+                //$(".variety-variation-caption").eq(variationIndex).parent().parent().attr("hidden", "hidden"); // Hidden the div to delete to avoid blank space
+                //$(".variety-variation-caption").eq(variationIndex).parent().parent().html('');
+            }
+
+            $(this).parent().parent().html("");
+
+            // Checking after delete the html
+            // if ($(this).hasClass("wholesale-remove-button")) {
+            //     // Last romove button of wholesale table will always enable and the rest will be disabled
+            //     $("#wholesale-table-section").find(".remove-button").attr("disabled", "disabled");
+            //     $("#wholesale-table-section").find(".remove-button").last().removeAttr("disabled");
+            //
+            //     // Last max column will always disabled and the rest will be enabled
+            //     $(".w-max").removeAttr("disabled");
+            //     $(".w-max").last().attr("disabled", "disabled");
+            // }
+
+            // Category: Restore the template html for removed until no markup
+            if ($(this).hasClass("category-remove-button")) {
+                let selector = $('#currentCategoryCount');
+                let currentCategoryCount = parseInt(selector.val());
+                if(currentCategoryCount === 1){
+                    $("#category-section").append(getExtraCategoryHTML(getCategoryCount()));
+                } else{
+                    selector.val(currentCategoryCount - 1);
+                }
+            }
+
+            // Variation: Restore the template html for removed until no markup
+            if ($(this).hasClass("variation-remove-button")) {
+                let selector = $('#currentVariationCount');
+                let currentVariationCount = parseInt(selector.val());
+                if(currentVariationCount === 1){
+                    let variationCount = getVariationCount();
+                    $("#variation-section").append(getExtraVariationHTML(variationCount));
+                    $('#variation-table-section').append(getExtraVariationTableRowHTML(variationCount));
+                    $('#inventory-table-section').append(getExtraInventoryTableRowHTML(variationCount));
+                } else{
+                    selector.val(currentVariationCount - 1);
+                }
+            }
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         function getExtraInventoryHTML(currentVarietyIndex, inventoryCount) {
             return `` +
@@ -955,10 +1237,10 @@
                 `</div>`;
         }
 
-        function getExtraVarietyImageBoxHTML(propertyCount) {
+        function getExtraVarietyImageBoxHTML(variationCount) {
             return `` +
                 `<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">` +
-                `<input type="file" name="variety-image[${propertyCount}]" class="image-file-selector" style="display:none;"/>` +
+                `<input type="file" name="variety-image[${variationCount}]" class="image-file-selector" style="display:none;"/>` +
                 `<figure class="figure">` +
                 `<div class="img-upload-container">` +
                 `<img class="img-fluid image-preview" src="{{ asset('img/alt/image-upload-alt.png') }}"/>` +
@@ -971,7 +1253,7 @@
                 `</div>` +
                 `</div>` +
                 `</div>` +
-                `<figcaption class="figure-caption text-center variety-property-caption"></figcaption>` +
+                `<figcaption class="figure-caption text-center variety-variation-caption"></figcaption>` +
                 `</figure>` +
                 `</div>`;
         }
@@ -987,12 +1269,10 @@
                 `</tr>`;
         }
 
-        /* Get form information */
 
 
-        function getPropertyCount() {
-            return $("#property-section div.row").length;
-        }
+
+
 
         function getIventoryRowCount(source) {
             return $(source).parent().parent().children(".inventory-section-class tr").length;
@@ -1014,18 +1294,7 @@
             $(".variety-inventory-table-section").eq(currentVarietyIndex).append(getExtraInventoryHTML(currentVarietyIndex, getInventoryCount(this)));
         });
 
-        // Auto sync property shown below two table
-        $(document).on("change", ".v-property", function (e) { // To detect and modify real time (new generated) HTML
-            e.preventDefault();
 
-            var value = $(this).val();
-            var propertyCount = $("#property-section div.row").has("div").length;
-            var propertyIndex = $(".v-property").index(this);
-
-            $(".v-property-view").eq(propertyIndex).val(value); // Variety table
-            $(".v-property-view").eq(propertyIndex + propertyCount).val(value); // Inventory table  // Minus 1 of property count to index
-            $(".variety-property-caption").eq(propertyIndex).html(value); // Variety Image Box Caption
-        });
 
         // Wholesale w-max column auto sync
         $(document).on("change", ".w-max", function (e) {
@@ -1049,44 +1318,7 @@
 
         });
 
-        // Category or property or inventory remove button
-        $(document).on("click", ".remove-button", function () {
-            if ($(this).hasClass("property-remove-button")) {
-                var propertyCount = getPropertyCount();
-                var propertyInput = $(this).parent().parent().find(".v-property");
-                var propertyIndex = $(".v-property").index(propertyInput);
 
-                $(".v-property-view").eq(propertyIndex).parent().parent().html('');
-                $(".v-property-view").eq(propertyIndex + propertyCount - 1).parent().parent().html(''); // Minus 1 of property count to index
-                $(".variety-property-caption").eq(propertyIndex).parent().parent().attr("hidden", "hidden"); // Hidden the div to delete to avoid blank space
-                $(".variety-property-caption").eq(propertyIndex).parent().parent().html('');
-            }
-
-            $(this).parent().parent().html("");
-
-            // Checking after delete the html
-            if ($(this).hasClass("wholesale-remove-button")) {
-                // Last romove button of wholesale table will always enable and the rest will be disabled
-                $("#wholesale-table-section").find(".remove-button").attr("disabled", "disabled");
-                $("#wholesale-table-section").find(".remove-button").last().removeAttr("disabled");
-
-                // Last max column will always disabled and the rest will be enabled
-                $(".w-max").removeAttr("disabled");
-                $(".w-max").last().attr("disabled", "disabled");
-            }
-
-            // Restore the template html for removed until no markup
-            if ($(this).hasClass("category-remove-button")) {
-                let selector = $('#currentCategoryCount');
-                let currentCategoryCount = parseInt(selector.val());
-                if(currentCategoryCount === 1){
-                    $("#category-section").append(getExtraCategoryHTML(getCategoryCount()));
-                } else{
-                    selector.val(currentCategoryCount - 1);
-                }
-            }
-
-        });
 
         // Disable wholesales if all variety price is difference
         $(document).on("change", ".v-price", function () {
@@ -1228,19 +1460,7 @@
         $(document).ready(function () {
 
             // Retrieve image source to the file input for server submit testing
-            getImageOriginalSource();
-
-            // Extra category
-
-
-            // Extra property
-            $("#extra-property-button").on("click", function () {
-                var propertyCount = getPropertyCount();
-                $("#property-section").append(getExtraPropertyHTML(propertyCount));
-                $('#variety-table-section').append(getExtraVarietyTableRowHTML(propertyCount));
-                $('#inventory-table-section').append(getExtraInventoryTableRowHTML(propertyCount));
-                $("#variety-image-section").append(getExtraVarietyImageBoxHTML(propertyCount));
-            });
+            // getImageOriginalSource();
 
             // Extra wholesale
             $("#extra-wholesale-button").on("click", function () {
