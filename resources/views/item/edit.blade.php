@@ -584,7 +584,7 @@
                                                        step="0.01"
                                                        min="0"
                                                        class="form-control variation-price-display"
-                                                       name="v[{{ $i }}][price]"
+                                                       name="variations[{{ $i }}][price]"
                                                        value="{{ old('variations.' . $i . '.price') ?? number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}"
                                                 >
                                             </td>
@@ -592,7 +592,7 @@
                                                        step="0.001"
                                                        min="0"
                                                        class="form-control"
-                                                       name="v[{{ $i }}][weight]"
+                                                       name="variations[{{ $i }}][weight]"
                                                        value="{{ old('variations.' . $i . '.weight') ?? number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}"
                                                 >
                                             </td>
@@ -621,7 +621,7 @@
                                                        step="0.01"
                                                        min="0"
                                                        class="form-control variation-price-display"
-                                                       name="v[{{ $i }}][price]"
+                                                       name="variations[{{ $i }}][price]"
                                                        value="{{ number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}"
                                                 >
                                             </td>
@@ -629,7 +629,7 @@
                                                        step="0.001"
                                                        min="0"
                                                        class="form-control"
-                                                       name="v[{{ $i }}][weight]"
+                                                       name="variations[{{ $i }}][weight]"
                                                        value="{{ number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}"
                                                 >
                                             </td>
@@ -654,14 +654,14 @@
                                                    step="0.01"
                                                    min="0"
                                                    class="form-control variation-price-display"
-                                                   name="v[0][price]"
+                                                   name="variations[0][price]"
                                             >
                                         </td>
                                         <td><input type="number"
                                                    step="0.001"
                                                    min="0"
                                                    class="form-control"
-                                                   name="v[0][weight]"
+                                                   name="variations[0][weight]"
                                             >
                                         </td>
                                     </tr>
@@ -699,7 +699,7 @@
                                                 <input type="number"
                                                        min="0"
                                                        class="form-control"
-                                                       name="variation[{{$i}}][inventories][0][stock]"
+                                                       name="variations[{{$i}}][inventories][0][stock]"
                                                        value="{{ old("variations.$i.inventories.0.stock") ?? 0 }}"
                                                 >
                                             </td>
@@ -719,7 +719,7 @@
                                                 <input type="number"
                                                        min="0"
                                                        class="form-control"
-                                                       name="variation[{{$i}}][inventories][0][stock]"
+                                                       name="variations[{{$i}}][inventories][0][stock]"
                                                        value="{{ $item->variations[$i]->inventories->toArray()[0]['stock'] ?? 0 }}"
                                                 >
                                             </td>
@@ -737,7 +737,7 @@
                                             <input type="number"
                                                    min="0"
                                                    class="form-control"
-                                                   name="variation[0][inventories][0][stock]"
+                                                   name="variations[0][inventories][0][stock]"
                                             >
                                         </td>
                                     </tr>
@@ -748,179 +748,210 @@
                         <!-- Inventory -->
 
 
+                        <div class="h2" id="step-three">折扣管理</div>
 
-
-
-
-
-
-
-
-
-
-                        <!-- Wholesale -->
-                        <div class="col-12 wholesale-section"><label>批发价管理（单件规格折扣后的规格将无视此设定）</label></div>
-                        <div class="col-12 mb-3 wholesale-section" style="overflow-x: scroll;">
+                        <!-- Variation discount -->
+                        <div class="col-12">
+                            <label>规格折扣</label>
+                        </div>
+                        <div class="col-12 mb-3">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th scope="col">开始数量</th>
-                                    <th scope="col">结束数量</th>
-                                    <th scope="col">价格(RM)</th>
-                                    <th scope="col">操作</th>
+                                    <th scope="col">规格名称</th>
+                                    <th scope="col">开始日期</th>
+                                    <th scope="col">结束日期</th>
+                                    <th scope="col">折扣价钱</th>
                                 </tr>
                                 </thead>
+                                <tbody id="variation-discount-table-section">
 
-                                <tbody id="wholesale-table-section">
-                                <tr>
-                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[0][w_min]"
-                                               aria-describedby="w-min"/></td>
-                                    <td><input type="number" class="form-control mb-1 w-max" min="1" name="w[0][w_max]"
-                                               aria-describedby="w-max" disabled/></td>
-                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01"
-                                               name="w[0][w_price]" aria-describedby="w-price"/></td>
-                                    <td>
-                                        <button type="button"
-                                                class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1">
-                                            X
-                                        </button>
-                                    </td>
-                                </tr>
-                                {{--                                <?php $wholesaleCount = sizeof($item->getWholesales()); ?>--}}
-                                {{--                                <?php if ($wholesaleCount == 0) : ?>--}}
-                                {{--                                <?php else : ?>--}}
-                                {{--                                <?php $maxPrice = $item->getVarieties()[0]->getPrice(); ?>--}}
-                                {{--                                <?php for($i = 0; $i < $wholesaleCount; $i++) : ?>--}}
-                                {{--                                <?php $discountedPrice = number_format($item->getVarieties()[0]->getPrice() * $item->getWholesales()[$i]->getDiscountRate(), 2, '.', ''); ?>--}}
-                                {{--                                <tr>--}}
-                                {{--                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[<?= $i; ?>][w_min]" aria-describedby="w-min" value="<?= $item->getWholesales()[$i]->getMin(); ?>" <?= $i != 0 ? "disabled" : ""; ?>/></td>--}}
-                                {{--                                    <td><input type="number" class="form-control mb-1 w-max" min="<?= $item->getWholesales()[$i]->getMin(); ?>" name="w[<?= $i; ?>][w_max]" aria-describedby="w-max" value="<?= $item->getWholesales()[$i]->getMax(); ?>" <?= ($i == ($wholesaleCount - 1)) ? "disabled" : ""; ?>/></td>--}}
-                                {{--                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01" max="<?= $maxPrice ?>" name="w[<?= $i; ?>][w_price]" aria-describedby="w-price" value="<?= $discountedPrice ?>"/></td>--}}
-                                {{--                                    <td><button type="button" class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1" <?= $i != $wholesaleCount - 1 ? "disabled" : ""; ?>>X</button></td>--}}
-                                {{--                                </tr>--}}
-                                {{--                                <?php $maxPrice = $discountedPrice; ?>--}}
-                                {{--                                <?php endfor; ?>--}}
-                                {{--                                <?php endif; ?>--}}
                                 </tbody>
                             </table>
-                            <!-- Add extra wholesales button -->
-                            <div class="text-center">
-                                <button type="button" class="btn btn-secondary mt-1" id="extra-wholesale-button">
-                                    添加更多批发价
-                                </button>
-                            </div>
-                        </div><!-- Wholesale -->
+                        </div>
+                        <!-- Variation discount -->
 
-                        <div class="h2" id="step-three">媒体管理</div>
+
+                        <!-- Wholesale discount -->
+                        {{--                        <div class="col-12 wholesale-section">--}}
+                        {{--                            <label>批发价</label>--}}
+                        {{--                        </div>--}}
+                        {{--                        <div class="col-12 mb-3 wholesale-section" style="overflow-x: scroll;">--}}
+                        {{--                            <table class="table table-bordered">--}}
+                        {{--                                <thead>--}}
+                        {{--                                <tr>--}}
+                        {{--                                    <th scope="col">开始数量</th>--}}
+                        {{--                                    <th scope="col">结束数量</th>--}}
+                        {{--                                    <th scope="col">价格(RM)</th>--}}
+                        {{--                                    <th scope="col">操作</th>--}}
+                        {{--                                </tr>--}}
+                        {{--                                </thead>--}}
+
+                        {{--                                <tbody id="wholesale-table-section">--}}
+                        {{--                                <tr>--}}
+                        {{--                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[0][w_min]"--}}
+                        {{--                                               aria-describedby="w-min"/></td>--}}
+                        {{--                                    <td><input type="number" class="form-control mb-1 w-max" min="1" name="w[0][w_max]"--}}
+                        {{--                                               aria-describedby="w-max" disabled/></td>--}}
+                        {{--                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01"--}}
+                        {{--                                               name="w[0][w_price]" aria-describedby="w-price"/></td>--}}
+                        {{--                                    <td>--}}
+                        {{--                                        <button type="button"--}}
+                        {{--                                                class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1">--}}
+                        {{--                                            X--}}
+                        {{--                                        </button>--}}
+                        {{--                                    </td>--}}
+                        {{--                                </tr>--}}
+                        {{--                                <?php $wholesaleCount = sizeof($item->getWholesales()); ?>--}}
+                        {{--                                <?php if ($wholesaleCount == 0) : ?>--}}
+                        {{--                                <?php else : ?>--}}
+                        {{--                                <?php $maxPrice = $item->getVarieties()[0]->getPrice(); ?>--}}
+                        {{--                                <?php for($i = 0; $i < $wholesaleCount; $i++) : ?>--}}
+                        {{--                                <?php $discountedPrice = number_format($item->getVarieties()[0]->getPrice() * $item->getWholesales()[$i]->getDiscountRate(), 2, '.', ''); ?>--}}
+                        {{--                                <tr>--}}
+                        {{--                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[<?= $i; ?>][w_min]" aria-describedby="w-min" value="<?= $item->getWholesales()[$i]->getMin(); ?>" <?= $i != 0 ? "disabled" : ""; ?>/></td>--}}
+                        {{--                                    <td><input type="number" class="form-control mb-1 w-max" min="<?= $item->getWholesales()[$i]->getMin(); ?>" name="w[<?= $i; ?>][w_max]" aria-describedby="w-max" value="<?= $item->getWholesales()[$i]->getMax(); ?>" <?= ($i == ($wholesaleCount - 1)) ? "disabled" : ""; ?>/></td>--}}
+                        {{--                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01" max="<?= $maxPrice ?>" name="w[<?= $i; ?>][w_price]" aria-describedby="w-price" value="<?= $discountedPrice ?>"/></td>--}}
+                        {{--                                    <td><button type="button" class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1" <?= $i != $wholesaleCount - 1 ? "disabled" : ""; ?>>X</button></td>--}}
+                        {{--                                </tr>--}}
+                        {{--                                <?php $maxPrice = $discountedPrice; ?>--}}
+                        {{--                                <?php endfor; ?>--}}
+                        {{--                                <?php endif; ?>--}}
+                        {{--                                </tbody>--}}
+                        {{--                            </table>--}}
+                        {{--                            <!-- Add extra wholesales button -->--}}
+                        {{--                            <div class="text-center">--}}
+                        {{--                                <button type="button" class="btn btn-secondary mt-1" id="extra-wholesale-button">--}}
+                        {{--                                    添加更多批发价--}}
+                        {{--                                </button>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
+                        <!-- Wholesale discount -->
+
+
+                        <div class="h2" id="step-four">媒体管理</div>
+
+                        <!-- General item image -->
+                        <div class="col-12">
+                            <label>基本照片</label>
+                            <i class="icofont icofont-ui-add" id="add-general-image-button"></i>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="row" id="general-image-section">
+                                @if(empty($item->images->toArray()))
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
+                                        <input type="file"
+                                               name="item-image[0]"
+                                               class="image-file-selector"
+                                               style="display:none;"
+                                        >
+                                        <figure class="figure">
+                                            <div class="img-upload-container">
+                                                <img class="img-fluid image-preview w-100"
+                                                     src="{{ asset('img/alt/image-upload-alt.png') }}"
+                                                >
+                                                <div class="img-upload-overlay">
+                                                    <div class="img-upload-overlay-icon edit-img-button"
+                                                         title="Upload Image"
+                                                         onclick="uploadImage(this)"
+                                                    >
+                                                        <i class="icofont icofont-edit"></i>
+                                                    </div>
+                                                    <div class="img-upload-overlay-icon remove-img-button"
+                                                         title="Remove Image"
+                                                         onclick="removeImage(this)"
+                                                    >
+                                                        <i class="icofont icofont-ui-delete"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </div>
+                                @else
+                                    @for($i = 0; $i < sizeof($item->images); $i++)
+                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
+                                            <input type="file"
+                                                   name="item-image[{{$i}}]"
+                                                   class="image-file-selector"
+                                                   style="display:none;"
+                                            >
+                                            <figure class="figure">
+                                                <div class="img-upload-container">
+                                                    <img class="img-fluid image-preview"
+                                                         src="{{ asset($item->images[$i]->image ?? 'img/alt/image-upload-alt.png') }}"
+                                                    >
+                                                    <div class="img-upload-overlay">
+                                                        <div class="img-upload-overlay-icon edit-img-button"
+                                                             title="Upload Image"
+                                                             onclick="uploadImage(this)"
+                                                        >
+                                                            <i class="icofont icofont-edit"></i>
+                                                        </div>
+                                                        <div class="img-upload-overlay-icon remove-img-button"
+                                                             title="Remove Image"
+                                                             onclick="removeImage(this)"
+                                                        >
+                                                            <i class="icofont icofont-ui-delete"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </figure>
+                                        </div>
+                                    @endfor
+                                @endif
+                            </div>
+                        </div>
+                        <!-- General item image -->
+
+                        <!-- Variation image -->
+                        <div class="col-12">
+                            <label>规格照片</label>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="row" id="variation-image-section">
+                                @if(!empty($item->variations))
+                                    @for($i = 0; $i < sizeof($item->variations->toArray()); $i++)
+                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
+                                            <input type="file"
+                                                   name="variations[image][{{$i}}]"
+                                                   class="image-file-selector"
+                                                   style="display:none;"
+                                            >
+                                            <figure class="figure">
+                                                <div class="img-upload-container">
+                                                    <img class="img-fluid image-preview w-100"
+                                                         src="{{ asset($item->variations[$i]->image ?? "img/alt/image-upload-alt.png") }}"
+                                                    >
+                                                    <div class="img-upload-overlay">
+                                                        <div class="img-upload-overlay-icon edit-img-button"
+                                                             title="Upload Image"
+                                                             onclick="uploadImage(this)"
+                                                        >
+                                                            <i class="icofont-edit"></i>
+                                                        </div>
+                                                        <div class="img-upload-overlay-icon remove-img-button"
+                                                             title="Remove Image"
+                                                             onclick="removeImage(this)"
+                                                        >
+                                                            <i class="icofont-ui-delete"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <figcaption class="figure-caption text-center">
+                                                    {{ $item->variations[$i]->name1 . $item->variations[$i]->name2 }}
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                    @endfor
+                                @endif
+                            </div>
+                        </div>
+                        <!-- Variation image -->
 
 
                         <div class="col-12 mb-3">
-
-                            <div class="row general-image-section">
-
-                                <div class="col-12"><label>基本照片</label></div>
-
-                                <!-- Cover picture (0.jpg) -->
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <input type="file" name="item-image[0]" class="image-file-selector"
-                                           style="display:none;"/>
-                                    <figure class="figure">
-                                        <div class="img-upload-container">
-                                            <img class="img-fluid image-preview"
-                                                 src="{{ asset($item->images->toArray()[0]['image'] ?? 'img/alt/image-upload-alt.png') }}"/>
-                                            <div class="img-upload-overlay">
-                                                <div class="img-upload-overlay-icon edit-img-button"
-                                                     title="Upload Image" onclick="uploadImage(this)">
-                                                    <i class="icofont icofont-edit"></i>
-                                                </div>
-                                                <div class="img-upload-overlay-icon remove-img-button"
-                                                     title="Remove Image" onclick="removeImage(this)">
-                                                    <i class="icofont icofont-ui-delete"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption text-center">封面</figcaption>
-                                    </figure>
-                                </div><!-- Cover picture (0.jpg) -->
-
-                                <!-- General picture -->
-                            {{--                                <?php for ($i = 1; $i <= 8; $i++) : ?>--}}
-                            {{--                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">--}}
-                            {{--                                    <input type="file" name="item-image[<?= $i; ?>]" class="image-file-selector" style="display:none;" />--}}
-                            {{--                                    <figure class="figure">--}}
-                            {{--                                        <div class="img-upload-container">--}}
-                            {{--                                            <img class="img-fluid image-preview" src="<?= file_exists("../assets/images/items/$i_id/$i.jpg") ? "../assets/images/items/$i_id/$i.jpg" : "../assets/images/alt/image-upload-alt.png"; ?>" />--}}
-                            {{--                                            <div class="img-upload-overlay">--}}
-                            {{--                                                <div class="img-upload-overlay-icon edit-img-button" title="Upload Image" onclick="uploadImage(this)">--}}
-                            {{--                                                    <i class="icofont-edit"></i>--}}
-                            {{--                                                </div>--}}
-                            {{--                                                <div class="img-upload-overlay-icon remove-img-button" title="Remove Image" onclick="removeImage(this)">--}}
-                            {{--                                                    <i class="icofont-ui-delete"></i>--}}
-                            {{--                                                </div>--}}
-                            {{--                                            </div>--}}
-                            {{--                                        </div>--}}
-                            {{--                                        <figcaption class="figure-caption text-center">照片 <?= $i ?></figcaption>--}}
-                            {{--                                    </figure>--}}
-                            {{--                                </div><?php endfor; ?>--}}
-                            <!-- General picture -->
-
-                            </div>
-
-                        </div>
-
-                        <!-- Variety image section -->
-                        {{--                        <div class="col-12 mb-3">--}}
-
-                        {{--                            <div class="row" id="variety-image-section">--}}
-                        {{--                                <div class="col-12"><label>规格照片<label></div>--}}
-                        {{--                                <?php if ($variationCount == 0) : ?>--}}
-                        {{--                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">--}}
-                        {{--                                    <input type="file" name="variety-image[0]" class="image-file-selector" style="display:none;" />--}}
-                        {{--                                    <figure class="figure">--}}
-                        {{--                                        <div class="img-upload-container">--}}
-                        {{--                                            <img class="img-fluid image-preview" src="../assets/images/alt/image-upload-alt.png" />--}}
-                        {{--                                            <div class="img-upload-overlay">--}}
-                        {{--                                                <div class="img-upload-overlay-icon edit-img-button" title="Upload Image" onclick="uploadImage(this)">--}}
-                        {{--                                                    <i class="icofont-edit"></i>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <div class="img-upload-overlay-icon remove-img-button" title="Remove Image" onclick="removeImage(this)">--}}
-                        {{--                                                    <i class="icofont-ui-delete"></i>--}}
-                        {{--                                                </div>--}}
-                        {{--                                            </div>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <figcaption class="figure-caption text-center">照片 <?= $i ?></figcaption>--}}
-                        {{--                                    </figure>--}}
-                        {{--                                </div>--}}
-                        {{--                                <?php else : ?>--}}
-                        {{--                                <?php for ($i = 0; $i < $variationCount; $i++) : ?>--}}
-                        {{--                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">--}}
-                        {{--                                    <input type="file" name="variety-image[<?= $i; ?>]" class="image-file-selector" style="display:none;" />--}}
-                        {{--                                    <figure class="figure">--}}
-                        {{--                                        <div class="img-upload-container">--}}
-                        {{--                                            <?php $b = $item->getVarieties()[$i]->getBarcode(); ?>--}}
-                        {{--                                            <img class="img-fluid image-preview" src="<?= file_exists("../assets/images/items/$i_id/$b.jpg") ? "../assets/images/items/$i_id/$b.jpg" : "../assets/images/alt/image-upload-alt.png"; ?>" />--}}
-                        {{--                                            <div class="img-upload-overlay">--}}
-                        {{--                                                <div class="img-upload-overlay-icon edit-img-button" title="Upload Image" onclick="uploadImage(this)">--}}
-                        {{--                                                    <i class="icofont-edit"></i>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <div class="img-upload-overlay-icon remove-img-button" title="Remove Image" onclick="removeImage(this)">--}}
-                        {{--                                                    <i class="icofont-ui-delete"></i>--}}
-                        {{--                                                </div>--}}
-                        {{--                                            </div>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <figcaption class="figure-caption text-center variety-variation-caption"><?= $item->getVarieties()[$i]->getvariation(); ?></figcaption>--}}
-                        {{--                                    </figure>--}}
-                        {{--                                </div>--}}
-                        {{--                                <?php endfor; ?>--}}
-                        {{--                                <?php endif; ?>--}}
-                        {{--                            </div>--}}
-
-                        {{--                        </div><!-- Variety image section -->--}}
-
-
-                        <div classs="col-12 mb-3">
                             <div class="row">
-                                <div class="h2" id="step-four">其他商品设定</div>
+                                <div class="h2" id="step-five">其他商品设定</div>
                                 <br>
                                 <div class="col-12">
                                     <div class="mx-auto">
@@ -955,8 +986,7 @@
                         </div>
 
                         <div class="col-12 text-center mb-3">
-                            <input class="btn btn-primary mr-2" type="submit" value="保存" name="save"
-                                   style="width: 200px">
+                            <input class="btn btn-primary mr-2" type="submit" value="保存" name="save">
                         </div>
 
                     </div>
@@ -973,8 +1003,10 @@
                         <a href="#step-two" id="step-two-link"
                            class="item-create-step-info list-group-item list-group-item-action">销售资料</a>
                         <a href="#step-three" id="step-three-link"
-                           class="item-create-step-info list-group-item list-group-item-action">媒体管理</a>
+                           class="item-create-step-info list-group-item list-group-item-action">折扣管理</a>
                         <a href="#step-four" id="step-four-link"
+                           class="item-create-step-info list-group-item list-group-item-action">媒体管理</a>
+                        <a href="#step-five" id="step-five-link"
                            class="item-create-step-info list-group-item list-group-item-action">其他商品设定</a>
                     </ul>
                 </div>
@@ -1088,14 +1120,14 @@
                            step="0.01"
                            min="0"
                            class="form-control variation-price-display"
-                           name="v[${variationCount}][price]"
+                           name="variations[${variationCount}][price]"
                 >
                 </td>
                 <td><input type="number"
                            step="0.001"
                            min="0"
                            class="form-control"
-                           name="v[${variationCount}][weight]"
+                           name="variations[${variationCount}][weight]"
                 >
                 </td>
             </tr>
@@ -1115,32 +1147,114 @@
                     <input type="number"
                            min="0"
                            class="form-control"
-                           name="variation[${variationCount}][inventories][0][stock]"
+                           name="variations[${variationCount}][inventories][0][stock]"
                     >
                 </td>
             </tr>
             `;
         }
 
+        function getExtraVariationImageBoxHTML(variationCount) {
+            return `
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
+                <input type="file"
+                       name="variations[image][${variationCount}]"
+                       class="image-file-selector"
+                       style="display:none;"
+                >
+                <figure class="figure">
+                    <div class="img-upload-container">
+                        <img class="img-fluid image-preview w-100"
+                             src="{{ asset("img/alt/image-upload-alt.png") }}"
+                        >
+                        <div class="img-upload-overlay">
+                            <div class="img-upload-overlay-icon edit-img-button"
+                                 title="Upload Image"
+                                 onclick="uploadImage(this)"
+                            >
+                                <i class="icofont-edit"></i>
+                            </div>
+                            <div class="img-upload-overlay-icon remove-img-button"
+                                 title="Remove Image"
+                                 onclick="removeImage(this)"
+                            >
+                                <i class="icofont-ui-delete"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <figcaption class="figure-caption text-center"></figcaption>
+                </figure>
+            </div>
+            `;
+        }
 
-        $(document).ready(function(){
+
+
+        $(document).ready(function () {
             $("#extra-variation-button").on("click", function () {
                 let variationCount = getVariationCount();
 
                 $("#variation-section").append(getExtraVariationHTML(variationCount));
                 $('#variation-table-section').append(getExtraVariationTableRowHTML(variationCount));
                 $('#inventory-table-section').append(getExtraInventoryTableRowHTML(variationCount));
-                // $("#variety-image-section").append(getExtraVarietyImageBoxHTML(variationCount));
+                $("#variation-image-section").append(getExtraVariationImageBoxHTML(variationCount));
 
                 let selector = $('#currentVariationCount');
                 selector.val(parseInt(selector.val()) + 1);
             });
-        })
+        });
 
 
+        // General Image upload js
+
+        function getGeneralImageCount() {
+            return $('#general-image-section div.general-image-item').length;
+        }
+
+        function getExtraGeneralImageHTML(generalImageCount) {
+            return `
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
+                <input type="file"
+                       name="item-image[${generalImageCount}]"
+                       class="image-file-selector"
+                       style="display:none;"
+                >
+                    <figure class="figure">
+                        <div class="img-upload-container">
+                            <img class="img-fluid image-preview"
+                                 src="{{ asset('img/alt/image-upload-alt.png') }}"
+                            >
+                                <div class="img-upload-overlay">
+                                    <div class="img-upload-overlay-icon edit-img-button"
+                                         title="Upload Image"
+                                         onclick="uploadImage(this)"
+                                    >
+                                        <i class="icofont icofont-edit"></i>
+                                    </div>
+                                    <div class="img-upload-overlay-icon remove-img-button"
+                                         title="Remove Image"
+                                         onclick="removeImage(this)"
+                                    >
+                                        <i class="icofont icofont-ui-delete"></i>
+                                    </div>
+                                </div>
+                        </div>
+                    </figure>
+            </div>
+            `;
+        }
 
 
-
+        $(document).ready(function () {
+            $('#add-general-image-button').on('click', function () {
+                let count = getGeneralImageCount();
+                if (count >= 10) {
+                    alert("最多只能有10张基本照片！");
+                } else {
+                    $('#general-image-section').append(getExtraGeneralImageHTML(getGeneralImageCount()));
+                }
+            });
+        });
 
 
         // Attribute utility js (variation name auto sync, remove button)
@@ -1154,7 +1268,7 @@
 
             $(".variation-table-variation-name-display").eq(variationIndex).val(value);
             $(".inventory-table-variation-name-display").eq(variationIndex).val(value);
-            // $(".variety-variation-caption").eq(variationIndex).html(value); // Variety Image Box Caption
+            $(".variation-image-item").eq(variationIndex).find(".figure-caption").html(value); // Variety Image Box Caption
         });
 
 
@@ -1163,14 +1277,14 @@
 
             // Variation: Remove variation table row
             if ($(this).hasClass("variation-remove-button")) {
-                let variationCount = getVariationCount();
                 let variationIndex = $(".variation-item").index($(this).closest('.variation-item'));
 
                 $(".variation-table-item").eq(variationIndex).html('');
                 $(".inventory-table-item").eq(variationIndex).html('');
 
-                //$(".variety-variation-caption").eq(variationIndex).parent().parent().attr("hidden", "hidden"); // Hidden the div to delete to avoid blank space
-                //$(".variety-variation-caption").eq(variationIndex).parent().parent().html('');
+                let variationImageItemSelector = $(".variation-image-item").eq(variationIndex);
+                variationImageItemSelector.attr("hidden", "hidden"); // Hide the blank space
+                variationImageItemSelector.html('');
             }
 
             $(this).parent().parent().html("");
@@ -1190,9 +1304,9 @@
             if ($(this).hasClass("category-remove-button")) {
                 let selector = $('#currentCategoryCount');
                 let currentCategoryCount = parseInt(selector.val());
-                if(currentCategoryCount === 1){
+                if (currentCategoryCount === 1) {
                     $("#category-section").append(getExtraCategoryHTML(getCategoryCount()));
-                } else{
+                } else {
                     selector.val(currentCategoryCount - 1);
                 }
             }
@@ -1201,12 +1315,13 @@
             if ($(this).hasClass("variation-remove-button")) {
                 let selector = $('#currentVariationCount');
                 let currentVariationCount = parseInt(selector.val());
-                if(currentVariationCount === 1){
+                if (currentVariationCount === 1) {
                     let variationCount = getVariationCount();
                     $("#variation-section").append(getExtraVariationHTML(variationCount));
                     $('#variation-table-section').append(getExtraVariationTableRowHTML(variationCount));
                     $('#inventory-table-section').append(getExtraInventoryTableRowHTML(variationCount));
-                } else{
+                    $('#variation-image-section').append(getExtraVariationImageBoxHTML(variationCount));
+                } else {
                     selector.val(currentVariationCount - 1);
                 }
             }
@@ -1228,121 +1343,134 @@
 
 
 
-        function getExtraInventoryHTML(currentVarietyIndex, inventoryCount) {
-            return `` +
-                `<div class="row">` +
-                `<div class="col-6"><input type="date" class="form-control mb-1" name="v[${currentVarietyIndex}][inv][${inventoryCount}][inv_expire_date]" aria-describedby="inv-expire-date"/></div>` +
-                `<div class="col-5"><input type="number" min="0" class="form-control mb-1" name="v[${currentVarietyIndex}][inv][${inventoryCount}][inv_quantity]" aria-describedby="inv-quantity"/></div>` +
-                `<div class="col-1 mb-1 ml-0 pl-0"><button type="button" class="btn default-color white-text btn-sm remove-button px-3 py-1">X</button></div>` +
-                `</div>`;
-        }
 
-        function getExtraVarietyImageBoxHTML(variationCount) {
-            return `` +
-                `<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">` +
-                `<input type="file" name="variety-image[${variationCount}]" class="image-file-selector" style="display:none;"/>` +
-                `<figure class="figure">` +
-                `<div class="img-upload-container">` +
-                `<img class="img-fluid image-preview" src="{{ asset('img/alt/image-upload-alt.png') }}"/>` +
-                `<div class="img-upload-overlay">` +
-                `<div class="img-upload-overlay-icon edit-img-button" title="Upload Image" onclick="uploadImage(this)">` +
-                `<i class="icofont-edit"></i>` +
-                `</div>` +
-                `<div class="img-upload-overlay-icon remove-img-button" title="Remove Image" onclick="removeImage(this)">` +
-                `<i class="icofont-ui-delete"></i>` +
-                `</div>` +
-                `</div>` +
-                `</div>` +
-                `<figcaption class="figure-caption text-center variety-variation-caption"></figcaption>` +
-                `</figure>` +
-                `</div>`;
-        }
-
-        function getExtraWholesaleTableRowHTML(wholesaleCount, max, price) {
-            var d = $("#wholesale-table-section tr").has("td").length == 0 ? "" : "disabled";
-            return `` +
-                `<tr>` +
-                `<td><input type="number" class="form-control mb-1 w-min" min="1" name="w[${wholesaleCount}][w_min]" aria-describedby="w-min" value="${max}" ${d}/></td>` +
-                `<td><input type="number" class="form-control mb-1 w-max" min="${max}" name="w[${wholesaleCount}][w_max]" aria-describedby="w-max" disabled/></td>` +
-                `<td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01" max="${price}" name="w[${wholesaleCount}][w_price]" aria-describedby="w-price"/></td>` +
-                `<td><button type="button" class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1">X</button></td>` +
-                `</tr>`;
-        }
+        // function getExtraWholesaleTableRowHTML(wholesaleCount, max, price) {
+        //     var d = $("#wholesale-table-section tr").has("td").length == 0 ? "" : "disabled";
+        //     return `` +
+        //         `<tr>` +
+        //         `<td><input type="number" class="form-control mb-1 w-min" min="1" name="w[${wholesaleCount}][w_min]" aria-describedby="w-min" value="${max}" ${d}/></td>` +
+        //         `<td><input type="number" class="form-control mb-1 w-max" min="${max}" name="w[${wholesaleCount}][w_max]" aria-describedby="w-max" disabled/></td>` +
+        //         `<td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01" max="${price}" name="w[${wholesaleCount}][w_price]" aria-describedby="w-price"/></td>` +
+        //         `<td><button type="button" class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1">X</button></td>` +
+        //         `</tr>`;
+        // }
 
 
-
-
-
-
-        function getIventoryRowCount(source) {
-            return $(source).parent().parent().children(".inventory-section-class tr").length;
-        }
-
-        function getInventoryCount(source) {
-            return $(source).parent().parent().find(".variety-inventory-table-section div.row").length;
-        }
-
-        function getWholesaleCount() {
-            return $("#wholesale-table-section tr").length;
-        }
-
-        // Extra inventory
-        $(document).on("click", ".extra-inventory-button", function (e) { // To detect and modify real time (new generated) HTML
-            e.preventDefault();
-
-            var currentVarietyIndex = $(".extra-inventory-button").index($(this)); // Get current located index in the table
-            $(".variety-inventory-table-section").eq(currentVarietyIndex).append(getExtraInventoryHTML(currentVarietyIndex, getInventoryCount(this)));
-        });
+        // function getWholesaleCount() {
+        //     return $("#wholesale-table-section tr").length;
+        // }
 
 
 
         // Wholesale w-max column auto sync
-        $(document).on("change", ".w-max", function (e) {
-            e.preventDefault();
-
-            var index = $(".w-max").index(this);
-            var nextMin = parseInt($(this).val()) + 1;
-
-            $(".w-min").eq(index + 1).val(nextMin); // Set w-min of next row sync value with current w-max
-            $(".w-max").eq(index + 1).attr("min", nextMin); // Set min value of w-max of next row with current w-max
-        });
+        // $(document).on("change", ".w-max", function (e) {
+        //     e.preventDefault();
+        //
+        //     var index = $(".w-max").index(this);
+        //     var nextMin = parseInt($(this).val()) + 1;
+        //
+        //     $(".w-min").eq(index + 1).val(nextMin); // Set w-min of next row sync value with current w-max
+        //     $(".w-max").eq(index + 1).attr("min", nextMin); // Set min value of w-max of next row with current w-max
+        // });
 
         // Wholesale w-price column auto sync
-        $(document).on("change", ".w-price", function (e) {
-            e.preventDefault();
-
-            var index = $(".w-price").index(this);
-            var nextMaxPrice = $(this).val();
-
-            $(".w-price").eq(index + 1).attr("max", nextMaxPrice); // Set max value of w-price of next row with current w-price
-
-        });
-
+        // $(document).on("change", ".w-price", function (e) {
+        //     e.preventDefault();
+        //
+        //     var index = $(".w-price").index(this);
+        //     var nextMaxPrice = $(this).val();
+        //
+        //     $(".w-price").eq(index + 1).attr("max", nextMaxPrice); // Set max value of w-price of next row with current w-price
+        //
+        // });
 
 
         // Disable wholesales if all variety price is difference
-        $(document).on("change", ".v-price", function () {
+        // $(document).on("change", ".v-price", function () {
+        //
+        //     // Wholesale settings
+        //     var first = $(".v-price").eq(0).val();
+        //     var isSame = true;
+        //     for (var i = 1; i < $(".v-price").length; i++) {
+        //         if ($(".v-price").eq(i).val() != first) {
+        //             isSame = false;
+        //             break;
+        //         }
+        //     }
+        //
+        //     if (isSame) {
+        //         $(".wholesale-section").show();
+        //     } else {
+        //         $(".wholesale-section").hide();
+        //     }
+        //
+        //     // Discount price settings
+        //     var index = $(".v-price").index(this);
+        //     $(".v-price").eq(index).parent().parent().find(".v-discounted-price").attr("max", $(this).val());
+        // });
+
+        // $(document).ready(function(){
+            // Extra wholesale
+            // $("#extra-wholesale-button").on("click", function () {
+            //     var min = parseInt($("#wholesale-table-section tr").last().find("input.w-min").val());
+            //     var max = parseInt($("#wholesale-table-section tr").last().find("input.w-max").val()) + 1;
+            //     var price = $("#wholesale-table-section tr").last().find("input.w-price").val();
+            //     if (price != "" && min != "" && max != "") {
+            //         $("#wholesale-table-section").append(getExtraWholesaleTableRowHTML(getWholesaleCount(), max, price));
+            //
+            //         // Last romove button of wholesale table will always enable and the rest will be disabled
+            //         $("#wholesale-table-section").find(".remove-button").attr("disabled", "disabled");
+            //         $("#wholesale-table-section").find(".remove-button").last().removeAttr("disabled");
+            //
+            //         // Last max column will always disabled and the rest will be enabled
+            //         $(".w-max").removeAttr("disabled");
+            //         $(".w-max").last().attr("disabled", "disabled");
+            //     } else {
+            //         alert("请填写最后一行的所以信息！");
+            //     }
+            //
+            // });
+
+            // Wholesale first w-min column auto sync
+            // $(".w-min").first().change(function () {
+            //     $(this).parent().parent().first().find("input.w-max").attr("min", $(this).val()); // Set min value for w-max in same row
+            //     $(this).parent().parent().first().find("input.w-price").attr("max", $(".v-price").eq(0).val()); // Set value of first wholesale after w-max is modified from blank (Apply for item without wholesale at first)
+            // });
 
             // Wholesale settings
-            var first = $(".v-price").eq(0).val();
-            var isSame = true;
-            for (var i = 1; i < $(".v-price").length; i++) {
-                if ($(".v-price").eq(i).val() != first) {
-                    isSame = false;
-                    break;
-                }
-            }
+            // var first = $(".v-price").eq(0).val();
+            // var isSame = true;
+            // for (var i = 1; i < $(".v-price").length; i++) {
+            //     if ($(".v-price").eq(i).val() != first) {
+            //         isSame = false;
+            //         break;
+            //     }
+            // }
+            //
+            // if (isSame) {
+            //     $(".wholesale-section").show();
+            // } else {
+            //     $(".wholesale-section").hide();
+            // }
+        // });
 
-            if (isSame) {
-                $(".wholesale-section").show();
-            } else {
-                $(".wholesale-section").hide();
-            }
 
-            // Discount price settings
-            var index = $(".v-price").index(this);
-            $(".v-price").eq(index).parent().parent().find(".v-discounted-price").attr("max", $(this).val());
-        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // For separate image upload
         var selected;
@@ -1460,59 +1588,19 @@
         $(document).ready(function () {
 
             // Retrieve image source to the file input for server submit testing
-            // getImageOriginalSource();
+            getImageOriginalSource();
 
-            // Extra wholesale
-            $("#extra-wholesale-button").on("click", function () {
-                var min = parseInt($("#wholesale-table-section tr").last().find("input.w-min").val());
-                var max = parseInt($("#wholesale-table-section tr").last().find("input.w-max").val()) + 1;
-                var price = $("#wholesale-table-section tr").last().find("input.w-price").val();
-                if (price != "" && min != "" && max != "") {
-                    $("#wholesale-table-section").append(getExtraWholesaleTableRowHTML(getWholesaleCount(), max, price));
 
-                    // Last romove button of wholesale table will always enable and the rest will be disabled
-                    $("#wholesale-table-section").find(".remove-button").attr("disabled", "disabled");
-                    $("#wholesale-table-section").find(".remove-button").last().removeAttr("disabled");
-
-                    // Last max column will always disabled and the rest will be enabled
-                    $(".w-max").removeAttr("disabled");
-                    $(".w-max").last().attr("disabled", "disabled");
-                } else {
-                    alert("请填写最后一行的所以信息！");
-                }
-
-            });
-
-            // Wholesale first w-min column auto sync
-            $(".w-min").first().change(function () {
-                $(this).parent().parent().first().find("input.w-max").attr("min", $(this).val()); // Set min value for w-max in same row
-                $(this).parent().parent().first().find("input.w-price").attr("max", $(".v-price").eq(0).val()); // Set value of first wholesale after w-max is modified from blank (Apply for item without wholesale at first)
-            });
-
-            // Wholesale settings
-            var first = $(".v-price").eq(0).val();
-            var isSame = true;
-            for (var i = 1; i < $(".v-price").length; i++) {
-                if ($(".v-price").eq(i).val() != first) {
-                    isSame = false;
-                    break;
-                }
-            }
-
-            if (isSame) {
-                $(".wholesale-section").show();
-            } else {
-                $(".wholesale-section").hide();
-            }
 
             // For changing "active tag" when scrolling
             // Reference: https://www.steckinsights.com/change-active-menu-as-you-scroll-with-jquery/
             $(window).scroll(function () {
                 var Scroll = $(window).scrollTop();
-                StepOneOffset = $('#step-one').offset().top;
-                StepTwoOffset = $('#step-two').offset().top - 100;
-                // StepThreeOffset = $('#step-three').offset().top - 100;
-                // StepFourOffset = $('#step-four').offset().top - 100;
+                var StepOneOffset = $('#step-one').offset().top;
+                var StepTwoOffset = $('#step-two').offset().top - 100;
+                var StepThreeOffset = $('#step-three').offset().top - 100;
+                var StepFourOffset = $('#step-four').offset().top - 100;
+                var StepFiveOffset = $('#step-five').offset().top - 100;
 
                 if (Scroll < StepTwoOffset) {
                     $("#step-one-link").addClass("active");
@@ -1526,20 +1614,27 @@
                 } else {
                     $("#step-two-link").removeClass("active");
                 }
-                //
-                // if (Scroll >= StepThreeOffset) {
-                //     $("#step-three-link").addClass("active");
-                //     $("#step-two-link").removeClass("active");
-                // } else {
-                //     $("#step-three-link").removeClass("active");
-                // }
-                //
-                // if (Scroll >= StepFourOffset) {
-                //     $("#step-two-link").addClass("active");
-                //     $("#step-three-link").removeClass("active");
-                // } else {
-                //     $("#step-four-link").removeClass("active");
-                // }
+
+                if (Scroll >= StepThreeOffset) {
+                    $("#step-three-link").addClass("active");
+                    $("#step-two-link").removeClass("active");
+                } else {
+                    $("#step-three-link").removeClass("active");
+                }
+
+                if (Scroll >= StepFourOffset) {
+                    $("#step-four-link").addClass("active");
+                    $("#step-three-link").removeClass("active");
+                } else {
+                    $("#step-four-link").removeClass("active");
+                }
+
+                if (Scroll >= StepFiveOffset) {
+                    $("#step-five-link").addClass("active");
+                    $("#step-four-link").removeClass("active");
+                } else {
+                    $("#step-five-link").removeClass("active");
+                }
             });
 
         });
