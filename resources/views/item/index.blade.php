@@ -17,7 +17,7 @@
                 <div class="col">
                     <div class="row mb-2">
                         <div class="col-12 text-right">
-                            <a href="{{ url('/item/create') }}">
+                            <a href="#">
                                 <i class="icofont icofont-ui-add"></i> 添加商品
                             </a>
                         </div>
@@ -28,7 +28,8 @@
                                    class="form-control form-control-sm m-0"
                                    maxlength="20"
                                    placeholder="搜索名称、货号、规格、出产地、品牌、商品描述"
-                                   value="{{ isset($_GET["search"]) ? $_GET["search"] : "" }}">
+                                   value="{{ isset($_GET["search"]) ? $_GET["search"] : "" }}"
+                                   disabled>
                         </div>
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-sm m-0 w-100" disabled>
@@ -57,7 +58,7 @@
             @foreach($items as $item)
                 <tr>
                     <td>
-                        <a href="{{ url('/item/' . $item->id) }}">{{ $item->name }}</a>
+                        <a href="#">{{ $item->name }}</a>
                     </td>
                     <td>
                         @foreach($item->variations as $variation)
@@ -82,7 +83,15 @@
                         {{ $item->util->sold ?? 0 }}
                     </td>
                     <td>
-                        <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">编辑</a>
+                        <a href="#" class="btn btn-secondary btn-sm mb-1">
+                            <i class="icofont icofont-basket"></i> {{ $item->util->is_listed == '1' ? "下架" : "上架" }}
+                        </a><br>
+                        <a href="#" class="btn btn-secondary btn-sm mb-1">
+                            <i class="icofont icofont-ui-edit"></i> 编辑
+                        </a><br>
+                        <a href="#" class="btn btn-secondary btn-sm mb-1">
+                            <i class="icofont icofont-ui-delete"></i> 删除
+                        </a><br>
                     </td>
                 </tr>
             @endforeach
