@@ -254,7 +254,7 @@
                                     <input type="hidden" value="1" id="currentCategoryCount">
                                     <div class="row category-item">
                                         <div class="col-11 mb-1 mr-0 pr-0">
-                                            <select class="form-control" name="categories[{{$i}}][id]">
+                                            <select class="form-control" name="categories[0][id]">
                                                 @foreach($categories as $category)
                                                     <option value="{{ $category->id }}">
                                                         {{ $category->name . ' ' . $category->name_en }}
@@ -721,7 +721,7 @@
                                                 <img class="img-fluid image-preview w-100"
                                                      src="{{ asset('img/alt/image-upload-alt.png') }}"
                                                      alt="基本照片">
-                                                <input type="hidden" name="oldImages[{{$i}}]" value="">
+                                                <input type="hidden" name="oldImages[0]" value="">
                                                 <div class="img-upload-overlay">
                                                     <div class="img-upload-overlay-icon edit-img-button"
                                                          title="Upload Image"
@@ -838,7 +838,7 @@
                                 <td>
                                     <input type="text"
                                            class="form-control form-control-sm"
-                                           value="{{ $item->util->view_count }}"
+                                           value="{{ $item->util->view_count ?? 0 }}"
                                            disabled>
                                 </td>
                                 <td>
