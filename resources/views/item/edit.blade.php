@@ -59,10 +59,9 @@
 
 @section('content')
     <main class="container">
-
-        <!-- Page content with row class -->
         <div class="row">
 
+            <!-- Content -->
             <div class="col-sm-12 col-md-10">
                 <form action="{{ url('/item/' . $item->id . '/edit') }}" method="post" enctype="multipart/form-data">
 
@@ -72,70 +71,38 @@
 
                     <div class="h2" id="step-one">基本资讯</div>
 
+                    <!-- Name -->
                     <div class="row">
-                        <!-- Name -->
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                    <label for="name">商品名称：</label>
-                                </div>
-
-                                <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12 pr-md-1">
-                                            <input type="text"
-                                                   class="form-control @error('name') is-invalid @enderror"
-                                                   name="name"
-                                                   aria-describedby="name"
-                                                   maxlength="250"
-                                                   value="{{ old('name') ?? $item->name ?? "" }}"
-                                                   placeholder="华文"
-                                            >
-
-                                            @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-12 pl-md-1">
-                                            <input type="text"
-                                                   class="form-control @error('name_en') is-invalid @enderror"
-                                                   name="name_en"
-                                                   aria-describedby="name_en"
-                                                   maxlength="250"
-                                                   value="{{ old('name_en') ?? $item->name_en ?? "" }}"
-                                                   placeholder="英文"
-                                            >
-
-                                            @error('name_en')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
+                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                            商品名称：
                         </div>
-                        <!-- Name -->
 
-                        <!-- Description -->
-                        <div class="col-12">
+                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                             <div class="row">
-                                <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                    <label for="desc">商品描述：</label>
+                                <div class="col-md-6 col-sm-12 pr-md-1">
+                                    <input type="text"
+                                           class="form-control @error('item.name') is-invalid @enderror"
+                                           name="item[name]"
+                                           maxlength="250"
+                                           value="{{ old('item.name') ?? $item->name ?? "" }}"
+                                           placeholder="华文">
+
+                                    @error('item.name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
 
-                                <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
-                                    <textarea class="form-control @error('desc') is-invalid @enderror" name="desc"
-                                              aria-describedby="desc" rows="5"
-                                              maxlength="3000">{{ old('desc') ?? $item->desc ?? "" }}</textarea>
+                                <div class="col-md-6 col-sm-12 pl-md-1">
+                                    <input type="text"
+                                           class="form-control @error('item.name_en') is-invalid @enderror"
+                                           name="item[name_en]"
+                                           maxlength="250"
+                                           value="{{ old('name_en') ?? $item->name_en ?? "" }}"
+                                           placeholder="英文">
 
-                                    @error('desc')
+                                    @error('item.name_en')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -143,414 +110,322 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Description -->
+                    </div>
+                    <!-- Name -->
 
-                        <!-- Origin -->
-                        <div class="col-12">
+                    <!-- Description -->
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                            商品描述：
+                        </div>
+
+                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3">
+                            <textarea class="form-control @error('item.desc') is-invalid @enderror"
+                                      name="item[desc]"
+                                      rows="5"
+                                      maxlength="3000">{{ old('item.desc') ?? $item->desc ?? "" }}</textarea>
+
+                            @error('item.desc')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- Description -->
+
+                    <!-- Origin -->
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                            出产地：
+                        </div>
+
+                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+
                             <div class="row">
-                                <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                    <label for="origin">出产地：</label>
+                                <div class="col-md-6 col-sm-12 pr-md-1">
+                                    <input type="text"
+                                           class="form-control @error('item.origin') is-invalid @enderror"
+                                           name="item[origin]"
+                                           value="{{ old('item.origin') ?? $item->origin ?? "" }}"
+                                           placeholder="华文">
+
+                                    @error('item.origin')
+                                    <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                    @enderror
                                 </div>
 
-                                <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                                <div class="col-md-6 col-sm-12 pl-md-1">
+                                    <input type="text"
+                                           class="form-control @error('item.origin_en') is-invalid @enderror"
+                                           name="item[origin_en]"
+                                           value="{{ old('item.origin_en') ?? $item->origin_en ?? "" }}"
+                                           placeholder="英文">
 
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12 pr-md-1">
-                                            <input type="text"
-                                                   class="form-control @error('origin') is-invalid @enderror"
-                                                   name="origin"
-                                                   aria-describedby="origin"
-                                                   value="{{ old('origin') ?? $item->origin ?? "" }}"
-                                                   placeholder="华文"
-                                            >
-
-                                            @error('origin')
-                                            <span class="invalid-feedback" role="alert">
+                                    @error('item.origin_en')
+                                    <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-12 pl-md-1">
-                                            <input type="text"
-                                                   class="form-control @error('origin_en') is-invalid @enderror"
-                                                   name="origin_en"
-                                                   aria-describedby="origin_en"
-                                                   value="{{ old('origin_en') ?? $item->origin_en ?? "" }}"
-                                                   placeholder="英文"
-                                            >
-
-                                            @error('origin_en')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <!-- Origin -->
+                    </div>
+                    <!-- Origin -->
 
-                        <!-- Brand -->
-                        <div class="col-12">
+                    <!-- Brand -->
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                            商品品牌：
+                        </div>
+
+                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                             <div class="row">
-                                <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                    <label for="brand">商品品牌：</label>
+                                <div class="col-md-6 col-sm-12 pr-md-1">
+                                    <input type="text"
+                                           class="form-control @error('item.brand') is-invalid @enderror"
+                                           name="item[brand]"
+                                           value="{{ old('item.brand') ?? $item->brand ?? "" }}"
+                                           placeholder="华文">
+
+                                    @error('item.brand')
+                                    <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                    @enderror
                                 </div>
 
-                                <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12 pr-md-1">
-                                            <input type="text"
-                                                   class="form-control @error('brand') is-invalid @enderror"
-                                                   name="brand"
-                                                   aria-describedby="brand"
-                                                   value="{{ old('brand') ?? $item->brand ?? "" }}"
-                                                   placeholder="华文"
-                                            >
+                                <div class="col-md-6 col-sm-12 pl-md-1">
+                                    <input type="text"
+                                           class="form-control @error('item.brand_en') is-invalid @enderror"
+                                           name="item[brand_en]"
+                                           value="{{ old('item.brand_en') ?? $item->brand_en ?? "" }}"
+                                           placeholder="英文">
 
-                                            @error('brand')
-                                            <span class="invalid-feedback" role="alert">
+                                    @error('item.brand_en')
+                                    <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-12 pl-md-1">
-                                            <input type="text"
-                                                   class="form-control @error('brand_en') is-invalid @enderror"
-                                                   name="brand_en"
-                                                   aria-describedby="brand_en"
-                                                   value="{{ old('brand_en') ?? $item->brand_en ?? "" }}"
-                                                   placeholder="英文"
-                                            >
-
-                                            @error('brand_en')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
+                                    @enderror
                                 </div>
                             </div>
+
                         </div>
-                        <!-- Brand -->
+                    </div>
+                    <!-- Brand -->
 
-                        <!-- Category -->
-                        <div class="col-12">
-                            <!-- Current category list -->
-                            <datalist id="category-list">
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->name }}">{{ $category->name }}</option>
-                                @endforeach
-                            </datalist>
-                            <!-- Current category list -->
+                    <!-- Category -->
+                    <div class="row mb-3">
+                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                            商品类别/标签：
+                        </div>
 
-                            <!-- Category field -->
-                            <div class="row">
-                                <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                    <label for="categories">商品类别/标签：</label>
-                                </div>
+                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                            <div id="category-section">
 
-                                <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
-                                    <div id="category-section">
-                                        @if(!empty(old('categories')))
-                                            <input type="hidden" value="{{ sizeof(old('categories')) }}"
-                                                   id="currentCategoryCount">
-                                            @for($i = 0; $i < sizeof(old('categories')); $i++)
-                                                <div class="row category-item">
-                                                    <div class="col-11 mb-1 mr-0 pr-0">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-sm-12 pr-md-1">
-                                                                <input type="text"
-                                                                       class="form-control @error('categories.' . $i . '.name') is-invalid @enderror"
-                                                                       name="categories[{{$i}}][name]"
-                                                                       aria-describedby="categories"
-                                                                       list="category-list"
-                                                                       maxlength="20"
-                                                                       placeholder="中文"
-                                                                       value="{{ old('categories.' . $i . '.name') ?? "" }}"
-                                                                >
-
-                                                                @error('categories.' . $i . '.name')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                                @enderror
-                                                            </div>
-
-                                                            <div class="col-md-6 col-sm-12 pl-md-1">
-                                                                <input type="text"
-                                                                       class="form-control @error('categories.' . $i . '.name_en') is-invalid @enderror"
-                                                                       name="categories[{{$i}}][name_en]"
-                                                                       aria-describedby="categories"
-                                                                       list="category-list"
-                                                                       maxlength="20"
-                                                                       placeholder="英文"
-                                                                       value="{{ old('categories.' . $i . '.name_en') ?? "" }}"
-                                                                >
-
-                                                                @error('categories.' . $i . '.name_en')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-1 mb-1 ml-0 pl-0">
-                                                        <button type="button"
-                                                                class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
-                                                            X
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            @endfor
-                                        @elseif(!empty($item->categories->toArray()))
-                                            <input type="hidden" value="{{ sizeof($item->categories) }}"
-                                                   id="currentCategoryCount">
-                                            @for($i = 0; $i < sizeof($item->categories); $i++)
-                                                <div class="row category-item">
-                                                    <div class="col-11 mb-1 mr-0 pr-0">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-sm-12 pr-md-1">
-                                                                <input type="text"
-                                                                       class="form-control"
-                                                                       name="categories[{{$i}}][name]"
-                                                                       aria-describedby="categories"
-                                                                       list="category-list"
-                                                                       maxlength="20"
-                                                                       placeholder="中文"
-                                                                       value="{{ $item->categories[$i]->name ?? "" }}"
-                                                                >
-                                                            </div>
-
-                                                            <div class="col-md-6 col-sm-12 pl-md-1">
-                                                                <input type="text"
-                                                                       class="form-control"
-                                                                       name="categories[{{$i}}][name_en]"
-                                                                       aria-describedby="categories"
-                                                                       list="category-list"
-                                                                       maxlength="20"
-                                                                       placeholder="英文"
-                                                                       value="{{ $item->categories[$i]->name_en ?? "" }}"
-                                                                >
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-1 mb-1 ml-0 pl-0">
-                                                        <button type="button"
-                                                                class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
-                                                            X
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            @endfor
-                                        @else
-                                            <input type="hidden" value="1" id="currentCategoryCount">
-                                            <div class="row category-item">
-                                                <div class="col-11 mb-1 mr-0 pr-0">
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-sm-12 pr-md-1">z
-                                                            <input type="text"
-                                                                   class="form-control"
-                                                                   name="categories[name][0]"
-                                                                   aria-describedby="categories"
-                                                                   list="category-list"
-                                                                   maxlength="20"
-                                                                   placeholder="中文"
-                                                            >
-                                                        </div>
-
-                                                        <div class="col-md-6 col-sm-12 pl-md-1">
-                                                            <input type="text"
-                                                                   class="form-control"
-                                                                   name="categories[name_en][0]"
-                                                                   aria-describedby="categories"
-                                                                   list="category-list"
-                                                                   maxlength="20"
-                                                                   placeholder="英文"
-                                                            >
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-1 mb-1 ml-0 pl-0">
-                                                    <button type="button"
-                                                            class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
-                                                        X
-                                                    </button>
-                                                </div>
+                                @if(!empty($item->categories->toArray()))
+                                    <input type="hidden"
+                                           value="{{ sizeof($item->categories) }}"
+                                           id="currentCategoryCount">
+                                    @for($i = 0; $i < sizeof($item->categories); $i++)
+                                        <div class="row category-item">
+                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                                <select class="form-control" name="categories[{{$i}}][id]">
+                                                    @foreach($categories as $category)
+                                                        <option
+                                                            value="{{ $category->id }}" {{ $item->categories[$i]->id == $category->id ? "selected" : "" }}>
+                                                            {{ $category->name . ' ' . $category->name_en }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        @endif
 
+                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                                <button type="button"
+                                                        class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                                                    X
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                @else
+                                    <input type="hidden" value="1" id="currentCategoryCount">
+                                    <div class="row category-item">
+                                        <div class="col-11 mb-1 mr-0 pr-0">
+                                            <select class="form-control" name="categories[{{$i}}][id]">
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}">
+                                                        {{ $category->name . ' ' . $category->name_en }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-1 mb-1 ml-0 pl-0">
+                                            <button type="button"
+                                                    class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                                                X
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+
                             </div>
                         </div>
-                        <!-- Category -->
 
-                        <!-- Add extra category button -->
                         <div class="col-12 text-center">
                             <button type="button" class="btn btn-secondary" id="extra-category-button">
                                 添加更多类别/标签
                             </button>
                         </div>
-                        <!-- Add extra category button -->
+                    </div>
+                    <!-- Category -->
 
-                        <div class="h2" id="step-two">规格资讯</div>
+                    <div class="h2" id="step-two">规格资讯</div>
 
-                        <!-- Variation Name -->
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                    <label for="variations">规格：</label>
-                                </div>
+                    <!-- Variation Name -->
+                    <div class="row mb-3">
+                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                            规格：
+                        </div>
 
-                                <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
-                                    <div id="variation-section">
-                                        @if(!empty(old('variations')))
-                                            <input type="hidden"
-                                                   value="{{ sizeof(old('variations')) }}"
-                                                   id="currentVariationCount"
-                                            >
+                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                            <div id="variation-section">
+                                @if(!empty(old('variations')))
+                                    <input type="hidden"
+                                           value="{{ sizeof(old('variations')) }}"
+                                           id="currentVariationCount">
 
-                                            @for($i = 0; $i < sizeof($item->variations); $i++)
-                                                <div class="row variation-item">
-                                                    <div class="col-11 mb-1 mr-0 pr-0">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-sm-12 pr-md-1">
-                                                                <input type="text"
-                                                                       class="form-control variation-name @error('variations.' . $i . '.name1') is-invalid @enderror"
-                                                                       name="variations[{{ $i }}][name1]"
-                                                                       aria-describedby="variations"
-                                                                       maxlength="100"
-                                                                       value="{{ old('variations.' . $i . '.name1') ?? "" }}"
-                                                                >
+                                    @for($i = 0; $i < sizeof($item->variations); $i++)
+                                        <div class="row variation-item">
+                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-12 pr-md-1">
+                                                        <input type="text"
+                                                               class="form-control variation-name @error('variations.' . $i . '.name1') is-invalid @enderror"
+                                                               name="variations[{{ $i }}][name1]"
+                                                               aria-describedby="variations"
+                                                               maxlength="100"
+                                                               value="{{ old('variations.' . $i . '.name1') ?? "" }}"
+                                                               placeholder="规格名称1">
 
-                                                                @error('variations.' . $i . '.name1')
-                                                                <span class="invalid-feedback" role="alert">
+                                                        @error('variations.' . $i . '.name1')
+                                                        <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-12 pl-md-1">
-                                                                <input type="text"
-                                                                       class="form-control variation-name @error('variations.' . $i . '.name2') is-invalid @enderror"
-                                                                       name="variations[{{ $i }}][name2]"
-                                                                       aria-describedby="variations" maxlength="100"
-                                                                       value="{{ old('variations.' . $i . '.name2') ?? "" }}"
-                                                                >
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12 pl-md-1">
+                                                        <input type="text"
+                                                               class="form-control variation-name @error('variations.' . $i . '.name2') is-invalid @enderror"
+                                                               name="variations[{{ $i }}][name2]"
+                                                               aria-describedby="variations" maxlength="100"
+                                                               value="{{ old('variations.' . $i . '.name2') ?? "" }}"
+                                                               placeholder="规格名称2">
 
-                                                                @error('variations.' . $i . '.name2')
-                                                                <span class="invalid-feedback" role="alert">
+                                                        @error('variations.' . $i . '.name2')
+                                                        <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
+                                                        @enderror
                                                     </div>
-                                                    <div class="col-1 mb-1 ml-0 pl-0">
-                                                        <button type="button"
-                                                                class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
-                                                            X
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            @endfor
-                                        @elseif(!empty($item->variations->toArray()))
-                                            <input type="hidden"
-                                                   value="{{ sizeof($item->variations) }}"
-                                                   id="currentVariationCount"
-                                            >
-                                            @for($i = 0; $i < sizeof($item->variations); $i++)
-                                                <div class="row variation-item">
-                                                    <div class="col-11 mb-1 mr-0 pr-0">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-sm-12 pr-md-1">
-                                                                <input type="text"
-                                                                       class="form-control variation-name"
-                                                                       name="variations[{{ $i }}][name1]"
-                                                                       aria-describedby="variations"
-                                                                       maxlength="100"
-                                                                       value="{{ $item->variations[$i]->name1 ?? "" }}"
-                                                                >
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-12 pl-md-1">
-                                                                <input type="text"
-                                                                       class="form-control variation-name"
-                                                                       name="variations[{{ $i }}][name2]"
-                                                                       aria-describedby="variations"
-                                                                       maxlength="100"
-                                                                       value="{{ $item->variations[$i]->name2 ?? "" }}"
-                                                                >
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-1 mb-1 ml-0 pl-0">
-                                                        <button type="button"
-                                                                class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
-                                                            X
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            @endfor
-                                        @else
-                                            <input type="hidden" value="1" id="currentVariationCount">
-                                            <div class="row variation-item">
-                                                <div class="col-11 mb-1 mr-0 pr-0">
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-sm-12 pr-md-1">
-                                                            <input type="text"
-                                                                   class="form-control variation-name"
-                                                                   name="variations[0][name1]"
-                                                                   aria-describedby="variations"
-                                                                   maxlength="100"
-                                                            >
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-12 pl-md-1">
-                                                            <input type="text"
-                                                                   class="form-control variation-name"
-                                                                   name="variations[0][name2]"
-                                                                   aria-describedby="variations"
-                                                                   maxlength="100"
-                                                            >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-1 mb-1 ml-0 pl-0">
-                                                    <button type="button"
-                                                            class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
-                                                        X
-                                                    </button>
                                                 </div>
                                             </div>
-                                        @endif
+                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                                <button type="button"
+                                                        class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                    X
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                @elseif(!empty($item->variations->toArray()))
+                                    <input type="hidden"
+                                           value="{{ sizeof($item->variations) }}"
+                                           id="currentVariationCount"
+                                    >
+                                    @for($i = 0; $i < sizeof($item->variations); $i++)
+                                        <div class="row variation-item">
+                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-12 pr-md-1">
+                                                        <input type="text"
+                                                               class="form-control variation-name"
+                                                               name="variations[{{ $i }}][name1]"
+                                                               aria-describedby="variations"
+                                                               maxlength="100"
+                                                               value="{{ $item->variations[$i]->name1 ?? "" }}"
+                                                               placeholder="规格名称1">
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12 pl-md-1">
+                                                        <input type="text"
+                                                               class="form-control variation-name"
+                                                               name="variations[{{ $i }}][name2]"
+                                                               aria-describedby="variations"
+                                                               maxlength="100"
+                                                               value="{{ $item->variations[$i]->name2 ?? "" }}"
+                                                               placeholder="规格名称2">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                                <button type="button"
+                                                        class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                    X
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                @else
+                                    <input type="hidden" value="1" id="currentVariationCount">
+                                    <div class="row variation-item">
+                                        <div class="col-11 mb-1 mr-0 pr-0">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12 pr-md-1">
+                                                    <input type="text"
+                                                           class="form-control variation-name"
+                                                           name="variations[0][name1]"
+                                                           aria-describedby="variations"
+                                                           maxlength="100"
+                                                           placeholder="规格名称1">
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 pl-md-1">
+                                                    <input type="text"
+                                                           class="form-control variation-name"
+                                                           name="variations[0][name2]"
+                                                           aria-describedby="variations"
+                                                           maxlength="100"
+                                                           placeholder="规格名称2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-1 mb-1 ml-0 pl-0">
+                                            <button type="button"
+                                                    class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                X
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
-                        <!-- Variation Name -->
 
-                        <!-- Add extra variation button -->
                         <div class="col-12 text-center">
                             <button type="button" class="btn btn-secondary mb-3" id="extra-variation-button">
                                 添加更多规格
                             </button>
                         </div>
-                        <!-- Add extra variation button -->
+                    </div>
+                    <!-- Variation Name -->
 
-                        <!-- Variation Detail -->
+                    <!-- Variation Detail -->
+                    <div class="row mb-3">
                         <div class="col-12">
-                            <label for="variations">规格销售</label>
+                            规格销售
                         </div>
-                        <div class="col-12 mb-3">
+                        <div class="col-12">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -569,32 +444,28 @@
                                                 <input type="text"
                                                        class="form-control variation-table-variation-name-display"
                                                        value="{{ (old("variation.$i.name1") ?? "") . (old("variation.$i.name2") ?? "") }}"
-                                                       disabled
-                                                >
+                                                       disabled>
                                             </td>
                                             <td>
                                                 <input type="text"
                                                        class="form-control"
                                                        name="variations[{{ $i }}][barcode]"
                                                        maxlength="20"
-                                                       value="{{ old('variations.' . $i . '.barcode') ?? $item->variations[$i]->barcode ?? "" }}"
-                                                >
+                                                       value="{{ old('variations.' . $i . '.barcode') ?? $item->variations[$i]->barcode ?? "" }}">
                                             </td>
                                             <td><input type="number"
                                                        step="0.01"
                                                        min="0"
                                                        class="form-control variation-price-display"
                                                        name="variations[{{ $i }}][price]"
-                                                       value="{{ old('variations.' . $i . '.price') ?? number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}"
-                                                >
+                                                       value="{{ old('variations.' . $i . '.price') ?? number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}">
                                             </td>
                                             <td><input type="number"
                                                        step="0.001"
                                                        min="0"
                                                        class="form-control"
                                                        name="variations[{{ $i }}][weight]"
-                                                       value="{{ old('variations.' . $i . '.weight') ?? number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}"
-                                                >
+                                                       value="{{ old('variations.' . $i . '.weight') ?? number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}">
                                             </td>
                                         </tr>
                                     @endfor
@@ -640,40 +511,38 @@
                                         <td>
                                             <input type="text"
                                                    class="form-control variation-table-variation-name-display"
-                                                   disabled
-                                            >
+                                                   disabled>
                                         </td>
                                         <td>
                                             <input type="text"
                                                    class="form-control"
                                                    name="variations[0][barcode]"
-                                                   maxlength="20"
-                                            >
+                                                   maxlength="20">
                                         </td>
                                         <td><input type="number"
                                                    step="0.01"
                                                    min="0"
                                                    class="form-control variation-price-display"
-                                                   name="variations[0][price]"
-                                            >
+                                                   name="variations[0][price]">
                                         </td>
                                         <td><input type="number"
                                                    step="0.001"
                                                    min="0"
                                                    class="form-control"
-                                                   name="variations[0][weight]"
-                                            >
+                                                   name="variations[0][weight]">
                                         </td>
                                     </tr>
                                 @endif
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Variation Detail -->
+                    </div>
+                    <!-- Variation Detail -->
 
-                        <!-- Inventory -->
+                    <!-- Inventory -->
+                    <div class="row mb-3">
                         <div class="col-12">
-                            <label for="inventories">规格库存</label>
+                            规格库存
                         </div>
                         <div class="col-12 mb-3">
                             <table class="table table-bordered">
@@ -692,16 +561,14 @@
                                                 <input type="text"
                                                        class="form-control inventory-table-variation-name-display"
                                                        value="{{ (old("variation.$i.name1") ?? "") . (old("variation.$i.name2") ?? "") }}"
-                                                       disabled
-                                                >
+                                                       disabled>
                                             </td>
                                             <td>
                                                 <input type="number"
                                                        min="0"
                                                        class="form-control"
-                                                       name="variations[{{$i}}][inventories][0][stock]"
-                                                       value="{{ old("variations.$i.inventories.0.stock") ?? 0 }}"
-                                                >
+                                                       name="inventories[{{$i}}][0][stock]"
+                                                       value="{{ old("inventories.$i.0.stock") ?? 0 }}">
                                             </td>
                                         </tr>
                                     @endfor
@@ -712,16 +579,14 @@
                                                 <input type="text"
                                                        class="form-control inventory-table-variation-name-display"
                                                        value="{{ $item->variations[$i]->name1 . $item->variations[$i]->name2 ?? "" }}"
-                                                       disabled
-                                                >
+                                                       disabled>
                                             </td>
                                             <td>
                                                 <input type="number"
                                                        min="0"
                                                        class="form-control"
-                                                       name="variations[{{$i}}][inventories][0][stock]"
-                                                       value="{{ $item->variations[$i]->inventories->toArray()[0]['stock'] ?? 0 }}"
-                                                >
+                                                       name="inventories[{{$i}}][0][stock]"
+                                                       value="{{ $item->variations[$i]->inventories->toArray()[0]['stock'] ?? 0 }}">
                                             </td>
                                         </tr>
                                     @endfor
@@ -730,137 +595,142 @@
                                         <td>
                                             <input type="text"
                                                    class="form-control inventory-table-variation-name-display"
-                                                   disabled
-                                            >
+                                                   disabled>
                                         </td>
                                         <td>
                                             <input type="number"
                                                    min="0"
                                                    class="form-control"
-                                                   name="variations[0][inventories][0][stock]"
-                                            >
+                                                   name="inventories[0][0][stock]">
                                         </td>
                                     </tr>
                                 @endif
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Inventory -->
+                    </div>
+                    <!-- Inventory -->
 
+                    <div class="h2" id="step-three">折扣管理</div>
 
-                        <div class="h2" id="step-three">折扣管理</div>
+                    <div class="row mb-3">
+                        <div class="col-12 text-center">Under Maintenance</div>
+                    </div>
+                    <!-- Variation discount -->
+                {{--                    <div class="row mb-3">--}}
+                {{--                        <div class="col-12">--}}
+                {{--                            <label>规格折扣</label>--}}
+                {{--                        </div>--}}
+                {{--                        <div class="col-12 mb-3">--}}
+                {{--                            <table class="table table-bordered">--}}
+                {{--                                <thead>--}}
+                {{--                                <tr>--}}
+                {{--                                    <th scope="col">规格名称</th>--}}
+                {{--                                    <th scope="col">开始日期</th>--}}
+                {{--                                    <th scope="col">结束日期</th>--}}
+                {{--                                    <th scope="col">折扣价钱</th>--}}
+                {{--                                </tr>--}}
+                {{--                                </thead>--}}
+                {{--                                <tbody id="variation-discount-table-section">--}}
 
-                        <!-- Variation discount -->
+                {{--                                </tbody>--}}
+                {{--                            </table>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                <!-- Variation discount -->
+
+                    <!-- Wholesale discount -->
+                {{--                        <div class="row">--}}
+                {{--                        <div class="col-12 wholesale-section">--}}
+                {{--                            <label>批发价</label>--}}
+                {{--                        </div>--}}
+                {{--                        <div class="col-12 mb-3 wholesale-section" style="overflow-x: scroll;">--}}
+                {{--                            <table class="table table-bordered">--}}
+                {{--                                <thead>--}}
+                {{--                                <tr>--}}
+                {{--                                    <th scope="col">开始数量</th>--}}
+                {{--                                    <th scope="col">结束数量</th>--}}
+                {{--                                    <th scope="col">价格(RM)</th>--}}
+                {{--                                    <th scope="col">操作</th>--}}
+                {{--                                </tr>--}}
+                {{--                                </thead>--}}
+
+                {{--                                <tbody id="wholesale-table-section">--}}
+                {{--                                <tr>--}}
+                {{--                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[0][w_min]"--}}
+                {{--                                               aria-describedby="w-min"/></td>--}}
+                {{--                                    <td><input type="number" class="form-control mb-1 w-max" min="1" name="w[0][w_max]"--}}
+                {{--                                               aria-describedby="w-max" disabled/></td>--}}
+                {{--                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01"--}}
+                {{--                                               name="w[0][w_price]" aria-describedby="w-price"/></td>--}}
+                {{--                                    <td>--}}
+                {{--                                        <button type="button"--}}
+                {{--                                                class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1">--}}
+                {{--                                            X--}}
+                {{--                                        </button>--}}
+                {{--                                    </td>--}}
+                {{--                                </tr>--}}
+                {{--                                <?php $wholesaleCount = sizeof($item->getWholesales()); ?>--}}
+                {{--                                <?php if ($wholesaleCount == 0) : ?>--}}
+                {{--                                <?php else : ?>--}}
+                {{--                                <?php $maxPrice = $item->getVarieties()[0]->getPrice(); ?>--}}
+                {{--                                <?php for($i = 0; $i < $wholesaleCount; $i++) : ?>--}}
+                {{--                                <?php $discountedPrice = number_format($item->getVarieties()[0]->getPrice() * $item->getWholesales()[$i]->getDiscountRate(), 2, '.', ''); ?>--}}
+                {{--                                <tr>--}}
+                {{--                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[<?= $i; ?>][w_min]" aria-describedby="w-min" value="<?= $item->getWholesales()[$i]->getMin(); ?>" <?= $i != 0 ? "disabled" : ""; ?>/></td>--}}
+                {{--                                    <td><input type="number" class="form-control mb-1 w-max" min="<?= $item->getWholesales()[$i]->getMin(); ?>" name="w[<?= $i; ?>][w_max]" aria-describedby="w-max" value="<?= $item->getWholesales()[$i]->getMax(); ?>" <?= ($i == ($wholesaleCount - 1)) ? "disabled" : ""; ?>/></td>--}}
+                {{--                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01" max="<?= $maxPrice ?>" name="w[<?= $i; ?>][w_price]" aria-describedby="w-price" value="<?= $discountedPrice ?>"/></td>--}}
+                {{--                                    <td><button type="button" class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1" <?= $i != $wholesaleCount - 1 ? "disabled" : ""; ?>>X</button></td>--}}
+                {{--                                </tr>--}}
+                {{--                                <?php $maxPrice = $discountedPrice; ?>--}}
+                {{--                                <?php endfor; ?>--}}
+                {{--                                <?php endif; ?>--}}
+                {{--                                </tbody>--}}
+                {{--                            </table>--}}
+                {{--                            <!-- Add extra wholesales button -->--}}
+                {{--                            <div class="text-center">--}}
+                {{--                                <button type="button" class="btn btn-secondary mt-1" id="extra-wholesale-button">--}}
+                {{--                                    添加更多批发价--}}
+                {{--                                </button>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+
+                <!-- Wholesale discount -->
+
+                    <div class="h2" id="step-four">媒体管理</div>
+
+                    <!-- General item image -->
+                    <div class="row mb-3">
                         <div class="col-12">
-                            <label>规格折扣</label>
+                            基本照片
+                            <span class="ml-2">
+                                <i class="icofont icofont-ui-add" id="add-general-image-button"></i>
+                            </span>
                         </div>
-                        <div class="col-12 mb-3">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th scope="col">规格名称</th>
-                                    <th scope="col">开始日期</th>
-                                    <th scope="col">结束日期</th>
-                                    <th scope="col">折扣价钱</th>
-                                </tr>
-                                </thead>
-                                <tbody id="variation-discount-table-section">
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- Variation discount -->
-
-
-                        <!-- Wholesale discount -->
-                        {{--                        <div class="col-12 wholesale-section">--}}
-                        {{--                            <label>批发价</label>--}}
-                        {{--                        </div>--}}
-                        {{--                        <div class="col-12 mb-3 wholesale-section" style="overflow-x: scroll;">--}}
-                        {{--                            <table class="table table-bordered">--}}
-                        {{--                                <thead>--}}
-                        {{--                                <tr>--}}
-                        {{--                                    <th scope="col">开始数量</th>--}}
-                        {{--                                    <th scope="col">结束数量</th>--}}
-                        {{--                                    <th scope="col">价格(RM)</th>--}}
-                        {{--                                    <th scope="col">操作</th>--}}
-                        {{--                                </tr>--}}
-                        {{--                                </thead>--}}
-
-                        {{--                                <tbody id="wholesale-table-section">--}}
-                        {{--                                <tr>--}}
-                        {{--                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[0][w_min]"--}}
-                        {{--                                               aria-describedby="w-min"/></td>--}}
-                        {{--                                    <td><input type="number" class="form-control mb-1 w-max" min="1" name="w[0][w_max]"--}}
-                        {{--                                               aria-describedby="w-max" disabled/></td>--}}
-                        {{--                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01"--}}
-                        {{--                                               name="w[0][w_price]" aria-describedby="w-price"/></td>--}}
-                        {{--                                    <td>--}}
-                        {{--                                        <button type="button"--}}
-                        {{--                                                class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1">--}}
-                        {{--                                            X--}}
-                        {{--                                        </button>--}}
-                        {{--                                    </td>--}}
-                        {{--                                </tr>--}}
-                        {{--                                <?php $wholesaleCount = sizeof($item->getWholesales()); ?>--}}
-                        {{--                                <?php if ($wholesaleCount == 0) : ?>--}}
-                        {{--                                <?php else : ?>--}}
-                        {{--                                <?php $maxPrice = $item->getVarieties()[0]->getPrice(); ?>--}}
-                        {{--                                <?php for($i = 0; $i < $wholesaleCount; $i++) : ?>--}}
-                        {{--                                <?php $discountedPrice = number_format($item->getVarieties()[0]->getPrice() * $item->getWholesales()[$i]->getDiscountRate(), 2, '.', ''); ?>--}}
-                        {{--                                <tr>--}}
-                        {{--                                    <td><input type="number" class="form-control mb-1 w-min" min="1" name="w[<?= $i; ?>][w_min]" aria-describedby="w-min" value="<?= $item->getWholesales()[$i]->getMin(); ?>" <?= $i != 0 ? "disabled" : ""; ?>/></td>--}}
-                        {{--                                    <td><input type="number" class="form-control mb-1 w-max" min="<?= $item->getWholesales()[$i]->getMin(); ?>" name="w[<?= $i; ?>][w_max]" aria-describedby="w-max" value="<?= $item->getWholesales()[$i]->getMax(); ?>" <?= ($i == ($wholesaleCount - 1)) ? "disabled" : ""; ?>/></td>--}}
-                        {{--                                    <td><input type="number" class="form-control mb-1 w-price" step="0.01" min="0.01" max="<?= $maxPrice ?>" name="w[<?= $i; ?>][w_price]" aria-describedby="w-price" value="<?= $discountedPrice ?>"/></td>--}}
-                        {{--                                    <td><button type="button" class="btn default-color white-text btn-sm remove-button wholesale-remove-button px-3 py-1" <?= $i != $wholesaleCount - 1 ? "disabled" : ""; ?>>X</button></td>--}}
-                        {{--                                </tr>--}}
-                        {{--                                <?php $maxPrice = $discountedPrice; ?>--}}
-                        {{--                                <?php endfor; ?>--}}
-                        {{--                                <?php endif; ?>--}}
-                        {{--                                </tbody>--}}
-                        {{--                            </table>--}}
-                        {{--                            <!-- Add extra wholesales button -->--}}
-                        {{--                            <div class="text-center">--}}
-                        {{--                                <button type="button" class="btn btn-secondary mt-1" id="extra-wholesale-button">--}}
-                        {{--                                    添加更多批发价--}}
-                        {{--                                </button>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
-                        <!-- Wholesale discount -->
-
-
-                        <div class="h2" id="step-four">媒体管理</div>
-
-                        <!-- General item image -->
                         <div class="col-12">
-                            <label>基本照片</label>
-                            <i class="icofont icofont-ui-add" id="add-general-image-button"></i>
-                        </div>
-                        <div class="col-12 mb-3">
                             <div class="row" id="general-image-section">
                                 @if(empty($item->images->toArray()))
                                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
                                         <input type="file"
                                                name="item-image[0]"
                                                class="image-file-selector"
-                                               style="display:none;"
-                                        >
+                                               style="display:none;">
                                         <figure class="figure">
                                             <div class="img-upload-container">
                                                 <img class="img-fluid image-preview w-100"
                                                      src="{{ asset('img/alt/image-upload-alt.png') }}"
-                                                >
+                                                     alt="基本照片">
+                                                <input type="hidden" name="oldImages[{{$i}}]" value="">
                                                 <div class="img-upload-overlay">
                                                     <div class="img-upload-overlay-icon edit-img-button"
                                                          title="Upload Image"
-                                                         onclick="uploadImage(this)"
-                                                    >
+                                                         onclick="uploadImage(this)">
                                                         <i class="icofont icofont-edit"></i>
                                                     </div>
                                                     <div class="img-upload-overlay-icon remove-img-button"
                                                          title="Remove Image"
-                                                         onclick="removeImage(this)"
-                                                    >
+                                                         onclick="removeImage(this)">
                                                         <i class="icofont icofont-ui-delete"></i>
                                                     </div>
                                                 </div>
@@ -871,26 +741,25 @@
                                     @for($i = 0; $i < sizeof($item->images); $i++)
                                         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
                                             <input type="file"
-                                                   name="item-image[{{$i}}]"
+                                                   name="images[{{$i}}]"
                                                    class="image-file-selector"
-                                                   style="display:none;"
-                                            >
+                                                   style="display:none;">
+                                            <input type="hidden" name="oldImages[{{$i}}]"
+                                                   value="{{ $item->images[$i]->image ?? "" }}">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview"
                                                          src="{{ asset($item->images[$i]->image ?? 'img/alt/image-upload-alt.png') }}"
-                                                    >
+                                                         alt="基本照片">
                                                     <div class="img-upload-overlay">
                                                         <div class="img-upload-overlay-icon edit-img-button"
                                                              title="Upload Image"
-                                                             onclick="uploadImage(this)"
-                                                        >
+                                                             onclick="uploadImage(this)">
                                                             <i class="icofont icofont-edit"></i>
                                                         </div>
                                                         <div class="img-upload-overlay-icon remove-img-button"
                                                              title="Remove Image"
-                                                             onclick="removeImage(this)"
-                                                        >
+                                                             onclick="removeImage(this)">
                                                             <i class="icofont icofont-ui-delete"></i>
                                                         </div>
                                                     </div>
@@ -901,9 +770,11 @@
                                 @endif
                             </div>
                         </div>
-                        <!-- General item image -->
+                    </div>
+                    <!-- General item image -->
 
-                        <!-- Variation image -->
+                    <!-- Variation image -->
+                    <div class="row mb-3">
                         <div class="col-12">
                             <label>规格照片</label>
                         </div>
@@ -913,26 +784,26 @@
                                     @for($i = 0; $i < sizeof($item->variations->toArray()); $i++)
                                         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
                                             <input type="file"
-                                                   name="variations[image][{{$i}}]"
+                                                   name="variations[{{$i}}][image]"
                                                    class="image-file-selector"
-                                                   style="display:none;"
-                                            >
+                                                   style="display:none;">
+                                            <input type="hidden"
+                                                   name="variations[{{$i}}][oldImage]"
+                                                   value="{{ $item->variations[$i]->image ?? "" }}">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview w-100"
                                                          src="{{ asset($item->variations[$i]->image ?? "img/alt/image-upload-alt.png") }}"
-                                                    >
+                                                         alt="规格照片">
                                                     <div class="img-upload-overlay">
                                                         <div class="img-upload-overlay-icon edit-img-button"
                                                              title="Upload Image"
-                                                             onclick="uploadImage(this)"
-                                                        >
+                                                             onclick="uploadImage(this)">
                                                             <i class="icofont-edit"></i>
                                                         </div>
                                                         <div class="img-upload-overlay-icon remove-img-button"
                                                              title="Remove Image"
-                                                             onclick="removeImage(this)"
-                                                        >
+                                                             onclick="removeImage(this)">
                                                             <i class="icofont-ui-delete"></i>
                                                         </div>
                                                     </div>
@@ -946,55 +817,51 @@
                                 @endif
                             </div>
                         </div>
-                        <!-- Variation image -->
+                    </div>
+                    <!-- Variation image -->
 
+                    <div class="h2" id="step-five">其他商品设定</div>
 
-                        <div class="col-12 mb-3">
-                            <div class="row">
-                                <div class="h2" id="step-five">其他商品设定</div>
-                                <br>
-                                <div class="col-12">
-                                    <div class="mx-auto">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">设定名称</th>
-                                                <th scope="col">数值</th>
-                                                <th scope="col">操作</th>
-                                            </tr>
-                                            </thead>
+                    <div class="row mb-3">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">设定名称</th>
+                                <th scope="col">数值</th>
+                                <th scope="col">操作</th>
+                            </tr>
+                            </thead>
 
-                                            <tbody>
-                                            <tr>
-                                                <td>商品浏览次数</td>
-                                                <td><input type="text" class="form-control form-control-sm"
-                                                           value="{{ $item->util->view_count }}" disabled/></td>
-                                                <td>
-                                                    <button type="submit" class="btn btn-primary btn-sm"
-                                                            name="reset-view-count-button">重置
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <tbody>
+                            <tr>
+                                <td>商品浏览次数</td>
+                                <td>
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           value="{{ $item->util->view_count }}"
+                                           disabled>
+                                </td>
+                                <td>
+                                    <button type="submit"
+                                            class="btn btn-primary btn-sm"
+                                            name="reset-view-count-button">
+                                        重置
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="col-12 text-center mb-3">
-                            <input class="btn btn-primary mr-2" type="submit" value="保存" name="save">
-                        </div>
-
+                    <div class="col-12 text-center mb-3">
+                        <button class="btn btn-primary mr-2" type="submit">保存</button>
                     </div>
 
                 </form>
             </div>
+            <!-- Content -->
 
-            <!-- Navigation guideline -->
+            <!-- Content Navigator -->
             <div class="col-sm-0 col-md-2">
                 <div style="position: fixed;" id="menu-list">
                     <ul class="list-group text-center">
@@ -1010,21 +877,17 @@
                            class="item-create-step-info list-group-item list-group-item-action">其他商品设定</a>
                     </ul>
                 </div>
-            </div><!-- Navigation guideline -->
+            </div>
+            <!-- Content Navigator -->
 
-        </div><!-- Page content with row class -->
-
+        </div>
     </main>
-
-
-
 @endsection
 
 
 @section('extraScriptEnd')
     <script>
-
-        // Category js
+        /* Category */
         function getCategoryCount() {
             return $("#category-section div.category-item").length;
         }
@@ -1033,36 +896,34 @@
             return `
             <div class="row category-item">
                 <div class="col-11 mb-1 mr-0 pr-0">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 pr-md-1">
-                            <input type="text" class="form-control" name="categories[name][${categoryCount}]" aria-describedby="categories" list="category-list" maxlength="20" placeholder="中文">
-                        </div>
+                    <select class="form-control" name="categories[${categoryCount}][id]">
+                        @foreach($categories as $category)
+            <option value="{{ $category->id }}">
+                                {{ $category->name . ' ' . $category->name_en }}
+            </option>
+@endforeach
+            </select>
+        </div>
 
-                        <div class="col-md-6 col-sm-12 pl-md-1">
-                            <input type="text" class="form-control" name="categories[name_en][${categoryCount}]" aria-describedby="categories" list="category-list" maxlength="20" placeholder="英文">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-1 mb-1 ml-0 pl-0">
-                    <button type="button" class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
-                        X
-                    </button>
-                </div>
-            </div>
-            `;
+        <div class="col-1 mb-1 ml-0 pl-0">
+            <button type="button"
+                    class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                X
+            </button>
+        </div>
+    </div>
+`;
         }
 
         $(document).ready(function () {
-
             $("#extra-category-button").on("click", function () {
                 $("#category-section").append(getExtraCategoryHTML(getCategoryCount()));
-                $('#currentCategoryCount').val(parseInt($('#currentCategoryCount').val()) + 1);
+                let currentCategoryCountSelector = $('#currentCategoryCount');
+                currentCategoryCountSelector.val(parseInt(currentCategoryCountSelector.val()) + 1);
             });
         });
 
-        // Variation js
-
+        /* Variation  */
         function getVariationCount() {
             return $("#variation-section div.variation-item").length;
         }
@@ -1078,7 +939,7 @@
                                    name="variations[${variationCount}][name1]"
                                    aria-describedby="variations"
                                    maxlength="100"
-                            >
+                                    placeholder="规格名称1">
                         </div>
                         <div class="col-md-6 col-sm-12 pl-md-1">
                             <input type="text"
@@ -1086,7 +947,7 @@
                                    name="variations[${variationCount}][name2]"
                                    aria-describedby="variations"
                                    maxlength="100"
-                            >
+                                    placeholder="规格名称2">
                         </div>
                     </div>
                 </div>
@@ -1147,7 +1008,7 @@
                     <input type="number"
                            min="0"
                            class="form-control"
-                           name="variations[${variationCount}][inventories][0][stock]"
+                           name="inventories[${variationCount}][0][stock]"
                     >
                 </td>
             </tr>
@@ -1162,6 +1023,9 @@
                        class="image-file-selector"
                        style="display:none;"
                 >
+                <input type="hidden"
+                                                   name="variations[${variationCount}][oldImage]"
+                                                   value="">
                 <figure class="figure">
                     <div class="img-upload-container">
                         <img class="img-fluid image-preview w-100"
@@ -1188,8 +1052,6 @@
             `;
         }
 
-
-
         $(document).ready(function () {
             $("#extra-variation-button").on("click", function () {
                 let variationCount = getVariationCount();
@@ -1204,9 +1066,7 @@
             });
         });
 
-
-        // General Image upload js
-
+        /* General Image Upload */
         function getGeneralImageCount() {
             return $('#general-image-section div.general-image-item').length;
         }
@@ -1217,24 +1077,22 @@
                 <input type="file"
                        name="item-image[${generalImageCount}]"
                        class="image-file-selector"
-                       style="display:none;"
-                >
+                       style="display:none;">
+                       <input type="hidden" name="oldImages[${generalImageCount}]"
+                                                   value="">
                     <figure class="figure">
                         <div class="img-upload-container">
                             <img class="img-fluid image-preview"
-                                 src="{{ asset('img/alt/image-upload-alt.png') }}"
-                            >
+                                 src="{{ asset('img/alt/image-upload-alt.png') }}">
                                 <div class="img-upload-overlay">
                                     <div class="img-upload-overlay-icon edit-img-button"
                                          title="Upload Image"
-                                         onclick="uploadImage(this)"
-                                    >
+                                         onclick="uploadImage(this)">
                                         <i class="icofont icofont-edit"></i>
                                     </div>
                                     <div class="img-upload-overlay-icon remove-img-button"
                                          title="Remove Image"
-                                         onclick="removeImage(this)"
-                                    >
+                                         onclick="removeImage(this)">
                                         <i class="icofont icofont-ui-delete"></i>
                                     </div>
                                 </div>
@@ -1243,7 +1101,6 @@
             </div>
             `;
         }
-
 
         $(document).ready(function () {
             $('#add-general-image-button').on('click', function () {
@@ -1329,21 +1186,7 @@
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // TODO - Wholesale js
         // function getExtraWholesaleTableRowHTML(wholesaleCount, max, price) {
         //     var d = $("#wholesale-table-section tr").has("td").length == 0 ? "" : "disabled";
         //     return `` +
@@ -1359,7 +1202,6 @@
         // function getWholesaleCount() {
         //     return $("#wholesale-table-section tr").length;
         // }
-
 
 
         // Wholesale w-max column auto sync
@@ -1410,172 +1252,52 @@
         // });
 
         // $(document).ready(function(){
-            // Extra wholesale
-            // $("#extra-wholesale-button").on("click", function () {
-            //     var min = parseInt($("#wholesale-table-section tr").last().find("input.w-min").val());
-            //     var max = parseInt($("#wholesale-table-section tr").last().find("input.w-max").val()) + 1;
-            //     var price = $("#wholesale-table-section tr").last().find("input.w-price").val();
-            //     if (price != "" && min != "" && max != "") {
-            //         $("#wholesale-table-section").append(getExtraWholesaleTableRowHTML(getWholesaleCount(), max, price));
-            //
-            //         // Last romove button of wholesale table will always enable and the rest will be disabled
-            //         $("#wholesale-table-section").find(".remove-button").attr("disabled", "disabled");
-            //         $("#wholesale-table-section").find(".remove-button").last().removeAttr("disabled");
-            //
-            //         // Last max column will always disabled and the rest will be enabled
-            //         $(".w-max").removeAttr("disabled");
-            //         $(".w-max").last().attr("disabled", "disabled");
-            //     } else {
-            //         alert("请填写最后一行的所以信息！");
-            //     }
-            //
-            // });
+        // Extra wholesale
+        // $("#extra-wholesale-button").on("click", function () {
+        //     var min = parseInt($("#wholesale-table-section tr").last().find("input.w-min").val());
+        //     var max = parseInt($("#wholesale-table-section tr").last().find("input.w-max").val()) + 1;
+        //     var price = $("#wholesale-table-section tr").last().find("input.w-price").val();
+        //     if (price != "" && min != "" && max != "") {
+        //         $("#wholesale-table-section").append(getExtraWholesaleTableRowHTML(getWholesaleCount(), max, price));
+        //
+        //         // Last romove button of wholesale table will always enable and the rest will be disabled
+        //         $("#wholesale-table-section").find(".remove-button").attr("disabled", "disabled");
+        //         $("#wholesale-table-section").find(".remove-button").last().removeAttr("disabled");
+        //
+        //         // Last max column will always disabled and the rest will be enabled
+        //         $(".w-max").removeAttr("disabled");
+        //         $(".w-max").last().attr("disabled", "disabled");
+        //     } else {
+        //         alert("请填写最后一行的所以信息！");
+        //     }
+        //
+        // });
 
-            // Wholesale first w-min column auto sync
-            // $(".w-min").first().change(function () {
-            //     $(this).parent().parent().first().find("input.w-max").attr("min", $(this).val()); // Set min value for w-max in same row
-            //     $(this).parent().parent().first().find("input.w-price").attr("max", $(".v-price").eq(0).val()); // Set value of first wholesale after w-max is modified from blank (Apply for item without wholesale at first)
-            // });
+        // Wholesale first w-min column auto sync
+        // $(".w-min").first().change(function () {
+        //     $(this).parent().parent().first().find("input.w-max").attr("min", $(this).val()); // Set min value for w-max in same row
+        //     $(this).parent().parent().first().find("input.w-price").attr("max", $(".v-price").eq(0).val()); // Set value of first wholesale after w-max is modified from blank (Apply for item without wholesale at first)
+        // });
 
-            // Wholesale settings
-            // var first = $(".v-price").eq(0).val();
-            // var isSame = true;
-            // for (var i = 1; i < $(".v-price").length; i++) {
-            //     if ($(".v-price").eq(i).val() != first) {
-            //         isSame = false;
-            //         break;
-            //     }
-            // }
-            //
-            // if (isSame) {
-            //     $(".wholesale-section").show();
-            // } else {
-            //     $(".wholesale-section").hide();
-            // }
+        // Wholesale settings
+        // var first = $(".v-price").eq(0).val();
+        // var isSame = true;
+        // for (var i = 1; i < $(".v-price").length; i++) {
+        //     if ($(".v-price").eq(i).val() != first) {
+        //         isSame = false;
+        //         break;
+        //     }
+        // }
+        //
+        // if (isSame) {
+        //     $(".wholesale-section").show();
+        // } else {
+        //     $(".wholesale-section").hide();
+        // }
         // });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // For separate image upload
-        var selected;
-
-        function loadImage(e) {
-            selected.attr('src', e.target.result);
-        }
-
-        // Image file validater
-        // Reference: https://stackoverflow.com/questions/4234589/validation-of-file-extension-before-uploading-file
-        var validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
-        var maxUploadSize = 5000000; // Unit in Bytes // 5MB
-        function validateImage(fileInput) {
-
-            if (fileInput.type == "file") {
-                var fileName = fileInput.value;
-                var fileSize = fileInput.files[0].size;
-
-                if (fileName.length > 0) {
-
-                    var extensionValid = false;
-                    var sizeValid = false;
-
-                    for (var j = 0; j < validFileExtensions.length; j++) {
-                        var cur = validFileExtensions[j];
-                        if (fileName.substr(fileName.length - cur.length, cur.length).toLowerCase() == cur.toLowerCase()) {
-                            extensionValid = true;
-                            break;
-                        }
-                    }
-
-                    if (fileSize < maxUploadSize) {
-                        sizeValid = true;
-                    }
-
-                    if (!extensionValid) {
-                        alert("请上传格式正确的图像");
-                        return false;
-                    }
-
-                    if (!sizeValid) {
-                        alert("请上传少于5MB的图像文件");
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        $(document).on('change', ".image-file-selector", function () {
-
-            if (!validateImage($(this)[0])) {
-                $(this).val(''); // Empty the file upload input if wrong extension
-            } else {
-                // Load preview
-                if (typeof (FileReader) != "undefined") {
-                    selected = $(this).parent().find(".image-preview");
-                    var reader = new FileReader();
-                    reader.onload = loadImage;
-                    reader.readAsDataURL($(this)[0].files[0]);
-
-
-                    // Crop and shape the preview
-                    var style = getComputedStyle(selected[0]);
-                    var width = parseInt(style.width) || 0;
-                    var height = parseInt(style.height) || 0;
-
-                    if (width > height) {
-                        padding = (width - height) / 2.0;
-                        selected[0].style.marginTop = padding;
-                        selected[0].style.marginBottom = padding;
-                    } else {
-                        padding = (height - width) / 2.0;
-                        selected[0].style.marginLeft = padding;
-                        selected[0].style.marginRight = padding;
-                    }
-
-                    selected[0].style.width = width;
-                    selected[0].style.height = height;
-                    selected[0].style.objectFit = 'cover';
-
-                } else {
-                    alert("您使用的浏览器不支持这个功能！");
-                }
-
-            }
-
-        });
-
-        // Retrieve image source to the file input for server submit testing
-        function getImageOriginalSource() {
-            var imgs = document.getElementsByTagName("img");
-
-            for (var i = 0; i < imgs.length; i++) {
-                var imgSrc = imgs[i].src;
-                var fileInput = imgs[i].parentElement.parentElement.parentElement.getElementsByTagName("input")[0];
-                if (fileInput == null) continue;
-                const dT = new ClipboardEvent('').clipboardData || // Firefox < 62 workaround exploiting https://bugzilla.mozilla.org/show_bug.cgi?id=1422655
-                    new DataTransfer(); // specs compliant (as of March 2018 only Chrome)
-                dT.items.add(new File(['imgSource'], imgSrc));
-                fileInput.files = dT.files;
-            }
-        }
-
+        // TODO - Optimize the code
         function uploadImage(source) {
             source.parentElement.parentElement.parentElement.parentElement.firstElementChild.click();
         }
@@ -1585,22 +1307,96 @@
             source.parentElement.parentElement.parentElement.parentElement.firstElementChild.value = "";
         }
 
+
+        /*
+        Image file validator
+        Reference: https://stackoverflow.com/questions/4234589/validation-of-file-extension-before-uploading-file
+        */
+        let validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
+        let maxUploadSize = 5000000; // Unit in Bytes // 5MB
+        function validateImage(fileInput) {
+            if (fileInput.type === "file") {
+                let fileName = fileInput.value;
+                let fileSize = fileInput.files[0].size;
+
+                if (fileName.length > 0) {
+                    let extensionValid = false;
+                    let sizeValid = false;
+                    for (let j = 0; j < validFileExtensions.length; j++) {
+                        let cur = validFileExtensions[j];
+                        if (fileName.substr(fileName.length - cur.length, cur.length).toLowerCase() === cur.toLowerCase()) {
+                            extensionValid = true;
+                            break;
+                        }
+                    }
+                    if (fileSize < maxUploadSize) {
+                        sizeValid = true;
+                    }
+                    if (!extensionValid) {
+                        alert("请上传格式正确的图像");
+                        return false;
+                    }
+                    if (!sizeValid) {
+                        alert("请上传少于5MB的图像文件");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /* Load Image to Preview */
+        let selected;
+
+        function loadImage(e) {
+            selected.attr('src', e.target.result);
+        }
+
+        $(document).on('change', ".image-file-selector", function () {
+            if (!validateImage($(this)[0])) {
+                $(this).val(''); // Empty the file upload input if wrong extension
+            } else {
+                // Load preview
+                if (typeof (FileReader) != "undefined") {
+                    selected = $(this).parent().find(".image-preview");
+                    let reader = new FileReader();
+                    reader.onload = loadImage;
+                    reader.readAsDataURL($(this)[0].files[0]);
+
+                    // Crop and shape the preview
+                    let style = getComputedStyle(selected[0]);
+                    let width = parseInt(style.width) || 0;
+                    let height = parseInt(style.height) || 0;
+                    if (width > height) {
+                        let padding = (width - height) / 2.0;
+                        selected[0].style.marginTop = padding;
+                        selected[0].style.marginBottom = padding;
+                    } else {
+                        let padding = (height - width) / 2.0;
+                        selected[0].style.marginLeft = padding;
+                        selected[0].style.marginRight = padding;
+                    }
+                    selected[0].style.width = width;
+                    selected[0].style.height = height;
+                    selected[0].style.objectFit = 'cover';
+                } else {
+                    alert("您使用的浏览器不支持这个功能！");
+                }
+            }
+        });
+
+        /*
+            Content Navigator
+            Reference: https://www.steckinsights.com/change-active-menu-as-you-scroll-with-jquery/
+        */
         $(document).ready(function () {
-
-            // Retrieve image source to the file input for server submit testing
-            getImageOriginalSource();
-
-
-
-            // For changing "active tag" when scrolling
-            // Reference: https://www.steckinsights.com/change-active-menu-as-you-scroll-with-jquery/
             $(window).scroll(function () {
-                var Scroll = $(window).scrollTop();
-                var StepOneOffset = $('#step-one').offset().top;
-                var StepTwoOffset = $('#step-two').offset().top - 100;
-                var StepThreeOffset = $('#step-three').offset().top - 100;
-                var StepFourOffset = $('#step-four').offset().top - 100;
-                var StepFiveOffset = $('#step-five').offset().top - 100;
+                let Scroll = $(window).scrollTop();
+                // let StepOneOffset = $('#step-one').offset().top;
+                let StepTwoOffset = $('#step-two').offset().top - 100;
+                let StepThreeOffset = $('#step-three').offset().top - 100;
+                let StepFourOffset = $('#step-four').offset().top - 100;
+                let StepFiveOffset = $('#step-five').offset().top - 100;
 
                 if (Scroll < StepTwoOffset) {
                     $("#step-one-link").addClass("active");
@@ -1636,7 +1432,7 @@
                     $("#step-five-link").removeClass("active");
                 }
             });
-
         });
+
     </script>
 @endsection
