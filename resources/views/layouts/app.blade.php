@@ -103,18 +103,6 @@
         @yield('content')
     </main>
 
-    <footer>
-        <div class="p-2" style="background-color:lightgrey;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <span style="font-weight: bold">Powered by Laravel v{{ app()->version() }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
 </div>
 
 @yield('extraScriptEnd')

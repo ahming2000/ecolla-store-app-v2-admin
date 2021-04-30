@@ -8,11 +8,6 @@
     <main class="container">
 
         <div class="h1">订单查看</div>
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                {{ $orders->links() }}
-            </div>
-        </div>
 
         <div class="row">
             <table class="table table-bordered">
@@ -31,7 +26,7 @@
                             {{ $order->code }}<br>
                             {{ $order->getOrderCreateDateTime() }}<br>
                             订单状态：{{ $order->getStatusDesc() }}<br>
-                            <button class="btn btn-primary" onclick="viewReceipt(this)" value="{{ url($order->receipt_image) }}">查看订单收据</button>
+                            <button class="btn btn-primary btn-sm" onclick="viewReceipt(this)" value="{{ url($order->receipt_image) }}">查看订单收据</button>
                         </td>
                         <td>
                             @if($order->mode == 'delivery')
@@ -43,15 +38,21 @@
                             @endif
                         </td>
                         <td>
-                            <a class="btn btn-primary" href="{{ url('/order/' . $order->id . '/item') }}">显示订单物品</a>
+                            <a class="btn btn-primary btn-sm" href="{{ url('/order/' . $order->id . '/item') }}">显示订单物品</a>
                         </td>
                         <td>
-                            <a class="btn btn-primary" href="{{ url('/order/' . $order->id) }}">更改订单状态</a>
+                            <a class="btn btn-primary btn-sm" href="{{ url('/order/' . $order->id) }}">更改订单状态</a>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                {{ $orders->links() }}
+            </div>
         </div>
 
     </main>
