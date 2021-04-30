@@ -23,6 +23,18 @@ class SettingsController extends Controller
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
+            [
+                'version' => 'v1.1.0 Beta',
+                'date' => 'N/A',
+                'desc' => [
+                    '功能：',
+                    '商品属性更改界面已完善',
+                    '',
+                    '优化：',
+                    '商品列表手机界面优化',
+                    '商品、订单管理页面优化'
+                ]
+            ],
 
             [
                 'version' => 'v1.0.2 Beta',
