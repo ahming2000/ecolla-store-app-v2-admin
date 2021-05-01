@@ -17,7 +17,7 @@
                 <div class="col">
                     <div class="row mb-2">
                         <div class="col-12 text-right">
-                            <a href="#">
+                            <a href="{{ url('/item/create') }}">
                                 <i class="icofont icofont-ui-add"></i> 添加商品
                             </a>
                         </div>
@@ -86,7 +86,7 @@
                         <a href="#" class="btn btn-secondary btn-sm mb-1">
                             <i class="icofont icofont-basket"></i> {{ $item->util->is_listed == '1' ? "下架" : "上架" }}
                         </a><br>
-                        <a href="#" class="btn btn-secondary btn-sm mb-1">
+                        <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-secondary btn-sm mb-1">
                             <i class="icofont icofont-ui-edit"></i> 编辑
                         </a><br>
                         <a href="#" class="btn btn-secondary btn-sm mb-1">
