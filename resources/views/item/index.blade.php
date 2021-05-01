@@ -76,7 +76,7 @@
                     </td>
                     <td>
                         @foreach($item->variations as $variation)
-                            {{ $variation->getTotalStock() }}<br>
+                            {{ $variation->stock }}<br>
                         @endforeach
                     </td>
                     <td>
