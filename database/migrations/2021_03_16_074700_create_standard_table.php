@@ -65,6 +65,9 @@ class CreateStandardTable extends Migration
             $table->double('price');
             $table->double('weight');
             $table->string('image')->nullable();
+
+            $table->integer('stock')->default(0);
+
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
 
             $table->timestamps();
@@ -75,15 +78,6 @@ class CreateStandardTable extends Migration
             $table->dateTime('start');
             $table->dateTime('end')->nullable();
             $table->double('rate')->default(1.0);
-
-            $table->timestamps();
-        });
-
-        Schema::create('inventories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('variation_id')->constrained('variations')->cascadeOnDelete();
-            $table->date('expire_date');
-            $table->integer('stock');
 
             $table->timestamps();
         });
@@ -143,7 +137,6 @@ class CreateStandardTable extends Migration
             $table->double('price');
             $table->double('discount_rate')->default(1.0);
             $table->integer('quantity');
-            $table->date('expire_date');
 
             $table->timestamps();
         });
@@ -182,7 +175,6 @@ class CreateStandardTable extends Migration
 
         Schema::dropIfExists('variations');
         Schema::dropIfExists('variation_discounts');
-        Schema::dropIfExists('inventories');
 
         Schema::dropIfExists('categories');
         Schema::dropIfExists('category_item');

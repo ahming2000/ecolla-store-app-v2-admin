@@ -337,6 +337,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
+                'stock' => 600,
                 'item_id' => 1
             )
         );
@@ -351,6 +352,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
+                'stock' => 300,
                 'item_id' => 1
             )
         );
@@ -365,6 +367,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
+                'stock' => 0,
                 'item_id' => 1
             )
         );
@@ -379,6 +382,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
+                'stock' => 300,
                 'item_id' => 1
             )
         );
@@ -395,6 +399,7 @@ class ImportExampleData extends Migration
                 'price' => 4.8,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/1/6902538007862.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/1/6902538007862.jpg',
+                'stock' => 300,
                 'item_id' => 1
             )
         );
@@ -411,6 +416,7 @@ class ImportExampleData extends Migration
                 'price' => 4.8,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/1/6902538007886.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/1/6902538007886.jpg',
+                'stock' => 300,
                 'item_id' => 1
             )
         );
@@ -427,6 +433,7 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/2/6931754804900.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/2/6931754804900.jpg',
+                'stock' => 300,
                 'item_id' => 2
             )
         );
@@ -443,6 +450,7 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/2/6931754804917.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/2/6931754804917.jpg',
+                'stock' => 300,
                 'item_id' => 2
             )
         );
@@ -459,6 +467,7 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/2/6931754804924.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/2/6931754804924.jpg',
+                'stock' => 300,
                 'item_id' => 2
             )
         );
@@ -475,6 +484,7 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/2/6931754804931.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/2/6931754804931.jpg',
+                'stock' => 300,
                 'item_id' => 2
             )
         );
@@ -491,6 +501,7 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/2/6931754805655.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/2/6931754805655.jpg',
+                'stock' => 300,
                 'item_id' => 2
             )
         );
@@ -507,6 +518,7 @@ class ImportExampleData extends Migration
                 'price' => 11.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/4/6935145301016.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/4/6935145301016.jpg',
+                'stock' => 300,
                 'item_id' => 4
             )
         );
@@ -523,6 +535,7 @@ class ImportExampleData extends Migration
                 'price' => 11.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/4/6935145301030.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/4/6935145301030.jpg',
+                'stock' => 300,
                 'item_id' => 4
             )
         );
@@ -539,6 +552,7 @@ class ImportExampleData extends Migration
                 'price' => 11.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/4/6935145301047.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/4/6935145301047.jpg',
+                'stock' => 300,
                 'item_id' => 4
             )
         );
@@ -555,6 +569,7 @@ class ImportExampleData extends Migration
                 'price' => 11.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/4/6935145301061.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/4/6935145301061.jpg',
+                'stock' => 300,
                 'item_id' => 4
             )
         );
@@ -571,6 +586,7 @@ class ImportExampleData extends Migration
                 'price' => 11.5,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/4/6935145301078.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/4/6935145301078.jpg',
+                'stock' => 300,
                 'item_id' => 4
             )
         );
@@ -587,6 +603,7 @@ class ImportExampleData extends Migration
                 'price' => 8.8,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/5/6935145343030.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/5/6935145343030.jpg',
+                'stock' => 300,
                 'item_id' => 5
             )
         );
@@ -603,6 +620,7 @@ class ImportExampleData extends Migration
                 'price' => 8.8,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/5/6935145343047.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/5/6935145343047.jpg',
+                'stock' => 300,
                 'item_id' => 5
             )
         );
@@ -619,6 +637,7 @@ class ImportExampleData extends Migration
                 'price' => 8.8,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/5/6935145343061.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/5/6935145343061.jpg',
+                'stock' => 300,
                 'item_id' => 5
             )
         );
@@ -635,6 +654,7 @@ class ImportExampleData extends Migration
                 'price' => 8.8,
 //                'image' => 'https://www.management.newrainbowmarket.com/img/items/5/6935145343092.jpg',
                 'image' => 'http://management.ecolla.laravel/img/items/5/6935145343092.jpg',
+                'stock' => 300,
                 'item_id' => 5
             )
         );
@@ -649,6 +669,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
+                'stock' => 300,
                 'item_id' => 3
             )
         );
@@ -663,6 +684,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
+                'stock' => 300,
                 'item_id' => 3
             )
         );
@@ -677,6 +699,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
+                'stock' => 300,
                 'item_id' => 3
             )
         );
@@ -691,6 +714,7 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
+                'stock' => 300,
                 'item_id' => 3
             )
         );
@@ -718,231 +742,6 @@ class ImportExampleData extends Migration
                 'start' => '2021-01-01 00:00:00',
                 'end' => '2021-06-01 00:00:00',
                 'rate' => 0.58
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 1,
-                'variation_id' => 1,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 25,
-                'variation_id' => 1,
-                'expire_date' => '2022-05-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 2,
-                'variation_id' => 2,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 3,
-                'variation_id' => 3,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 4,
-                'variation_id' => 4,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 5,
-                'variation_id' => 5,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 6,
-                'variation_id' => 6,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 7,
-                'variation_id' => 7,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 8,
-                'variation_id' => 8,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 9,
-                'variation_id' => 9,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 10,
-                'variation_id' => 10,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 11,
-                'variation_id' => 11,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 12,
-                'variation_id' => 12,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 13,
-                'variation_id' => 13,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 14,
-                'variation_id' => 14,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 15,
-                'variation_id' => 15,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 16,
-                'variation_id' => 16,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 17,
-                'variation_id' => 17,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 18,
-                'variation_id' => 18,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 19,
-                'variation_id' => 19,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 20,
-                'variation_id' => 20,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 21,
-                'variation_id' => 21,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 22,
-                'variation_id' => 22,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 23,
-                'variation_id' => 23,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
-            )
-        );
-
-        DB::table('inventories')->insert(
-            array(
-                'id' => 24,
-                'variation_id' => 24,
-                'expire_date' => '2022-01-01',
-                'stock' => 300
             )
         );
 
