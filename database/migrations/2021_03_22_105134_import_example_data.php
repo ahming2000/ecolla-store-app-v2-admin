@@ -1128,7 +1128,6 @@ class ImportExampleData extends Migration
                 'price' => 4.8,
                 'discount_rate' => 1.0,
                 'quantity' => 3,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1141,7 +1140,6 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
                 'discount_rate' => 0.8,
                 'quantity' => 45,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1154,7 +1152,6 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
                 'discount_rate' => 0.733333,
                 'quantity' => 50,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1167,7 +1164,6 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
                 'discount_rate' => 0.8,
                 'quantity' => 45,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1180,7 +1176,6 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
                 'discount_rate' => 0.6,
                 'quantity' => 60,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1193,7 +1188,6 @@ class ImportExampleData extends Migration
                 'price' => 11.5,
                 'discount_rate' => 0.9,
                 'quantity' => 1,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1206,7 +1200,6 @@ class ImportExampleData extends Migration
                 'price' => 1.5,
                 'discount_rate' => 1.0,
                 'quantity' => 1,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1219,7 +1212,6 @@ class ImportExampleData extends Migration
                 'price' => 11.5,
                 'discount_rate' => 1.0,
                 'quantity' => 1,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1232,7 +1224,6 @@ class ImportExampleData extends Migration
                 'price' => 4.8,
                 'discount_rate' => 0.520833,
                 'quantity' => 2,
-                'expire_date' => '2022-01-01',
             )
         );
 
@@ -1245,7 +1236,6 @@ class ImportExampleData extends Migration
                 'price' => 4.8,
                 'discount_rate' => 0.520833,
                 'quantity' => 2,
-                'expire_date' => '2022-01-01',
             )
         );
 
