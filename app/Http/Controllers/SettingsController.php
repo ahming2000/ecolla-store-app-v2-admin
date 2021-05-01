@@ -18,19 +18,19 @@ class SettingsController extends Controller
 
     public function changingLog(){
 
-        $currentVersion = 'v1.0.2 Beta';
-        $updateDate = '2021/04/25';
+        $currentVersion = 'v1.1.0 Beta';
+        $updateDate = '2021/05/02';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
             [
                 'version' => 'v1.1.0 Beta',
-                'date' => 'N/A',
+                'date' => '2021/05/02',
                 'desc' => [
                     '功能：',
-                    '商品属性更改界面已完善',
-                    '',
+                    '商品创建与属性更改界面已完善',
                     '优化：',
+                    '优化库存储存方式',
                     '商品列表手机界面优化',
                     '商品、订单管理页面优化'
                 ]
