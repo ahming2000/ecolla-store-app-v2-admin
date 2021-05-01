@@ -59,6 +59,13 @@
 
 @section('content')
     <main class="container">
+
+        @if(session()->has('message'))
+            <div class="alert alert-info text-center" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+
         <div class="row">
 
             <!-- Content -->
@@ -306,7 +313,6 @@
                                                         <input type="text"
                                                                class="form-control variation-name @error('variations.' . $i . '.name1') is-invalid @enderror"
                                                                name="variations[{{ $i }}][name1]"
-                                                               aria-describedby="variations"
                                                                maxlength="100"
                                                                value="{{ old('variations.' . $i . '.name1') ?? "" }}"
                                                                placeholder="规格名称1">
@@ -321,7 +327,7 @@
                                                         <input type="text"
                                                                class="form-control variation-name @error('variations.' . $i . '.name2') is-invalid @enderror"
                                                                name="variations[{{ $i }}][name2]"
-                                                               aria-describedby="variations" maxlength="100"
+                                                               maxlength="100"
                                                                value="{{ old('variations.' . $i . '.name2') ?? "" }}"
                                                                placeholder="规格名称2">
 
@@ -331,6 +337,35 @@
                                                                 </span>
                                                         @enderror
                                                     </div>
+                                                    <div class="col-md-6 col-sm-12 pr-md-1">
+                                                        <input type="text"
+                                                               class="form-control @error('variations.' . $i . '.name1_en') is-invalid @enderror"
+                                                               name="variations[{{ $i }}][name1_en]"
+                                                               maxlength="100"
+                                                               value="{{ old('variations.' . $i . '.name1_en') ?? "" }}"
+                                                               placeholder="Variation Name 1">
+
+                                                        @error('variations.' . $i . '.name1_en')
+                                                        <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12 pl-md-1">
+                                                        <input type="text"
+                                                               class="form-control @error('variations.' . $i . '.name2_en') is-invalid @enderror"
+                                                               name="variations[{{ $i }}][name2_en]"
+                                                               maxlength="100"
+                                                               value="{{ old('variations.' . $i . '.name2_en') ?? "" }}"
+                                                               placeholder="Variation Name 2">
+
+                                                        @error('variations.' . $i . '.name2_en')
+                                                        <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                        @enderror
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-1 mb-1 ml-0 pl-0">
@@ -354,7 +389,6 @@
                                                         <input type="text"
                                                                class="form-control variation-name"
                                                                name="variations[{{ $i }}][name1]"
-                                                               aria-describedby="variations"
                                                                maxlength="100"
                                                                value="{{ $item->variations[$i]->name1 ?? "" }}"
                                                                placeholder="规格名称1">
@@ -363,11 +397,27 @@
                                                         <input type="text"
                                                                class="form-control variation-name"
                                                                name="variations[{{ $i }}][name2]"
-                                                               aria-describedby="variations"
                                                                maxlength="100"
                                                                value="{{ $item->variations[$i]->name2 ?? "" }}"
                                                                placeholder="规格名称2">
                                                     </div>
+                                                    <div class="col-md-6 col-sm-12 pr-md-1">
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               name="variations[{{ $i }}][name1_en]"
+                                                               maxlength="100"
+                                                               value="{{ $item->variations[$i]->name1_en ?? "" }}"
+                                                               placeholder="Variation Name 1">
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12 pl-md-1">
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               name="variations[{{ $i }}][name2_en]"
+                                                               maxlength="100"
+                                                               value="{{ $item->variations[$i]->name2_en ?? "" }}"
+                                                               placeholder="Variation Name 2">
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-1 mb-1 ml-0 pl-0">
@@ -387,7 +437,6 @@
                                                     <input type="text"
                                                            class="form-control variation-name"
                                                            name="variations[0][name1]"
-                                                           aria-describedby="variations"
                                                            maxlength="100"
                                                            placeholder="规格名称1">
                                                 </div>
@@ -395,10 +444,24 @@
                                                     <input type="text"
                                                            class="form-control variation-name"
                                                            name="variations[0][name2]"
-                                                           aria-describedby="variations"
                                                            maxlength="100"
                                                            placeholder="规格名称2">
                                                 </div>
+                                                <div class="col-md-6 col-sm-12 pr-md-1">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="variations[0][name1_en]"
+                                                           maxlength="100"
+                                                           placeholder="Variation Name 1">
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 pl-md-1">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="variations[0][name2_en]"
+                                                           maxlength="100"
+                                                           placeholder="Variation Name 2">
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="col-1 mb-1 ml-0 pl-0">
@@ -713,15 +776,17 @@
                                 @if(empty($item->images->toArray()))
                                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
                                         <input type="file"
-                                               name="item-image[0]"
+                                               name="item[images][0][newImage]"
                                                class="image-file-selector"
                                                style="display:none;">
+                                        <input type="hidden" name="item[images][0][oldImage]"
+                                               value="">
+                                        <input type="hidden" class="image-is-empty-flag" name="item[images][0][isEmpty]" value="1">
                                         <figure class="figure">
                                             <div class="img-upload-container">
                                                 <img class="img-fluid image-preview w-100"
                                                      src="{{ asset('img/alt/image-upload-alt.png') }}"
                                                      alt="基本照片">
-                                                <input type="hidden" name="oldImages[0]" value="">
                                                 <div class="img-upload-overlay">
                                                     <div class="img-upload-overlay-icon edit-img-button"
                                                          title="Upload Image"
@@ -741,11 +806,12 @@
                                     @for($i = 0; $i < sizeof($item->images); $i++)
                                         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
                                             <input type="file"
-                                                   name="images[{{$i}}]"
+                                                   name="item[images][{{$i}}][newImage]"
                                                    class="image-file-selector"
                                                    style="display:none;">
-                                            <input type="hidden" name="oldImages[{{$i}}]"
+                                            <input type="hidden" name="item[images][{{$i}}][oldImage]"
                                                    value="{{ $item->images[$i]->image ?? "" }}">
+                                            <input type="hidden" class="image-is-empty-flag" name="item[images][{{$i}}][isEmpty]" value="0">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview"
@@ -780,7 +846,38 @@
                         </div>
                         <div class="col-12 mb-3">
                             <div class="row" id="variation-image-section">
-                                @if(!empty($item->variations))
+                                @if(empty($item->variations->toArray()))
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
+                                        <input type="file"
+                                               name="variations[0][image]"
+                                               class="image-file-selector"
+                                               style="display:none;">
+                                        <input type="hidden"
+                                               name="variations[0][oldImage]"
+                                               value="">
+                                        <input type="hidden" class="image-is-empty-flag" name="variations[0][isEmpty]" value="1">
+                                        <figure class="figure">
+                                            <div class="img-upload-container">
+                                                <img class="img-fluid image-preview w-100"
+                                                     src="{{ asset("img/alt/image-upload-alt.png") }}"
+                                                     alt="规格照片">
+                                                <div class="img-upload-overlay">
+                                                    <div class="img-upload-overlay-icon edit-img-button"
+                                                         title="Upload Image"
+                                                         onclick="uploadImage(this)">
+                                                        <i class="icofont-edit"></i>
+                                                    </div>
+                                                    <div class="img-upload-overlay-icon remove-img-button"
+                                                         title="Remove Image"
+                                                         onclick="removeImage(this)">
+                                                        <i class="icofont-ui-delete"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <figcaption class="figure-caption text-center"></figcaption>
+                                        </figure>
+                                    </div>
+                                @else
                                     @for($i = 0; $i < sizeof($item->variations->toArray()); $i++)
                                         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
                                             <input type="file"
@@ -790,6 +887,7 @@
                                             <input type="hidden"
                                                    name="variations[{{$i}}][oldImage]"
                                                    value="{{ $item->variations[$i]->image ?? "" }}">
+                                            <input type="hidden" class="image-is-empty-flag" name="variations[{{$i}}][isEmpty]" value="0">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview w-100"
@@ -1026,6 +1124,7 @@
                 <input type="hidden"
                                                    name="variations[${variationCount}][oldImage]"
                                                    value="">
+                                                   <input type="hidden" class="image-is-empty-flag" name="variations[${variationCount}][isEmpty]" value="1">
                 <figure class="figure">
                     <div class="img-upload-container">
                         <img class="img-fluid image-preview w-100"
@@ -1074,31 +1173,33 @@
         function getExtraGeneralImageHTML(generalImageCount) {
             return `
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
-                <input type="file"
-                       name="item-image[${generalImageCount}]"
-                       class="image-file-selector"
-                       style="display:none;">
-                       <input type="hidden" name="oldImages[${generalImageCount}]"
-                                                   value="">
-                    <figure class="figure">
-                        <div class="img-upload-container">
-                            <img class="img-fluid image-preview"
-                                 src="{{ asset('img/alt/image-upload-alt.png') }}">
-                                <div class="img-upload-overlay">
-                                    <div class="img-upload-overlay-icon edit-img-button"
-                                         title="Upload Image"
-                                         onclick="uploadImage(this)">
-                                        <i class="icofont icofont-edit"></i>
+                                        <input type="file"
+                                               name="item[images][${generalImageCount}][newImage]"
+                                               class="image-file-selector"
+                                               style="display:none;">
+                                        <input type="hidden" name="item[images][${generalImageCount}][oldImage]"
+                                               value="">
+                                               <input type="hidden" class="image-is-empty-flag" name="item[images][${generalImageCount}][isEmpty]" value="1">
+                                        <figure class="figure">
+                                            <div class="img-upload-container">
+                                                <img class="img-fluid image-preview w-100"
+                                                     src="{{ asset('img/alt/image-upload-alt.png') }}"
+                                                     alt="基本照片">
+                                                <div class="img-upload-overlay">
+                                                    <div class="img-upload-overlay-icon edit-img-button"
+                                                         title="Upload Image"
+                                                         onclick="uploadImage(this)">
+                                                        <i class="icofont icofont-edit"></i>
+                                                    </div>
+                                                    <div class="img-upload-overlay-icon remove-img-button"
+                                                         title="Remove Image"
+                                                         onclick="removeImage(this)">
+                                                        <i class="icofont icofont-ui-delete"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figure>
                                     </div>
-                                    <div class="img-upload-overlay-icon remove-img-button"
-                                         title="Remove Image"
-                                         onclick="removeImage(this)">
-                                        <i class="icofont icofont-ui-delete"></i>
-                                    </div>
-                                </div>
-                        </div>
-                    </figure>
-            </div>
             `;
         }
 
@@ -1297,14 +1398,17 @@
         // });
 
 
-        // TODO - Optimize the code
         function uploadImage(source) {
-            source.parentElement.parentElement.parentElement.parentElement.firstElementChild.click();
+            let selector = jQuery(source);
+            selector.closest('.general-image-item').find('.image-file-selector').click();
+            selector.closest('.variation-image-item').find('.image-file-selector').click();
         }
 
         function removeImage(source) {
-            source.parentElement.parentElement.firstElementChild.src = "{{ asset('img/alt/image-upload-alt.png') }}";
-            source.parentElement.parentElement.parentElement.parentElement.firstElementChild.value = "";
+            let selector = jQuery(source);
+            selector.closest('.img-upload-container').find('.image-preview').attr('src', "{{ asset('img/alt/image-upload-alt.png') }}");
+            selector.closest('.general-image-item').find('.image-file-selector').val('');
+            selector.closest('.general-image-item').find('.image-is-empty-flag').val('1');
         }
 
 
@@ -1362,6 +1466,9 @@
                     let reader = new FileReader();
                     reader.onload = loadImage;
                     reader.readAsDataURL($(this)[0].files[0]);
+
+                    // Change the isEmpty flag to false when load the image successfully
+                    $(this).closest('.general-image-item').find('.image-is-empty-flag').val('0');
 
                     // Crop and shape the preview
                     let style = getComputedStyle(selected[0]);
