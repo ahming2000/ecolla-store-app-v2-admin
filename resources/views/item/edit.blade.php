@@ -1104,7 +1104,7 @@
             let value = sourceSelector.find('.variation-name').eq(0).val() + sourceSelector.find('.variation-name').eq(1).val();
             let variationIndex = $(".variation-item").index($(this).closest('.variation-item'));
 
-            $(".variation-name-display").eq(variationIndex).val(value);
+            $(".variation-table-item").eq(variationIndex).find('.variation-name-display').val(value);
             $(".variation-image-item").eq(variationIndex).find(".figure-caption").html(value); // Variety Image Box Caption
         });
 
