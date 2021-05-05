@@ -32,8 +32,8 @@ Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
 
 Route::prefix('/item')->group(function (){
     Route::get('/', [ItemsController::class, 'index'])->name('item.index');
-    Route::get('/{item}', [ItemsController::class, 'show'])->name('item.show');
     Route::get('/create', [ItemsController::class, 'create'])->name('item.create');
+    Route::get('/{item}', [ItemsController::class, 'show'])->name('item.show');
     Route::get('/{item}/edit', [ItemsController::class, 'edit'])->name('item.edit');
     Route::post('/', [ItemsController::class, 'store'])->name('item.store');
     Route::patch('/{item}', [ItemsController::class, 'update'])->name('item.update');
