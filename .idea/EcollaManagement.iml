@@ -124,5 +124,6 @@
     <orderEntry type="library" name="mdbootstrap" level="application" />
     <orderEntry type="library" name="selectize.js" level="application" />
     <orderEntry type="library" name="canvasjs" level="application" />
+    <orderEntry type="library" name="tiny-slider" level="application" />
   </component>
 </module>
