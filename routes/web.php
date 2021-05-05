@@ -49,4 +49,6 @@ Route::post('/order/{order}', [OrdersController::class, 'update']);
 Route::get('/order/{order}/item', [OrderItemsController::class, 'index']);
 
 Route::get('/setting', [SettingsController::class, 'index'])->name('setting.home');
+Route::patch('/setting/update/category', [SettingsController::class, 'updateCategory']);
+
 Route::get('/changing-log', [SettingsController::class, 'changingLog']);
