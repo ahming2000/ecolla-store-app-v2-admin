@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\ItemImage;
 use App\Models\ItemUtil;
 use App\Models\Variation;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -17,10 +18,6 @@ use Intervention\Image\Facades\Image;
 class ItemsController extends Controller
 {
 
-
-    /**
-     * ItemsController constructor.
-     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -28,9 +25,7 @@ class ItemsController extends Controller
 
     public function index()
     {
-
         $items = Item::orderBy('created_at', 'desc')->paginate(5);
-
         return view('item.index', compact('items'));
     }
 
@@ -39,7 +34,7 @@ class ItemsController extends Controller
         return view('item.create');
     }
 
-    public function save()
+    public function store()
     {
         $data = request()->validate([
             'name' => ['required', 'unique:items']
@@ -154,14 +149,29 @@ class ItemsController extends Controller
 
         $item->util()->update(['is_listed' => '1']);
 
-        session()->flash('message', '商品已保存并成功上架！');
-        header("refresh: 0");
+        return redirect('/item/' . $item->id . '/edit')->with('message', '商品已保存并成功上架！');
     }
 
-    private function updateInventory(Item $item, array $old, array $new){
+    public function destroy(Item $item){
+        DB::beginTransaction();
+        try {
+            $item->images()->delete();
+            $item->util()->delete();
+            $item->variations()->delete();
+            $item->categories()->detach();
+            $item->discounts()->delete();
+            $item->userRating()->delete();
+            $item->delete();
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            session()->flash('message', '商品删除失败！请联系客服！');
+        }
 
-
+        return redirect('/item')->with('message', "成功删除 " . $item->name . "!");
     }
+
+
 
     private function updateVariation(Item $item, array $old, array $new){
         $oldBarcode = array_column($old, 'barcode');

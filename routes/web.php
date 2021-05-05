@@ -30,11 +30,17 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
 
-Route::get('/item', [ItemsController::class, 'index'])->name('item.home');
-Route::get('/item/create', [ItemsController::class, 'create'])->name('item.create');
-Route::post('/item/create', [ItemsController::class, 'save'])->name('item.store');
-Route::get('/item/{item}/edit', [ItemsController::class, 'edit'])->name('item.edit');
-Route::post('/item/{item}/edit', [ItemsController::class, 'update'])->name('item.update');
+Route::prefix('/item')->group(function (){
+    Route::get('/', [ItemsController::class, 'index'])->name('item.index');
+    Route::get('/{item}', [ItemsController::class, 'show'])->name('item.show');
+    Route::get('/create', [ItemsController::class, 'create'])->name('item.create');
+    Route::get('/{item}/edit', [ItemsController::class, 'edit'])->name('item.edit');
+    Route::post('/', [ItemsController::class, 'store'])->name('item.store');
+    Route::patch('/{item}', [ItemsController::class, 'update'])->name('item.update');
+    Route::delete('/{item}', [ItemsController::class, 'destroy'])->name('item.destroy');
+});
+
+
 
 Route::get('/order', [OrdersController::class, 'index'])->name('order.home');
 Route::get('/order/{order}', [OrdersController::class, 'edit']);
