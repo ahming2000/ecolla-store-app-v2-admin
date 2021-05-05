@@ -70,9 +70,10 @@
 
             <!-- Content -->
             <div class="col-sm-12 col-md-10">
-                <form action="{{ url('/item/' . $item->id . '/edit') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ url('/item/' . $item->id) }}" method="post" enctype="multipart/form-data">
 
                     @csrf
+                    @method('PATCH')
 
                     <div class="h1">商品属性编辑</div>
 
