@@ -29,6 +29,10 @@ class ItemsController extends Controller
         return view('item.index', compact('items'));
     }
 
+    public function show(){
+
+    }
+
     public function create()
     {
         return view('item.create');
@@ -171,8 +175,6 @@ class ItemsController extends Controller
         return redirect('/item')->with('message', "成功删除 " . $item->name . "!");
     }
 
-
-
     private function updateVariation(Item $item, array $old, array $new){
         $oldBarcode = array_column($old, 'barcode');
         $newBarcode = array_column($new, 'barcode');
@@ -209,16 +211,6 @@ class ItemsController extends Controller
 
     }
 
-    private function generateArrayKeyFromElement(array $array, string $arrayKey): array
-    {
-        $temp = [];
-        foreach($array as $arr){
-            $arrayKeyValue = $arr["{$arrayKey}"];
-            $temp[$arrayKeyValue] = $arr;
-        }
-        return $temp;
-    }
-
     private function processImage(string $path, $mode = 'frame'){
         // $mode can be 'crop'(fit) or 'frame'(resizeCanvas)
 
@@ -247,24 +239,6 @@ class ItemsController extends Controller
         $image->save();
     }
 
-    private function getFilenameFromLink(string $oldFileName): string
-    {
-        $count = 0;
-        $flag = false;
-        for($i = -1; $i > strlen($oldFileName) * -1; $i--){
-            if($oldFileName[$i] == '.'){ // Find the point to start the count after extension
-                $flag = true;
-            }
-            if($flag){
-                $count++;
-            }
-            if($oldFileName[$i] == '/'){ // Stop at '/'
-                return substr($oldFileName, $i + 1, $count - 2);
-            }
-        }
-        return "";
-    }
-
     private function updateCategoryItem(Item $item, array $old, array $new){
 
         for($i = 0; $i < sizeof($old); $i++){
@@ -283,13 +257,6 @@ class ItemsController extends Controller
         foreach ($toRemove as $tr){
             $item->categories()->detach($tr);
         }
-    }
-
-    private function getArrayByKey($array, $key, $searchFor): array
-    {
-        return array_filter($array, function ($element) use ($key, $searchFor) {
-            return isset($element[$key]) && $element[$key] == $searchFor;
-        });
     }
 
 }
