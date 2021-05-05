@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-8 offset-sm-2">
                 <div class="h1 text-center mb-3">请输入商品名字</div>
-                <form action="{{ url('/item/create') }}" method="post">
+                <form action="{{ url('/item') }}" method="post">
                     @csrf
                     <div class="mb-3">
                         <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
