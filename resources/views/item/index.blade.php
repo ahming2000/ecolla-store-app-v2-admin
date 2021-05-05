@@ -7,6 +7,12 @@
 @section('content')
     <main class="container">
 
+        @if(session()->has('message'))
+            <div class="alert alert-info text-center" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+
 
         <div class="">
 
@@ -89,9 +95,18 @@
                         <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-secondary btn-sm mb-1">
                             <i class="icofont icofont-ui-edit"></i> 编辑
                         </a><br>
-                        <a href="#" class="btn btn-secondary btn-sm mb-1">
+                        <button type="button"
+                                class="btn btn-secondary btn-sm m-0 mb-1"
+                                onclick="confirmDelete(this)"
+                                value="{{ $item->name }}">
                             <i class="icofont icofont-ui-delete"></i> 删除
-                        </a><br>
+                        </button><br>
+
+                        <form action="{{ url('/item/' . $item->id) }}" method="post" class="delete-item-form">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+
                     </td>
                 </tr>
             @endforeach
@@ -104,4 +119,17 @@
             </div>
         </div>
     </main>
+@endsection
+
+@section('extraScriptEnd')
+    <script>
+        function confirmDelete(source){
+            let button = jQuery(source);
+            let form = button.parent().find('.delete-item-form');
+
+            if(confirm('您确定要删除 ' + button.val() + ' 吗？')){
+                form.submit();
+            }
+        }
+    </script>
 @endsection
