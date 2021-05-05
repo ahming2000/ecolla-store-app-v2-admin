@@ -747,23 +747,7 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 1,
-                'name' => '热卖',
-                'name_en' => 'Hot Selling'
-            )
-        );
-
-        DB::table('categories')->insert(
-            array(
-                'id' => 2,
-                'name' => '新品',
-                'name_en' => 'New Product'
-            )
-        );
-
-        DB::table('categories')->insert(
-            array(
-                'id' => 3,
+                'id' => 11,
                 'name' => '素食',
                 'name_en' => 'Vegetarian Friendly'
             )
@@ -771,7 +755,7 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 4,
+                'id' => 12,
                 'name' => '小零食',
                 'name_en' => 'Pocket Snack'
             )
@@ -779,7 +763,7 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 5,
+                'id' => 13,
                 'name' => '维生素饮品',
                 'name_en' => 'Vitamin Drink'
             )
@@ -787,7 +771,7 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 6,
+                'id' => 14,
                 'name' => '酒精饮品',
                 'name_en' => 'Alcohol'
             )
@@ -795,7 +779,7 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 7,
+                'id' => 15,
                 'name' => '饮料',
                 'name_en' => 'Beverage'
             )
@@ -803,7 +787,7 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 8,
+                'id' => 16,
                 'name' => '零食',
                 'name_en' => 'Snack'
             )
@@ -812,70 +796,42 @@ class ImportExampleData extends Migration
         DB::table('category_item')->insert(
             array(
                 'item_id' => 1,
-                'category_id' => 1
+                'category_id' => 2
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 2,
-                'category_id' => 1
+                'category_id' => 2
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 3,
-                'category_id' => 1
+                'category_id' => 2
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 4,
-                'category_id' => 1
+                'category_id' => 2
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 5,
-                'category_id' => 1
+                'category_id' => 2
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 1,
-                'category_id' => 2
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 2,
-                'category_id' => 2
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 3,
-                'category_id' => 2
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 4,
-                'category_id' => 2
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 5,
-                'category_id' => 2
+                'category_id' => 3
             )
         );
 
@@ -895,71 +851,99 @@ class ImportExampleData extends Migration
 
         DB::table('category_item')->insert(
             array(
-                'item_id' => 2,
-                'category_id' => 4
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 3,
-                'category_id' => 4
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 1,
-                'category_id' => 5
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
                 'item_id' => 4,
-                'category_id' => 6
+                'category_id' => 3
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 5,
-                'category_id' => 6
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 1,
-                'category_id' => 7
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 4,
-                'category_id' => 7
-            )
-        );
-
-        DB::table('category_item')->insert(
-            array(
-                'item_id' => 5,
-                'category_id' => 7
+                'category_id' => 3
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 2,
-                'category_id' => 8
+                'category_id' => 11
             )
         );
 
         DB::table('category_item')->insert(
             array(
                 'item_id' => 3,
-                'category_id' => 8
+                'category_id' => 11
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 2,
+                'category_id' => 12
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 3,
+                'category_id' => 12
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 1,
+                'category_id' => 13
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 4,
+                'category_id' => 14
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 5,
+                'category_id' => 14
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 1,
+                'category_id' => 15
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 4,
+                'category_id' => 15
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 5,
+                'category_id' => 15
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 2,
+                'category_id' => 16
+            )
+        );
+
+        DB::table('category_item')->insert(
+            array(
+                'item_id' => 3,
+                'category_id' => 16
             )
         );
 
@@ -1248,23 +1232,21 @@ class ImportExampleData extends Migration
      */
     public function down()
     {
-        DB::table('items')->where('id', '=', 1)->delete();
-        DB::table('items')->where('id', '=', 2)->delete();
-        DB::table('items')->where('id', '=', 3)->delete();
-        DB::table('items')->where('id', '=', 4)->delete();
-        DB::table('items')->where('id', '=', 5)->delete();
-        DB::table('orders')->where('id', '=', 1)->delete();
-        DB::table('orders')->where('id', '=', 2)->delete();
-        DB::table('orders')->where('id', '=', 3)->delete();
-        DB::table('orders')->where('id', '=', 4)->delete();
-        DB::table('orders')->where('id', '=', 5)->delete();
-        DB::table('categories')->where('id', '=', 1)->delete();
-        DB::table('categories')->where('id', '=', 2)->delete();
-        DB::table('categories')->where('id', '=', 3)->delete();
-        DB::table('categories')->where('id', '=', 4)->delete();
-        DB::table('categories')->where('id', '=', 5)->delete();
-        DB::table('categories')->where('id', '=', 7)->delete();
-        DB::table('categories')->where('id', '=', 8)->delete();
-        DB::table('categories')->where('id', '=', 9)->delete();
+        DB::table('items')->delete();
+        DB::table('variations')->delete();
+        DB::table('categories')->where('id', '=', 11)->delete();
+        DB::table('categories')->where('id', '=', 12)->delete();
+        DB::table('categories')->where('id', '=', 13)->delete();
+        DB::table('categories')->where('id', '=', 14)->delete();
+        DB::table('categories')->where('id', '=', 15)->delete();
+        DB::table('categories')->where('id', '=', 16)->delete();
+        DB::table('category_item')->delete();
+        DB::table('item_utils')->delete();
+        DB::table('item_images')->delete();
+        DB::table('variation_discounts')->delete();
+        DB::table('wholesale_discounts')->delete();
+        DB::table('orders')->delete();
+        DB::table('order_items')->delete();
+        DB::table('customers')->delete();
     }
 }
