@@ -143,7 +143,7 @@ class ItemsController extends Controller
                 $imagePath = $v['image']->store('items/' . $item->id . '');
                 $this->processImage(public_path("img/$imagePath"));
 
-                $imagePath = "http://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
+                $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
 
                 DB::table('variations')
                     ->where('barcode', '=', $v['barcode'])
