@@ -35,10 +35,16 @@ class HomeController extends Controller
         //1. Get Object Array Based on Date, Week, Month
         $order_arr = DB::select("SELECT * FROM orders");
 
+        //Update $order_arr
+        $order_arr = HomeController::updateOrderDateTime($order_arr);
+
+        $order_arr = array();
+
         $date_option_arr = HomeController::get_date_options($order_arr);
 
+        $first_date = empty($date_option_arr) ? date("Y-m-d") : $date_option_arr[0];
         //Get Date
-        $daily_date = $request->input('day', $date_option_arr[0]);
+        $daily_date = $request->input('day', $first_date);
 
         //Day Pipeline
         $daily_date_arr = HomeController::get_order_arr_date($order_arr, $daily_date);
@@ -52,8 +58,9 @@ class HomeController extends Controller
 
         $week_option_arr = HomeController::get_week_options($order_arr);
 
+        $first_week = empty($week_option_arr) ? HomeController::check_which_week(date("d/m/Y")) : $week_option_arr[0];
         //Get Week
-        $week_str = $request->input('week', $week_option_arr[0]);
+        $week_str = $request->input('week', $first_week);
 
         //Week Pipeline
         $week_arr = HomeController::get_order_arr_week($order_arr, $week_str);
@@ -67,8 +74,9 @@ class HomeController extends Controller
         
         $month_option_arr = HomeController::get_month_options($order_arr);
 
+        $first_month = empty($month_option_arr) ? date("M") . " " . date("Y") : $month_option_arr[0];
         //Get Month
-        $month_str = $request->input('month', $month_option_arr[0]);
+        $month_str = $request->input('month', $first_month);
 
         //Month Pipeline
         $month_arr = HomeController::get_order_arr_month($order_arr, $month_str);
@@ -84,6 +92,20 @@ class HomeController extends Controller
             'daily_date_arr', 'date_option_arr', 'daily_product_arr', 'daily_product_count', 'daily_product_sales_revenue', 'daily_graph_arr',
             'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 'month_graph_arr',  
             'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue', 'week_graph_arr'));
+    }
+
+    static function getOrderCreateDateTime($date_time)
+    {
+        $result = date_add(new DateTime($date_time), new DateInterval('PT8H')); // GMT +8
+        return $result->format('Y-m-d H:i:s');
+    }
+
+    static function updateOrderDateTime($order_arr){
+        $arr = array_map(function($obj) {
+            $obj->created_at = HomeController::getOrderCreateDateTime($obj->created_at);
+            return $obj;
+        }, $order_arr);
+        return $arr;
     }
 
     static function get_date_options($order_arr) {

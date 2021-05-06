@@ -72,7 +72,7 @@
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase" >Number of Orders</h6>
-                                                        <h1 class="display-3">{{ sizeof($daily_date_arr) }}</h1>
+                                                        <h1 class="display-4">{{ sizeof($daily_date_arr) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,7 +83,7 @@
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Number Of Products Sold</h6>
-                                                        <h1 class="display-3">{{ $daily_product_count }}</h1>
+                                                        <h1 class="display-4">{{ $daily_product_count }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,7 +94,7 @@
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Total Sales Revenue</h6>
-                                                        <h1 class="display-3">RM {{ $daily_product_sales_revenue }}</h1>
+                                                        <h1 class="display-4">RM {{ number_format($daily_product_sales_revenue, 2) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -114,14 +114,16 @@
                                                                 <th>Name</th>
                                                                 <th>Price Each</th>
                                                                 <th>Quantity</th>
+                                                                <th>SubTotal</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($daily_product_arr as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
-                                                                <td>RM {{ $product->price }}</td>
+                                                                <td>RM {{ number_format($product->price, 2) }}</td>
                                                                 <td>{{ $product->quantity }}</td>
+                                                                <td>RM {{ number_format($product->quantity * $product->price, 2) }}</td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
@@ -163,7 +165,7 @@
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase" >Number of Orders</h6>
-                                                        <h1 class="display-3">{{ sizeof($week_arr) }}</h1>
+                                                        <h1 class="display-4">{{ sizeof($week_arr) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -174,7 +176,7 @@
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Number Of Products Sold</h6>
-                                                        <h1 class="display-3">{{ $week_product_count }}</h1>
+                                                        <h1 class="display-4">{{ $week_product_count }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,7 +187,7 @@
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Total Sales Revenue</h6>
-                                                        <h1 class="display-3">RM {{ $week_product_sales_revenue }}</h1>
+                                                        <h1 class="display-4">RM {{ number_format($week_product_sales_revenue, 2) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -205,14 +207,16 @@
                                                                 <th>Name</th>
                                                                 <th>Price Each</th>
                                                                 <th>Quantity</th>
+                                                                <th>SubTotal</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($week_product_arr as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
-                                                                <td>RM {{ $product->price }}</td>
+                                                                <td>RM {{ number_format($product->price, 2) }}</td>
                                                                 <td>{{ $product->quantity }}</td>
+                                                                <td>RM {{ number_format($product->quantity * $product->price, 2) }}</td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
@@ -253,7 +257,7 @@
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase" >Number of Orders</h6>
-                                                        <h1 class="display-3">{{ sizeof($month_arr) }}</h1>
+                                                        <h1 class="display-4">{{ sizeof($month_arr) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -264,7 +268,7 @@
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Number Of Products Sold</h6>
-                                                        <h1 class="display-3">{{ $month_product_count }}</h1>
+                                                        <h1 class="display-4">{{ $month_product_count }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -275,7 +279,7 @@
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">Total Sales Revenue</h6>
-                                                        <h1 class="display-3">RM {{ $month_product_sales_revenue }}</h1>
+                                                        <h1 class="display-4">RM {{ number_format($month_product_sales_revenue, 2) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,14 +299,16 @@
                                                                 <th>Name</th>
                                                                 <th>Price Each</th>
                                                                 <th>Quantity</th>
+                                                                <th>SubTotal</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($month_product_arr as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
-                                                                <td>RM {{ $product->price }}</td>
+                                                                <td>RM {{ number_format($product->price, 2) }}</td>
                                                                 <td>{{ $product->quantity }}</td>
+                                                                <td>RM {{ number_format($product->quantity * $product->price, 2) }}</td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
