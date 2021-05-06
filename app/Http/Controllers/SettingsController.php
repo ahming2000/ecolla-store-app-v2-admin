@@ -83,11 +83,21 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.2.0 Beta';
-        $updateDate = '2021/05/05';
+        $currentVersion = 'v1.2.1 Beta';
+        $updateDate = '2021/05/06';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
+            [
+                'version' => 'v1.2.1 Beta',
+                'date' => '2021/05/06',
+                'desc' => [
+                    '修复使用外送服务时，顾客无法保存资料的问题',
+                    '修复邮费显示不正常问题',
+                    '添加了外送详情'
+                ]
+            ],
+
             [
                 'version' => 'v1.2.0 Beta',
                 'date' => '2021/05/05',
