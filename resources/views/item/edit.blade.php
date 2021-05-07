@@ -183,47 +183,6 @@
                     </div>
                     <!-- Origin -->
 
-                    <!-- Brand -->
-                    <div class="row">
-                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                            商品品牌：
-                        </div>
-
-                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12 pr-md-1">
-                                    <input type="text"
-                                           class="form-control @error('item.brand') is-invalid @enderror"
-                                           name="item[brand]"
-                                           value="{{ old('item.brand') ?? $item->brand ?? "" }}"
-                                           placeholder="华文">
-
-                                    @error('item.brand')
-                                    <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-6 col-sm-12 pl-md-1">
-                                    <input type="text"
-                                           class="form-control @error('item.brand_en') is-invalid @enderror"
-                                           name="item[brand_en]"
-                                           value="{{ old('item.brand_en') ?? $item->brand_en ?? "" }}"
-                                           placeholder="英文">
-
-                                    @error('item.brand_en')
-                                    <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Brand -->
-
                     <!-- Category -->
                     <div class="row mb-3">
                         <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
@@ -924,32 +883,17 @@
                                                 <div class="col-md-6 col-sm-12 pr-md-1">
                                                     <input type="text"
                                                            class="form-control variation-name"
-                                                           name="variations[${variationCount}][name1]"
+                                                           name="variations[${variationCount}][name]"
                                                            maxlength="100"
-                                                           placeholder="规格名称1">
+                                                           placeholder="规格">
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 pl-md-1">
                                                     <input type="text"
                                                            class="form-control variation-name"
-                                                           name="variations[${variationCount}][name2]"
+                                                           name="variations[${variationCount}][name_en]"
                                                            maxlength="100"
-                                                           placeholder="规格名称2">
+                                                           placeholder="Variation">
                                                 </div>
-                                                <div class="col-md-6 col-sm-12 pr-md-1">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           name="variations[${variationCount}][name1_en]"
-                                                           maxlength="100"
-                                                           placeholder="Variation Name 1">
-                                                </div>
-                                                <div class="col-md-6 col-sm-12 pl-md-1">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           name="variations[${variationCount}][name2_en]"
-                                                           maxlength="100"
-                                                           placeholder="Variation Name 2">
-                                                </div>
-
                                             </div>
                                         </div>
                                         <div class="col-1 mb-1 ml-0 pl-0">

@@ -20,8 +20,6 @@ class ImportExampleData extends Migration
                 'name' => '脉动维生素功能饮料',
                 'name_en' => 'MaiDong Energy Drink',
                 'desc' => '好喝的饮料 Delicious Drink',
-                'brand' => '脉动',
-                'brand_en' => 'Mai Dong',
                 'origin' => '中国',
                 'origin_en' => 'China'
             )
@@ -32,8 +30,6 @@ class ImportExampleData extends Migration
                 'name' => '好味屋手撕素肉排',
                 'name_en' => 'Hao Wei Wu Vege Steak',
                 'desc' => '面筋制品 Made from bean',
-                'brand' => '好味屋',
-                'brand_en' => 'Hao Wei Wu',
                 'origin' => '中国',
                 'origin_en' => 'China'
             )
@@ -44,8 +40,6 @@ class ImportExampleData extends Migration
                 'name' => '湖湘贡鹌鹑蛋',
                 'name_en' => 'Hu Xiang Gong Quail Eggs',
                 'desc' => '风味鸳鸯蛋 Flavored quail eggs',
-                'brand' => '湖湘贡',
-                'brand_en' => 'Hu Xiang Gong',
                 'origin' => '中国',
                 'origin_en' => 'China'
             )
@@ -56,8 +50,6 @@ class ImportExampleData extends Migration
                 'name' => 'RIO鸡尾酒',
                 'name_en' => 'RIO Cocktail',
                 'desc' => '精美玻璃，漂亮的颜色的鸡尾酒 Beautiful Bottle',
-                'brand' => 'RIO',
-                'brand_en' => 'RIO',
                 'origin' => '中国',
                 'origin_en' => 'China'
             )
@@ -68,8 +60,6 @@ class ImportExampleData extends Migration
                 'name' => 'RIO微醺鸡尾酒',
                 'name_en' => 'RIO Cocktail Tin',
                 'desc' => '来一杯，享受好时光 Enjoy life',
-                'brand' => 'RIO',
-                'brand_en' => 'RIO',
                 'origin' => '中国',
                 'origin_en' => 'China'
             )

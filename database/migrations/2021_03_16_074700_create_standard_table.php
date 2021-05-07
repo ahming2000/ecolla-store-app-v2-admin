@@ -18,8 +18,6 @@ class CreateStandardTable extends Migration
             $table->string('name');
             $table->string('name_en')->nullable();
             $table->text('desc')->nullable();
-            $table->string('brand')->nullable();
-            $table->string('brand_en')->nullable();
             $table->string('origin')->nullable();
             $table->string('origin_en')->nullable();
 

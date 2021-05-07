@@ -66,8 +66,6 @@ class ItemsController extends Controller
             'item.desc' => 'required',
             'item.origin' => 'required',
             'item.origin_en' => 'required',
-            'item.brand' => 'required',
-            'item.brand_en' => 'required',
 
             'categories.*.id' => '',
 
