@@ -986,7 +986,7 @@
             e.preventDefault();
 
             let sourceSelector = $(this).closest('.row');
-            let value = sourceSelector.find('.variation-name').eq(0).val() + sourceSelector.find('.variation-name').eq(1).val();
+            let value = sourceSelector.find('.variation-name').eq(0).val();
             let variationIndex = $(".variation-item").index($(this).closest('.variation-item'));
 
             $(".variation-table-item").eq(variationIndex).find('.variation-name-display').val(value);
