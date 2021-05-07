@@ -83,11 +83,34 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.2.2 Beta';
-        $updateDate = '2021/05/07';
+        $currentVersion = 'v1.2.3 Beta';
+        $updateDate = '2021/05/08';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
+//            [
+//                'version' => 'v1.3.0 Beta',
+//                'date' => '2021/05/08',
+//                'desc' => [
+//                    '功能：',
+//                    '顾客商品界面添加了商品描述',
+//                    '顾客商品界面添加了商品推荐（随机和同类别各10个）',
+//                    '添加了商品折扣功能',
+//                    '优化：',
+//                    '优化了手机版商品编辑、商品管理主页、订单管理主页界面',
+//                    '',
+//                ]
+//            ],
+
+            [
+                'version' => 'v1.2.3 Beta',
+                'date' => '2021/05/08',
+                'desc' => [
+                    '修复了商品界面在库存只有1的时候可以添加超过1件商品进购物车的问题',
+                    '修复了手机版顾客主页功能建显示不正常的问题'
+                ]
+            ],
+
             [
                 'version' => 'v1.2.2 Beta',
                 'date' => '2021/05/07',
