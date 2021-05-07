@@ -16,7 +16,7 @@ class CreateStandardTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('name_en')->nullable();
+            $table->string('name_en')->nulolable();
             $table->text('desc')->nullable();
             $table->string('brand')->nullable();
             $table->string('brand_en')->nullable();
@@ -58,10 +58,8 @@ class CreateStandardTable extends Migration
         Schema::create('variations', function (Blueprint $table) {
             $table->id();
             $table->string('barcode')->unique();
-            $table->string('name1'); // e.g. Spicy
-            $table->string('name2'); // e.g. 24g x 20
-            $table->string('name1_en')->nullable();
-            $table->string('name2_en')->nullable();
+            $table->string('name');
+            $table->string('name_en')->nullable();
             $table->double('price');
             $table->double('weight');
             $table->string('image')->nullable();
@@ -133,6 +131,7 @@ class CreateStandardTable extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
             $table->string('name');
+            $table->string('name_en');
             $table->string('barcode');
             $table->double('price');
             $table->double('discount_rate')->default(1.0);
