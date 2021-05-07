@@ -114,7 +114,7 @@ class ItemsController extends Controller
                     $imagePath = $img['newImage']->store('items/' . $item->id . '');
                     $this->processImage(public_path("img/$imagePath"));
 
-                    $imagePath = "http://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
+                    $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
 
                     $itemImage = new ItemImage();
                     $itemImage->setAttribute('image', $imagePath);
