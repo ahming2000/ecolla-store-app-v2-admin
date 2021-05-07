@@ -83,11 +83,20 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.2.1 Beta';
-        $updateDate = '2021/05/06';
+        $currentVersion = 'v1.2.2 Beta';
+        $updateDate = '2021/05/07';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
+            [
+                'version' => 'v1.2.2 Beta',
+                'date' => '2021/05/07',
+                'desc' => [
+                    '移除商品品牌',
+                    '合拼商品规格名称'
+                ]
+            ],
+
             [
                 'version' => 'v1.2.1 Beta',
                 'date' => '2021/05/06',
