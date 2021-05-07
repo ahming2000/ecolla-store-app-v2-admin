@@ -16,7 +16,7 @@ class CreateStandardTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('name_en')->nulolable();
+            $table->string('name_en')->nullable();
             $table->text('desc')->nullable();
             $table->string('brand')->nullable();
             $table->string('brand_en')->nullable();
