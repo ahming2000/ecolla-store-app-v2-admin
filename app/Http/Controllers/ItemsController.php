@@ -71,10 +71,8 @@ class ItemsController extends Controller
 
             'categories.*.id' => '',
 
-            'variations.*.name1' => 'required',
-            'variations.*.name2' => 'required',
-            'variations.*.name1_en' => 'required',
-            'variations.*.name2_en' => 'required',
+            'variations.*.name' => 'required',
+            'variations.*.name_en' => 'required',
             'variations.*.barcode' => 'required',
             'variations.*.price' => 'required',
             'variations.*.weight' => 'required',

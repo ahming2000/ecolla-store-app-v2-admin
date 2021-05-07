@@ -312,13 +312,13 @@
                                                 <div class="row">
                                                     <div class="col-md-6 col-sm-12 pr-md-1">
                                                         <input type="text"
-                                                               class="form-control variation-name @error("variations.$i.name1") is-invalid @enderror"
-                                                               name="variations[{{$i}}][name1]"
+                                                               class="form-control variation-name @error("variations.$i.name") is-invalid @enderror"
+                                                               name="variations[{{$i}}][name]"
                                                                maxlength="100"
-                                                               value="{{ old("variations.$i.name1") ?? "" }}"
-                                                               placeholder="规格名称1">
+                                                               value="{{ old("variations.$i.name") ?? "" }}"
+                                                               placeholder="规格">
 
-                                                        @error("variations.$i.name1")
+                                                        @error("variations.$i.name")
                                                         <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -326,47 +326,18 @@
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 pl-md-1">
                                                         <input type="text"
-                                                               class="form-control variation-name @error("variations.$i.name2") is-invalid @enderror"
-                                                               name="variations[{{$i}}][name2]"
+                                                               class="form-control variation-name @error("variations.$i.name_en") is-invalid @enderror"
+                                                               name="variations[{{$i}}][name_en]"
                                                                maxlength="100"
-                                                               value="{{ old("variations.$i.name2") ?? "" }}"
-                                                               placeholder="规格名称2">
+                                                               value="{{ old("variations.$i.name_en") ?? "" }}"
+                                                               placeholder="Variation">
 
-                                                        @error("variations.$i.name2")
+                                                        @error("variations.$i.name_en")
                                                         <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-6 col-sm-12 pr-md-1">
-                                                        <input type="text"
-                                                               class="form-control @error("variations.$i.name1_en") is-invalid @enderror"
-                                                               name="variations[{{$i}}][name1_en]"
-                                                               maxlength="100"
-                                                               value="{{ old("variations.$i.name1_en") ?? "" }}"
-                                                               placeholder="Variation Name 1">
-
-                                                        @error("variations.$i.name1_en")
-                                                        <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-12 pl-md-1">
-                                                        <input type="text"
-                                                               class="form-control @error("variations.$i.name2_en") is-invalid @enderror"
-                                                               name="variations[{{$i}}][name2_en]"
-                                                               maxlength="100"
-                                                               value="{{ old("variations.$i.name2_en") ?? "" }}"
-                                                               placeholder="Variation Name 2">
-
-                                                        @error("variations.$i.name2_en")
-                                                        <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                        @enderror
-                                                    </div>
-
                                                 </div>
                                             </div>
                                             <div class="col-1 mb-1 ml-0 pl-0">
@@ -389,36 +360,19 @@
                                                     <div class="col-md-6 col-sm-12 pr-md-1">
                                                         <input type="text"
                                                                class="form-control variation-name"
-                                                               name="variations[{{$i}}][name1]"
+                                                               name="variations[{{$i}}][name]"
                                                                maxlength="100"
-                                                               value="{{ $item->variations[$i]->name1 ?? "" }}"
-                                                               placeholder="规格名称1">
+                                                               value="{{ $item->variations[$i]->name ?? "" }}"
+                                                               placeholder="规格">
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 pl-md-1">
                                                         <input type="text"
                                                                class="form-control variation-name"
-                                                               name="variations[{{$i}}][name2]"
+                                                               name="variations[{{$i}}][name_en]"
                                                                maxlength="100"
-                                                               value="{{ $item->variations[$i]->name2 ?? "" }}"
-                                                               placeholder="规格名称2">
+                                                               value="{{ $item->variations[$i]->name_en ?? "" }}"
+                                                               placeholder="Variation">
                                                     </div>
-                                                    <div class="col-md-6 col-sm-12 pr-md-1">
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               name="variations[{{$i}}][name1_en]"
-                                                               maxlength="100"
-                                                               value="{{ $item->variations[$i]->name1_en ?? "" }}"
-                                                               placeholder="Variation Name 1">
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-12 pl-md-1">
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               name="variations[{{$i}}][name2_en]"
-                                                               maxlength="100"
-                                                               value="{{ $item->variations[$i]->name2_en ?? "" }}"
-                                                               placeholder="Variation Name 2">
-                                                    </div>
-
                                                 </div>
                                             </div>
                                             <div class="col-1 mb-1 ml-0 pl-0">
@@ -437,32 +391,17 @@
                                                 <div class="col-md-6 col-sm-12 pr-md-1">
                                                     <input type="text"
                                                            class="form-control variation-name"
-                                                           name="variations[0][name1]"
+                                                           name="variations[0][name]"
                                                            maxlength="100"
-                                                           placeholder="规格名称1">
+                                                           placeholder="规格">
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 pl-md-1">
                                                     <input type="text"
                                                            class="form-control variation-name"
-                                                           name="variations[0][name2]"
+                                                           name="variations[0][name_en]"
                                                            maxlength="100"
-                                                           placeholder="规格名称2">
+                                                           placeholder="Variation">
                                                 </div>
-                                                <div class="col-md-6 col-sm-12 pr-md-1">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           name="variations[0][name1_en]"
-                                                           maxlength="100"
-                                                           placeholder="Variation Name 1">
-                                                </div>
-                                                <div class="col-md-6 col-sm-12 pl-md-1">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           name="variations[0][name2_en]"
-                                                           maxlength="100"
-                                                           placeholder="Variation Name 2">
-                                                </div>
-
                                             </div>
                                         </div>
                                         <div class="col-1 mb-1 ml-0 pl-0">
@@ -508,7 +447,7 @@
                                             <td>
                                                 <input type="text"
                                                        class="form-control variation-name-display"
-                                                       value="{{ (old("variations.$i.name1") ?? "") . (old("variations.$i.name2") ?? "") }}"
+                                                       value="{{ (old("variations.$i.name") ?? "") }}"
                                                        disabled>
                                             </td>
                                             <td>
@@ -547,7 +486,7 @@
                                             <td>
                                                 <input type="text"
                                                        class="form-control variation-name-display"
-                                                       value="{{ $item->variations[$i]->name1 . $item->variations[$i]->name2 }}"
+                                                       value="{{ $item->variations[$i]->name }}"
                                                        disabled>
                                             </td>
                                             <td>
@@ -856,7 +795,7 @@
                                                     </div>
                                                 </div>
                                                 <figcaption class="figure-caption text-center">
-                                                    {{ $item->variations[$i]->name1 . $item->variations[$i]->name2 }}
+                                                    {{ $item->variations[$i]->name }}
                                                 </figcaption>
                                             </figure>
                                         </div>

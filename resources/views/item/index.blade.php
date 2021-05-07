@@ -68,7 +68,7 @@
                     </td>
                     <td>
                         @foreach($item->variations as $variation)
-                            {{ $variation->name1 . ' ' . $variation->name2 }}<br>
+                            {{ $variation->name }}<br>
                         @endforeach
                     </td>
                     <td>
