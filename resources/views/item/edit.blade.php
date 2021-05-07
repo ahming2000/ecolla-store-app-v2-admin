@@ -81,11 +81,11 @@
 
                     <!-- Name -->
                     <div class="row">
-                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
                             商品名称：
                         </div>
 
-                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 pr-md-1">
                                     <input type="text"
@@ -123,11 +123,11 @@
 
                     <!-- Description -->
                     <div class="row">
-                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
                             商品描述：
                         </div>
 
-                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3">
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3">
                             <textarea class="form-control @error('item.desc') is-invalid @enderror"
                                       name="item[desc]"
                                       rows="5"
@@ -144,11 +144,11 @@
 
                     <!-- Origin -->
                     <div class="row">
-                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
                             出产地：
                         </div>
 
-                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
 
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 pr-md-1">
@@ -185,11 +185,11 @@
 
                     <!-- Category -->
                     <div class="row mb-3">
-                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
                             商品类别/标签：
                         </div>
 
-                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                             <div id="category-section">
 
                                 @if(!empty($item->categories->toArray()))
@@ -254,11 +254,11 @@
 
                     <!-- Variation Name -->
                     <div class="row mb-3">
-                        <div class="col-xs-2 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
                             规格：
                         </div>
 
-                        <div class="col-xs-10 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                             <div id="variation-section">
                                 @if(!empty(old('variations')))
                                     <input type="hidden"
