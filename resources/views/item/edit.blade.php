@@ -93,7 +93,7 @@
                                            name="item[name]"
                                            maxlength="250"
                                            value="{{ old('item.name') ?? $item->name ?? "" }}"
-                                           placeholder="华文">
+                                           placeholder="商品名称">
 
                                     @error('item.name')
                                     <span class="invalid-feedback" role="alert">
@@ -108,7 +108,7 @@
                                            name="item[name_en]"
                                            maxlength="250"
                                            value="{{ old('name_en') ?? $item->name_en ?? "" }}"
-                                           placeholder="英文">
+                                           placeholder="Item Name">
 
                                     @error('item.name_en')
                                     <span class="invalid-feedback" role="alert">
@@ -131,6 +131,7 @@
                             <textarea class="form-control @error('item.desc') is-invalid @enderror"
                                       name="item[desc]"
                                       rows="5"
+                                      placeholder="商品描述 Item Description"
                                       maxlength="3000">{{ old('item.desc') ?? $item->desc ?? "" }}</textarea>
 
                             @error('item.desc')
@@ -156,7 +157,7 @@
                                            class="form-control @error('item.origin') is-invalid @enderror"
                                            name="item[origin]"
                                            value="{{ old('item.origin') ?? $item->origin ?? "" }}"
-                                           placeholder="华文">
+                                           placeholder="出产地">
 
                                     @error('item.origin')
                                     <span class="invalid-feedback" role="alert">
@@ -170,7 +171,7 @@
                                            class="form-control @error('item.origin_en') is-invalid @enderror"
                                            name="item[origin_en]"
                                            value="{{ old('item.origin_en') ?? $item->origin_en ?? "" }}"
-                                           placeholder="英文">
+                                           placeholder="Origin">
 
                                     @error('item.origin_en')
                                     <span class="invalid-feedback" role="alert">
