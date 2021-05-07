@@ -13,7 +13,7 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header">{{ __('Dashboard') }}</div>
+            <div class="card-header">{{ __('订单仪表板') }}</div>
 
             {{-- <div class="card-body">
                 @if (session('status'))
@@ -29,9 +29,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <nav class="nav-justified ">
+                            <nav class="nav-justified">
                                 <div class="nav nav-tabs " id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" id="pop1-tab" data-toggle="tab" href="#pop1"
+                                    <a class="nav-item nav-link" id="pop1-tab" data-toggle="tab" href="#pop1"
                                         role="tab" aria-controls="pop1" aria-selected="true">Daily</a>
                                     <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2"
                                         role="tab" aria-controls="pop2" aria-selected="false">Weekly</a>
@@ -40,25 +40,25 @@
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="pop1" role="tabpanel"
+                                <div class="tab-pane fade" id="pop1" role="tabpanel"
                                     aria-labelledby="pop1-tab">
                                     <div class="pt-3"></div>
 
                                     <form action="{{ url('/home') }}" method="GET" id="day_form">
                                         <div class="row">
                                             <div class="col-3">
-                                                <label for="day">Choose A Date: </label>
+                                                <label for="day">請選日期: </label>
                                             </div>
                                             <div class="col-3">
                                                 <select class="search_select" name="day" form="day_form">
-                                                    <option value="">Enter a Day...</option>
+                                                    <option value="">請輸入日期...</option>
                                                     @foreach ($date_option_arr as $date_str)
                                                         <option value="{{ $date_str }}">{{ $date_str }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col"><button class="btn btn-success" type="submit" name="type"
-                                                                     value="daily">Submit</button></div>
+                                                                     value="daily">提交</button></div>
 
                                         </div>
                                     </form>
@@ -71,7 +71,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase" >Number of Orders</h6>
+                                                        <h6 class="text-uppercase" >訂單數量</h6>
                                                         <h1 class="display-4">{{ sizeof($daily_date_arr) }}</h1>
                                                     </div>
                                                 </div>
@@ -82,7 +82,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase">Number Of Products Sold</h6>
+                                                        <h6 class="text-uppercase">產品數量</h6>
                                                         <h1 class="display-4">{{ $daily_product_count }}</h1>
                                                     </div>
                                                 </div>
@@ -93,7 +93,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase">Total Sales Revenue</h6>
+                                                        <h6 class="text-uppercase">总销售收入</h6>
                                                         <h1 class="display-4">RM {{ number_format($daily_product_sales_revenue, 2) }}</h1>
                                                     </div>
                                                 </div>
@@ -111,10 +111,10 @@
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th>Name</th>
-                                                                <th>Price Each</th>
-                                                                <th>Quantity</th>
-                                                                <th>SubTotal</th>
+                                                                <th>名字</th>
+                                                                <th>單品價錢</th>
+                                                                <th>數量</th>
+                                                                <th>小计</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -140,18 +140,18 @@
                                     <form action="{{ url('/home') }}" method="GET" id="week_form">
                                         <div class="row">
                                             <div class="col-3">
-                                                <label for="week">Choose A Week: </label>
+                                                <label for="week">請選星期: </label>
                                             </div>
                                             <div class="col-5">
                                                 <select class="search_select" name="week" form="week_form">
-                                                    <option value="">Enter a Week...</option>
+                                                    <option value="">請輸入星期...</option>
                                                     @foreach ($week_option_arr as $week_str)
                                                         <option value="{{ $week_str }}">{{ $week_str }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col"><button class="btn btn-success" type="submit" name="type"
-                                                                     value="weekly">Submit</button></div>
+                                                                     value="weekly">提交</button></div>
 
                                         </div>
                                     </form>
@@ -164,7 +164,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase" >Number of Orders</h6>
+                                                        <h6 class="text-uppercase" >訂單數量</h6>
                                                         <h1 class="display-4">{{ sizeof($week_arr) }}</h1>
                                                     </div>
                                                 </div>
@@ -175,7 +175,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase">Number Of Products Sold</h6>
+                                                        <h6 class="text-uppercase">產品數量</h6>
                                                         <h1 class="display-4">{{ $week_product_count }}</h1>
                                                     </div>
                                                 </div>
@@ -186,7 +186,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase">Total Sales Revenue</h6>
+                                                        <h6 class="text-uppercase">总销售收入</h6>
                                                         <h1 class="display-4">RM {{ number_format($week_product_sales_revenue, 2) }}</h1>
                                                     </div>
                                                 </div>
@@ -204,10 +204,10 @@
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th>Name</th>
-                                                                <th>Price Each</th>
-                                                                <th>Quantity</th>
-                                                                <th>SubTotal</th>
+                                                                <th>名字</th>
+                                                                <th>單品價錢</th>
+                                                                <th>數量</th>
+                                                                <th>小计</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -233,18 +233,18 @@
                                     <form action="{{ url('/home') }}" method="GET" id="month_form">
                                         <div class="row">
                                             <div class="col-3">
-                                                <label for="month">Choose A Month: </label>
+                                                <label for="month">請選月份: </label>
                                             </div>
                                             <div class="col-3">
                                                 <select class="search_select" name="month" form="month_form">
-                                                    <option value="">Enter a Month...</option>
+                                                    <option value="">請輸入月份...</option>
                                                     @foreach ($month_option_arr as $option)
                                                     <option value="{{ $option }}">{{ $option }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col"><button class="btn btn-success" type="submit" name="type"
-                                                value="monthly">Submit</button></div>
+                                                value="monthly">提交</button></div>
                                         </div>
                                     </form>
 
@@ -256,7 +256,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase" >Number of Orders</h6>
+                                                        <h6 class="text-uppercase" >訂單數量</h6>
                                                         <h1 class="display-4">{{ sizeof($month_arr) }}</h1>
                                                     </div>
                                                 </div>
@@ -267,7 +267,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase">Number Of Products Sold</h6>
+                                                        <h6 class="text-uppercase">產品數量</h6>
                                                         <h1 class="display-4">{{ $month_product_count }}</h1>
                                                     </div>
                                                 </div>
@@ -278,7 +278,7 @@
                                                         <div class="rotate">
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
-                                                        <h6 class="text-uppercase">Total Sales Revenue</h6>
+                                                        <h6 class="text-uppercase">总销售收入</h6>
                                                         <h1 class="display-4">RM {{ number_format($month_product_sales_revenue, 2) }}</h1>
                                                     </div>
                                                 </div>
@@ -296,10 +296,10 @@
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th>Name</th>
-                                                                <th>Price Each</th>
-                                                                <th>Quantity</th>
-                                                                <th>SubTotal</th>
+                                                                <th>名字</th>
+                                                                <th>單品價錢</th>
+                                                                <th>數量</th>
+                                                                <th>小计</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -340,13 +340,35 @@
         <p id="daily_1">{{ $daily_graph_arr[0] }}</p>
         <p id="daily_2">{{ $daily_graph_arr[1] }}</p>
         <p id="daily_3">{{ $daily_graph_arr[2] }}</p>
+        <p id="tab_active">{{ $tab_active }}</p>
     </div>
 @endsection
 
 @section('extraScriptEnd')
     <script>
         $(function() {
+            //Selectize JS
             $(".search_select").selectize();
+
+            //Controls Which Tab is Active
+            let tab_active = $("#tab_active").html();
+            switch(tab_active){
+                case "daily":
+                    $("#pop1").addClass("show active");
+                    $("#pop1-tab").addClass("active");
+                    break;
+                case "weekly":
+                    $("#pop2").addClass("show active");
+                    $("#pop2-tab").addClass("active");
+                    break;
+                case "monthly":
+                    $("#pop3").addClass("show active");
+                    $("#pop3-tab").addClass("active");
+                    break;
+            }
+            
+
+            //Canvas JS Graph
             let month_1 = $("#month_1").html(),
                 month_2 = $("#month_2").html(),
                 month_3 = $("#month_3").html(),
@@ -359,7 +381,7 @@
 
             let weekly_sales_chart = new CanvasJS.Chart("weekly_sales_chart", {
                 title: {
-                    text: "Weekly Order Analysis"
+                    text: "每周訂單分析"
                 },
                 exportEnabled: true,
                 animationEnabled: true,
@@ -371,7 +393,7 @@
                     itemclick: toggleDataSeries
                 },
                 axisY: {
-                    title: "Transaction Information",
+                    title: "交易信息",
                     lineColor: "black",
                     tickColor: "black",
                     labelFontColor: "black",
@@ -379,21 +401,21 @@
                 },
                 data: [{
                     type: "area",
-                    name: "Total Sales Revenue",
+                    name: "总销售收入",
                     color: "rgba(40,175,101,0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "Number of Products Sold",
+                    name: "產品數量",
                     color: "rgba(194, 70, 66, 0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "Number of Orders",
+                    name: "訂單數量",
                     color: "rgba(0,75,141,0.7)",
                     showInLegend: true,
                     axisYIndex: 1,
@@ -403,7 +425,7 @@
 
             let daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
                 title: {
-                    text: "Daily Order Analysis"
+                    text: "每日訂單分析"
                 },
                 exportEnabled: true,
                 animationEnabled: true,
@@ -415,7 +437,7 @@
                     itemclick: toggleDataSeries
                 },
                 axisY: {
-                    title: "Transaction Information",
+                    title: "交易信息",
                     lineColor: "black",
                     tickColor: "black",
                     labelFontColor: "black",
@@ -423,21 +445,21 @@
                 },
                 data: [{
                     type: "area",
-                    name: "Total Sales Revenue",
+                    name: "总销售收入",
                     color: "rgba(40,175,101,0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "Number of Products Sold",
+                    name: "產品數量",
                     color: "rgba(194, 70, 66, 0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "Number of Orders",
+                    name: "訂單數量",
                     color: "rgba(0,75,141,0.7)",
                     showInLegend: true,
                     axisYIndex: 1,
@@ -447,7 +469,7 @@
 
             let timestamp_sales_chart = new CanvasJS.Chart("timestamp_sales_chart", {
                 title: {
-                    text: "Time Stamp Order Analysis"
+                    text: "訂單时间戳记分析"
                 },
                 exportEnabled: true,
                 animationEnabled: true,
@@ -459,7 +481,7 @@
                     itemclick: toggleDataSeries
                 },
                 axisY: {
-                    title: "Transaction Information",
+                    title: "交易信息",
                     lineColor: "black",
                     tickColor: "black",
                     labelFontColor: "black",
@@ -467,21 +489,21 @@
                 },
                 data: [{
                     type: "area",
-                    name: "Total Sales Revenue",
+                    name: "总销售收入",
                     color: "rgba(40,175,101,0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "Number of Products Sold",
+                    name: "產品數量",
                     color: "rgba(194, 70, 66, 0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "Number of Orders",
+                    name: "訂單數量",
                     color: "rgba(0,75,141,0.7)",
                     showInLegend: true,
                     axisYIndex: 1,

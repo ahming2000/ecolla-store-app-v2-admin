@@ -38,8 +38,6 @@ class HomeController extends Controller
         //Update $order_arr
         $order_arr = HomeController::updateOrderDateTime($order_arr);
 
-        $order_arr = array();
-
         $date_option_arr = HomeController::get_date_options($order_arr);
 
         $first_date = empty($date_option_arr) ? date("Y-m-d") : $date_option_arr[0];
@@ -88,10 +86,13 @@ class HomeController extends Controller
         $month_hashmap = HomeController::get_month_graph_hashmap($month_arr, $month_str);
         $month_graph_arr = HomeController::get_graph_arr($month_hashmap);
 
+        $tab_active = $request->input('type', "daily");
+
         return view('home', compact(
             'daily_date_arr', 'date_option_arr', 'daily_product_arr', 'daily_product_count', 'daily_product_sales_revenue', 'daily_graph_arr',
             'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 'month_graph_arr',  
-            'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue', 'week_graph_arr'));
+            'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue', 'week_graph_arr'
+            ,'tab_active'));
     }
 
     static function getOrderCreateDateTime($date_time)
