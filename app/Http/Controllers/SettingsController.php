@@ -83,13 +83,14 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.2.3 Beta';
-        $updateDate = '2021/05/08';
+        $currentVersion = 'v1.3.0 Beta';
+        $updateDate = '2021/05/09';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
+
 //            [
-//                'version' => 'v1.3.0 Beta',
+//                'version' => 'v1.4.0 Beta',
 //                'date' => '2021/05/08',
 //                'desc' => [
 //                    '功能：',
@@ -101,6 +102,16 @@ class SettingsController extends Controller
 //                    '',
 //                ]
 //            ],
+
+            [
+                'version' => 'v1.3.0 Beta',
+                'date' => '2021/05/09',
+                'desc' => [
+                    '功能：',
+                    '顾客商品界面添加了商品描述',
+                    '顾客商品界面添加了商品推荐（随机和同类别各10个）',
+                ]
+            ],
 
             [
                 'version' => 'v1.2.3 Beta',
