@@ -83,25 +83,33 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.0 Beta';
-        $updateDate = '2021/05/09';
+        $currentVersion = 'v1.3.1 Beta';
+        $updateDate = '2021/05/12';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
 
 //            [
 //                'version' => 'v1.4.0 Beta',
-//                'date' => '2021/05/08',
+//                'date' => '2021/05/11',
 //                'desc' => [
 //                    '功能：',
-//                    '顾客商品界面添加了商品描述',
-//                    '顾客商品界面添加了商品推荐（随机和同类别各10个）',
 //                    '添加了商品折扣功能',
 //                    '优化：',
 //                    '优化了手机版商品编辑、商品管理主页、订单管理主页界面',
 //                    '',
 //                ]
 //            ],
+
+            [
+                'version' => 'v1.3.1 Beta',
+                'date' => '2021/05/12',
+                'desc' => [
+                    '优化商品管理搜索页面',
+                    '修复商品编辑，出现验证错误时，商品英文名字无法正常显示的问题',
+                    '修复订单状态更新界面，订单取消和订单退款倒反的问题'
+                ]
+            ],
 
             [
                 'version' => 'v1.3.0 Beta',
@@ -111,7 +119,7 @@ class SettingsController extends Controller
                     '顾客商品界面添加了商品描述',
                     '顾客商品界面添加了商品推荐（随机和同类别各10个）',
                     '优化：',
-                    '修复顾客主页功能条在滑下之后便透明的问题'
+                    '修复顾客主页功能条在滑下之后变透明的问题'
                 ]
             ],
 
