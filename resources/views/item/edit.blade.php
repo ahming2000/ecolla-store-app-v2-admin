@@ -107,7 +107,7 @@
                                            class="form-control @error('item.name_en') is-invalid @enderror"
                                            name="item[name_en]"
                                            maxlength="250"
-                                           value="{{ old('name_en') ?? $item->name_en ?? "" }}"
+                                           value="{{ old('item.name_en') ?? $item->name_en ?? "" }}"
                                            placeholder="Item Name">
 
                                     @error('item.name_en')
@@ -192,6 +192,8 @@
 
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                             <div id="category-section">
+
+{{--                                TODO - Detect old value after validation --}}
 
                                 @if(!empty($item->categories->toArray()))
                                     <input type="hidden"
