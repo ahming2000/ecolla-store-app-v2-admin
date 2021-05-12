@@ -17,10 +17,10 @@
         <div class="">
 
             <div class="row">
-                <div class="col">
+                <div class="col-md-6 col-sm-12">
                     <div style="font-size: 40px; font-weight: bolder">商品管理</div>
                 </div>
-                <div class="col">
+                <div class="col-md-6 col-sm-12">
                     <div class="row mb-2">
                         <div class="col-12 text-right">
                             <a href="{{ url('/item/create') }}">
