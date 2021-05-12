@@ -74,14 +74,14 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="canceled" value="canceled">
-                        <label class="form-check-label" for="canceled">
+                        <input class="form-check-input" type="radio" name="status" id="refunded" value="refunded">
+                        <label class="form-check-label" for="refunded">
                             已退款
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="refunded" value="refunded">
-                        <label class="form-check-label" for="refunded">
+                        <input class="form-check-input" type="radio" name="status" id="canceled" value="canceled">
+                        <label class="form-check-label" for="canceled">
                             已取消
                         </label>
                     </div>
