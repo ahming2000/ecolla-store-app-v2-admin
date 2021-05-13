@@ -83,7 +83,7 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.2 Beta';
+        $currentVersion = 'v1.3.3 Beta';
         $updateDate = '2021/05/13';
         $color = 'orange'; // Beta: orange, Release: green
 
@@ -100,6 +100,14 @@ class SettingsController extends Controller
 //                    '',
 //                ]
 //            ],
+
+            [
+                'version' => 'v1.3.3 Beta',
+                'date' => '2021/05/13',
+                'desc' => [
+                    '修复了规格图片上传之后无法删除的问题'
+                ]
+            ],
 
             [
                 'version' => 'v1.3.2 Beta',
