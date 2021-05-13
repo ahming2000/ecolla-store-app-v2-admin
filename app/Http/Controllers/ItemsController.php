@@ -29,8 +29,8 @@ class ItemsController extends Controller
         return view('item.index', compact('items'));
     }
 
-    public function show(){
-
+    public function show(Item $item){
+        return view('item.show', compact('item'));
     }
 
     public function create()
@@ -188,7 +188,12 @@ class ItemsController extends Controller
             foreach($new[$ta] as $key => $value){
                 $variation->setAttribute($key, $value);
             }
-            $item->variations()->save($variation);
+            if($this->isDuplicated('variations', 'barcode', 'item_id', $variation->barcode, $item->id)){
+                // TODO - Handle duplicate barcode exception
+            } else{
+                $item->variations()->save($variation);
+            }
+
         }
 
         // To delete
@@ -200,11 +205,13 @@ class ItemsController extends Controller
         // To update
         foreach ($toUpdateBarcode as $tu){
             $id = $old[$tu]['id'];
+            // TODO - Handle duplicate barcode exception
             DB::table('variations')
                 ->where('id','=',$id)
                 ->update($new[$tu]);
         }
 
+        // TODO - Handle duplicate barcode within same item problem (If 3 same barcode save which data?)
     }
 
     private function processImage(string $path, $mode = 'frame'){
@@ -253,6 +260,14 @@ class ItemsController extends Controller
         foreach ($toRemove as $tr){
             $item->categories()->detach($tr);
         }
+    }
+
+    private function isDuplicated($tableName, $pk, $fk, $pkValue, $fkValue){
+        $result = DB::table($tableName)
+            ->where($pk,'=', $pkValue)
+            ->where($fk, '!=', $fkValue)
+            ->get();
+        return !empty($result->toArray());
     }
 
 }
