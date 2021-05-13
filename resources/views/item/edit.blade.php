@@ -192,10 +192,32 @@
 
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
                             <div id="category-section">
+                                @if(!empty(old('categories')))
+                                    <input type="hidden"
+                                           value="{{ sizeof(old('categories')) }}"
+                                           id="currentCategoryCount">
+                                    @for($i = 0; $i < sizeof(old('categories')); $i++)
+                                        <div class="row category-item">
+                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                                <select class="form-control" name="categories[{{$i}}][id]">
+                                                    @foreach($categories as $category)
+                                                        <option
+                                                            value="{{ $category->id }}" {{ old("categories.$i.id") == $category->id ? "selected" : "" }}>
+                                                            {{ $category->name . ' ' . $category->name_en }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
-{{--                                TODO - Detect old value after validation --}}
-
-                                @if(!empty($item->categories->toArray()))
+                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                                <button type="button"
+                                                        class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                                                    X
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                @elseif(!empty($item->categories->toArray()))
                                     <input type="hidden"
                                            value="{{ sizeof($item->categories) }}"
                                            id="currentCategoryCount">
