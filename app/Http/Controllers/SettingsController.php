@@ -83,7 +83,7 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.3 Beta';
+        $currentVersion = 'v1.3.4 Beta';
         $updateDate = '2021/05/13';
         $color = 'orange'; // Beta: orange, Release: green
 
@@ -100,6 +100,15 @@ class SettingsController extends Controller
 //                    '',
 //                ]
 //            ],
+
+            [
+                'version' => 'v1.3.4 Beta',
+                'date' => '2021/05/13',
+                'desc' => [
+                    '修复了商品类别在其他商品资料验证失败之后，之前的类别选项没有保留的问题（商品编辑）',
+                    '添加了新的主页展示图'
+                ]
+            ],
 
             [
                 'version' => 'v1.3.3 Beta',
