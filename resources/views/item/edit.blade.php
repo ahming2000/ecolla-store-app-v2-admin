@@ -620,7 +620,7 @@
                         <div class="col-12">
                             <div class="row" id="general-image-section">
                                 @if(empty($item->images->toArray()))
-                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item general-image-item">
                                         <input type="file"
                                                name="item[images][0][newImage]"
                                                class="image-file-selector"
@@ -651,7 +651,7 @@
                                     </div>
                                 @else
                                     @for($i = 0; $i < sizeof($item->images); $i++)
-                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
+                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item general-image-item">
                                             <input type="file"
                                                    name="item[images][{{$i}}][newImage]"
                                                    class="image-file-selector"
@@ -659,7 +659,7 @@
                                             <input type="hidden" name="item[images][{{$i}}][oldImage]"
                                                    value="{{ $item->images[$i]->image ?? "" }}">
                                             <input type="hidden" class="image-is-empty-flag"
-                                                   name="item[images][{{$i}}][isEmpty]" value="0">
+                                                   name="item[images][{{$i}}][isEmpty]" value="{{ $item->images[$i]->image == null ? '1' : '0' }}">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview"
@@ -695,7 +695,7 @@
                         <div class="col-12 mb-3">
                             <div class="row" id="variation-image-section">
                                 @if(empty($item->variations->toArray()))
-                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item variation-image-item">
                                         <input type="file"
                                                name="variations[0][image]"
                                                class="image-file-selector"
@@ -728,7 +728,7 @@
                                     </div>
                                 @else
                                     @for($i = 0; $i < sizeof($item->variations->toArray()); $i++)
-                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
+                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item variation-image-item">
                                             <input type="file"
                                                    name="variations[{{$i}}][image]"
                                                    class="image-file-selector"
@@ -737,7 +737,7 @@
                                                    name="variations[{{$i}}][oldImage]"
                                                    value="{{ $item->variations[$i]->image ?? "" }}">
                                             <input type="hidden" class="image-is-empty-flag"
-                                                   name="variations[{{$i}}][isEmpty]" value="0">
+                                                   name="variations[{{$i}}][isEmpty]" value="{{ $item->variations[$i]->image == null ? '1' : '0' }}">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview w-100"
@@ -947,7 +947,7 @@
 
         function getExtraVariationImageBoxHTML(variationCount) {
             return `
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 variation-image-item">
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item variation-image-item">
                 <input type="file"
                        name="variations[image][${variationCount}]"
                        class="image-file-selector"
@@ -1015,7 +1015,7 @@
 
         function getExtraGeneralImageHTML(generalImageCount) {
             return `
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 general-image-item">
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item general-image-item">
                                         <input type="file"
                                                name="item[images][${generalImageCount}][newImage]"
                                                class="image-file-selector"
@@ -1225,15 +1225,14 @@
         /* Image onclick function */
         function uploadImage(source) {
             let selector = jQuery(source);
-            selector.closest('.general-image-item').find('.image-file-selector').click();
-            selector.closest('.variation-image-item').find('.image-file-selector').click();
+            selector.closest('.image-item').find('.image-file-selector').click();
         }
 
         function removeImage(source) {
             let selector = jQuery(source);
             selector.closest('.img-upload-container').find('.image-preview').attr('src', "{{ asset('img/alt/image-upload-alt.png') }}");
-            selector.closest('.general-image-item').find('.image-file-selector').val('');
-            selector.closest('.general-image-item').find('.image-is-empty-flag').val('1');
+            selector.closest('.image-item').find('.image-file-selector').val('');
+            selector.closest('.image-item').find('.image-is-empty-flag').val('1');
         }
 
         /*
@@ -1292,7 +1291,7 @@
                     reader.readAsDataURL($(this)[0].files[0]);
 
                     // Change the isEmpty flag to false when load the image successfully
-                    $(this).closest('.general-image-item').find('.image-is-empty-flag').val('0');
+                    $(this).closest('.image-item').find('.image-is-empty-flag').val('0');
 
                     // Crop and shape the preview
                     let style = getComputedStyle(selected[0]);

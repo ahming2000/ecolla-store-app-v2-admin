@@ -88,16 +88,16 @@ class ItemsController extends Controller
             'variations.*.isEmpty' => ''
         ]);
 
-        // Item (Completed)
+        // Item
         $item->update($data['item']);
 
-        // Category // TODO - Add default category
+        // Category
         $this->updateCategoryItem($item, array_column($item->categories->toArray(), 'id'), array_column($data['categories'],  'id'));
 
         // Variation
         $this->updateVariation($item, $item->variations->toArray(), $data['variations']);
 
-        // General Image (completed)
+        // General Image
         foreach($imageData['item']['images'] as $img){
             if($img['isEmpty']){
                 // Press delete button and left it (Direct delete)
@@ -133,17 +133,31 @@ class ItemsController extends Controller
             }
         }
 
-        // Variation Image (completed)
+        // Variation Image
         foreach($imageData['variations'] as $v){
-            if(isset($v['image'])){
-                $imagePath = $v['image']->store('items/' . $item->id . '');
-                $this->processImage(public_path("img/$imagePath"));
+            if($v['isEmpty']){
+                // Press delete button and left it (Direct delete)
+                if(isset($v['oldImage'])){
+                    Variation::where('barcode', '=', $v['barcode'])->update(['image' => null]);
+                } // else do nothing to ignore the empty image
+            } else{
+                if(isset($v['image'])){
+                    $imagePath = $v['image']->store('items/' . $item->id . '');
+                    $this->processImage(public_path("img/$imagePath"));
 
-                $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
+                    $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
 
-                DB::table('variations')
-                    ->where('barcode', '=', $v['barcode'])
-                    ->update(['image'=>$imagePath]);
+                    DB::table('variations')
+                        ->where('barcode', '=', $v['barcode'])
+                        ->update(['image'=>$imagePath]);
+
+                    // Save new image and delete the old one (replace)
+                    if(isset($v['oldImage'])){
+                        $id = DB::table('variations')
+                            ->where('barcode', '=', $v['barcode'])
+                            ->update(['image' => null]);
+                    }
+                } // else do nothing to remain the image
             }
         }
 
