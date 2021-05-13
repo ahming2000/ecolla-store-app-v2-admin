@@ -105,7 +105,8 @@ class SettingsController extends Controller
                 'version' => 'v1.3.2 Beta',
                 'date' => '2021/05/13',
                 'desc' => [
-                    '更新付款方式'
+                    '更新付款方式',
+                    '顾客主页页面更新，移除无关联的事物'
                 ]
             ],
 
