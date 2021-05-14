@@ -249,7 +249,7 @@ class ItemsController extends Controller
             }
 
             if ($this->variationIsDuplicated($item->variations->toArray(), $variation->barcode, $item->id)) {
-                Controller::stackError("\n货号：" . $variation->barcode . " 已存在数据库！");
+                Controller::stackError("货号：" . $variation->barcode . " 已存在数据库！");
             } else {
                 $item->variations()->save($variation);
             }
