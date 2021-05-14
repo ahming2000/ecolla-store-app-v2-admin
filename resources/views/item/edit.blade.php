@@ -62,7 +62,13 @@
 
         @if(session()->has('message'))
             <div class="alert alert-info text-center" role="alert">
-                {{ session('message') }}
+                {!! nl2br(e(session('message'))) !!}
+            </div>
+        @endif
+
+        @if(session()->has('error'))
+            <div class="alert alert-danger text-center" role="alert">
+                {!! nl2br(e(session('error'))) !!}
             </div>
         @endif
 
@@ -681,7 +687,8 @@
                                             <input type="hidden" name="item[images][{{$i}}][oldImage]"
                                                    value="{{ $item->images[$i]->image ?? "" }}">
                                             <input type="hidden" class="image-is-empty-flag"
-                                                   name="item[images][{{$i}}][isEmpty]" value="{{ $item->images[$i]->image == null ? '1' : '0' }}">
+                                                   name="item[images][{{$i}}][isEmpty]"
+                                                   value="{{ $item->images[$i]->image == null ? '1' : '0' }}">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview"
@@ -750,7 +757,8 @@
                                     </div>
                                 @else
                                     @for($i = 0; $i < sizeof($item->variations->toArray()); $i++)
-                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item variation-image-item">
+                                        <div
+                                            class="col-xs-6 col-sm-4 col-md-3 col-lg-2 image-item variation-image-item">
                                             <input type="file"
                                                    name="variations[{{$i}}][image]"
                                                    class="image-file-selector"
@@ -759,7 +767,8 @@
                                                    name="variations[{{$i}}][oldImage]"
                                                    value="{{ $item->variations[$i]->image ?? "" }}">
                                             <input type="hidden" class="image-is-empty-flag"
-                                                   name="variations[{{$i}}][isEmpty]" value="{{ $item->variations[$i]->image == null ? '1' : '0' }}">
+                                                   name="variations[{{$i}}][isEmpty]"
+                                                   value="{{ $item->variations[$i]->image == null ? '1' : '0' }}">
                                             <figure class="figure">
                                                 <div class="img-upload-container">
                                                     <img class="img-fluid image-preview w-100"
@@ -811,19 +820,19 @@
                         <tbody>
                         <tr>
 
-                                <td>商品浏览次数</td>
-                                <td>
-                                    <input type="text"
-                                           class="form-control form-control-sm"
-                                           value="{{ $item->util->view_count ?? 0 }}"
-                                           disabled>
-                                </td>
-                                <td>
-                                    <button type="submit"
-                                            class="btn btn-primary btn-sm" disabled>
-                                        重置
-                                    </button>
-                                </td>
+                            <td>商品浏览次数</td>
+                            <td>
+                                <input type="text"
+                                       class="form-control form-control-sm"
+                                       value="{{ $item->util->view_count ?? 0 }}"
+                                       disabled>
+                            </td>
+                            <td>
+                                <button type="submit"
+                                        class="btn btn-primary btn-sm" disabled>
+                                    重置
+                                </button>
+                            </td>
 
                         </tr>
                         </tbody>

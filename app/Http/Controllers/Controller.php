@@ -11,6 +11,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected static array $infoMessageList = [];
+    protected static array $errorMessageList = [];
 
     /**
      * @param array $array
@@ -20,9 +22,13 @@ class Controller extends BaseController
     protected function generateArrayKeyFromElement(array $array, string $arrayKey): array
     {
         $temp = [];
-        foreach($array as $arr){
-            $arrayKeyValue = $arr["{$arrayKey}"];
-            $temp[$arrayKeyValue] = $arr;
+        foreach ($array as $arr) {
+            if (array_key_exists($arr["{$arrayKey}"], $temp)) {
+                $this->stackError("货号：" . $arr['barcode'] . " 已存在数据库！");
+            } else {
+                $arrayKeyValue = $arr["{$arrayKey}"];
+                $temp[$arrayKeyValue] = $arr;
+            }
         }
         return $temp;
     }
@@ -35,14 +41,14 @@ class Controller extends BaseController
     {
         $count = 0;
         $flag = false;
-        for($i = -1; $i > strlen($oldFileName) * -1; $i--){
-            if($oldFileName[$i] == '.'){ // Find the point to start the count after extension
+        for ($i = -1; $i > strlen($oldFileName) * -1; $i--) {
+            if ($oldFileName[$i] == '.') { // Find the point to start the count after extension
                 $flag = true;
             }
-            if($flag){
+            if ($flag) {
                 $count++;
             }
-            if($oldFileName[$i] == '/'){ // Stop at '/'
+            if ($oldFileName[$i] == '/') { // Stop at '/'
                 return substr($oldFileName, $i + 1, $count - 2);
             }
         }
@@ -62,5 +68,42 @@ class Controller extends BaseController
         });
     }
 
+    protected function hasMessage(): bool
+    {
+        return !empty(Controller::$infoMessageList);
+    }
+
+    protected function hasError(): bool
+    {
+        return !empty(Controller::$errorMessageList);
+    }
+
+    protected function pullMessage(): string
+    {
+        $msg = "";
+        foreach (Controller::$infoMessageList as $m){
+            $msg = $msg . $m . "\n";
+        }
+        Controller::$infoMessageList = [];
+        return $msg;
+    }
+
+    protected function pullError(): string
+    {
+        $msg = "";
+        foreach (Controller::$errorMessageList as $m){
+            $msg = $msg . $m . "\n";
+        }
+        Controller::$errorMessageList = [];
+        return $msg;
+    }
+
+    protected function stackMessage(string $message){
+        Controller::$infoMessageList[] = $message;
+    }
+
+    protected function stackError(string $error){
+        Controller::$errorMessageList[] = $error;
+    }
 
 }
