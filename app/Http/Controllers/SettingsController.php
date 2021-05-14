@@ -83,7 +83,7 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.5 Beta';
+        $currentVersion = 'v1.3.6 Beta';
         $updateDate = '2021/05/14';
         $color = 'orange'; // Beta: orange, Release: green
 
@@ -100,6 +100,15 @@ class SettingsController extends Controller
 //                    '',
 //                ]
 //            ],
+
+            [
+                'version' => 'v1.3.6 Beta',
+                'date' => '2021/05/14',
+                'desc' => [
+                    '更改了顾客界面的颜色（部分不正常的界面显示需要清除浏览器缓存来修复错误）',
+                    '优化了主页的显示界面'
+                ]
+            ],
 
             [
                 'version' => 'v1.3.5 Beta',
