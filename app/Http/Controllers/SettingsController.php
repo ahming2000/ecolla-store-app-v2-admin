@@ -102,6 +102,15 @@ class SettingsController extends Controller
 //            ],
 
             [
+                'version' => 'v1.3.5 Beta',
+                'date' => '2021/05/14',
+                'desc' => [
+                    '修复了商品规格输入与其他商品或同商品有相同的货号时，出现内部错误的问题',
+                    '商品管理主页：添加了商品搜索功能'
+                ]
+            ],
+
+            [
                 'version' => 'v1.3.4 Beta',
                 'date' => '2021/05/13',
                 'desc' => [
