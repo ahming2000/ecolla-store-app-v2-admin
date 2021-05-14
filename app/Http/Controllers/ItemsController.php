@@ -22,7 +22,43 @@ class ItemsController extends Controller
 
     public function index()
     {
-        $items = Item::orderBy('created_at', 'desc')->paginate(5);
+        $ITEM_PER_PAGE = 10;
+
+        $keyword = request('search') ?? "";
+        $whereClause = "";
+
+        if ($keyword != "") {
+            $whereClause = "items.name LIKE '%$keyword%' OR items.name_en LIKE '%$keyword%' OR items.origin LIKE '%$keyword%' OR items.origin_en LIKE '%$keyword%' OR items.desc LIKE '%$keyword%' OR variations.name LIKE '%$keyword%' OR variations.name_en LIKE '%$keyword%' OR variations.barcode LIKE '%$keyword%'";
+        }
+
+        if ($whereClause != "") {
+            $items_table = DB::table('items')
+                ->select('items.id')
+                ->join('variations', 'variations.item_id', '=', 'items.id')
+                ->whereRaw($whereClause)
+                ->distinct('items.id')
+                ->get();
+
+        } else {
+            $items_table = DB::table('items')
+                ->select('items.id')
+                ->get();
+        }
+
+        $ids = array_column($items_table->toArray(), 'id');
+
+        $items = Item::whereIn('id', $ids)
+            ->orderBy('created_at', 'desc')
+            ->paginate($ITEM_PER_PAGE);
+
+        if ($keyword != "") {
+            $parameter = "?search=$keyword";
+        } else {
+            $parameter = "";
+        }
+
+        $items->withPath('/item' . $parameter); // Pagination link path
+
         return view('item.index', compact('items'));
     }
 

@@ -4,6 +4,34 @@
     商品管理
 @endsection
 
+@section('extraStyle')
+{{--    <style>--}}
+{{--        @media screen and (min-width: 200px) {--}}
+{{--            #mobile-view {--}}
+{{--                display: block;--}}
+{{--                visibility: visible;--}}
+{{--            }--}}
+
+{{--            #normal-view {--}}
+{{--                display: none;--}}
+{{--                visibility: hidden;--}}
+{{--            }--}}
+{{--        }--}}
+
+{{--        @media screen and (min-width: 1200px) {--}}
+{{--            #mobile-view {--}}
+{{--                display: none;--}}
+{{--                visibility: hidden;--}}
+{{--            }--}}
+
+{{--            #normal-view {--}}
+{{--                display: table;--}}
+{{--                visibility: visible;--}}
+{{--            }--}}
+{{--        }--}}
+{{--    </style>--}}
+@endsection
+
 @section('content')
     <main class="container">
 
@@ -13,43 +41,115 @@
             </div>
         @endif
 
-
-        <div class="">
-
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <div style="font-size: 40px; font-weight: bolder">商品管理</div>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <div class="row mb-2">
-                        <div class="col-12 text-right">
-                            <a href="{{ url('/item/create') }}">
-                                <i class="icofont icofont-ui-add"></i> 添加商品
-                            </a>
-                        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div style="font-size: 40px; font-weight: bolder">商品管理</div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="row mb-2">
+                    <div class="col-12 text-right">
+                        <a href="{{ url('/item/create') }}">
+                            <i class="icofont icofont-ui-add"></i> 添加商品
+                        </a>
                     </div>
+                </div>
+                <form action="{{ url('/item') }}" method="get">
                     <div class="row text-right">
                         <div class="col-8">
                             <input type="text"
-                                   class="form-control form-control-sm m-0"
+                                   class="form-control form-control-sm m-0 @error("search") is-invalid @enderror"
                                    maxlength="20"
-                                   placeholder="搜索名称、货号、规格、出产地、品牌、商品描述"
-                                   value="{{ isset($_GET["search"]) ? $_GET["search"] : "" }}"
-                                   disabled>
+                                   name="search"
+                                   placeholder="搜索名称、货号、规格、出产地、商品描述"
+                                   value="{{ $_GET["search"] ?? "" }}">
+
+                            @error("search")
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-sm m-0 w-100" disabled>
+                            <button type="submit" class="btn btn-primary btn-sm m-0 w-100">
                                 <i class="icofont icofont-search"></i> 搜索
                             </button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-
-
         </div>
 
-        <table class="table table-bordered mt-3" id="item-table">
+{{--        <div class="row mt-3 mx-1" id="mobile-view">--}}
+{{--            @foreach($items as $item)--}}
+{{--                <div class="col-12 mb-3">--}}
+{{--                    <div class="card">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-6 mb-1">--}}
+{{--                                    <b>名称</b><br>--}}
+{{--                                    {{ $item->name }}--}}
+{{--                                </div>--}}
+{{--                                <div class="col-6 mb-1">--}}
+{{--                                    <b>销售</b><br>--}}
+{{--                                    {{ $item->util->sold }}--}}
+{{--                                </div>--}}
+{{--                                <div class="col-12 mb-1">--}}
+{{--                                    <b>规格</b><br>--}}
+{{--                                    <div class="row">--}}
+{{--                                        @foreach($item->variations as $v)--}}
+{{--                                            <div class="col-6 mb-1">--}}
+{{--                                                <div class="card">--}}
+{{--                                                    <div class="card-body">--}}
+{{--                                                        {{ $v->name }}<br>--}}
+{{--                                                        RM {{ number_format($v->price * ($v->discount->rate ?? 1.0), 2, '.', '') }}--}}
+{{--                                                        <br>--}}
+{{--                                                        数量：{{ $v->stock }}--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        @endforeach--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="col-12 mb-1">--}}
+{{--                                    <b>操作</b><br>--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-6">--}}
+{{--                                            <a href="#" class="btn btn-secondary btn-sm">--}}
+{{--                                                <i class="icofont icofont-basket"></i> {{ $item->util->is_listed == '1' ? "下架" : "上架" }}--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-6">--}}
+{{--                                            <a href="{{ url('/item/' . $item->id . '/edit') }}"--}}
+{{--                                               class="btn btn-secondary btn-sm">--}}
+{{--                                                <i class="icofont icofont-ui-edit"></i> 编辑--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-6">--}}
+{{--                                            <button type="button"--}}
+{{--                                                    class="btn btn-secondary btn-sm"--}}
+{{--                                                    onclick="confirmDelete(this)"--}}
+{{--                                                    value="{{ $item->name }}">--}}
+{{--                                                <i class="icofont icofont-ui-delete"></i> 删除--}}
+{{--                                            </button>--}}
+
+{{--                                            <form action="{{ url('/item/' . $item->id) }}" method="post"--}}
+{{--                                                  class="delete-item-form">--}}
+{{--                                                @csrf--}}
+{{--                                                @method('DELETE')--}}
+{{--                                            </form>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
+{{--                </div>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+
+        <table class="table table-bordered mt-3" id="normal-view">
             <thead>
             <tr>
                 <th scope="col">名称</th>
@@ -64,7 +164,7 @@
             @foreach($items as $item)
                 <tr>
                     <td>
-                        <a href="#">{{ $item->name }}</a>
+                        <a href="{{ url('/item/' . $item->id) }}">{{ $item->name }}</a>
                     </td>
                     <td>
                         @foreach($item->variations as $variation)
@@ -100,7 +200,8 @@
                                 onclick="confirmDelete(this)"
                                 value="{{ $item->name }}">
                             <i class="icofont icofont-ui-delete"></i> 删除
-                        </button><br>
+                        </button>
+                        <br>
 
                         <form action="{{ url('/item/' . $item->id) }}" method="post" class="delete-item-form">
                             @csrf
@@ -123,11 +224,11 @@
 
 @section('extraScriptEnd')
     <script>
-        function confirmDelete(source){
+        function confirmDelete(source) {
             let button = jQuery(source);
             let form = button.parent().find('.delete-item-form');
 
-            if(confirm('您确定要删除 ' + button.val() + ' 吗？')){
+            if (confirm('您确定要删除 ' + button.val() + ' 吗？')) {
                 form.submit();
             }
         }
