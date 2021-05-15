@@ -184,20 +184,20 @@
             `;
         }
 
+        $(document).on("click", ".remove-button", function () {
+            $(this).closest('.category-item').html('');
+
+            let currentCategoryCountSelector = $('#currentCategoryCount');
+            if (currentCategoryCountSelector.val() === 1) {
+                $('#category-section').append(getExtraCategoryHTML(getCategoryCount()));
+            } else {
+                currentCategoryCountSelector.val(parseInt(currentCategoryCountSelector.val()) - 1);
+            }
+        });
+
         $(document).ready(function () {
             $('#extra-category-button').on('click', function () {
                 $('#category-section').append(getExtraCategoryHTML(getCategoryCount()));
-            });
-
-            $(".remove-button").on("click", function () {
-                $(this).parent().parent().html('');
-
-                let currentCategoryCountSelector = $('#currentCategoryCount');
-                if (currentCategoryCountSelector.val() === 1) {
-                    $('#category-section').append(getExtraCategoryHTML(getCategoryCount()));
-                } else {
-                    currentCategoryCountSelector.val(parseInt(currentCategoryCountSelector.val()) - 1);
-                }
             });
         });
     </script>
