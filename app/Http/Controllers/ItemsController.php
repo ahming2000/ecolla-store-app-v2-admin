@@ -211,14 +211,16 @@ class ItemsController extends Controller
         }
 
         // Check the item can be listed or not
-
-        if (!empty($item->variations->toArray())) {
+        // TODO - convert to dynamic function
+        if (!empty(DB::table('variations')->where('item_id', '=', $item->id)->get()->toArray())) {
             $item->util()->update(['is_listed' => '1']);
             if (session()->has('error')) {
                 session()->flash('message', '部分资料已保存！');
             } else {
                 session()->flash('message', '商品资料已保存并成功上架！');
             }
+        } else{
+            session()->flash('message', '部分资料已保存！');
         }
 
         return redirect('/item/' . $item->id . '/edit');
