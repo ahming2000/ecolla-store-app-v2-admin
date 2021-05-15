@@ -83,8 +83,8 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.7 Beta';
-        $updateDate = '2021/05/14';
+        $currentVersion = 'v1.3.8 Beta';
+        $updateDate = '2021/05/15';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
@@ -100,6 +100,15 @@ class SettingsController extends Controller
 //                    '',
 //                ]
 //            ],
+
+            [
+                'version' => 'v1.3.8 Beta',
+                'date' => '2021/05/15',
+                'desc' => [
+                    '修复了商品类别设定在添加新的类别之后无法删除的问题',
+                    '商品管理页面添加了类别分类过滤功能'
+                ]
+            ],
 
             [
                 'version' => 'v1.3.7 Beta',
