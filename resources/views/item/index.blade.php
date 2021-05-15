@@ -80,7 +80,7 @@
                     <div class="row text-right">
                         <div class="col-12">
                             <select class="custom-select custom-select-sm" name="category" id="categorySelector">
-                                <option>
+                                <option value="">
                                     全部商品 (<?= \App\Models\Item::all()->count() ?>)
                                 </option>
 
