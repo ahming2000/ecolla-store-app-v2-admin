@@ -24,16 +24,24 @@ class ItemsController extends Controller
     {
         $ITEM_PER_PAGE = 10;
 
-        $keyword = request('search') ?? "";
-        $whereClause = "";
+        $search = request('search') ?? "";
+        $category = request('category') ?? "";
 
-        if ($keyword != "") {
-            $whereClause = "items.name LIKE '%$keyword%' OR items.name_en LIKE '%$keyword%' OR items.origin LIKE '%$keyword%' OR items.origin_en LIKE '%$keyword%' OR items.desc LIKE '%$keyword%' OR variations.name LIKE '%$keyword%' OR variations.name_en LIKE '%$keyword%' OR variations.barcode LIKE '%$keyword%'";
+        if($search != "" && $category != ""){
+            $whereClause = "(categories.name = '$category' OR categories.name_en = '$category') AND (items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
+        } else if ($search != ""){
+            $whereClause = "items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%'";
+        } else if ($category != ""){
+            $whereClause = "categories.name = '$category' OR categories.name_en = '$category'";
+        } else{
+            $whereClause = "";
         }
 
         if ($whereClause != "") {
             $items_table = DB::table('items')
                 ->select('items.id')
+                ->join('category_item', 'category_item.item_id', '=', 'items.id')
+                ->join('categories', 'categories.id', '=', 'category_item.category_id')
                 ->join('variations', 'variations.item_id', '=', 'items.id')
                 ->whereRaw($whereClause)
                 ->distinct('items.id')
@@ -51,15 +59,22 @@ class ItemsController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($ITEM_PER_PAGE);
 
-        if ($keyword != "") {
-            $parameter = "?search=$keyword";
-        } else {
+        $categories = Category::all();
+
+        // Custom link for laravel pagination
+        if($search != "" && $category != ""){
+            $parameter = "?search=$search&category=$category";
+        } else if ($search != ""){
+            $parameter = "?search=$search";
+        } else if ($category != ""){
+            $parameter = "?category=$category";
+        } else{
             $parameter = "";
         }
 
         $items->withPath('/item' . $parameter); // Pagination link path
 
-        return view('item.index', compact('items'));
+        return view('item.index', compact('items', 'categories'));
     }
 
     public function show(Item $item)

@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <form action="{{ url('/item') }}" method="get">
-                    <div class="row text-right">
+                    <div class="row text-right mb-2">
                         <div class="col-8">
                             <input type="text"
                                    class="form-control form-control-sm m-0 @error("search") is-invalid @enderror"
@@ -73,6 +73,24 @@
                             <button type="submit" class="btn btn-primary btn-sm m-0 w-100">
                                 <i class="icofont icofont-search"></i> 搜索
                             </button>
+                        </div>
+                    </div>
+                </form>
+                <form action="{{ url('/item') }}" method="get">
+                    <div class="row text-right">
+                        <div class="col-12">
+                            <select class="custom-select custom-select-sm" name="category" id="categorySelector">
+                                <option>
+                                    全部商品 (<?= \App\Models\Item::getListedCount() ?>)
+                                </option>
+
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->name }}"
+                                        {{ @$_GET['category'] == $category->name || @$_GET['category'] == $category->name_en ? " selected" : "" }}>
+                                        {{ $category->name }} ({{ \App\Models\Category::getListedItemCount($category->id) }})
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </form>
@@ -232,5 +250,18 @@
                 form.submit();
             }
         }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Category bar onchange bar
+            $("#categorySelector").on("change", function () {
+                if ($("#categorySelector option:selected").val() !== "") {
+                    window.location.href = "/item?<?= isset($_GET["search"]) ? "search=" . $_GET["search"] . "&" : ""; ?>category=" + $("#categorySelector option:selected").val();
+                } else {
+                    window.location.href = "/item<?= isset($_GET["search"]) ? "?search=" . $_GET["search"] : ""; ?>";
+                }
+            });
+        });
     </script>
 @endsection
