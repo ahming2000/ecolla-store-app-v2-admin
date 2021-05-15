@@ -102,6 +102,15 @@ class SettingsController extends Controller
 //            ],
 
             [
+                'version' => 'v1.3.9 Beta',
+                'date' => '2021/05/15',
+                'desc' => [
+                    '修复了商品保存后没有进行上架的问题',
+                    '修复了商品保存后没有显示保存报告的问题',
+                ]
+            ],
+
+            [
                 'version' => 'v1.3.8 Beta',
                 'date' => '2021/05/15',
                 'desc' => [
