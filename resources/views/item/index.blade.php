@@ -4,34 +4,6 @@
     商品管理
 @endsection
 
-@section('extraStyle')
-    {{--    <style>--}}
-    {{--        @media screen and (min-width: 200px) {--}}
-    {{--            #mobile-view {--}}
-    {{--                display: block;--}}
-    {{--                visibility: visible;--}}
-    {{--            }--}}
-
-    {{--            #normal-view {--}}
-    {{--                display: none;--}}
-    {{--                visibility: hidden;--}}
-    {{--            }--}}
-    {{--        }--}}
-
-    {{--        @media screen and (min-width: 1200px) {--}}
-    {{--            #mobile-view {--}}
-    {{--                display: none;--}}
-    {{--                visibility: hidden;--}}
-    {{--            }--}}
-
-    {{--            #normal-view {--}}
-    {{--                display: table;--}}
-    {{--                visibility: visible;--}}
-    {{--            }--}}
-    {{--        }--}}
-    {{--    </style>--}}
-@endsection
-
 @section('content')
     <main class="container">
 
@@ -100,77 +72,7 @@
             </div>
         </div>
 
-        {{--        <div class="row mt-3 mx-1" id="mobile-view">--}}
-        {{--            @foreach($items as $item)--}}
-        {{--                <div class="col-12 mb-3">--}}
-        {{--                    <div class="card">--}}
-        {{--                        <div class="card-body">--}}
-        {{--                            <div class="row">--}}
-        {{--                                <div class="col-6 mb-1">--}}
-        {{--                                    <b>名称</b><br>--}}
-        {{--                                    {{ $item->name }}--}}
-        {{--                                </div>--}}
-        {{--                                <div class="col-6 mb-1">--}}
-        {{--                                    <b>销售</b><br>--}}
-        {{--                                    {{ $item->util->sold }}--}}
-        {{--                                </div>--}}
-        {{--                                <div class="col-12 mb-1">--}}
-        {{--                                    <b>规格</b><br>--}}
-        {{--                                    <div class="row">--}}
-        {{--                                        @foreach($item->variations as $v)--}}
-        {{--                                            <div class="col-6 mb-1">--}}
-        {{--                                                <div class="card">--}}
-        {{--                                                    <div class="card-body">--}}
-        {{--                                                        {{ $v->name }}<br>--}}
-        {{--                                                        RM {{ number_format($v->price * ($v->discount->rate ?? 1.0), 2, '.', '') }}--}}
-        {{--                                                        <br>--}}
-        {{--                                                        数量：{{ $v->stock }}--}}
-        {{--                                                    </div>--}}
-        {{--                                                </div>--}}
-        {{--                                            </div>--}}
-        {{--                                        @endforeach--}}
-        {{--                                    </div>--}}
-        {{--                                </div>--}}
-        {{--                                <div class="col-12 mb-1">--}}
-        {{--                                    <b>操作</b><br>--}}
-        {{--                                    <div class="row">--}}
-        {{--                                        <div class="col-6">--}}
-        {{--                                            <a href="#" class="btn btn-secondary btn-sm">--}}
-        {{--                                                <i class="icofont icofont-basket"></i> {{ $item->util->is_listed == '1' ? "下架" : "上架" }}--}}
-        {{--                                            </a>--}}
-        {{--                                        </div>--}}
-        {{--                                        <div class="col-6">--}}
-        {{--                                            <a href="{{ url('/item/' . $item->id . '/edit') }}"--}}
-        {{--                                               class="btn btn-secondary btn-sm">--}}
-        {{--                                                <i class="icofont icofont-ui-edit"></i> 编辑--}}
-        {{--                                            </a>--}}
-        {{--                                        </div>--}}
-        {{--                                        <div class="col-6">--}}
-        {{--                                            <button type="button"--}}
-        {{--                                                    class="btn btn-secondary btn-sm"--}}
-        {{--                                                    onclick="confirmDelete(this)"--}}
-        {{--                                                    value="{{ $item->name }}">--}}
-        {{--                                                <i class="icofont icofont-ui-delete"></i> 删除--}}
-        {{--                                            </button>--}}
-
-        {{--                                            <form action="{{ url('/item/' . $item->id) }}" method="post"--}}
-        {{--                                                  class="delete-item-form">--}}
-        {{--                                                @csrf--}}
-        {{--                                                @method('DELETE')--}}
-        {{--                                            </form>--}}
-        {{--                                        </div>--}}
-        {{--                                    </div>--}}
-        {{--                                </div>--}}
-
-        {{--                            </div>--}}
-        {{--                        </div>--}}
-        {{--                    </div>--}}
-
-        {{--                </div>--}}
-        {{--            @endforeach--}}
-        {{--        </div>--}}
-
-        <table class="table table-bordered mt-3" id="normal-view">
+        <table class="table table-bordered mt-3">
             <thead>
             <tr>
                 <th scope="col">名称</th>
