@@ -45,7 +45,7 @@ Route::prefix('/item')->group(function (){
 Route::get('/order', [OrdersController::class, 'index'])->name('order.home');
 Route::get('/order/{order}', [OrdersController::class, 'edit']);
 Route::post('/order/{order}', [OrdersController::class, 'update']);
-
+Route::get('/order/{order}/pdf', [OrdersController::class, 'createPDF']);
 Route::get('/order/{order}/item', [OrderItemsController::class, 'index']);
 
 Route::get('/setting', [SettingsController::class, 'index'])->name('setting.home');
