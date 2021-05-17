@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    仪表板
+@endsection
+
 @section('extraStyle')
     <link href="{{ asset('css/home_styles.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css" integrity="sha512-bkB9w//jjNUnYbUpATZQCJu2khobZXvLP5GZ8jhltg7P/dghIrTaSJ7B/zdlBUT0W/LXGZ7FfCIqNvXjWKqCYA==" crossorigin="anonymous" />
@@ -366,7 +370,7 @@
                     $("#pop3-tab").addClass("active");
                     break;
             }
-            
+
 
             //Canvas JS Graph
             let month_1 = $("#month_1").html(),
