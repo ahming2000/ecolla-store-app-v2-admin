@@ -11,7 +11,7 @@ class SettingsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     public function index()
@@ -83,8 +83,8 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.9 Beta';
-        $updateDate = '2021/05/15';
+        $currentVersion = 'v1.3.10 Beta';
+        $updateDate = '2021/05/17';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
@@ -100,6 +100,15 @@ class SettingsController extends Controller
 //                    '',
 //                ]
 //            ],
+
+            [
+                'version' => 'v1.3.10 Beta',
+                'date' => '2021/05/17',
+                'desc' => [
+                    '顾客主页添加了广告图片',
+                    '订单管理页面添加了订单收据下载功能'
+                ]
+            ],
 
             [
                 'version' => 'v1.3.9 Beta',
