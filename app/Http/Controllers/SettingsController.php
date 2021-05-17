@@ -83,7 +83,7 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.8 Beta';
+        $currentVersion = 'v1.3.9 Beta';
         $updateDate = '2021/05/15';
         $color = 'orange'; // Beta: orange, Release: green
 
