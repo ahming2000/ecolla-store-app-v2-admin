@@ -80,6 +80,22 @@ class SettingsController extends Controller
         return redirect('/setting')->with('message', '保存成功！');
     }
 
+    public function updateItemSettings(string $property){
+
+    }
+
+    public function updateOrderSettings(string $property){
+
+    }
+
+    public function updateAccountSettings(string $property){
+
+    }
+
+    public function UpdatePaginationSettings(string $property){
+
+    }
+
     public function changingLog()
     {
 

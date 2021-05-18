@@ -22,9 +22,13 @@ class OrdersController extends Controller
         return view('order.index', compact('orders'));
     }
 
-    public function edit(Order $order)
+    public function show(Order $order)
     {
         return view('order.edit', compact('order'));
+    }
+
+    public function edit(Order $order){
+
     }
 
     public function update(Order $order)

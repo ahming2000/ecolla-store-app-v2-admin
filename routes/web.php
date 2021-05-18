@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
@@ -20,9 +21,9 @@ use \App\Http\Controllers\OrderItemsController;
 */
 
 Route::get('/', function () {
-    if(auth()){
+    if (auth()) {
         return redirect('/home');
-    } else{
+    } else {
         return redirect('/login');
     }
 });
@@ -30,7 +31,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
 
-Route::prefix('/item')->group(function (){
+Route::prefix('/item')->group(function () {
     Route::get('/', [ItemsController::class, 'index'])->name('item.index');
     Route::get('/create', [ItemsController::class, 'create'])->name('item.create');
     Route::get('/{item}', [ItemsController::class, 'show'])->name('item.show');
@@ -40,15 +41,43 @@ Route::prefix('/item')->group(function (){
     Route::delete('/{item}', [ItemsController::class, 'destroy'])->name('item.destroy');
 });
 
+Route::prefix('/order')->group(function () {
+    Route::get('/', [OrdersController::class, 'index']);
+    Route::get('/{order}', [OrdersController::class, 'show']);
+    Route::get('/{order}/edit', [OrdersController::class, 'edit']);
+    Route::get('/{order}/pdf', [OrdersController::class, 'createPDF']);
 
+    Route::patch('/{order}', [OrdersController::class, 'update']);
 
-Route::get('/order', [OrdersController::class, 'index'])->name('order.home');
-Route::get('/order/{order}', [OrdersController::class, 'edit']);
-Route::post('/order/{order}', [OrdersController::class, 'update']);
-Route::get('/order/{order}/pdf', [OrdersController::class, 'createPDF']);
-Route::get('/order/{order}/item', [OrderItemsController::class, 'index']);
+    Route::prefix('/{order}/item')->group(function () {
+        Route::get('/', [OrderItemsController::class, 'index']);
+        Route::get('/create', [OrderItemsController::class, 'create']);
 
-Route::get('/setting', [SettingsController::class, 'index'])->name('setting.home');
-Route::patch('/setting/update/category', [SettingsController::class, 'updateCategory']);
+        Route::post('/', [OrderItemsController::class, 'store']);
+        Route::patch('/{item}', [OrderItemsController::class, 'update']);
+        Route::delete('/{item}', [OrderItemsController::class, 'destroy']);
+    });
+});
 
-Route::get('/changing-log', [SettingsController::class, 'changingLog']);
+Route::prefix('/setting')->group(function () {
+    Route::get('/', [SettingsController::class, 'index']);
+
+    Route::patch('/update/category', [SettingsController::class, 'updateCategory']); // TODO - Convert to url below
+
+    Route::patch('/item/{property}', [SettingsController::class, 'updateItemSettings']);
+    Route::patch('/order/{property}', [SettingsController::class, 'updateOrderSettings']);
+    Route::patch('/account/{property}', [SettingsController::class, 'updateAccountSettings']);
+    Route::patch('/pagination/{type}', [SettingsController::class, 'UpdatePaginationSettings']);
+});
+
+Route::prefix('/account')->group(function () {
+    Route::get('/', [AccountsController::class, 'index']);
+    Route::get('/create', [AccountsController::class, 'create']);
+    Route::get('/{user}', [AccountsController::class, 'show']);
+    Route::get('/{user}/edit', [AccountsController::class, 'edit']);
+    Route::post('/', [AccountsController::class, 'store']);
+    Route::patch('/{user}', [AccountsController::class, 'update']);
+    Route::delete('/{user}', [AccountsController::class, 'destroy']);
+});
+
+Route::get('/changing-log', [SettingsController::class, 'changingLog']); // TODO - Changing to another controller
