@@ -5,23 +5,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <style type="text/css">
-        @font-face {
+        /* @font-face {
             font-family: yahei;
-            src: url("{{base_path().'/public/'}}fonts/MicrosoftYaHeiLight-01.ttf") format('truetype');
+            src: url("{{public_path('fonts/')}}MicrosoftYaHeiLight-01.ttf") format('truetype');
             font-weight: lighter;
         }
 
         @font-face {
             font-family: yahei;
-            src: url("{{base_path().'/public/'}}fonts/MicrosoftYaHei-01.ttf") format('truetype');
+            src: url("{{public_path('fonts/')}}MicrosoftYaHei-01.ttf") format('truetype');
             font-weight: normal;
         }
 
         @font-face {
             font-family: yahei;
-            src: url("{{base_path().'/public/'}}fonts/MicrosoftYaHei-Bold-01.ttf") format('truetype');
+            src: url("{{public_path('fonts/')}}MicrosoftYaHei-Bold-01.ttf") format('truetype');
             font-weight: bold;
-        }
+        } */
 
         body {
             font-family: yahei;
