@@ -11,7 +11,7 @@ return array(
     | in dompdf_config.inc.php. You can also override the entire config file.
     |
     */
-    'show_warnings' => false,   // Throw an Exception on warnings from dompdf
+    'show_warnings' => true,   // Throw an Exception on warnings from dompdf
     'orientation' => 'portrait',
     'defines' => array(
         /**
@@ -106,7 +106,7 @@ return array(
          * @link http://www.ros.co.nz/pdf
          * @link http://www.php.net/image
          */
-        "pdf_backend" => "CPDF",
+        "pdf_backend" => "PDFLib",
 
         /**
          * PDFlib license key
@@ -208,7 +208,7 @@ return array(
          *
          * @var bool
          */
-        "enable_javascript" => true,
+        "enable_javascript" => false,
 
         /**
          * Enable remote file access
@@ -237,7 +237,7 @@ return array(
         /**
          * Use the more-than-experimental HTML5 Lib parser
          */
-        "enable_html5_parser" => false,
+        "enable_html5_parser" => true,
     ),
 
 
