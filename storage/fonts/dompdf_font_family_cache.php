@@ -78,7 +78,7 @@
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'yahei' => array(
-    'normal' => $fontDir . '/yahei_normal_d3cd198beee4245ef2f0b15ec7892866',
-    'bold' => $fontDir . '/yahei_bold_270d652787347574bdff7955ff6ad3b7',
+    'normal' => $fontDir . '/yahei_normal_1f7b6fbecb49a8cac4a5be38f55d826b',
+    'bold' => $fontDir . '/yahei_bold_5a34c3a9ae9ed50daabf70824cac5006',
   ),
 ) ?>
