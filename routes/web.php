@@ -47,7 +47,7 @@ Route::prefix('/order')->group(function () {
     Route::get('/{order}/edit', [OrdersController::class, 'edit']);
     Route::get('/{order}/pdf', [OrdersController::class, 'createPDF']);
 
-    Route::patch('/{order}', [OrdersController::class, 'update']);
+    Route::post('/{order}', [OrdersController::class, 'update']); //change to patch later
 
     Route::prefix('/{order}/item')->group(function () {
         Route::get('/', [OrderItemsController::class, 'index']);
