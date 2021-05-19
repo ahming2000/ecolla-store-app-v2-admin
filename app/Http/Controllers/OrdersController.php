@@ -60,6 +60,21 @@ class OrdersController extends Controller
         $pdf = PDF::loadView('pdf.order', $data);
 
         // download PDF file with download method
-        return $pdf->download('ecolla-order-' . $order->id . '.pdf');
+        return $pdf->download('ecolla-order-' . $order->code . '.pdf');
+
+        // $view = \View::make('pdf.order')->with('order', $order);
+        // $html = $view->render();
+        // $font_directory = public_path('fonts');
+
+        // // convert TTF font to TCPDF format and store it on the fonts folder
+        // $fontname = PDF::AddFont($font_directory . '\\MicrosoftYaHei-01.ttf');
+        // // use the font
+        // PDF::SetFont($fontname, '', 14, '', false);
+
+        // PDF::SetTitle('Ecolla Order ' . $order->code);
+        // PDF::AddPage();
+
+        // PDF::writeHTML($html, true, false, true, false, '');
+        // PDF::Output('Ecolla_Order_' . $order->code . '.pdf');
     }
 }

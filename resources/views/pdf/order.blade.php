@@ -66,7 +66,7 @@
 
 <body>
     <div class="container">
-        <img src="../public/img/icon/ecolla_icon.png" width="75px" height="75px"/>  
+        <img src="{{ asset('img/icon/ecolla_icon.png') }}" width="75px" height="75px"/>  
         <h2>订单 {{ $order->code }}</h2>
         <div class="row">
             <div class="column">
