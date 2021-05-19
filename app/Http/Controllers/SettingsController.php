@@ -118,11 +118,19 @@ class SettingsController extends Controller
 //            ],
 
             [
-                'version' => 'v1.3.10 Beta',
+                'version' => 'v1.4.1 Beta',
                 'date' => '2021/05/17',
                 'desc' => [
+                    '修复了订单收据下载功能下载缓慢的问题'
+                ]
+            ],
+
+            [
+                'version' => 'v1.4.0 Beta',
+                'date' => '2021/05/17',
+                'desc' => [
+                    '订单管理页面添加了订单收据下载功能',
                     '顾客主页添加了广告图片',
-                    '订单管理页面添加了订单收据下载功能'
                 ]
             ],
 
