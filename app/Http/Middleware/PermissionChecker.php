@@ -18,6 +18,9 @@ class PermissionChecker
     {
 
         if ($request->user()->role == 'employee'){
+            if($type == 'admin'){
+                abort('403', 'You have no permission');
+            }
             if(!$request->user()->hasAccess($type)){
                 abort('403', 'You have no permission');
             }
