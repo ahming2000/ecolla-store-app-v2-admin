@@ -81,6 +81,7 @@ class ImportUsers extends Migration
 
             'dashboard_view' => '1',
 
+            'setting_view' => '1',
             'setting_item' => '0',
             'setting_order' => '0',
             'setting_pagination' => '0',
