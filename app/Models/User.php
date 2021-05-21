@@ -40,4 +40,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function hasAccess($type): bool
+    {
+        return $this->permission->{$type} ?? true;
+    }
+
+    public function permission(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(UserPermission::class);
+    }
 }
