@@ -71,13 +71,11 @@ Route::prefix('/setting')->group(function () {
 });
 
 Route::prefix('/account')->group(function () {
-    Route::get('/', [AccountsController::class, 'index'])->middleware('access:setting_view');
-    Route::get('/create', [AccountsController::class, 'create']);
-    Route::get('/{user}', [AccountsController::class, 'show']);
+    Route::get('/', [AccountsController::class, 'index']);
     Route::get('/{user}/edit', [AccountsController::class, 'edit']);
     Route::post('/', [AccountsController::class, 'store']);
+    Route::post('/{user}', [AccountsController::class, 'manage']);
     Route::patch('/{user}', [AccountsController::class, 'update']);
-    Route::delete('/{user}', [AccountsController::class, 'destroy']);
 });
 
 Route::get('/changing-log', [SettingsController::class, 'changingLog']); // TODO - Changing to another controller
