@@ -50,6 +50,42 @@ class ImportUsers extends Migration
             'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
         ]);
 
+        DB::table('users')->insert([
+            'id' => 5,
+            'name' => 'user',
+            'email' => 'user@newrainbowmarket.com',
+            'role' => 'employee',
+            'status' => 'enable',
+            'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
+        ]);
+
+        DB::table('user_permissions')->insert([
+            'user_id' => '5',
+
+            'item_view' => '1',
+            'item_create' => '0',
+            'item_update' => '0',
+            'item_delete' => '1',
+            'item_list' => '1',
+
+            'order_view' => '0',
+            'order_update' => '1',
+            'order_delete' => '1',
+            'order_receipt_view' => '1',
+            'order_invoice_download' => '0',
+
+            'order_item_view' => '1',
+            'order_item_create' => '0',
+            'order_item_update' => '0',
+            'order_item_delete' => '0',
+
+            'dashboard_view' => '1',
+
+            'setting_item' => '0',
+            'setting_order' => '0',
+            'setting_pagination' => '0',
+            'setting_account' => '0',
+        ]);
 
     }
 
