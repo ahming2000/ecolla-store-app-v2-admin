@@ -99,8 +99,8 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.3.10 Beta';
-        $updateDate = '2021/05/17';
+        $currentVersion = 'v1.4.1 Beta';
+        $updateDate = '2021/05/19';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
@@ -119,7 +119,7 @@ class SettingsController extends Controller
 
             [
                 'version' => 'v1.4.1 Beta',
-                'date' => '2021/05/17',
+                'date' => '2021/05/19',
                 'desc' => [
                     '修复了订单收据下载功能下载缓慢的问题'
                 ]
