@@ -99,26 +99,34 @@ class SettingsController extends Controller
     public function changingLog()
     {
 
-        $currentVersion = 'v1.4.1 Beta';
+        $currentVersion = 'v1.5.1 Beta';
         $updateDate = '2021/05/19';
         $color = 'orange'; // Beta: orange, Release: green
 
         $logs = [
 
 //            [
-//                'version' => 'v1.4.0 Beta',
+//                'version' => 'v1.7.0 Beta',
 //                'date' => '2021/05/11',
 //                'desc' => [
 //                    '功能：',
 //                    '添加了商品折扣功能',
+//                ]
+//            ],
+
+//            [
+//                'version' => 'v1.6.0 Beta',
+//                'date' => '2021/05/22',
+//                'desc' => [
+//                    '功能：',
+//                    '添加了账号编辑功能',
 //                    '优化：',
-//                    '优化了手机版商品编辑、商品管理主页、订单管理主页界面',
-//                    '',
+//                    '优化了顾客购物车界面选择订单模式的界面'
 //                ]
 //            ],
 
             [
-                'version' => 'v1.4.1 Beta',
+                'version' => 'v1.5.1 Beta',
                 'date' => '2021/05/19',
                 'desc' => [
                     '修复了订单收据下载功能下载缓慢的问题'
@@ -126,7 +134,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.4.0 Beta',
+                'version' => 'v1.5.0 Beta',
                 'date' => '2021/05/17',
                 'desc' => [
                     '订单管理页面添加了订单收据下载功能',
@@ -135,7 +143,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.9 Beta',
+                'version' => 'v1.4.9 Beta',
                 'date' => '2021/05/15',
                 'desc' => [
                     '修复了商品保存后没有进行上架的问题',
@@ -144,7 +152,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.8 Beta',
+                'version' => 'v1.4.8 Beta',
                 'date' => '2021/05/15',
                 'desc' => [
                     '修复了商品类别设定在添加新的类别之后无法删除的问题',
@@ -155,7 +163,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.7 Beta',
+                'version' => 'v1.4.7 Beta',
                 'date' => '2021/05/14',
                 'desc' => [
                     '优化了图片加载的时间',
@@ -165,7 +173,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.6 Beta',
+                'version' => 'v1.4.6 Beta',
                 'date' => '2021/05/14',
                 'desc' => [
                     '更改了顾客界面的颜色（部分不正常的界面显示需要清除浏览器缓存来修复错误）',
@@ -174,7 +182,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.5 Beta',
+                'version' => 'v1.4.5 Beta',
                 'date' => '2021/05/14',
                 'desc' => [
                     '修复了商品规格输入与其他商品或同商品有相同的货号时，出现内部错误的问题',
@@ -183,7 +191,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.4 Beta',
+                'version' => 'v1.4.4 Beta',
                 'date' => '2021/05/13',
                 'desc' => [
                     '修复了商品类别在其他商品资料验证失败之后，之前的类别选项没有保留的问题（商品编辑）',
@@ -193,7 +201,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.3 Beta',
+                'version' => 'v1.4.3 Beta',
                 'date' => '2021/05/13',
                 'desc' => [
                     '修复了规格图片上传之后无法删除的问题'
@@ -201,7 +209,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.2 Beta',
+                'version' => 'v1.4.2 Beta',
                 'date' => '2021/05/13',
                 'desc' => [
                     '更新付款方式',
@@ -210,7 +218,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.1 Beta',
+                'version' => 'v1.4.1 Beta',
                 'date' => '2021/05/12',
                 'desc' => [
                     '优化商品管理搜索页面',
@@ -220,7 +228,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.3.0 Beta',
+                'version' => 'v1.4.0 Beta',
                 'date' => '2021/05/09',
                 'desc' => [
                     '功能：',
@@ -232,7 +240,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.2.3 Beta',
+                'version' => 'v1.3.3 Beta',
                 'date' => '2021/05/08',
                 'desc' => [
                     '修复了商品界面在库存只有1的时候可以添加超过1件商品进购物车的问题',
@@ -243,7 +251,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.2.2 Beta',
+                'version' => 'v1.3.2 Beta',
                 'date' => '2021/05/07',
                 'desc' => [
                     '移除商品品牌',
@@ -252,7 +260,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.2.1 Beta',
+                'version' => 'v1.3.1 Beta',
                 'date' => '2021/05/06',
                 'desc' => [
                     '修复使用外送服务时，顾客无法保存资料的问题',
@@ -262,7 +270,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.2.0 Beta',
+                'version' => 'v1.3.0 Beta',
                 'date' => '2021/05/05',
                 'desc' => [
                     '功能：',
@@ -276,7 +284,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.1.0 Beta',
+                'version' => 'v1.2.0 Beta',
                 'date' => '2021/05/02',
                 'desc' => [
                     '功能：',
@@ -289,7 +297,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.0.2 Beta',
+                'version' => 'v1.1.1 Beta',
                 'date' => '2021/04/25',
                 'desc' => [
                     '后台：',
@@ -298,7 +306,7 @@ class SettingsController extends Controller
             ],
 
             [
-                'version' => 'v1.0.1 Beta',
+                'version' => 'v1.1.0 Beta',
                 'date' => '2021/04/23',
                 'desc' => [
                     '订单管理更新：可以查看订单详情并可以调整订单状态',
