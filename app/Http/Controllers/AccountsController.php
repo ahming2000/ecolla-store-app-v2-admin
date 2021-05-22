@@ -69,10 +69,11 @@ class AccountsController extends Controller
         return redirect('/account')->with('message', "账号 " . $user->name . " 属性修改成功！");
     }
 
-    public function manage(User $user){
+    public function manage(User $user)
+    {
         $action = request('action');
 
-        switch ($action){
+        switch ($action) {
             case 'activate':
                 $user->update(['status' => 'enabled']);
                 $message = "账号 " . $user->name . " 已激活！";
@@ -90,5 +91,4 @@ class AccountsController extends Controller
 
         return redirect('/account')->with('message', $message);
     }
-
 }
