@@ -37,9 +37,9 @@
     .slider:before {
         position: absolute;
         content: "";
-        height: 16px;
-        width: 16px;
-        left: 4px;
+        height: 15px;
+        width: 15px;
+        left: 3px;
         bottom: 3px;
         background-color: white;
         -webkit-transition: .4s;
@@ -66,7 +66,7 @@
     }
 
     .slider.round:before {
-        border-radius: 60%;
+        border-radius: 50%;
     }
 </style>
 @endsection('extraStyle')
@@ -159,10 +159,10 @@
                                 @foreach($permissions as $permission)
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <div class="col-10 d-flex align-items-center">
+                                        <div class="col-8 d-flex align-items-center">
                                             <p class="m-0">{{ $permission->cnDisplayName }}</p>
                                         </div>
-                                        <div class="col-2 d-flex align-items-center">
+                                        <div class="col-4 d-flex align-items-center justify-content-end">
                                             <label class="switch m-0">
                                                 <input type="checkbox" class="form-control" id="addAccount{{ $permission->elementId }}Permission" @if($permission->checkedByDefault)
                                                 checked
