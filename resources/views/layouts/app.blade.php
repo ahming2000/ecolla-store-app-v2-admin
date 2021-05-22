@@ -81,6 +81,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ url('/setting') }}">设置</a>
+                                <a class="dropdown-item" href="{{ url('/account') }}">员工账户管理</a>
                                 <a class="dropdown-item" href="{{ url('/changing-log') }}">应用更新日志</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

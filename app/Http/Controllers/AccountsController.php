@@ -21,7 +21,7 @@ class AccountsController extends Controller
     {
         $users = User::all();
 
-        // return view('account.index', compact('users')); // TODO - return front-end view
+        return view('account.index', compact('users'));
     }
 
     public function store()
