@@ -40,7 +40,7 @@
     @yield('extraStyle')
 
 </head>
-<body>
+<body style="min-width: 100%;">
 
 @yield('extraScript')
 
