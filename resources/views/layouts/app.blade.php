@@ -68,7 +68,8 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     @guest
-
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">登录</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/changing-log') }}">应用更新日志</a></li>
                     @else
                         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">主页</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/item') }}">商品</a></li>
