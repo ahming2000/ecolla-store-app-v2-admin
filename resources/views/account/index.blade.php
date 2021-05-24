@@ -90,7 +90,7 @@
     var closeAlertHtml = '<a href="#" class="close" onclick="hideAlert()">&times;</a>';
 
     function showAddAccountSuccessAlert() {
-        $('.alert').html("新员工 Kakashi 添加成功！" + closeAlertHtml);
+        $('.alert').html('新员工 Kakashi 添加成功！' + closeAlertHtml);
         showAlert();
     }
 
@@ -104,7 +104,7 @@
         showAlert();
     }
 
-    function readUserData(element) {
+    function readUserDataToEdit(element) {
         var email = $(element).data('user-email');
         var fullName = $(element).data('user-name');
 
@@ -126,7 +126,7 @@
         var userPermisionOrderItemDelete = $(element).data('user-permission-order-item-delete');
 
         var userPermisionDashboardView = $(element).data('user-permission-dashboard-view');
-        var userPermisionSettingsView= $(element).data('user-permission-settings-view');
+        var userPermisionSettingsView = $(element).data('user-permission-settings-view');
         var userPermisionAccountSettingsDelete = $(element).data('user-permission-account-settings');
         var userPermisionItemPropertiesSettings = $(element).data('user-permission-item-properties-settings');
         var userPermisionOrderPropertiesSettings = $(element).data('user-permission-order-properties-settings');
@@ -160,6 +160,14 @@
         $('#editAccountModal #editAccountOrderPropertiesSettingsPermissionControl').prop('checked', !!userPermisionOrderPropertiesSettings);
         $('#editAccountModal #editAccountPaginationPropertiesSettingsPermissionControl').prop('checked', !!userPermisionPaginationPropertiesSettings);
 
+    }
+
+    function readUserDataToDelete(element) {
+        var fullName = $(element).data('user-name');
+        var email = $(element).data('user-email');
+
+        $('#deleteAccountModal #deleteAccountFullNameDisplay').html(fullName);
+        $('#deleteAccountModal #deleteAccountEmailDisplay').html(email);
     }
 </script>
 @endsection('extraScript')
@@ -246,38 +254,7 @@ $permissions = array(
                     <div class="flex-column d-flex align-items-center justify-content-center my-2">
                         <div class="row">
                             <div class="col-4 d-flex">
-                                <button type="submit" class="btn btn-secondary btn-md d-flex justify-content-center align-items-center text-nowrap" type="button"
-                                    data-toggle="modal"
-                                    data-user-email="{{ $user->email }}"
-                                    data-user-name="{{ $user->name }}"
-
-                                    data-user-permission-item-view="{{ $user->permission->item_view }}"
-                                    data-user-permission-item-create="{{ $user->permission->item_create }}"
-                                    data-user-permission-item-update="{{ $user->permission->item_update }}"
-                                    data-user-permission-item-delete="{{ $user->permission->item_delete }}"
-                                    data-user-permission-item-listing="{{ $user->permission->item_list }}"
-
-                                    data-user-permission-order-view="{{ $user->permission->order_view }}"
-                                    data-user-permission-order-update="{{ $user->permission->order_update }}"
-                                    data-user-permission-order-delete="{{ $user->permission->order_delete }}"
-                                    data-user-permission-order-receipt-view="{{ $user->permission->order_receipt_view }}"
-                                    data-user-permission-order-invoice_download="{{ $user->permission->order_invoice_download }}"
-
-                                    data-user-permission-order-item-view="{{ $user->permission->order_item_view }}"
-                                    data-user-permission-order-item-create="{{ $user->permission->order_item_create }}"
-                                    data-user-permission-order-item-update="{{ $user->permission->order_item_update }}"
-                                    data-user-permission-order-item-delete="{{ $user->permission->order_item_delete }}"
-
-                                    data-user-permission-dashboard-view="{{ $user->permission->dashboard_view }}"
-                                    data-user-permission-settings-view="{{ $user->permission->setting_view }}"
-                                    data-user-permission-account-settings="{{ $user->permission->setting_account }}"
-                                    data-user-permission-item-properties-settings="{{ $user->permission->setting_item }}"
-                                    data-user-permission-order-properties-settings="{{ $user->permission->setting_order }}"
-                                    data-user-permission-pagination-properties-settings="{{ $user->permission->setting_pagination }}"
-                                    
-                                    data-target="#editAccountModal"
-                                    onclick="readUserData(this)"
-                                    @if($user->status == 'disable')
+                                <button type="submit" class="btn btn-secondary btn-md d-flex justify-content-center align-items-center text-nowrap" type="button" data-toggle="modal" data-user-email="{{ $user->email }}" data-user-name="{{ $user->name }}" data-user-permission-item-view="{{ $user->permission->item_view }}" data-user-permission-item-create="{{ $user->permission->item_create }}" data-user-permission-item-update="{{ $user->permission->item_update }}" data-user-permission-item-delete="{{ $user->permission->item_delete }}" data-user-permission-item-listing="{{ $user->permission->item_list }}" data-user-permission-order-view="{{ $user->permission->order_view }}" data-user-permission-order-update="{{ $user->permission->order_update }}" data-user-permission-order-delete="{{ $user->permission->order_delete }}" data-user-permission-order-receipt-view="{{ $user->permission->order_receipt_view }}" data-user-permission-order-invoice_download="{{ $user->permission->order_invoice_download }}" data-user-permission-order-item-view="{{ $user->permission->order_item_view }}" data-user-permission-order-item-create="{{ $user->permission->order_item_create }}" data-user-permission-order-item-update="{{ $user->permission->order_item_update }}" data-user-permission-order-item-delete="{{ $user->permission->order_item_delete }}" data-user-permission-dashboard-view="{{ $user->permission->dashboard_view }}" data-user-permission-settings-view="{{ $user->permission->setting_view }}" data-user-permission-account-settings="{{ $user->permission->setting_account }}" data-user-permission-item-properties-settings="{{ $user->permission->setting_item }}" data-user-permission-order-properties-settings="{{ $user->permission->setting_order }}" data-user-permission-pagination-properties-settings="{{ $user->permission->setting_pagination }}" data-target="#editAccountModal" onclick="readUserDataToEdit(this)" @if($user->status == 'disable')
                                     disabled
                                     @endif
                                     >
@@ -296,7 +273,7 @@ $permissions = array(
                                 @endif
                             </div>
                             <div class="col-4 d-flex">
-                                <button type="submit" class="btn btn-danger btn-md d-flex justify-content-center align-items-center text-nowrap" type="button" data-toggle="modal" data-target="#deleteAccountModal">
+                                <button type="submit" class="btn btn-danger btn-md d-flex justify-content-center align-items-center text-nowrap" type="button" data-toggle="modal" data-user-email="{{ $user->email }}" data-user-name="{{ $user->name }}" data-target="#deleteAccountModal" onclick="readUserDataToDelete(this)">
                                     <p class="text-center m-0">删除</p>
                                 </button>
                             </div>
@@ -445,8 +422,8 @@ $permissions = array(
                     <div class="col">
                         <p>确定删除此员工账户？此动作无法挽回。</p>
                         <div class="col flex-column d-inline-flex justify-content-center">
-                            <p class="m-0 p-0 h5 d-inline-flex">Sakura</p>
-                            <p class="m-0 p-0 text-muted d-inline-flex">sakura@newrainbowmarket.com</p>
+                            <p id="deleteAccountFullNameDisplay" class="m-0 p-0 h5 d-inline-flex"></p>
+                            <p id="deleteAccountEmailDisplay" class="m-0 p-0 text-muted d-inline-flex"></p>
                         </div>
                     </div>
                 </div>
