@@ -74,7 +74,9 @@
 @section('extraScript')
 <script type="text/javascript">
     function showAlert() {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+        $("html, body").animate({
+            scrollTop: 0
+        }, "slow");
         $('.alert').fadeIn();
         setTimeout(function() {
             hideAlert();
@@ -101,6 +103,64 @@
         $('.alert').html('员工 Sakura 已被删除。' + closeAlertHtml);
         showAlert();
     }
+
+    function readUserData(element) {
+        var email = $(element).data('user-email');
+        var fullName = $(element).data('user-name');
+
+        var userPermisionItemView = $(element).data('user-permission-item-view');
+        var userPermisionItemCreate = $(element).data('user-permission-item-create');
+        var userPermisionItemUpdate = $(element).data('user-permission-item-update');
+        var userPermisionItemDelete = $(element).data('user-permission-item-delete');
+        var userPermisionItemListing = $(element).data('user-permission-item-listing');
+
+        var userPermisionOrderView = $(element).data('user-permission-order-view');
+        var userPermisionOrderUpdate = $(element).data('user-permission-order-update');
+        var userPermisionOrderDelete = $(element).data('user-permission-order-delete');
+        var userPermisionOrderReceiptView = $(element).data('user-permission-order-receipt-view');
+        var userPermisionOrderInvoiceDownload = $(element).data('user-permission-order-invoice-download');
+
+        var userPermisionOrderItemView = $(element).data('user-permission-order-item-view');
+        var userPermisionOrderItemCreate = $(element).data('user-permission-order-item-create');
+        var userPermisionOrderItemUpdate = $(element).data('user-permission-order-item-update');
+        var userPermisionOrderItemDelete = $(element).data('user-permission-order-item-delete');
+
+        var userPermisionDashboardView = $(element).data('user-permission-dashboard-view');
+        var userPermisionSettingsView= $(element).data('user-permission-settings-view');
+        var userPermisionAccountSettingsDelete = $(element).data('user-permission-account-settings');
+        var userPermisionItemPropertiesSettings = $(element).data('user-permission-item-properties-settings');
+        var userPermisionOrderPropertiesSettings = $(element).data('user-permission-order-properties-settings');
+        var userPermisionPaginationPropertiesSettings = $(element).data('user-permission-pagination-properties-settings');
+
+        $('#editAccountModal #editAccountEmailControl').val(email);
+        $('#editAccountModal #editAccountEmailControl').siblings('label').addClass('active');
+        $('#editAccountModal #editAccountFullNameControl').val(fullName);
+        $('#editAccountModal #editAccountFullNameControl').siblings('label').addClass('active');
+
+        $('#editAccountModal #editAccountItemViewPermissionControl').prop('checked', !!userPermisionItemView);
+        $('#editAccountModal #editAccountItemCreatePermissionControl').prop('checked', !!userPermisionItemCreate);
+        $('#editAccountModal #editAccountItemUpdatePermissionControl').prop('checked', !!userPermisionItemUpdate);
+        $('#editAccountModal #editAccountItemDeletePermissionControl').prop('checked', !!userPermisionItemDelete);
+        $('#editAccountModal #editAccountItemListingPermissionControl').prop('checked', !!userPermisionItemListing);
+
+        $('#editAccountModal #editAccountOrderViewPermissionControl').prop('checked', !!userPermisionOrderView);
+        $('#editAccountModal #editAccountOrderUpdatePermissionControl').prop('checked', !!userPermisionOrderUpdate);
+        $('#editAccountModal #editAccountOrderDeletePermissionControl').prop('checked', !!userPermisionOrderDelete);
+        $('#editAccountModal #editAccountOrderReceiptViewPermissionControl').prop('checked', !!userPermisionOrderReceiptView);
+        $('#editAccountModal #editAccountOrderInvoiceDownloadPermissionControl').prop('checked', !!userPermisionOrderInvoiceDownload);
+
+        $('#editAccountModal #editAccountOrderItemViewPermissionControl').prop('checked', !!userPermisionOrderItemView);
+        $('#editAccountModal #editAccountOrderItemCreatePermissionControl').prop('checked', !!userPermisionOrderItemCreate);
+        $('#editAccountModal #editAccountOrderItemUpdatePermissionControl').prop('checked', !!userPermisionOrderItemUpdate);
+        $('#editAccountModal #editAccountOrderItemDeletePermissionControl').prop('checked', !!userPermisionOrderItemDelete);
+
+        $('#editAccountModal #editAccountDashboardViewPermissionControl').prop('checked', !!userPermisionDashboardView);
+        $('#editAccountModal #editAccountSettingsViewPermissionControl').prop('checked', !!userPermisionSettingsView);
+        $('#editAccountModal #editAccountItemPropertiesSettingsPermissionControl').prop('checked', !!userPermisionItemPropertiesSettings);
+        $('#editAccountModal #editAccountOrderPropertiesSettingsPermissionControl').prop('checked', !!userPermisionOrderPropertiesSettings);
+        $('#editAccountModal #editAccountPaginationPropertiesSettingsPermissionControl').prop('checked', !!userPermisionPaginationPropertiesSettings);
+
+    }
 </script>
 @endsection('extraScript')
 
@@ -108,6 +168,7 @@
 
 <?php
 
+// Hardcoded Permissions
 class Permission
 {
     public $cnDisplayName;
@@ -185,7 +246,38 @@ $permissions = array(
                     <div class="flex-column d-flex align-items-center justify-content-center my-2">
                         <div class="row">
                             <div class="col-4 d-flex">
-                                <button type="submit" class="btn btn-secondary btn-md d-flex justify-content-center align-items-center text-nowrap" type="button" data-toggle="modal" data-target="#editAccountModal" @if($user->status == 'disable')
+                                <button type="submit" class="btn btn-secondary btn-md d-flex justify-content-center align-items-center text-nowrap" type="button"
+                                    data-toggle="modal"
+                                    data-user-email="{{ $user->email }}"
+                                    data-user-name="{{ $user->name }}"
+
+                                    data-user-permission-item-view="{{ $user->permission->item_view }}"
+                                    data-user-permission-item-create="{{ $user->permission->item_create }}"
+                                    data-user-permission-item-update="{{ $user->permission->item_update }}"
+                                    data-user-permission-item-delete="{{ $user->permission->item_delete }}"
+                                    data-user-permission-item-listing="{{ $user->permission->item_list }}"
+
+                                    data-user-permission-order-view="{{ $user->permission->order_view }}"
+                                    data-user-permission-order-update="{{ $user->permission->order_update }}"
+                                    data-user-permission-order-delete="{{ $user->permission->order_delete }}"
+                                    data-user-permission-order-receipt-view="{{ $user->permission->order_receipt_view }}"
+                                    data-user-permission-order-invoice_download="{{ $user->permission->order_invoice_download }}"
+
+                                    data-user-permission-order-item-view="{{ $user->permission->order_item_view }}"
+                                    data-user-permission-order-item-create="{{ $user->permission->order_item_create }}"
+                                    data-user-permission-order-item-update="{{ $user->permission->order_item_update }}"
+                                    data-user-permission-order-item-delete="{{ $user->permission->order_item_delete }}"
+
+                                    data-user-permission-dashboard-view="{{ $user->permission->dashboard_view }}"
+                                    data-user-permission-settings-view="{{ $user->permission->setting_view }}"
+                                    data-user-permission-account-settings="{{ $user->permission->setting_account }}"
+                                    data-user-permission-item-properties-settings="{{ $user->permission->setting_item }}"
+                                    data-user-permission-order-properties-settings="{{ $user->permission->setting_order }}"
+                                    data-user-permission-pagination-properties-settings="{{ $user->permission->setting_pagination }}"
+                                    
+                                    data-target="#editAccountModal"
+                                    onclick="readUserData(this)"
+                                    @if($user->status == 'disable')
                                     disabled
                                     @endif
                                     >
@@ -256,7 +348,7 @@ $permissions = array(
                                         </div>
                                         <div class="col-4 d-flex align-items-center justify-content-end">
                                             <label class="switch m-0">
-                                                <input type="checkbox" class="form-control" id="addAccount{{ $permission->elementId }}Permission" @if($permission->checkedByDefault)
+                                                <input type="checkbox" class="form-control" id="addAccount{{ $permission->elementId }}PermissionControl" @if($permission->checkedByDefault)
                                                 checked
                                                 @endif
                                                 >
@@ -292,20 +384,20 @@ $permissions = array(
                 <div class="modal-body">
                     <form>
                         <div class="form-group md-form">
-                            <input type="email" class="form-control" id="editAccountNewEmailControl">
-                            <label for="addAccountNewEmailControl">员工邮箱</label>
+                            <input type="email" class="form-control" id="editAccountEmailControl">
+                            <label for="editAccountEmailControl">员工邮箱</label>
                         </div>
                         <div class="form-group md-form">
-                            <input type="text" class="form-control" id="editAccountNewFullNameControl">
-                            <label for="addAccountNewFullNameControl">员工姓名</label>
+                            <input type="text" class="form-control" id="editAccountFullNameControl">
+                            <label for="editAccountFullNameControl">员工姓名</label>
                         </div>
                         <div class="form-group md-form">
-                            <input type="password" class="form-control" id="editAccountNewPasswordControl">
-                            <label for="addAccountNewPasswordControl">员工密码</label>
+                            <input type="password" class="form-control" id="editAccountPasswordControl">
+                            <label for="editAccountPasswordControl">员工密码</label>
                         </div>
                         <div class="form-group md-form">
                             <input type="password" class="form-control" id="editAccountConfirmPasswordControl">
-                            <label for="addAccountConfirmPasswordControl">员工密码（重填确认）</label>
+                            <label for="editAccountConfirmPasswordControl">员工密码（重填确认）</label>
                         </div>
 
                         <div class="form-group">
@@ -319,10 +411,7 @@ $permissions = array(
                                         </div>
                                         <div class="col-4 d-flex align-items-center justify-content-end">
                                             <label class="switch m-0">
-                                                <input type="checkbox" class="form-control" id="addAccount{{ $permission->elementId }}Permission" @if($permission->checkedByDefault)
-                                                checked
-                                                @endif
-                                                >
+                                                <input type="checkbox" class="form-control" id="editAccount{{ $permission->elementId }}PermissionControl">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
