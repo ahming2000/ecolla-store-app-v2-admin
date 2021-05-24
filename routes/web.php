@@ -73,7 +73,6 @@ Route::prefix('/setting')->group(function () {
 
 Route::prefix('/account')->group(function () {
     Route::get('/', [AccountsController::class, 'index']);
-    Route::get('/{user}/edit', [AccountsController::class, 'edit']);
     Route::post('/', [AccountsController::class, 'store']);
     Route::post('/{user}', [AccountsController::class, 'manage']);
     Route::patch('/{user}', [AccountsController::class, 'update']);
