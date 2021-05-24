@@ -10,8 +10,8 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v1.5.2 Beta';
-        $updateDate = '2021/05/22';
+        $currentVersion = 'v1.5.3 Beta';
+        $updateDate = '2021/05/25';
         $color = 'orange'; // Beta: orange, Release: green
 
 
@@ -27,6 +27,12 @@ class ChangingLogController extends Controller
 //            ]),
 
             new LogClass('v1.5', [
+
+                new Log('v1.5.3', '2021/05/25', [
+                    new LogDetail('优化',[
+                        '优化了商品描述字体超出窗口范围的问题',
+                    ]),
+                ]),
 
                 new Log('v1.5.2', '2021/05/22', [
                     new LogDetail('优化',[
