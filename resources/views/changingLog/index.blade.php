@@ -19,10 +19,10 @@
                         <div class="card">
                             <div class="card-header" id="heading-{{ $logClass->getPlainClassName() }}">
                                 <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
+                                    <button class="btn btn-link btn-block text-left collapsed p-0 pl-3" type="button"
                                             data-toggle="collapse" data-target="#{{ $logClass->getPlainClassName() }}"
                                             aria-expanded="false" aria-controls="{{ $logClass->getPlainClassName() }}">
-                                        {{ $logClass->class }}
+                                        <span style="font-size: large">{{ $logClass->class }}</span>
                                     </button>
                                 </h2>
                             </div>
@@ -33,10 +33,10 @@
                                 <div class="card-body">
                                     @foreach($logClass->logs as $log)
                                         <div class="mb-3">
-                                            <div class="h3">{{ $log->version }}（{{ $log->date }}）</div>
+                                            <div class="h4">{{ $log->version }}（{{ $log->date }}）</div>
                                             @foreach($log->details as $logDetail)
                                                 <div class="mb-2">
-                                                    <div class="h5">{{ $logDetail->category }}</div>
+                                                    <div class="h6">{{ $logDetail->category }}</div>
                                                     @foreach($logDetail->contents as $detail)
                                                         <span>-{{ $detail }}</span>
                                                     @endforeach
@@ -58,6 +58,7 @@
 @section('extraScriptEnd')
     <script>
         $(document).ready(function () {
+            // Show the first child
             let selector = $('#version-list').children('.card').first();
             selector.find('button').removeClass('collapsed');
             selector.find('.collapse').addClass('show');
