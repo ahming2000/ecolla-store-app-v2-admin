@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ChangingLog\ChangingLogController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
@@ -78,4 +79,4 @@ Route::prefix('/account')->group(function () {
     Route::patch('/{user}', [AccountsController::class, 'update']);
 });
 
-Route::get('/changing-log', [SettingsController::class, 'changingLog']); // TODO - Changing to another controller
+Route::get('/changing-log', [ChangingLogController::class, 'index']);
