@@ -19,7 +19,7 @@ class AccountsController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::where('role', '=', 'employee')->get();
 
         return view('account.index', compact('users'));
     }
