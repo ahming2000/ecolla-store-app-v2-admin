@@ -26,7 +26,9 @@
                         {{ $order->code }}<br>
                         {{ $order->getOrderCreateDateTime() }}<br>
                         订单状态：{{ $order->getStatusDesc() }}<br>
+                        @if(auth()->user()->hasAccess('order_receipt_view'))
                         <button class="btn btn-primary btn-sm" onclick="viewReceipt(this)" value="{{ url($order->receipt_image) }}">查看订单收据</button>
+                            @endif
                     </td>
                     <td>
                         @if($order->mode == 'delivery')
@@ -40,15 +42,21 @@
                     <td class="p-0 h-100">
                         <div class="d-flex p-2 align-items-center justify-content-center h-100">
                             <div class="d-flex flex-sm-column align-items-center">
+                                @if(auth()->user()->hasAccess('order_item_view'))
                                 <a class="btn btn-primary btn-sm" href="{{ url('/order/' . $order->id . '/item') }}">显示订单物品</a>
+                                    @endif
                             </div>
                         </div>
                     </td>
                     <td class="p-0 h-100">
                         <div class="d-flex p-2 align-items-center justify-content-center h-100">
                             <div class="d-flex flex-sm-column align-items-center">
+
                                 <a class="btn btn-primary btn-sm m-2" href="{{ url('/order/' . $order->id) }}">更改订单状态</a>
-                                <a class="btn btn-primary btn-sm m-2" href="{{ URL::to('/order/' . $order->id . '/pdf') }}">下载订单收据</a>
+
+                                    @if(auth()->user()->hasAccess('order_invoice_download'))
+                                    <a class="btn btn-primary btn-sm m-2" href="{{ URL::to('/order/' . $order->id . '/pdf') }}">下载订单收据</a>
+                                        @endif
                             </div>
                         </div>
 

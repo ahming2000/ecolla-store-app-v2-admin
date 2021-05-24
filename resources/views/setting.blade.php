@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    网站设定
+@endsection
+
 @section('content')
     <main class="container">
 
@@ -9,8 +13,8 @@
             </div>
         @endif
 
-
         <div class="h1">网站设定</div>
+            @if(auth()->user()->hasAccess('setting_item'))
         <div class="row">
             <div class="col-sm-12 col-md-8 offset-md-2 category-section">
                 <div class="h2">商品类别管理</div>
@@ -144,11 +148,14 @@
                 </form>
             </div>
         </div>
+                @endif
     </main>
 @endsection
 
 @section('extraScriptEnd')
-    <script>
+    @if(auth()->user()->hasAccess('setting_item'))
+
+        <script>
 
         function getCategoryCount() {
             return $('#category-section div.category-item').length;
@@ -201,4 +208,5 @@
             });
         });
     </script>
+    @endif
 @endsection

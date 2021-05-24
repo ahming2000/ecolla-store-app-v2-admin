@@ -18,6 +18,7 @@
                 <div style="font-size: 40px; font-weight: bolder">商品管理</div>
             </div>
             <div class="col-md-6 col-sm-12">
+                @if(auth()->user()->hasAccess('item_create'))
                 <div class="row mb-2">
                     <div class="col-12 text-right">
                         <a href="{{ url('/item/create') }}">
@@ -25,6 +26,7 @@
                         </a>
                     </div>
                 </div>
+                @endif
                 <form action="{{ url('/item') }}" method="get">
                     <div class="row text-right mb-2">
                         <div class="col-8">
@@ -112,12 +114,17 @@
                         {{ $item->util->sold ?? 0 }}
                     </td>
                     <td>
+                        @if(auth()->user()->hasAccess('item_list'))
                         <a href="#" class="btn btn-secondary btn-sm mb-1">
                             <i class="icofont icofont-basket"></i> {{ $item->util->is_listed == '1' ? "下架" : "上架" }}
                         </a><br>
-                        <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-secondary btn-sm mb-1">
+                        @endif
+                            @if(auth()->user()->hasAccess('item_update'))
+                            <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-secondary btn-sm mb-1">
                             <i class="icofont icofont-ui-edit"></i> 编辑
                         </a><br>
+                            @endif
+                        @if(auth()->user()->hasAccess('item_delete'))
                         <button type="button"
                                 class="btn btn-secondary btn-sm m-0 mb-1"
                                 onclick="confirmDelete(this)"
@@ -125,6 +132,7 @@
                             <i class="icofont icofont-ui-delete"></i> 删除
                         </button>
                         <br>
+                        @endif
 
                         <form action="{{ url('/item/' . $item->id) }}" method="post" class="delete-item-form">
                             @csrf
