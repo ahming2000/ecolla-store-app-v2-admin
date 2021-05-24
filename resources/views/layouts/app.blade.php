@@ -81,8 +81,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url('/setting') }}">设置</a>
-                                <a class="dropdown-item" href="{{ url('/account') }}">员工账户管理</a>
+                                @if(auth()->user()->hasAccess('setting_view'))<a class="dropdown-item" href="{{ url('/setting') }}">设置</a>@endif
+                                @if(auth()->user()->role == 'admin')<a class="dropdown-item" href="{{ url('/account') }}">员工账户管理</a>@endif
                                 <a class="dropdown-item" href="{{ url('/changing-log') }}">应用更新日志</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

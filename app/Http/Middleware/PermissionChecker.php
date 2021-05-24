@@ -20,11 +20,11 @@ class PermissionChecker
         if ($request->user()->role == 'employee') {
             // This is used to check the page that is absolutely for admin and it is not available in user permission table
             if ($type == 'admin') {
-                abort('403', 'You have no permission');
+                abort('403', '您没有权限浏览此页面');
             } else {
                 // Return false also if the type doesn't match any column of user_permissions table
                 if (!$request->user()->hasAccess($type)) {
-                    abort('403', 'You have no permission');
+                    abort('403', '您没有权限浏览此页面');
                 }
             }
         }

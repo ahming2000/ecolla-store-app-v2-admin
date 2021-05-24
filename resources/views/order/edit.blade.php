@@ -54,6 +54,7 @@
             </div>
         </div>
 
+            @if(auth()->user()->hasAccess('order_update'))
         <div class="row">
 
             <div class="col-md-6 offset-md-3 col-sm-12 mb-3">
@@ -114,14 +115,18 @@
                 </form>
             </div>
         </div>
-
+@endif
         <div class="row">
             <div class="col-md-6 offset-md-3 col-sm-12 mb-3">
                 <div class="h3">更多</div>
                 <br>
                 <div class="row d-flex justify-content-center">
+                    @if(auth()->user()->hasAccess('order_item_view'))
                     <a href="{{ url('/order/' . $order->id . '/item') }}" class="btn btn-primary">显示订单物品</a>
-                    <a href="{{ $order->receipt_image }}" class="btn btn-primary">显示订单物品</a>
+                    @endif
+                        @if(auth()->user()->hasAccess('order_receipt_view'))
+                    <a href="{{ $order->receipt_image }}" class="btn btn-primary">查看订单收据</a>
+                            @endif
                 </div>
             </div>
         </div>

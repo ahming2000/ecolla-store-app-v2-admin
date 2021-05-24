@@ -15,6 +15,7 @@
 @endsection
 
 @section('content')
+    @if(auth()->user()->hasAccess('dashboard_view'))
     <div class="container">
         <div class="card">
             <div class="card-header">{{ __('订单仪表板') }}</div>
@@ -346,9 +347,11 @@
         <p id="daily_3">{{ $daily_graph_arr[2] }}</p>
         <p id="tab_active">{{ $tab_active }}</p>
     </div>
+    @endif
 @endsection
 
 @section('extraScriptEnd')
+    @if(auth()->user()->hasAccess('dashboard_view'))
     <script>
         $(function() {
             //Selectize JS
@@ -553,4 +556,5 @@
             this.y = y;
         }
     </script>
+    @endif
 @endsection
