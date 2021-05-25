@@ -54,7 +54,6 @@ class AccountsController extends Controller
     public function update(User $user)
     {
         $userData = request()->validate([
-            'email' => ['email', 'required', 'unique:users'],
             'name' => 'required',
             'password' => ['required', 'confirmed']
         ]);
