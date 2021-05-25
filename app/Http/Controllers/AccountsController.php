@@ -44,7 +44,7 @@ class AccountsController extends Controller
 
         $userPermission = new UserPermission();
         foreach ($permissions as $key => $value) {
-            $userPermission->setAttribute($key, $value);
+            $userPermission->setAttribute($key, '1');
         }
         $user->permission()->save($userPermission);
 
@@ -62,6 +62,16 @@ class AccountsController extends Controller
         $userData['password'] = password_hash($userData['password'], PASSWORD_BCRYPT);
 
         $permissions = request('permissions');
+
+        $permissionAttributes = UserPermission::getAllAttributes();
+
+        foreach ($permissionAttributes as $attr){
+            if(array_key_exists($attr, $permissions)){
+                $permissions[$attr] = '1';
+            } else{
+                $permissions[$attr] = '0';
+            }
+        }
 
         $user->update($userData);
         $user->permission()->update($permissions);
