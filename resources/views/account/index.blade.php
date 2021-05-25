@@ -77,30 +77,39 @@
         $("html, body").animate({
             scrollTop: 0
         }, "slow");
-        $('.alert').fadeIn();
+        $('.alert').slideDown(500);
         setTimeout(function() {
             hideAlert();
+            setTimeout(function() {
+                location.reload();
+            }, 2000);
         }, 3000);
     }
 
     function hideAlert() {
-        $('.alert').fadeOut();
+        $('.alert').slideUp(1000);
     }
 
     var closeAlertHtml = '<a href="#" class="close" onclick="hideAlert()">&times;</a>';
 
     function showAddAccountSuccessAlert() {
-        $('.alert').html('新员工 Kakashi 添加成功！' + closeAlertHtml);
+        var fullName = $('#addAccountModal #addAccountNewFullNameControl').val();
+
+        $('.alert').html('新员工 ' + fullName + ' 添加成功！' + closeAlertHtml);
         showAlert();
     }
 
     function showEditAccountSuccessAlert() {
-        $('.alert').html('员工 Sasuke 已被更新。' + closeAlertHtml);
+        var fullName = $('#editAccountModal #editAccountFullNameControl').val();
+
+        $('.alert').html('员工 ' + fullName + ' 已被更新。' + closeAlertHtml);
         showAlert();
     }
 
     function showDeleteAccountSuccessAlert() {
-        $('.alert').html('员工 Sakura 已被删除。' + closeAlertHtml);
+        var fullName = $('#deleteAccountModal #deleteAccountFullNameDisplay').html();
+
+        $('.alert').html('员工 ' + fullName + ' 已被删除。' + closeAlertHtml);
         showAlert();
     }
 
@@ -179,12 +188,14 @@
 // Hardcoded Permissions
 class Permission
 {
+    public $columnName;
     public $cnDisplayName;
     public $elementId;
     public $checkedByDefault;
 
-    function __construct($cnDisplayName, $elementId, $checkedByDefault)
+    function __construct($columnName, $cnDisplayName, $elementId, $checkedByDefault)
     {
+        $this->columnName = $columnName;
         $this->cnDisplayName = $cnDisplayName;
         $this->elementId = $elementId;
         $this->checkedByDefault = $checkedByDefault;
@@ -192,29 +203,29 @@ class Permission
 }
 
 $permissions = array(
-    new Permission('商品查看', 'ItemView', true),
-    new Permission('商品创建', 'ItemCreate', false),
-    new Permission('商品编辑', 'ItemUpdate', false),
-    new Permission('商品删除', 'ItemDelete', false),
-    new Permission('商品上架', 'ItemListing', false),
+    new Permission('item_view', '商品查看', 'ItemView', true),
+    new Permission('item_create', '商品创建', 'ItemCreate', false),
+    new Permission('item_update', '商品编辑', 'ItemUpdate', false),
+    new Permission('item_delete', '商品删除', 'ItemDelete', false),
+    new Permission('item_list', '商品上架', 'ItemListing', false),
 
-    new Permission('订单查看', 'OrderView', true),
-    new Permission('订单基本属性编辑', 'OrderUpdate', false),
-    new Permission('订单删除', 'OrderDelete', false),
-    new Permission('顾客收据查看', 'OrderReceiptView', true),
-    new Permission('订单详情下载', 'OrderInvoiceDownload', false),
+    new Permission('order_view', '订单查看', 'OrderView', true),
+    new Permission('order_update', '订单基本属性编辑', 'OrderUpdate', false),
+    new Permission('order_delete', '订单删除', 'OrderDelete', false),
+    new Permission('order_receipt_view', '顾客收据查看', 'OrderReceiptView', true),
+    new Permission('order_invoice_download', '订单详情下载', 'OrderInvoiceDownload', false),
 
-    new Permission('订单商品查看', 'OrderItemView', true),
-    new Permission('订单商品创建', 'OrderItemCreate', false),
-    new Permission('订单商品编辑', 'OrderItemUpdate', false),
-    new Permission('订单商品删除', 'OrderItemDelete', false),
+    new Permission('order_item_view', '订单商品查看', 'OrderItemView', true),
+    new Permission('order_item_create', '订单商品创建', 'OrderItemCreate', false),
+    new Permission('order_item_update', '订单商品编辑', 'OrderItemUpdate', false),
+    new Permission('order_item_delete', '订单商品删除', 'OrderItemDelete', false),
 
-    new Permission('仪表板查看', 'DashboardView', true),
-    new Permission('设定查看', 'SettingsView', true),
-    new Permission('账号设置', 'AccountSettings', true),
-    new Permission('商品相关设定', 'ItemPropertiesSettings', false),
-    new Permission('订单相关设定', 'OrderPropertiesSettings', false),
-    new Permission('显示数量相关设定', 'PaginationPropertiesSettings', false),
+    new Permission('dashboard_view', '仪表板查看', 'DashboardView', true),
+    new Permission('setting_view', '设定查看', 'SettingsView', true),
+    new Permission('setting_account', '账号设置', 'AccountSettings', true),
+    new Permission('setting_item', '商品相关设定', 'ItemPropertiesSettings', false),
+    new Permission('setting_order', '订单相关设定', 'OrderPropertiesSettings', false),
+    new Permission('setting_pagination', '显示数量相关设定', 'PaginationPropertiesSettings', false),
 );
 ?>
 
@@ -222,8 +233,11 @@ $permissions = array(
     <div class="h1">员工账户管理</div>
 
     <!-- Alert Message -->
-    <div class="alert alert-success alert-dismissable" role="alert" style="display: none;">
+    @if(session()->has('message'))
+    <div class="alert alert-success alert-dismissable" role="alert">
+        {!! nl2br(e(session('message'))) !!}
     </div>
+    @endif
 
     <div class="row-flex d-flex justify-content-end w-100 my-2">
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addAccountModal">
@@ -325,7 +339,7 @@ $permissions = array(
                                         </div>
                                         <div class="col-4 d-flex align-items-center justify-content-end">
                                             <label class="switch m-0">
-                                                <input type="checkbox" class="form-control" id="addAccount{{ $permission->elementId }}PermissionControl" @if($permission->checkedByDefault)
+                                                <input type="checkbox" class="form-control" id="addAccount{{ $permission->elementId }}PermissionControl" name="{{ $permission->columnName }}" @if($permission->checkedByDefault)
                                                 checked
                                                 @endif
                                                 >
@@ -358,22 +372,24 @@ $permissions = array(
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form>
+                <form action="{{ url('/account/' . $user->id) }}" method="post">
+                    @csrf
+                    @method('patch')
+                    <div class="modal-body">
                         <div class="form-group md-form">
-                            <input type="email" class="form-control" id="editAccountEmailControl">
+                            <input type="email" class="form-control" id="editAccountEmailControl" name="email">
                             <label for="editAccountEmailControl">员工邮箱</label>
                         </div>
                         <div class="form-group md-form">
-                            <input type="text" class="form-control" id="editAccountFullNameControl">
+                            <input type="text" class="form-control" id="editAccountFullNameControl" name="name">
                             <label for="editAccountFullNameControl">员工姓名</label>
                         </div>
                         <div class="form-group md-form">
-                            <input type="password" class="form-control" id="editAccountPasswordControl">
+                            <input type="password" class="form-control" id="editAccountPasswordControl" name="pasword">
                             <label for="editAccountPasswordControl">员工密码</label>
                         </div>
                         <div class="form-group md-form">
-                            <input type="password" class="form-control" id="editAccountConfirmPasswordControl">
+                            <input type="password" class="form-control" id="editAccountConfirmPasswordControl" name="password_confirmation">
                             <label for="editAccountConfirmPasswordControl">员工密码（重填确认）</label>
                         </div>
 
@@ -388,7 +404,7 @@ $permissions = array(
                                         </div>
                                         <div class="col-4 d-flex align-items-center justify-content-end">
                                             <label class="switch m-0">
-                                                <input type="checkbox" class="form-control" id="editAccount{{ $permission->elementId }}PermissionControl">
+                                                <input type="checkbox" class="form-control" id="editAccount{{ $permission->elementId }}PermissionControl" name="{{ $permission->columnName }}">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
@@ -397,13 +413,12 @@ $permissions = array(
                                 @endforeach
                             </ul>
                         </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary btn-md" data-dismiss="modal" onclick="showEditAccountSuccessAlert()">更新</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary btn-md">更新</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
