@@ -385,7 +385,7 @@ $permissions = array(
                             <label for="editAccountFullNameControl">员工姓名</label>
                         </div>
                         <div class="form-group md-form">
-                            <input type="password" class="form-control" id="editAccountPasswordControl" name="pasword">
+                            <input type="password" class="form-control" id="editAccountPasswordControl" name="password">
                             <label for="editAccountPasswordControl">员工密码</label>
                         </div>
                         <div class="form-group md-form">
@@ -404,7 +404,7 @@ $permissions = array(
                                         </div>
                                         <div class="col-4 d-flex align-items-center justify-content-end">
                                             <label class="switch m-0">
-                                                <input type="checkbox" class="form-control" id="editAccount{{ $permission->elementId }}PermissionControl" name="{{ $permission->columnName }}">
+                                                <input type="checkbox" class="form-control" id="editAccount{{ $permission->elementId }}PermissionControl" name="permissions[{{ $permission->columnName }}]">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
