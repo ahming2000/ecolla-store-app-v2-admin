@@ -25,6 +25,10 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "mdbootstrap": "^4.19.1"
+        "@icon/icofont": "^1.0.1-alpha.1",
+        "canvasjs": "^1.8.3",
+        "chart.js": "^3.3.0",
+        "mdbootstrap": "^4.19.1",
+        "selectize": "^0.12.6"
     }
 }
