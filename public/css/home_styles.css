@@ -10,57 +10,6 @@ body.modal-open {
     padding-right: 0 !important;
 }
 
-#sidebar {
-    padding-left: 0;
-}
-
-
-/*
- * Off Canvas at medium breakpoint
- * --------------------------------------------------
- */
-
-@media screen and (max-width: 48em) {
-    .row-offcanvas {
-        position: relative;
-        -webkit-transition: all 0.25s ease-out;
-        -moz-transition: all 0.25s ease-out;
-        transition: all 0.25s ease-out;
-    }
-    .row-offcanvas-left .sidebar-offcanvas {
-        left: -33%;
-    }
-    .row-offcanvas-left.active {
-        left: 33%;
-        margin-left: -6px;
-    }
-    .sidebar-offcanvas {
-        position: absolute;
-        top: 0;
-        width: 33%;
-        height: 100%;
-    }
-}
-
-
-/*
- * Off Canvas wider at sm breakpoint
- * --------------------------------------------------
- */
-
-@media screen and (max-width: 34em) {
-    .row-offcanvas-left .sidebar-offcanvas {
-        left: -45%;
-    }
-    .row-offcanvas-left.active {
-        left: 45%;
-        margin-left: -6px;
-    }
-    .sidebar-offcanvas {
-        width: 45%;
-    }
-}
-
 .card {
     overflow: hidden;
 }
@@ -93,4 +42,58 @@ body.modal-open {
     border-right: none;
     border-left: none;
     border-top: none;
+}
+
+.display_card {
+    font-size: 8px;
+}
+
+.half_width {
+    width: 100%;
+}
+
+.border_graph_css {
+    height: 250px;
+}
+
+.border_table_css {
+    height: 750px;
+}
+
+.graph_css {
+    height: 100%;
+    width: 100%;
+}
+
+
+/* Tablet */
+
+@media only screen and (min-width:450px) and (max-width:768px) {
+    .display_card {
+        font-size: 1.5rem;
+    }
+    .border_graph_css {
+        height: 400px;
+    }
+    .border_table_css {
+        height: 600px;
+    }
+}
+
+
+/*
+* Desktop
+*/
+
+@media (min-width: 769px) {
+    .display_card {
+        font-size: 3.5rem;
+    }
+    .half_width {
+        width: 50%
+    }
+    .border_graph_css,
+    .border_table_css {
+        height: 400px;
+    }
 }
