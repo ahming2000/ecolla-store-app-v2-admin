@@ -21,8 +21,7 @@ const mix = require('laravel-mix');
 mix.extract();
 
 mix.autoload({
-    jquery: ['$', 'window.jQuery'],
-    canvasjs: ['window.CanvasJS'],
+    jquery: ['$', 'window.jQuery']
 });
 
 mix.js('resources/js/app.js', 'public/js')
