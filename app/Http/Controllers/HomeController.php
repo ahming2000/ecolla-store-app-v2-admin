@@ -33,7 +33,7 @@ class HomeController extends Controller
     public function homeDoGet(Request $request)
     {
         //1. Get Object Array Based on Date, Week, Month
-        $order_arr = DB::select("SELECT * FROM orders");
+        $order_arr = DB::select("SELECT * FROM orders WHERE status = 'completed'");
 
         //Update $order_arr
         $order_arr = HomeController::updateOrderDateTime($order_arr);
@@ -44,12 +44,14 @@ class HomeController extends Controller
         //Get Date
         $daily_date = $request->input('day', $first_date);
 
+        $num_of_items = 5;
+
         //Day Pipeline
         $daily_date_arr = HomeController::get_order_arr_date($order_arr, $daily_date);
         $daily_product_arr = HomeController::get_product_arr($daily_date_arr);
         $daily_product_count = (sizeof($daily_product_arr) == 0) ? 0 : HomeController::get_product_count($daily_product_arr);
         $daily_product_sales_revenue = (sizeof($daily_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($daily_product_arr);
-        $daily_product_arr = (sizeof($daily_product_arr) > 7) ? array_slice($daily_product_arr, 0, 7) : $daily_product_arr;
+        $daily_product_arr = (sizeof($daily_product_arr) > $num_of_items) ? array_slice($daily_product_arr, 0, $num_of_items) : $daily_product_arr;
 
         $daily_hashmap = HomeController::get_time_graph_hashmap($daily_date_arr);
         $daily_graph_arr = HomeController::get_graph_arr($daily_hashmap);
@@ -65,7 +67,7 @@ class HomeController extends Controller
         $week_product_arr = HomeController::get_product_arr($week_arr);
         $week_product_count = (sizeof($week_product_arr) == 0) ? 0 : HomeController::get_product_count($week_product_arr);
         $week_product_sales_revenue = (sizeof($week_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($week_product_arr);
-        $week_product_arr = (sizeof($week_product_arr) > 7) ? array_slice($week_product_arr, 0, 7) : $week_product_arr;
+        $week_product_arr = (sizeof($week_product_arr) > $num_of_items) ? array_slice($week_product_arr, 0, $num_of_items) : $week_product_arr;
 
         $week_hashmap = HomeController::get_week_graph_hashmap($week_arr, $week_str);
         $week_graph_arr = HomeController::get_graph_arr($week_hashmap);
@@ -81,7 +83,7 @@ class HomeController extends Controller
         $month_product_arr = HomeController::get_product_arr($month_arr);
         $month_product_count = (sizeof($month_product_arr) == 0) ? 0 : HomeController::get_product_count($month_product_arr);
         $month_product_sales_revenue = (sizeof($month_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($month_product_arr);
-        $month_product_arr = (sizeof($month_product_arr) > 7) ? array_slice($month_product_arr, 0, 7) : $month_product_arr;
+        $month_product_arr = (sizeof($month_product_arr) > $num_of_items) ? array_slice($month_product_arr, 0, $num_of_items) : $month_product_arr;
 
         $month_hashmap = HomeController::get_month_graph_hashmap($month_arr, $month_str);
         $month_graph_arr = HomeController::get_graph_arr($month_hashmap);
@@ -329,7 +331,7 @@ class HomeController extends Controller
         $oneDay = new DateInterval('P1D');
 
         for ($day = 1; $day <= $days; $day++) {
-            $dates["Week $week ". date('M', strtotime("27-" . $month . "-2021")) ." $year"][] = $date->format('d/m/Y');
+            $dates["Week $week ". date('M', strtotime("06-" . $month . "-2021")) ." $year"][] = $date->format('d/m/Y');
 
             $dayOfWeek = $date->format('l');
             if ($dayOfWeek === 'Saturday') {

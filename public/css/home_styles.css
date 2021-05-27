@@ -44,8 +44,29 @@ body.modal-open {
     border-top: none;
 }
 
-.display_card {
-    font-size: 8px;
+.card_small_col,
+.card_large_col {
+    width: 45%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.card_large_col {
+    padding-top: 10px;
+}
+
+.form_small_col,
+.form_large_col,
+.form_button_col {
+    width: 100%;
+}
+
+.display_card_text {
+    font-size: 12px;
+}
+
+.display_card_header {
+    font-size: 16px;
 }
 
 .half_width {
@@ -65,11 +86,19 @@ body.modal-open {
     width: 100%;
 }
 
+thead tr th:first-child,
+tbody tr td:first-child {
+    width: 5em;
+    min-width: 5em;
+    max-width: 5em;
+    word-break: break-all;
+}
+
 
 /* Tablet */
 
-@media only screen and (min-width:450px) and (max-width:768px) {
-    .display_card {
+@media only screen and (min-width:450px) and (max-width:1199px) {
+    .display_card_text {
         font-size: 1.5rem;
     }
     .border_graph_css {
@@ -78,6 +107,13 @@ body.modal-open {
     .border_table_css {
         height: 600px;
     }
+    thead tr th:first-child,
+    tbody tr td:first-child {
+        width: 12em;
+        min-width: 12em;
+        max-width: 12em;
+        word-break: break-all;
+    }
 }
 
 
@@ -85,15 +121,47 @@ body.modal-open {
 * Desktop
 */
 
-@media (min-width: 769px) {
-    .display_card {
-        font-size: 3.5rem;
+@media (min-width: 1200px) {
+    .form_small_col {
+        width: 20%;
+    }
+    .form_large_col {
+        width: 60%;
+    }
+    .form_button_col {
+        width: 10%;
+        position: relative;
+        left: 10px;
+    }
+    .card_small_col {
+        width: 15%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card_large_col {
+        width: 30%;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 0px;
+    }
+    .display_card_header {
+        font-size: 20px;
+    }
+    .display_card_text {
+        font-size: 36px;
     }
     .half_width {
         width: 50%
     }
     .border_graph_css,
     .border_table_css {
-        height: 400px;
+        height: 500px;
+    }
+    thead tr th:first-child,
+    tbody tr td:first-child {
+        width: 12em;
+        min-width: 12em;
+        max-width: 12em;
+        word-break: break-all;
     }
 }

@@ -50,57 +50,58 @@
                                     aria-labelledby="pop1-tab">
                                     <div class="pt-3"></div>
 
-                                    <form action="{{ url('/home') }}" method="GET" id="day_form">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label for="day">請選日期: </label>
+                                    <div class="container mb-3">
+                                        <form action="{{ url('/home') }}" method="GET" id="day_form">
+                                            <div class="row">
+                                                <div class="form_small_col">
+                                                    <label for="day">請選日期: </label>
+                                                </div>
+                                                <div class="form_large_col">
+                                                    <select class="search_select" name="day" form="day_form">
+                                                        <option value="">請輸入日期...</option>
+                                                        @foreach ($date_option_arr as $date_str)
+                                                            <option value="{{ $date_str }}">{{ $date_str }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form_button_col">
+                                                    <button class="btn btn-success" type="submit" name="type" value="daily">提交</button>
+                                                </div>
                                             </div>
-                                            <div class="col-3">
-                                                <select class="search_select" name="day" form="day_form">
-                                                    <option value="">請輸入日期...</option>
-                                                    @foreach ($date_option_arr as $date_str)
-                                                        <option value="{{ $date_str }}">{{ $date_str }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col"><button class="btn btn-success" type="submit" name="type"
-                                                                     value="daily">提交</button></div>
-
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
 
                                     <div class="container">
                                         <div class="row mb-3">
-                                            <div class="col-3">
+                                            <div class="card_small_col">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-user fa-5x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase" >訂單數量</h6>
-                                                        <div class="display_card">{{ sizeof($daily_date_arr) }}</div>
+                                                        <div class="display_card_header">訂單數量</div>
+                                                        <div class="display_card_text">{{ sizeof($daily_date_arr) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="card_small_col">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-list fa-4x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase">產品數量</h6>
-                                                        <div class="display_card">{{ $daily_product_count }}</div>
+                                                        <div class="display_card_header">產品數量</div>
+                                                        <div class="display_card_text">{{ $daily_product_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="card_large_col">
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-twitter fa-5x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase">总销售收入</h6>
-                                                        <div class="display_card">RM {{ number_format($daily_product_sales_revenue, 2) }}</div>
+                                                        <div class="display_card_header">总销售收入</div>
+                                                        <div class="display_card_text">RM {{ number_format($daily_product_sales_revenue, 2) }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card_large_col">
+                                                <div class="card card-inverse card-info">
+                                                    <div class="card-block bg-warning">
+                                                        <div class="display_card_header">退款数量</div>
+                                                        <div class="display_card_text">RM 9,999.99</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -143,57 +144,58 @@
                                 <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
                                     <div class="pt-3"></div>
 
-                                    <form action="{{ url('/home') }}" method="GET" id="week_form">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label for="week">請選星期: </label>
+                                    <div class="container mb-3">
+                                        <form action="{{ url('/home') }}" method="GET" id="week_form">
+                                            <div class="row">
+                                                <div class="form_small_col">
+                                                    <label for="week">請選星期: </label>
+                                                </div>
+                                                <div class="form_large_col">
+                                                    <select class="search_select" name="week" form="week_form">
+                                                        <option value="">請輸入星期...</option>
+                                                        @foreach ($week_option_arr as $week_str)
+                                                            <option value="{{ $week_str }}">{{ $week_str }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form_button_col">
+                                                    <button class="btn btn-success" type="submit" name="type" value="weekly">提交</button>
+                                                </div>
                                             </div>
-                                            <div class="col-5">
-                                                <select class="search_select" name="week" form="week_form">
-                                                    <option value="">請輸入星期...</option>
-                                                    @foreach ($week_option_arr as $week_str)
-                                                        <option value="{{ $week_str }}">{{ $week_str }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col"><button class="btn btn-success" type="submit" name="type"
-                                                                     value="weekly">提交</button></div>
-
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
 
                                     <div class="container">
                                         <div class="row mb-3">
-                                            <div class="col-3">
+                                            <div class="card_small_col">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-user fa-5x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase" >訂單數量</h6>
-                                                        <div class="display_card">{{ sizeof($week_arr) }}</div>
+                                                        <div class="display_card_header">訂單數量</div>
+                                                        <div class="display_card_text">{{ sizeof($week_arr) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="card_small_col">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-list fa-4x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase">產品數量</h6>
-                                                        <div class="display_card">{{ $week_product_count }}</div>
+                                                        <div class="display_card_header">產品數量</div>
+                                                        <div class="display_card_text">{{ $week_product_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="card_large_col">
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-twitter fa-5x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase">总销售收入</h6>
-                                                        <div class="display_card">RM {{ number_format($week_product_sales_revenue, 2) }}</div>
+                                                        <div class="display_card_header">总销售收入</div>
+                                                        <div class="display_card_text">RM {{ number_format($week_product_sales_revenue, 2) }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card_large_col">
+                                                <div class="card card-inverse card-info">
+                                                    <div class="card-block bg-warning">
+                                                        <div class="display_card_header">退款数量</div>
+                                                        <div class="display_card_text">RM 9,999.99</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -236,56 +238,58 @@
                                 <div class="tab-pane fade" id="pop3" role="tabpanel" aria-labelledby="pop3-tab">
                                     <div class="pt-3"></div>
 
-                                    <form action="{{ url('/home') }}" method="GET" id="month_form">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label for="month">請選月份: </label>
+                                    <div class="container mb-3">
+                                        <form action="{{ url('/home') }}" method="GET" id="month_form">
+                                            <div class="row">
+                                                <div class="form_small_col">
+                                                    <label for="month">請選月份: </label>
+                                                </div>
+                                                <div class="form_large_col">
+                                                    <select class="search_select" name="month" form="month_form">
+                                                        <option value="">請輸入月份...</option>
+                                                        @foreach ($month_option_arr as $option)
+                                                        <option value="{{ $option }}">{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form_button_col">
+                                                    <button class="btn btn-success" type="submit" name="type" value="monthly">提交</button>
+                                                </div>
                                             </div>
-                                            <div class="col-3">
-                                                <select class="search_select" name="month" form="month_form">
-                                                    <option value="">請輸入月份...</option>
-                                                    @foreach ($month_option_arr as $option)
-                                                    <option value="{{ $option }}">{{ $option }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col"><button class="btn btn-success" type="submit" name="type"
-                                                value="monthly">提交</button></div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
 
                                     <div class="container">
                                         <div class="row mb-3">
-                                            <div class="col-3">
+                                            <div class="card_small_col">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-user fa-5x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase" >訂單數量</h6>
-                                                        <div class="display_card">{{ sizeof($month_arr) }}</div>
+                                                        <div class="display_card_header">訂單數量</div>
+                                                        <div class="display_card_text">{{ sizeof($month_arr) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="card_small_col">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-list fa-4x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase">產品數量</h6>
-                                                        <div class="display_card">{{ $month_product_count }}</div>
+                                                        <div class="display_card_header">產品數量</div>
+                                                        <div class="display_card_text">{{ $month_product_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="card_large_col">
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
-                                                        <div class="rotate">
-                                                            <i class="fa fa-twitter fa-5x"></i>
-                                                        </div>
-                                                        <h6 class="text-uppercase">总销售收入</h6>
-                                                        <div class="display_card">RM {{ number_format($month_product_sales_revenue, 2) }}</div>
+                                                        <div class="display_card_header">总销售收入</div>
+                                                        <div class="display_card_text">RM {{ number_format($month_product_sales_revenue, 2) }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card_large_col">
+                                                <div class="card card-inverse card-info">
+                                                    <div class="card-block bg-warning">
+                                                        <div class="display_card_header">退款数量</div>
+                                                        <div class="display_card_text">RM 9,999.99</div>
                                                     </div>
                                                 </div>
                                             </div>
