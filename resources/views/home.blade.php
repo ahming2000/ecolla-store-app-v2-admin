@@ -6,11 +6,11 @@
 
 @section('extraStyle')
     <link href="{{ asset('css/home_styles.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css" integrity="sha512-bkB9w//jjNUnYbUpATZQCJu2khobZXvLP5GZ8jhltg7P/dghIrTaSJ7B/zdlBUT0W/LXGZ7FfCIqNvXjWKqCYA==" crossorigin="anonymous" />
+{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css" integrity="sha512-bkB9w//jjNUnYbUpATZQCJu2khobZXvLP5GZ8jhltg7P/dghIrTaSJ7B/zdlBUT0W/LXGZ7FfCIqNvXjWKqCYA==" crossorigin="anonymous" />--}}
 @endsection
 
 @section('extraScript')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" defer></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" defer></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js" integrity="sha512-FJ2OYvUIXUqCcPf1stu+oTBlhn54W0UisZB/TNrZaVMHHhYvLBV9jMbvJYtvDe5x/WVaoXZ6KB+Uqe5hT2vlyA==" crossorigin="anonymous" defer></script>
 @endsection
 
@@ -30,6 +30,8 @@
                 {{ __('You are logged in!') }}
             </div> --}}
 
+            {{ var_dump($date_option_arr) }}
+
             <section>
                 <div class="container">
                     <div class="row">
@@ -37,11 +39,11 @@
                             <nav class="nav-justified">
                                 <div class="nav nav-tabs " id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link" id="pop1-tab" data-toggle="tab" href="#pop1"
-                                        role="tab" aria-controls="pop1" aria-selected="true">Daily</a>
+                                        role="tab" aria-controls="pop1" aria-selected="true" onclick="update_chart('timestamp_sales_chart')">Daily</a>
                                     <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2"
-                                        role="tab" aria-controls="pop2" aria-selected="false">Weekly</a>
+                                        role="tab" aria-controls="pop2" aria-selected="false" onclick="update_chart('daily_sales_chart')">Weekly</a>
                                     <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3"
-                                        role="tab" aria-controls="pop3" aria-selected="false">Monthly</a>
+                                        role="tab" aria-controls="pop3" aria-selected="false" onclick="update_chart('weekly_sales_chart')">Monthly</a>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
@@ -70,49 +72,49 @@
 
                                     <div class="container">
                                         <div class="row mb-3">
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-3">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
                                                         <div class="rotate">
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase" >訂單數量</h6>
-                                                        <h1 class="display-4">{{ sizeof($daily_date_arr) }}</h1>
+                                                        <div class="display_card">{{ sizeof($daily_date_arr) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-3">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
                                                         <div class="rotate">
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">產品數量</h6>
-                                                        <h1 class="display-4">{{ $daily_product_count }}</h1>
+                                                        <div class="display_card">{{ $daily_product_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-6">
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
                                                         <div class="rotate">
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">总销售收入</h6>
-                                                        <h1 class="display-4">RM {{ number_format($daily_product_sales_revenue, 2) }}</h1>
+                                                        <div class="display_card">RM {{ number_format($daily_product_sales_revenue, 2) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-6 p-3">
-                                                <div class="border border-danger" style="height: 400px;">
-                                                    <div id="timestamp_sales_chart" style="height: 370px"></div>
+                                            <div class="half_width p-3">
+                                                <div class="border border-danger border_graph_css">
+                                                    <div id="timestamp_sales_chart" class="graph_css"></div>
                                                 </div>
                                             </div>
-                                            <div class="col-6 p-3">
-                                                <div class="border border-primary" style="height: 400px;">
+                                            <div class="half_width p-3">
+                                                <div class="border border-primary border_table_css">
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
@@ -163,49 +165,49 @@
 
                                     <div class="container">
                                         <div class="row mb-3">
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-3">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
                                                         <div class="rotate">
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase" >訂單數量</h6>
-                                                        <h1 class="display-4">{{ sizeof($week_arr) }}</h1>
+                                                        <div class="display_card">{{ sizeof($week_arr) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-3">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
                                                         <div class="rotate">
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">產品數量</h6>
-                                                        <h1 class="display-4">{{ $week_product_count }}</h1>
+                                                        <div class="display_card">{{ $week_product_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-6">
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
                                                         <div class="rotate">
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">总销售收入</h6>
-                                                        <h1 class="display-4">RM {{ number_format($week_product_sales_revenue, 2) }}</h1>
+                                                        <div class="display_card">RM {{ number_format($week_product_sales_revenue, 2) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-6 p-3">
-                                                <div class="border border-danger" style="height: 400px;">
-                                                    <div id="daily_sales_chart" style="height: 370px"></div>
+                                            <div class="half_width p-3">
+                                                <div class="border border-danger border_graph_css">
+                                                    <div id="daily_sales_chart" class="graph_css"></div>
                                                 </div>
                                             </div>
-                                            <div class="col-6 p-3">
-                                                <div class="border border-primary" style="height: 400px;">
+                                            <div class="half_width p-3">
+                                                <div class="border border-primary border_table_css">
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
@@ -255,49 +257,49 @@
 
                                     <div class="container">
                                         <div class="row mb-3">
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-3">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
                                                         <div class="rotate">
                                                             <i class="fa fa-user fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase" >訂單數量</h6>
-                                                        <h1 class="display-4">{{ sizeof($month_arr) }}</h1>
+                                                        <div class="display_card">{{ sizeof($month_arr) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-3">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
                                                         <div class="rotate">
                                                             <i class="fa fa-list fa-4x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">產品數量</h6>
-                                                        <h1 class="display-4">{{ $month_product_count }}</h1>
+                                                        <div class="display_card">{{ $month_product_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-6">
+                                            <div class="col-6">
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
                                                         <div class="rotate">
                                                             <i class="fa fa-twitter fa-5x"></i>
                                                         </div>
                                                         <h6 class="text-uppercase">总销售收入</h6>
-                                                        <h1 class="display-4">RM {{ number_format($month_product_sales_revenue, 2) }}</h1>
+                                                        <div class="display_card">RM {{ number_format($month_product_sales_revenue, 2) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-6 p-3">
-                                                <div class="border border-danger" style="height: 400px;">
-                                                    <div id="weekly_sales_chart" style="height: 370px"></div>
+                                            <div class="half_width p-3">
+                                                <div class="border border-danger border_graph_css">
+                                                    <div id="weekly_sales_chart" class="graph_css"></div>
                                                 </div>
                                             </div>
-                                            <div class="col-6 p-3">
-                                                <div class="border border-primary" style="height: 400px;">
+                                            <div class="half_width p-3">
+                                                <div class="border border-primary border_table_css">
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr class="table-primary">
@@ -353,6 +355,7 @@
 @section('extraScriptEnd')
     @if(auth()->user()->hasAccess('dashboard_view'))
     <script>
+        let weekly_sales_chart, daily_sales_chart, timestamp_sales_chart;
         $(function() {
             //Selectize JS
             $(".search_select").selectize();
@@ -374,7 +377,6 @@
                     break;
             }
 
-
             //Canvas JS Graph
             let month_1 = $("#month_1").html(),
                 month_2 = $("#month_2").html(),
@@ -386,7 +388,7 @@
                 daily_2 = $("#daily_2").html(),
                 daily_3 = $("#daily_3").html();
 
-            let weekly_sales_chart = new CanvasJS.Chart("weekly_sales_chart", {
+            weekly_sales_chart = new CanvasJS.Chart("weekly_sales_chart", {
                 title: {
                     text: "每周訂單分析"
                 },
@@ -430,7 +432,7 @@
                 }]
             });
 
-            let daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
+            daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
                 title: {
                     text: "每日訂單分析"
                 },
@@ -474,7 +476,7 @@
                 }]
             });
 
-            let timestamp_sales_chart = new CanvasJS.Chart("timestamp_sales_chart", {
+            timestamp_sales_chart = new CanvasJS.Chart("timestamp_sales_chart", {
                 title: {
                     text: "訂單时间戳记分析"
                 },
@@ -554,6 +556,10 @@
         function new_obj(label, y) {
             this.label = label;
             this.y = y;
+        }
+
+        function update_chart(id){
+            $(`#${id} canvas`).css("width", "100%");
         }
     </script>
     @endif
