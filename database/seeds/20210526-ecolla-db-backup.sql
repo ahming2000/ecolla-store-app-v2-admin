@@ -1031,3 +1031,4 @@ INSERT INTO `variations` (`id`, `barcode`, `name`, `name_en`, `price`, `weight`,
 (435, '3233924102100', '饺子 300g', 'Dumpling 300g', 14.5, 0.3, 'https://management.newrainbowmarket.com/img/items/125/XpMsRe6icKAeTZ9epSZOJFyqpfKtATH72AataKIx.jpg', 5, 125, '2021-05-26 03:43:52', '2021-05-26 03:43:52'),
 (436, '3173324112661', '芝士 15粒', 'Cheese 15pcs', 12.5, 0, NULL, 10, 126, '2021-05-26 05:11:06', '2021-05-26 05:11:06'),
 (437, '3233924102087', '糯米鸡', 'Loh mai kai', 10.8, 0, NULL, 5, 127, '2021-05-26 05:17:37', '2021-05-26 05:17:37');
+COMMIT;
