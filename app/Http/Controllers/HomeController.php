@@ -35,12 +35,19 @@ class HomeController extends Controller
         //1. Get Object Array Based on Date, Week, Month
         $order_arr = DB::select("SELECT * FROM orders WHERE status = 'completed'");
 
+        // Cancelled Order Array
+        $canceled_order_arr = DB::select("SELECT * FROM orders WHERE status IN ('canceled', 'refunded')");
+
         //Update $order_arr
         $order_arr = HomeController::updateOrderDateTime($order_arr);
 
+        // Update $cancelled_order_arr
+        $canceled_order_arr = HomeController::updateOrderDateTime($canceled_order_arr);
+
         $date_option_arr = HomeController::get_date_options($order_arr);
 
-        $first_date = empty($date_option_arr) ? date("Y-m-d") : $date_option_arr[0];
+        $first_date = empty($date_option_arr) ? date("Y-m-d") : $date_option_arr[count($date_option_arr) - 1];
+        
         //Get Date
         $daily_date = $request->input('day', $first_date);
 
@@ -56,9 +63,14 @@ class HomeController extends Controller
         $daily_hashmap = HomeController::get_time_graph_hashmap($daily_date_arr);
         $daily_graph_arr = HomeController::get_graph_arr($daily_hashmap);
 
+        // Canceled Date Order
+        $daily_canceled_date_arr = HomeController::get_order_arr_date($canceled_order_arr, $daily_date);
+        $daily_canceled_product_arr = HomeController::get_product_arr($daily_canceled_date_arr);
+        $daily_canceled_product_sales_revenue = (sizeof($daily_canceled_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($daily_canceled_product_arr);
+        
         $week_option_arr = HomeController::get_week_options($order_arr);
 
-        $first_week = empty($week_option_arr) ? HomeController::check_which_week(date("d/m/Y")) : $week_option_arr[0];
+        $first_week = empty($week_option_arr) ? HomeController::check_which_week(date("d/m/Y")) : $week_option_arr[count($week_option_arr) - 1];
         //Get Week
         $week_str = $request->input('week', $first_week);
 
@@ -72,9 +84,14 @@ class HomeController extends Controller
         $week_hashmap = HomeController::get_week_graph_hashmap($week_arr, $week_str);
         $week_graph_arr = HomeController::get_graph_arr($week_hashmap);
         
+        // Canceled Week Order
+        $week_canceled_arr = HomeController::get_order_arr_week($canceled_order_arr, $week_str);
+        $week_canceled_product_arr = HomeController::get_product_arr($week_canceled_arr);
+        $week_canceled_product_sales_revenue = (sizeof($week_canceled_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($week_canceled_product_arr);
+
         $month_option_arr = HomeController::get_month_options($order_arr);
 
-        $first_month = empty($month_option_arr) ? date("M") . " " . date("Y") : $month_option_arr[0];
+        $first_month = empty($month_option_arr) ? date("M") . " " . date("Y") : $month_option_arr[count($month_option_arr) - 1];
         //Get Month
         $month_str = $request->input('month', $first_month);
 
@@ -88,13 +105,20 @@ class HomeController extends Controller
         $month_hashmap = HomeController::get_month_graph_hashmap($month_arr, $month_str);
         $month_graph_arr = HomeController::get_graph_arr($month_hashmap);
 
+        // Canceled Monthly Order
+        $month_canceled_arr = HomeController::get_order_arr_month($canceled_order_arr, $month_str);
+        $month_canceled_product_arr = HomeController::get_product_arr($month_canceled_arr);
+        $month_canceled_product_sales_revenue = (sizeof($month_canceled_product_arr) == 0) ? 0 : HomeController::get_product_sales_revenue($month_canceled_product_arr);
+
         $tab_active = $request->input('type', "daily");
+
+        $test = $week_canceled_product_sales_revenue;
 
         return view('home', compact(
             'daily_date_arr', 'date_option_arr', 'daily_product_arr', 'daily_product_count', 'daily_product_sales_revenue', 'daily_graph_arr',
             'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 'month_graph_arr',  
             'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue', 'week_graph_arr'
-            ,'tab_active'));
+            ,'tab_active', 'daily_canceled_product_sales_revenue', 'week_canceled_product_sales_revenue','month_canceled_product_sales_revenue'));
     }
 
     static function getOrderCreateDateTime($date_time)
@@ -331,7 +355,7 @@ class HomeController extends Controller
         $oneDay = new DateInterval('P1D');
 
         for ($day = 1; $day <= $days; $day++) {
-            $dates["Week $week ". date('M', strtotime("06-" . $month . "-2021")) ." $year"][] = $date->format('d/m/Y');
+            $dates["Week $week ". date('M', strtotime("26-" . $month . "-2021")) ." $year"][] = $date->format('d/m/Y');
 
             $dayOfWeek = $date->format('l');
             if ($dayOfWeek === 'Saturday') {

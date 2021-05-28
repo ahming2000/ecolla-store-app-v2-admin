@@ -29,8 +29,6 @@
                 {{ __('You are logged in!') }}
             </div> --}}
 
-            {{ var_dump($date_option_arr) }}
-
             <section>
                 <div class="container">
                     <div class="row">
@@ -101,7 +99,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM 9,999.99</div>
+                                                        <div class="display_card_text">RM {{ number_format($daily_canceled_product_sales_revenue, 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,7 +193,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM 9,999.99</div>
+                                                        <div class="display_card_text">RM {{ number_format( $week_canceled_product_sales_revenue, 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -289,7 +287,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM 9,999.99</div>
+                                                        <div class="display_card_text">RM {{ number_format($month_canceled_product_sales_revenue, 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
