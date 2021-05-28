@@ -115,15 +115,11 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psy/psysh" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/facade/ignition" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/public/fonts/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/public/images/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jquery-3.6.0" level="application" />
-    <orderEntry type="library" name="popper.js" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
-    <orderEntry type="library" name="mdbootstrap" level="application" />
-    <orderEntry type="library" name="selectize.js" level="application" />
-    <orderEntry type="library" name="canvasjs" level="application" />
-    <orderEntry type="library" name="tiny-slider" level="application" />
   </component>
 </module>
