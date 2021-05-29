@@ -80,6 +80,16 @@ class ImportSystemConfigs extends Migration
             )
         );
 
+        DB::table('system_configs')->insert(
+            array(
+                'name' => 'mgmt_i_defaultCategoryCount',
+                'value' => '4',
+                'desc' => 'Fixed and not modifiable for management',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            )
+        );
+
     }
 
     /**
