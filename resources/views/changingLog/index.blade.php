@@ -38,7 +38,7 @@
                                                 <div class="mb-2">
                                                     <div class="h6">{{ $logDetail->category }}</div>
                                                     @foreach($logDetail->contents as $detail)
-                                                        <span>-{{ $detail }}</span>
+                                                        <span>-{{ $detail }}</span><br>
                                                     @endforeach
                                                 </div>
                                             @endforeach
