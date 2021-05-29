@@ -241,7 +241,7 @@
 
         <div class="row-flex d-flex justify-content-end w-100 my-2">
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addAccountModal">
-                <i class="icofont-ui-add icofont-1x mr-2"></i>添加员工账户
+                <i class="icofont icofont-ui-add icofont-1x mr-2"></i>添加员工账户
             </button>
         </div>
 
