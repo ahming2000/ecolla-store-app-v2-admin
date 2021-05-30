@@ -9,6 +9,8 @@ class UserPermission extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public static function getAllAttributes(): array
     {
         return [
