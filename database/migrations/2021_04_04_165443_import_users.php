@@ -19,7 +19,7 @@ class ImportUsers extends Migration
             'name' => 'Admin',
             'email' => 'admin@newrainbowmarket.com',
             'role' => 'admin',
-            'status' => 'enable',
+            'status' => 'enabled',
             'password' => '$2y$10$w9UfBq/NxgJz5IkR8U.upeJwqIQsSHxWn6a4U2NpPVbFrjJH3.Jf.'
         ]);
 
@@ -28,7 +28,7 @@ class ImportUsers extends Migration
             'name' => 'Ah Ming',
             'email' => 'ahming@newrainbowmarket.com',
             'role' => 'admin',
-            'status' => 'enable',
+            'status' => 'enabled',
             'password' => '$2y$10$o7CFx7WcNgw2yayJMdc9z.MkWIVPbqmaefn3/KkZwknpLrtsd8tD6'
         ]);
 
@@ -37,7 +37,7 @@ class ImportUsers extends Migration
             'name' => 'txe1',
             'email' => 'txe1@newrainbowmarket.com',
             'role' => 'admin',
-            'status' => 'enable',
+            'status' => 'enabled',
             'password' => '$2y$10$XOC8AkdEmDSQ5.K7qJjvYO6OszzdpvSZfgZwCIobIagyqHqyKu2Bu'
         ]);
 
@@ -46,7 +46,7 @@ class ImportUsers extends Migration
             'name' => 'June',
             'email' => 'june@newrainbowmarket.com',
             'role' => 'admin',
-            'status' => 'enable',
+            'status' => 'enabled',
             'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
         ]);
 
@@ -55,7 +55,7 @@ class ImportUsers extends Migration
             'name' => 'user',
             'email' => 'user@newrainbowmarket.com',
             'role' => 'employee',
-            'status' => 'enable',
+            'status' => 'enabled',
             'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
         ]);
 

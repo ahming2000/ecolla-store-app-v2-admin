@@ -64,10 +64,10 @@ class AccountsController extends Controller
 
         $permissionAttributes = UserPermission::getAllAttributes();
 
-        foreach ($permissionAttributes as $attr){
-            if(array_key_exists($attr, $permissions)){
+        foreach ($permissionAttributes as $attr) {
+            if (array_key_exists($attr, $permissions)) {
                 $permissions[$attr] = '1';
-            } else{
+            } else {
                 $permissions[$attr] = '0';
             }
         }
@@ -98,6 +98,6 @@ class AccountsController extends Controller
             default:
         }
 
-        return redirect('/account')->with('message', $message);
+        return response()->json($message);
     }
 }
