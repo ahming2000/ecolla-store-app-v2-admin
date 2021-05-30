@@ -9,18 +9,6 @@
 
     <title>@yield('title')</title>
 
-    <!-- Scripts -->
-{{--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"--}}
-{{--            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"--}}
-{{--            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"--}}
-{{--            crossorigin="anonymous"></script>--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"--}}
-{{--            integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"--}}
-{{--            crossorigin="anonymous"></script>--}}
-{{--    <script type="text/javascript"--}}
-{{--            src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>--}}
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -31,8 +19,8 @@
     @yield('extraStyle')
 
 </head>
-<body style="min-width: 100%;">
 
+<body style="min-width: 100%;">
 
 @yield('extraScript')
 
@@ -73,12 +61,16 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                @if(auth()->user()->hasAccess('setting_view'))<a class="dropdown-item" href="{{ url('/setting') }}">设置</a>@endif
-                                @if(auth()->user()->role == 'admin')<a class="dropdown-item" href="{{ url('/account') }}">员工账户管理</a>@endif
+                                @if(auth()->user()->hasAccess('setting_view'))
+                                    <a class="dropdown-item" href="{{ url('/setting') }}">设置</a>
+                                @endif
+                                @if(auth()->user()->role == 'admin')
+                                    <a class="dropdown-item" href="{{ url('/account') }}">员工账户管理</a>
+                                @endif
                                 <a class="dropdown-item" href="{{ url('/changing-log') }}">应用更新日志</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item"
+                                   href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                     登出
                                 </a>
 
@@ -99,6 +91,7 @@
 
 </div>
 
+<!-- Scripts -->
 <script src="{{ asset('js/manifest.js') }}"></script>
 <script src="{{ asset('js/vendor.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
