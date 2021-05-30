@@ -19,7 +19,9 @@ class AccountsController extends Controller
 
     public function index()
     {
-        $users = User::where('role', '=', 'employee')->get();
+        $users = User::where('role', '=', 'employee')
+            ->where('status', '!=', 'deleted')
+            ->get();
 
         return view('account.index', compact('users'));
     }
