@@ -62,7 +62,7 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => '系统无此记录，请稍后再尝试',
         ]);
     }
 
