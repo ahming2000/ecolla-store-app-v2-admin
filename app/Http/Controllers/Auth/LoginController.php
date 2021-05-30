@@ -53,7 +53,7 @@ class LoginController extends Controller
          if (Auth::attempt(array_merge($credentials, ['status' => 'enabled']), request('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended();
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
