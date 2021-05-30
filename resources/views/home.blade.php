@@ -20,18 +20,6 @@
         <div class="card">
             <div class="card-header">{{ __('订单仪表板') }}</div>
 
-            {{-- <div class="card-body">
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
-                {{ __('You are logged in!') }}
-            </div> --}}
-
-            {{ var_dump($date_option_arr) }}
-
             <section>
                 <div class="container">
                     <div class="row">
