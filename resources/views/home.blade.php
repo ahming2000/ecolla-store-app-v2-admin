@@ -6,12 +6,16 @@
 
 @section('extraStyle')
     <link href="{{ asset('css/home_styles.css') }}" rel="stylesheet" />
-{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css" integrity="sha512-bkB9w//jjNUnYbUpATZQCJu2khobZXvLP5GZ8jhltg7P/dghIrTaSJ7B/zdlBUT0W/LXGZ7FfCIqNvXjWKqCYA==" crossorigin="anonymous" />--}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.ui.datepicker.monthyearpicker.css') }}" />
 @endsection
 
 @section('extraScript')
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" defer></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js" integrity="sha512-FJ2OYvUIXUqCcPf1stu+oTBlhn54W0UisZB/TNrZaVMHHhYvLBV9jMbvJYtvDe5x/WVaoXZ6KB+Uqe5hT2vlyA==" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/jquery.ui.datepicker.monthyearpicker.js') }}"></script>
+    <script src="{{ asset('js/weekPicker.js') }}"></script>
 @endsection
 
 @section('content')
@@ -55,12 +59,7 @@
                                                     <label for="day">請選日期: </label>
                                                 </div>
                                                 <div class="form_large_col">
-                                                    <select class="search_select" name="day" form="day_form">
-                                                        <option value="">請輸入日期...</option>
-                                                        @foreach ($date_option_arr as $date_str)
-                                                            <option value="{{ $date_str }}">{{ $date_str }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" id="datePicker" name="day" class="form-control" form="day_form" required/>
                                                 </div>
                                                 <div class="form_button_col">
                                                     <button class="btn btn-success" type="submit" name="type" value="daily">提交</button>
@@ -75,7 +74,7 @@
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
                                                         <div class="display_card_header">訂單數量</div>
-                                                        <div class="display_card_text">{{ sizeof($daily_date_arr) }}</div>
+                                                        <div class="display_card_text">{{ $daily_order_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -99,7 +98,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM {{ number_format($daily_canceled_product_sales_revenue, 2)}}</div>
+                                                        <div class="display_card_text">RM {{ number_format($canceled_daily_product_sales_revenue, 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -114,7 +113,7 @@
                                             <div class="half_width p-3">
                                                 <div class="border border-primary border_table_css">
                                                     <table class="table table-striped">
-                                                        <thead>
+                                                        <thead class="item_table_header">
                                                             <tr class="table-primary">
                                                                 <th>名字</th>
                                                                 <th>單品價錢</th>
@@ -122,7 +121,7 @@
                                                                 <th>小计</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody class="item_table_body">
                                                             @foreach ($daily_product_arr as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
@@ -149,12 +148,7 @@
                                                     <label for="week">請選星期: </label>
                                                 </div>
                                                 <div class="form_large_col">
-                                                    <select class="search_select" name="week" form="week_form">
-                                                        <option value="">請輸入星期...</option>
-                                                        @foreach ($week_option_arr as $week_str)
-                                                            <option value="{{ $week_str }}">{{ $week_str }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" id="weekPicker" name="week" class="form-control" form="week_form" required/>
                                                 </div>
                                                 <div class="form_button_col">
                                                     <button class="btn btn-success" type="submit" name="type" value="weekly">提交</button>
@@ -169,7 +163,7 @@
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
                                                         <div class="display_card_header">訂單數量</div>
-                                                        <div class="display_card_text">{{ sizeof($week_arr) }}</div>
+                                                        <div class="display_card_text">{{ $week_order_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,7 +187,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM {{ number_format( $week_canceled_product_sales_revenue, 2)}}</div>
+                                                        <div class="display_card_text">RM {{ number_format( $canceled_week_product_sales_revenue, 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -208,7 +202,7 @@
                                             <div class="half_width p-3">
                                                 <div class="border border-primary border_table_css">
                                                     <table class="table table-striped">
-                                                        <thead>
+                                                        <thead class="item_table_header">
                                                             <tr class="table-primary">
                                                                 <th>名字</th>
                                                                 <th>單品價錢</th>
@@ -216,7 +210,7 @@
                                                                 <th>小计</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody class="item_table_body">
                                                             @foreach ($week_product_arr as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
@@ -243,12 +237,7 @@
                                                     <label for="month">請選月份: </label>
                                                 </div>
                                                 <div class="form_large_col">
-                                                    <select class="search_select" name="month" form="month_form">
-                                                        <option value="">請輸入月份...</option>
-                                                        @foreach ($month_option_arr as $option)
-                                                        <option value="{{ $option }}">{{ $option }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input type="text" id="monthPicker" name="month" class="form-control" form="month_form"/>
                                                 </div>
                                                 <div class="form_button_col">
                                                     <button class="btn btn-success" type="submit" name="type" value="monthly">提交</button>
@@ -263,7 +252,7 @@
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
                                                         <div class="display_card_header">訂單數量</div>
-                                                        <div class="display_card_text">{{ sizeof($month_arr) }}</div>
+                                                        <div class="display_card_text">{{ $month_order_count }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -287,7 +276,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM {{ number_format($month_canceled_product_sales_revenue, 2)}}</div>
+                                                        <div class="display_card_text">RM {{ number_format($canceled_month_product_sales_revenue, 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -302,7 +291,7 @@
                                             <div class="half_width p-3">
                                                 <div class="border border-primary border_table_css">
                                                     <table class="table table-striped">
-                                                        <thead>
+                                                        <thead class="item_table_header">
                                                             <tr class="table-primary">
                                                                 <th>名字</th>
                                                                 <th>單品價錢</th>
@@ -310,7 +299,7 @@
                                                                 <th>小计</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody class="item_table_body">
                                                             @foreach ($month_product_arr as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
@@ -337,6 +326,10 @@
     </div>
 
     <div style="display: none">
+        <p id="date_option_str">{{ $daily_option_str }}</p>
+        <p id="week_option_str">{{ $week_option_str }}</p>
+        <p id="month_option_str">{{ $month_option_str }}</p>
+
         <p id="month_1">{{ $month_graph_arr[0] }}</p>
         <p id="month_2">{{ $month_graph_arr[1] }}</p>
         <p id="month_3">{{ $month_graph_arr[2] }}</p>
@@ -348,6 +341,7 @@
         <p id="daily_1">{{ $daily_graph_arr[0] }}</p>
         <p id="daily_2">{{ $daily_graph_arr[1] }}</p>
         <p id="daily_3">{{ $daily_graph_arr[2] }}</p>
+        
         <p id="tab_active">{{ $tab_active }}</p>
     </div>
 @endsection
@@ -355,10 +349,12 @@
 @section('extraScriptEnd')
     <script>
         let weekly_sales_chart, daily_sales_chart, timestamp_sales_chart;
+        let date_option_arr = [],
+            week_option_arr = [],
+            month_option_hashmap = {},
+            month_option_year_hashmap = {};
+        let month_txt_arr = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
         $(function() {
-            //Selectize JS
-            $(".search_select").selectize();
-
             //Controls Which Tab is Active
             let tab_active = $("#tab_active").html();
             switch(tab_active){
@@ -375,6 +371,71 @@
                     $("#pop3-tab").addClass("active");
                     break;
             }
+
+            // Get Options
+            // Daily
+            let date_option_str = $("#date_option_str").html();
+            let date_option_arr = date_option_str.split(" ");
+            // Weekly
+            let week_option_str = $("#week_option_str").html();
+            let w_arr = week_option_str.split(" ");
+            for (let week of w_arr) {
+                let tmp_arr = week.split("-");
+                let tmp_year = parseInt(tmp_arr[0]),
+                    tmp_week = parseInt(tmp_arr[1]);
+                week_option_arr = week_option_arr.concat(getDateOfISOWeekArr(tmp_week, tmp_year));
+            }
+            // Monthly
+            let month_option_str = $("#month_option_str").html();
+            let m_arr = month_option_str.split(",");
+            for (let str of m_arr) {
+                let tmp_arr = str.split("/");
+                let tmp_year = tmp_arr[0];
+                if (month_option_hashmap[tmp_year])
+                    month_option_hashmap[tmp_year] = month_option_hashmap[tmp_year].concat(tmp_arr[1].split(" "));
+                else
+                    month_option_hashmap[tmp_year] = tmp_arr[1].split(" ");
+            }
+
+            // Get All Year From Month
+            let month_option_year = Object.keys(month_option_hashmap);
+            for (let yr of month_option_year) {
+                let ind = parseInt(parseInt(yr) / 10, 10) * 10;
+                if (month_option_year_hashmap[ind - 1])
+                    month_option_year_hashmap[ind - 1].push(parseInt(yr));
+                else
+                    month_option_year_hashmap[ind - 1] = [parseInt(yr)];
+            }
+
+            // Date Picker
+            $("#datePicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                beforeShowDay: function(date) {
+                    return enableAllTheseDays(date, date_option_arr);
+                }
+            });
+
+            // Week Picker
+            convertToWeekPicker($("#weekPicker"));
+
+            // Month Picker
+            $('#monthPicker').datepicker({
+                showButtonPanel: true,
+                onClose: function(dateText, inst) {
+                    let month = $(".ui-datepicker-title .ui-datepicker-month").html() || month_txt_arr[new Date().getMonth()];
+                    let year = $(".ui-datepicker-title .ui-datepicker-year").html() || new Date().getFullYear();
+                    $(this).val(month.slice(0, 3) + " " + year);
+                }
+            });
+
+            $("#monthPicker").focus(function() {
+                $(".ui-datepicker-calendar").hide();
+                $("#ui-datepicker-div").position({
+                    my: "left top",
+                    at: "left bottom",
+                    of: $(this)
+                });
+            });
 
             //Canvas JS Graph
             let month_1 = $("#month_1").html(),
@@ -534,6 +595,28 @@
             timestamp_sales_chart.options.data[2].dataPoints = parseDataPoints(daily_3);
             timestamp_sales_chart.render();
         });
+
+        function getDateOfISOWeekArr(w, y) {
+            var simple = new Date(y, 0, 1 + (w - 1) * 7);
+            var dow = simple.getDay();
+            var ISOweekStart = simple;
+            if (dow <= 4)
+                ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+            else
+                ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+            let arr = [];
+            for (let i = 1; i <= 7; i++) {
+                let dt = new Date(ISOweekStart);
+                dt.setDate(dt.getDate() + i);
+                arr.push(dt.toISOString().slice(0, 10))
+            }
+            return arr;
+        }
+
+        function enableAllTheseDays(date, date_arr) {
+            let sdate = $.datepicker.formatDate('yy-mm-dd', date)
+            return [$.inArray(sdate, date_arr) != -1];
+        }
 
         function toggleDataSeries(e) {
             if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {

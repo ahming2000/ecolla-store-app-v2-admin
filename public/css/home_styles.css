@@ -86,8 +86,8 @@ body.modal-open {
     width: 100%;
 }
 
-thead tr th:first-child,
-tbody tr td:first-child {
+.item_table_header tr th:first-child,
+.item_table_body tr td:first-child {
     width: 5em;
     min-width: 5em;
     max-width: 5em;
@@ -107,8 +107,8 @@ tbody tr td:first-child {
     .border_table_css {
         height: 600px;
     }
-    thead tr th:first-child,
-    tbody tr td:first-child {
+    .item_table_header tr th:first-child,
+    .item_table_body tr td:first-child {
         width: 12em;
         min-width: 12em;
         max-width: 12em;
@@ -157,8 +157,8 @@ tbody tr td:first-child {
     .border_table_css {
         height: 500px;
     }
-    thead tr th:first-child,
-    tbody tr td:first-child {
+    .item_table_header tr th:first-child,
+    .item_table_body tr td:first-child {
         width: 12em;
         min-width: 12em;
         max-width: 12em;
