@@ -59,6 +59,15 @@ class ImportUsers extends Migration
             'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
         ]);
 
+        DB::table('users')->insert([
+            'id' => 6,
+            'name' => 'Yasuo',
+            'email' => 'yasuo@newrainbowmarket.com',
+            'role' => 'employee',
+            'status' => 'enabled',
+            'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
+        ]);
+
         DB::table('user_permissions')->insert([
             'user_id' => '5',
 

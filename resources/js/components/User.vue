@@ -25,6 +25,7 @@
               type="submit"
               class="btn btn-secondary btn-md d-flex justify-content-center align-items-center text-nowrap"
               data-toggle="modal"
+              data-target="#editAccountModal"
             >
               <p class="text-center m-0">编辑</p>
             </button>
@@ -46,6 +47,7 @@
               class="btn btn-danger btn-md d-flex justify-content-center align-items-center text-nowrap"
               data-toggle="modal"
               data-target="#deleteAccountModal"
+              @click.prevent="sendUserToModal(user)"
             >
               <p class="text-center m-0">删除</p>
             </button>
@@ -115,16 +117,17 @@ export default {
         .post(`/account/${user.id}`, body)
         .then((res) => {
           this.userData.status = res.data.user_status;
-          console.log(`User status after post: ${res.data.user_status}`);
+          console.log(`User status after post: ${this.userData.status}`);
         })
         .catch((error) => {
           this.errorMessage = error.message;
-          console.error("Failed to update user status " + user.name, error);
+          console.error(`Failed to update user status for ${this.user.name}`, error);
         });
-
-      // this.$emit("activate", user);
-      // console.log("User " + user.name + " is activated");
     },
+
+    sendUserToModal(user) {
+      this.$emit('sendUserToModal', user);
+    }
   },
 };
 </script>
