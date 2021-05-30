@@ -98,6 +98,6 @@ class AccountsController extends Controller
             default:
         }
 
-        return response()->json($message);
+        return response()->json(['user_status' => $user->status, 'message' => $message]);
     }
 }

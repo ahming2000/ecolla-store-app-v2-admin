@@ -30,26 +30,13 @@
             </button>
           </div>
           <div class="col-4 d-flex">
-            <form
-              @submit.prevent="_deactivate(user)"
-              v-if="user.status == 'enabled'"
-            >
+            <form @submit.prevent="update(user)">
               <button
                 type="submit"
-                class="btn btn-warning btn-md d-flex justify-content-center align-items-center text-nowrap"
+                class="btn btn-md d-flex justify-content-center align-items-center text-nowrap"
+                :class="classObject"
               >
-                <p class="text-center m-0">停用</p>
-              </button>
-            </form>
-            <form
-              @submit.prevent="_activate(user)"
-              v-else-if="user.status == 'disabled'"
-            >
-              <button
-                type="submit"
-                class="btn btn-success btn-md d-flex justify-content-center align-items-center text-nowrap"
-              >
-                <p class="text-center m-0">激活</p>
+                <p class="text-center m-0" v-text="buttonText">停用</p>
               </button>
             </form>
           </div>
@@ -76,43 +63,67 @@ export default {
     user: Object,
   },
 
+  data() {
+    return {
+      userData: this.user,
+    };
+  },
+
   mounted() {
     console.log("User Component mounted.");
   },
 
+  computed: {
+    buttonText() {
+      switch (this.userData.status) {
+        case "enabled": {
+          return "停用";
+        }
+        case "disabled": {
+          return "激活";
+        }
+        default:
+      }
+    },
+    classObject() {
+      return {
+        'btn-warning': this.userData.status == 'enabled',
+        'btn-success': this.userData.status == 'disabled',
+      }
+    }
+  },
+
   methods: {
-    _activate(user) {
-      console.log(`User status before post: ${user.status}`);
-      const body = {action: 'activate'};
+    update(user) {
+      console.log(`User status before post: ${this.userData.status}`);
+
+      let action;
+      switch (this.user.status) {
+        case "enabled": {
+          action = "deactivate";
+          break;
+        }
+        case "disabled": {
+          action = "activate";
+          break;
+        }
+        default:
+      }
+
+      const body = { action: action };
       axios
         .post(`/account/${user.id}`, body)
-        .then((response) => console.log(response.data))
+        .then((res) => {
+          this.userData.status = res.data.user_status;
+          console.log(`User status after post: ${res.data.user_status}`);
+        })
         .catch((error) => {
           this.errorMessage = error.message;
-          console.error("Failed to deactivate user " + user.name, error);
+          console.error("Failed to update user status " + user.name, error);
         });
 
       // this.$emit("activate", user);
       // console.log("User " + user.name + " is activated");
-
-      console.log(`User status after post: ${user.status}`);
-    },
-
-    _deactivate(user) {
-      console.log(`User status before post: ${user.status}`);
-      const body = {action: 'deactivate'};
-      axios
-        .post(`/account/${user.id}`, body)
-        .then((response) => console.log(response.data))
-        .catch((error) => {
-          this.errorMessage = error.message;
-          console.error("Failed to deactivate user " + user.name, error);
-        });
-
-      // this.$emit("deactivate", user);
-      // console.log("User " + user.name + " is deactivated");
-
-      console.log(`User status after post: ${user.status}`);
     },
   },
 };
