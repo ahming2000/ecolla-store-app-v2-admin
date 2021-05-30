@@ -64,10 +64,10 @@ class AccountsController extends Controller
 
         $permissionAttributes = UserPermission::getAllAttributes();
 
-        foreach ($permissionAttributes as $attr){
-            if(array_key_exists($attr, $permissions)){
+        foreach ($permissionAttributes as $attr) {
+            if (array_key_exists($attr, $permissions)) {
                 $permissions[$attr] = '1';
-            } else{
+            } else {
                 $permissions[$attr] = '0';
             }
         }
@@ -84,21 +84,15 @@ class AccountsController extends Controller
 
         switch ($action) {
             case 'activate':
-                // $user->update(['status' => 'enabled']);
-                $user->status = 'enabled';
-                $user->update();
+                $user->update(['status' => 'enabled']);
                 $message = "账号 " . $user->name . " 已激活！";
                 break;
             case 'deactivate':
-                // $user->update(['status' => 'disabled']);
-                $user->status = 'disabled';
-                $user->update();
+                $user->update(['status' => 'disabled']);
                 $message = "账号 " . $user->name . " 已停用！";
                 break;
             case 'delete':
-                // $user->update(['status' => 'deleted']);
-                $user->status = 'deleted';
-                $user->update();
+                $user->update(['status' => 'deleted']);
                 $message = "账号 " . $user->name . " 已删除！";
                 break;
             default:
