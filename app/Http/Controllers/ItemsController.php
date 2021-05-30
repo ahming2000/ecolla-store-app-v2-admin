@@ -17,7 +17,7 @@ class ItemsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'access:status_check']);
     }
 
     public function index()
