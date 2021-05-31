@@ -11,20 +11,12 @@ const mix = require('laravel-mix');
  |
  */
 
-// mix.extract([
-//     'jquery',
-//     'popper',
-//     'bootstrap',
-//     'mdbootstrap',
-// ]);
-
 mix.extract();
 
 mix.autoload({
-    jquery: ['$', 'window.jQuery']
+    jquery: ['$', 'window.jQuery()', 'jQuery()']
 });
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css');
-
