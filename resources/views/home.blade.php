@@ -341,7 +341,7 @@
         <p id="daily_1">{{ $daily_graph_arr[0] }}</p>
         <p id="daily_2">{{ $daily_graph_arr[1] }}</p>
         <p id="daily_3">{{ $daily_graph_arr[2] }}</p>
-        
+
         <p id="tab_active">{{ $tab_active }}</p>
     </div>
 @endsection
