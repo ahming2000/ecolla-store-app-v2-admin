@@ -31,6 +31,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
+Route::get('/system-update', [HomeController::class, 'performUpdate']);
 
 Route::prefix('/item')->group(function () {
     Route::get('/', [ItemsController::class, 'index'])->name('item.index')->middleware('access:item_view');
