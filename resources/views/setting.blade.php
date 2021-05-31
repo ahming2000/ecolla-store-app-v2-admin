@@ -19,7 +19,7 @@
                        id="currentCategoryCount">
 
                 <div id="default-category-section">
-                    @for($i = 0; $i < $defaultCategoryCount; $i++)
+                    @for($i = 0; $i < $DEFAULT_CATEGORY_COUNT; $i++)
                         <div class="row">
                             <div class="col-11 mb-1 mr-0 pr-0">
                                 <div class="row">
@@ -99,23 +99,23 @@
                                 </div>
                             @endfor
                         @else
-                            @for($i = $defaultCategoryCount; $i < sizeof($categories->toArray()); $i++)
+                            @for($i = $DEFAULT_CATEGORY_COUNT; $i < sizeof($categories->toArray()); $i++)
                                 <div class="row category-item">
                                     <div class="col-11 mb-1 mr-0 pr-0">
                                         <div class="row">
-                                            <input type="hidden" name="category[{{$i - $defaultCategoryCount}}][id]"
+                                            <input type="hidden" name="category[{{$i - $DEFAULT_CATEGORY_COUNT}}][id]"
                                                    value="{{ $categories[$i]->id }}">
                                             <div class="col-md-6 col-sm-12 pr-md-1">
                                                 <input type="text"
                                                        class="form-control"
-                                                       name="category[{{$i - $defaultCategoryCount}}][name]"
+                                                       name="category[{{$i - $DEFAULT_CATEGORY_COUNT}}][name]"
                                                        value="{{ $categories[$i]->name ?? "" }}"
                                                        placeholder="华文">
                                             </div>
                                             <div class="col-md-6 col-sm-12 pl-md-1">
                                                 <input type="text"
                                                        class="form-control"
-                                                       name="category[{{$i - $defaultCategoryCount}}][name_en]"
+                                                       name="category[{{$i - $DEFAULT_CATEGORY_COUNT}}][name_en]"
                                                        value="{{ $categories[$i]->name_en ?? "" }}"
                                                        placeholder="英文">
                                             </div>

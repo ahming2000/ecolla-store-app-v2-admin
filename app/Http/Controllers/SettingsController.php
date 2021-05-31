@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\SystemConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,9 +17,9 @@ class SettingsController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
-        $defaultCategoryCount = 4;
-        return view('setting', compact('categories', 'defaultCategoryCount'));
+        $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
+        $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
+        return view('setting', compact('categories', 'DEFAULT_CATEGORY_COUNT'));
     }
 
     public function updateCategory(){

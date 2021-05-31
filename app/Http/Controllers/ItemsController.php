@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemImage;
 use App\Models\ItemUtil;
+use App\Models\SystemConfig;
 use App\Models\Variation;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ItemsController extends Controller
 
     public function index()
     {
-        $ITEM_PER_PAGE = 10;
+        $ITEM_PER_PAGE = SystemConfig::where('name', '=', 'mgmt_i_recordPerPage')->first()->value;
 
         $search = request('search') ?? "";
         $category = request('category') ?? "";
@@ -103,7 +104,8 @@ class ItemsController extends Controller
 
     public function edit(Item $item)
     {
-        $categories = Category::all();
+        $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
+        $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
         return view('item.edit', compact('item', 'categories'));
     }
 
