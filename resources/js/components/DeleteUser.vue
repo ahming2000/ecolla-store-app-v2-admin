@@ -50,7 +50,7 @@
             type="submit"
             class="btn btn-danger btn-md"
             data-dismiss="modal"
-            @click.prevent="deleteUser()"
+            @click.prevent="deleteUser(user)"
           >
             确定删除
           </button>
@@ -88,25 +88,8 @@ export default {
   },
 
   methods: {
-    deleteUser() {
-      console.log(`User status before post: ${this.user.status}`);
-
-      let action = "delete";
-
-      const body = { action: action };
-      axios
-        .post(`/account/${this.user.id}`, body)
-        .then((res) => {
-          this.user.status = res.data.user_status;
-          console.log(`User status after post: ${this.user.status}`);
-        })
-        .catch((error) => {
-          this.errorMessage = error.message;
-          console.error(
-            `Failed to update user status for ${this.user.name}`,
-            error
-          );
-        });
+    deleteUser(user) {
+      this.$emit('deleteUser', user);
     },
   },
 };

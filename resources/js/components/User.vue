@@ -97,8 +97,6 @@ export default {
 
   methods: {
     update(user) {
-      console.log(`User status before post: ${this.userData.status}`);
-
       let action;
       switch (this.user.status) {
         case "enabled": {
@@ -113,11 +111,12 @@ export default {
       }
 
       const body = { action: action };
+      
       axios
         .post(`/account/${user.id}`, body)
         .then((res) => {
           this.userData.status = res.data.user_status;
-          console.log(`User status after post: ${this.userData.status}`);
+          console.log(res.data.message);
         })
         .catch((error) => {
           this.errorMessage = error.message;
