@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.extract(); // vendor.js
+mix.extract();
 
 mix.autoload({
     jquery: ['$', 'window.jQuery()', 'jQuery()']
@@ -20,4 +20,3 @@ mix.autoload({
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css');
-
