@@ -10,11 +10,18 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+
+                @if(session()->has('message'))
+                    <div class="alert alert-info text-center" role="alert">
+                        {{ session('message') }}
+                    </div>
+                @endif
+
                 <div class="mb-3 mt-3">
                     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="item-tab" data-toggle="tab" href="#item" role="tab"
-                               aria-controls="item" aria-selected="true">商品</a>
+                            <a class="nav-link" id="item-tab" data-toggle="tab" href="#item" role="tab"
+                               aria-controls="item" aria-selected="false">商品</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="order-tab" data-toggle="tab" href="#order" role="tab"
@@ -28,7 +35,7 @@
                 </div>
 
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="item" role="tabpanel" aria-labelledby="item-tab">
+                    <div class="tab-pane fade" id="item" role="tabpanel" aria-labelledby="item-tab">
                         <div id="setting-item-category">
                             <form method="post" action="{{ url('/setting/update/category') }}">
 
@@ -172,44 +179,66 @@
 
                     <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
                         <div class="row" id="setting-order-prefix">
-                            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                订单编号开头
+                            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 align-content-center text-sm-left text-md-right mb-2">
+                                订单编号开头：
                             </div>
 
                             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                                <form action="{{ url('/setting/order/clt_o_codePrefix') }}" method="post">
+                                    @csrf
+                                    @method('patch')
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <input type="text"
+                                                   class="form-control form-control-sm m-0 @error('clt_o_codePrefix') is-invalid @enderror"
+                                                   name="clt_o_codePrefix"
+                                                   value="{{ old('clt_o_codePrefix') ?? $order['clt_o_codePrefix'] ?? "" }}"
+                                                   placeholder="编号">
 
-                                <input type="text"
-                                       class="form-control @error('prefix') is-invalid @enderror"
-                                       name="prefix"
-                                       value="{{ old('prefix') ?? $order['prefix'] ?? "" }}"
-                                       placeholder="编号">
+                                            @error('clt_o_codePrefix')
+                                            <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
 
-                                @error('prefix')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                        <div class="col-3">
+                                            <button type="submit" class="btn btn-primary btn-sm m-0 w-100">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
 
                         <div class="row" id="setting-order-shipping-fee-kampar">
-                            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
-                                金宝外送邮费
+                            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 align-content-center text-sm-left text-md-right mb-2">
+                                金宝外送邮费：
                             </div>
 
                             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                                <form action="{{ url('/setting/order/clt_o_shippingFeeKampar') }}" method="post">
+                                    @csrf
+                                    @method('patch')
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <input type="number"
+                                                   class="form-control form-control-sm m-0 @error('clt_o_shippingFeeKampar') is-invalid @enderror"
+                                                   name="clt_o_shippingFeeKampar"
+                                                   value="{{ old('clt_o_shippingFeeKampar') ?? $order['clt_o_shippingFeeKampar'] ?? "0.00" }}"
+                                                   placeholder="价格（RM）">
 
-                                <input type="text"
-                                       class="form-control @error('shipping_fee_kampar') is-invalid @enderror"
-                                       name="prefix"
-                                       value="{{ old('shipping_fee_kampar') ?? $order['shipping_fee_kampar'] ?? "0.00" }}"
-                                       placeholder="价格（RM）">
+                                            @error('clt_o_shippingFeeKampar')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
 
-                                @error('shipping_fee_kampar')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                        <div class="col-3">
+                                            <button type="submit" class="btn btn-primary btn-sm m-0 w-100">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -226,7 +255,7 @@
 @section('extraScriptEnd')
     <script>
         $(function () {
-            $('#myTab li:last-child a').tab('show')
+
         })
 
         function getCategoryCount() {
@@ -275,6 +304,8 @@
         });
 
         $(document).ready(function () {
+            $('#myTab a[href="#{{ $_GET['show'] ?? 'item' }}"]').tab('show');
+
             $('#extra-category-button').on('click', function () {
                 $('#category-section').append(getExtraCategoryHTML(getCategoryCount()));
             });
