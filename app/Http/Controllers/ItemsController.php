@@ -292,7 +292,6 @@ class ItemsController extends Controller
             $error = Controller::pullError();
             session()->flash('error', $error);
         }
-        // TODO - Handle duplicate barcode within same item problem (If 3 same barcode save which data?)
     }
 
     private function processImage(string $path, $mode = 'frame')
