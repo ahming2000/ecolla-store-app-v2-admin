@@ -302,9 +302,6 @@ class ItemsController extends Controller
         $min = $image->getWidth() < $image->getHeight() ? $image->getWidth() : $image->getHeight();
         $max = $image->getWidth() > $image->getHeight() ? $image->getWidth() : $image->getHeight();
 
-        // Avoid exceed memory limit (128MB)
-        $max = $max > 3000 ? 3000 : $max;
-
         if ($mode == 'crop') {
             $image->fit($min);
         } else {
