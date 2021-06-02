@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\SystemConfig;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,28 +18,59 @@ class SettingsController extends Controller
 
     public function index()
     {
-        $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
-        $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
-        return view('setting', compact('categories', 'DEFAULT_CATEGORY_COUNT'));
+        return view('setting');
     }
 
     public function website(){
         $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
         $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
-        return view('setting.website', compact('categories', 'DEFAULT_CATEGORY_COUNT'));
+
+        $order = [
+            'clt_o_codePrefix' => SystemConfig::where('name', '=', 'clt_o_codePrefix')->first()->value,
+            'clt_o_shippingFeeKampar' => SystemConfig::where('name', '=', 'clt_o_shippingFeeKampar')->first()->value,
+        ];
+
+        return view('setting.website', compact('categories', 'DEFAULT_CATEGORY_COUNT', 'order'));
     }
 
     public function account(){
         return view('setting.account');
     }
 
-    public function updateCategory(){
+    public function updateItemSettings(string $action){
+        switch ($action){
+            case 'category':
+                $data = request()->validate([
+                    'category.*.id' => '',
+                    'category.*.name' => 'required',
+                    'category.*.name_en' => 'required',
+                ]);
+                $this->updateCategoryType($data);
+                break;
+            default:
+        }
+
+        return redirect('/setting/website?show=item')->with('message', '保存成功！');
+    }
+
+    public function updateOrderSettings(string $property){
         $data = request()->validate([
-           'category.*.id' => '',
-           'category.*.name' => 'required',
-           'category.*.name_en' => 'required',
+            $property => 'required'
         ]);
 
+        SystemConfig::where('name', '=', $property)->update(['value' => $data[$property]]);
+        return redirect('/setting/website?show=order')->with('message', '保存成功！');
+    }
+
+    public function updateAccountSettings(string $property){
+
+    }
+
+    public function UpdatePaginationSettings(string $property){
+
+    }
+
+    private function updateCategoryType($data){
         $old = Category::where('id', '>', '10')->get()->toArray();
         $new = $data['category'];
 
@@ -87,23 +119,5 @@ class SettingsController extends Controller
             DB::table('category_item')->where('category_id', '=', $td)->delete();
             Category::find($old[$td]['id'])->delete();
         }
-
-        return redirect('/setting')->with('message', '保存成功！');
-    }
-
-    public function updateItemSettings(string $property){
-
-    }
-
-    public function updateOrderSettings(string $property){
-
-    }
-
-    public function updateAccountSettings(string $property){
-
-    }
-
-    public function UpdatePaginationSettings(string $property){
-
     }
 }
