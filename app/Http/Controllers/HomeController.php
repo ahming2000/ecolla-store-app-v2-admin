@@ -19,6 +19,20 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    public function performUpdate(){
+        echo 'Category Item attribute update process starting...<br>';
+        DB::table('category_item')->where('category_id', '=', '5')->update(['category_id' => '14']);
+        DB::table('category_item')->where('category_id', '=', '6')->update(['category_id' => '17']);
+        DB::table('category_item')->where('category_id', '=', '8')->update(['category_id' => '19']);
+        DB::table('category_item')->where('category_id', '=', '9')->update(['category_id' => '20']);
+        DB::table('category_item')->where('category_id', '=', '10')->update(['category_id' => '21']);
+        echo 'Category Item attribute update completed.<br>';
+
+
+
+        die('Task completed.');
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -69,7 +83,7 @@ class HomeController extends Controller
 
         $week_hashmap = HomeController::get_week_graph_hashmap($week_arr, $week_str);
         $week_graph_arr = HomeController::get_graph_arr($week_hashmap);
-        
+
         $month_option_arr = HomeController::get_month_options($order_arr);
 
         $first_month = empty($month_option_arr) ? date("M") . " " . date("Y") : $month_option_arr[0];
@@ -90,7 +104,7 @@ class HomeController extends Controller
 
         return view('home', compact(
             'daily_date_arr', 'date_option_arr', 'daily_product_arr', 'daily_product_count', 'daily_product_sales_revenue', 'daily_graph_arr',
-            'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 'month_graph_arr',  
+            'month_option_arr', 'month_arr', 'month_product_arr', 'month_product_count', 'month_product_sales_revenue', 'month_graph_arr',
             'week_option_arr', 'week_arr', 'week_product_arr', 'week_product_count', 'week_product_sales_revenue', 'week_graph_arr'
             ,'tab_active'));
     }
@@ -152,7 +166,7 @@ class HomeController extends Controller
             $date_match = date('Y-m-d', strtotime($obj->created_at));
             return $daily_date == $date_match;
         });
-        return $arr; 
+        return $arr;
     }
 
     static function get_order_arr_week($order_arr, $week_str){
@@ -160,7 +174,7 @@ class HomeController extends Controller
             $date = new DateTime(date('d-m-Y', strtotime($obj->created_at)));
             return HomeController::check_which_week($date->format('d/m/Y')) == $week_str;
         });
-        return $arr; 
+        return $arr;
     }
 
     static function get_order_arr_month($order_arr, $month_str) {

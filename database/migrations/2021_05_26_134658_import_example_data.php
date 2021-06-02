@@ -14,7 +14,9 @@ class ImportExampleData extends Migration
      */
     public function up()
     {
-        DB::unprepared(file_get_contents(__DIR__ . '/../seeds/20210526-ecolla-db-backup.sql'));
+        // Not applicable for modified database since the category id is duplicated
+        // DB::unprepared(file_get_contents(__DIR__ . '/../seeds/20210526-ecolla-db-backup.sql'));
+        DB::unprepared(file_get_contents(__DIR__ . '/../seeds/20210531-ecolla-db-backup.sql'));
     }
 
     /**

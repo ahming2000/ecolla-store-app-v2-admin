@@ -14,56 +14,77 @@ class ImportSystemConfigs extends Migration
      */
     public function up()
     {
+
+        /*
+         * Config naming convention
+         *
+         * {website_type}_{module_name}_{description}
+         *
+         * website_type : Website that use this config to generate content
+         * e.g. clt (client), mgmt (management)
+         *
+         * module_name : Related module
+         * e.g. i (item), o (order)
+         *
+         * description : Config description in Chinese
+
+         */
+
         DB::table('system_configs')->insert(
             array(
-                'name' => 'orderCodePrefix',
+                'name' => 'clt_o_codePrefix',
                 'value' => 'ECOLLA',
-                'desc' => 'Prefix for order code which used to track delivery id in the website.',
+                'desc' => '网站的订单编号开头',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             )
         );
+
         DB::table('system_configs')->insert(
             array(
-                'name' => 'maxRecordsPerPage',
-                'value' => '8',
-                'desc' => 'Prefix for order code which used to track delivery id in the website.',
+                'name' => 'clt_i_recordPerPage',
+                'value' => '24',
+                'desc' => '在顾客商品主页，一页可显示的商品数量',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             )
         );
+
         DB::table('system_configs')->insert(
             array(
-                'name' => 'maxManagementContent',
+                'name' => 'mgmt_i_recordPerPage',
+                'value' => '10',
+                'desc' => '在管理员商品查看页面，一页可显示的商品数量',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            )
+        );
+
+        DB::table('system_configs')->insert(
+            array(
+                'name' => 'mgmt_o_recordPerPage',
                 'value' => '5',
-                'desc' => 'Maximum content viewing at order-management.php and item-management.php page.',
+                'desc' => '在管理员订单查看页面，一页可显示的商品数量',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             )
         );
+
         DB::table('system_configs')->insert(
             array(
-                'name' => 'shippingFeeEast',
-                'value' => '5.66',
-                'desc' => 'Shipping Fee in RM (Malaysia Ringgit) per kilogram for east Malaysia',
+                'name' => 'clt_o_shippingFeeKampar',
+                'value' => '3',
+                'desc' => '运费，仅限于金宝',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             )
         );
+
         DB::table('system_configs')->insert(
             array(
-                'name' => 'shippingFeeWest',
-                'value' => '4.77',
-                'desc' => 'Shipping Fee in RM (Malaysia Ringgit) per kilogram for west Malaysia',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            )
-        );
-        DB::table('system_configs')->insert(
-            array(
-                'name' => 'shippingFeeKampar',
-                'value' => '2.00',
-                'desc' => 'Shipping Fee in RM (Malaysia Ringgit) per kilogram for Kampar, Perak, Malaysia',
+                'name' => 'mgmt_i_defaultCategoryCount',
+                'value' => '4',
+                'desc' => 'Fixed and not modifiable for management',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             )
@@ -78,11 +99,6 @@ class ImportSystemConfigs extends Migration
      */
     public function down()
     {
-        DB::table('system_configs')->where('name', '=', 'orderCodePrefix')->delete();
-        DB::table('system_configs')->where('name', '=', 'maxRecordsPerPage')->delete();
-        DB::table('system_configs')->where('name', '=', 'maxManagementContent')->delete();
-        DB::table('system_configs')->where('name', '=', 'shippingFeeEast')->delete();
-        DB::table('system_configs')->where('name', '=', 'shippingFeeWest')->delete();
-        DB::table('system_configs')->where('name', '=', 'shippingFeeKampar')->delete();
+
     }
 }
