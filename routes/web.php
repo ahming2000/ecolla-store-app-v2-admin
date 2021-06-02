@@ -66,9 +66,7 @@ Route::prefix('/setting')->group(function () {
     Route::get('/website', [SettingsController::class, 'website'])->middleware('access:setting_view');
     Route::get('/account', [SettingsController::class, 'account'])->middleware('access:setting_view');
 
-    Route::patch('/update/category', [SettingsController::class, 'updateCategory']); // TODO - Convert to url below
-
-    Route::patch('/item/{property}', [SettingsController::class, 'updateItemSettings']);
+    Route::patch('/item/{action}', [SettingsController::class, 'updateItemSettings']);
     Route::patch('/order/{property}', [SettingsController::class, 'updateOrderSettings']);
     Route::patch('/account/{property}', [SettingsController::class, 'updateAccountSettings']);
     Route::patch('/pagination/{type}', [SettingsController::class, 'UpdatePaginationSettings']);
