@@ -63,6 +63,8 @@ Route::prefix('/order')->group(function () {
 
 Route::prefix('/setting')->group(function () {
     Route::get('/', [SettingsController::class, 'index'])->middleware('access:setting_view');
+    Route::get('/website', [SettingsController::class, 'website'])->middleware('access:setting_view');
+    Route::get('/account', [SettingsController::class, 'account'])->middleware('access:setting_view');
 
     Route::patch('/update/category', [SettingsController::class, 'updateCategory']); // TODO - Convert to url below
 
