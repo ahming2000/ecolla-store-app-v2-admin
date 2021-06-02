@@ -262,7 +262,7 @@ class HomeController extends Controller
         $product_arr = (sizeof($product_arr) > $this->num_of_items) ? array_slice($product_arr, 0, $this->num_of_items) : $product_arr;
         return array(sizeof($order_arr), $product_count, $total_sales_revenue, $product_arr);
     }
-    
+
     /**
      * get_month_option_str
      *
@@ -291,7 +291,7 @@ class HomeController extends Controller
 
         return substr($str, 0, -1);
     }
-    
+
     // Pipeline
     // 1. Get Options Based on...
     /**
@@ -481,7 +481,7 @@ class HomeController extends Controller
     function get_time_graph_hashmap($daily_date_arr) {
         // All Time Range For the Option Array
         $options_arr = array("0:01 - 6:00", "6:01 - 12:00", "12:01 - 18:00", "18:01 - 0:00");
-    
+
         $hashmap = [];
         foreach($options_arr as $option){
             $order_arr = $this->get_order_arr_time($daily_date_arr, $option);
@@ -489,12 +489,12 @@ class HomeController extends Controller
         }
         return $hashmap;
     }
-    
+
     // Daily
     function get_week_graph_hashmap($week_arr, $week_str){
         // All Dates For the Option Array
         $options_arr = $this->get_dates_from_week_year_arr($week_str);
-    
+
         $hashmap = [];
         foreach($options_arr as $option){
             $order_arr = $this->get_order_arr_date($week_arr, $option);
@@ -502,12 +502,12 @@ class HomeController extends Controller
         }
         return $hashmap;
     }
-    
+
     // Weekly
     function get_month_graph_hashmap($month_arr, $month_str) {
         // All Weeks For the Option Array
         $options_arr = $this->get_weeks_from_month_year_arr($month_str);
-    
+
         $hashmap = [];
         $ind = 1;
         foreach($options_arr as $option){

@@ -47366,7 +47366,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
   \********************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
-/* provided dependency */ var __webpack_provided_window_dot_jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Material Design for Bootstrap 4
@@ -57953,7 +57952,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_
                     r = n.type(t);
                 return "function" !== r && !n.isWindow(t) && (!(1 !== t.nodeType || !e) || ("array" === r || 0 === e || "number" == typeof e && e > 0 && e - 1 in t))
             }
-            if (!__webpack_provided_window_dot_jQuery) {
+            if (!t.jQuery) {
                 var n = function t(e, n) {
                     return new t.fn.init(e, n)
                 };
@@ -59080,7 +59079,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_
                     })), b
                 }
                 jQuery.fn.velocity = jQuery.fn.animate
-            }(__webpack_provided_window_dot_jQuery || window.Zepto || window, window, document)
+            }(window.jQuery || window.Zepto || window, window, document)
         }, "object" == r(t) && "object" == r(t.exports) ? t.exports = e() :  true && n(55) ? !(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :

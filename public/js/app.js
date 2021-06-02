@@ -78,7 +78,6 @@ var app = new Vue({
   \***********************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-/* provided dependency */ var __webpack_provided_window_dot_jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -87,7 +86,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 try {
-  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js").default;
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
