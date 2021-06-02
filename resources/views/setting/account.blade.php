@@ -62,15 +62,12 @@
                     @csrf
                     @method('patch')
                     <div class="modal-body">
-                        <div class="form-group md-form">
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="editNameControl" name="name">
-                            @error("name")
-                            <div class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                            @enderror
-                            <label for="editNameControl">新名字</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="新名字">
+                        @error("name")
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
                         </div>
+                        @enderror
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-dismiss="modal">
@@ -98,32 +95,29 @@
                     @csrf
                     @method('patch')
                     <div class="modal-body">
-                        <div class="form-group md-form">
-                            <input type="password" class="form-control @error('old_password') is-invalid @enderror" id="editOldPasswordControl" name="old_password">
+                        <div class="col-12 mb-2">
+                            <input type="password" class="form-control @error('old_password') is-invalid @enderror" name="old_password" placeholder="旧密码">
                             @error("old_password")
-                                <span class="invalid-feedback" role="alert">
+                            <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <label for="editOldPasswordControl">旧密码</label>
                         </div>
-                        <div class="form-group md-form">
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="editPasswordControl" name="password">
+                        <div class="col-12 mb-2">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="密码">
                             @error("password")
-                                <span class="invalid-feedback" role="alert">
+                            <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <label for="editPasswordControl">密码</label>
                         </div>
-                        <div class="form-group md-form">
-                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="editPasswordConfirmControl" name="password_confirmation">
+                        <div class="col-12 mb-2">
+                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" placeholder="密码确认">
                             @error("password_confirmation")
-                                <span class="invalid-feedback" role="alert">
+                            <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <label for="editPasswordConfirmControl">密码确认</label>
                         </div>
                     </div>
                     <div class="modal-footer">
