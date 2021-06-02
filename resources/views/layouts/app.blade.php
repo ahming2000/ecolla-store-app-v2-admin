@@ -61,7 +61,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url('/setting') }}">设置</a>
+                                <a class="dropdown-item" href="{{ url('/setting/website') }}">网站属性设置</a>
+                                <a class="dropdown-item" href="{{ url('/setting/account') }}">个人账号设置</a>
                                 <a class="dropdown-item" href="{{ url('/changing-log') }}">应用更新日志</a>
                                 <a class="dropdown-item"
                                    href="{{ route('logout') }}"
