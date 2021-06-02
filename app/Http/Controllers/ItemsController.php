@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class ItemsController extends Controller
 {
@@ -213,9 +214,7 @@ class ItemsController extends Controller
         }
 
         // Check the item can be listed or not
-        // TODO - convert to dynamic function
-        if (!empty(DB::table('variations')->where('item_id', '=', $item->id)->get()->toArray())) {
-            $item->util()->update(['is_listed' => '1']);
+        if ($this->canList($item->id, true)) {
             if (session()->has('error')) {
                 session()->flash('message', '部分资料已保存！');
             } else {
@@ -226,6 +225,47 @@ class ItemsController extends Controller
         }
 
         return redirect('/item/' . $item->id . '/edit');
+    }
+
+    private function canList(int $item_id, bool $list = false): bool
+    {
+        $obj = Item::find($item_id);
+
+        $item = $obj->toArray();
+        $generalImageCount = sizeof($obj->images->toArray());
+        $variationCount = sizeof($obj->variations->toArray());
+        $variations = $obj->variations->toArray();
+
+        if(
+            $item['name'] == null ||
+            $item['name_en'] == null ||
+            $item['desc'] == null ||
+            $item['origin'] == null ||
+            $item['origin_en'] == null || // Make sure item attribute is filled
+            $generalImageCount < 1 || // Make sure have at least one general image
+            $variationCount < 1 // Make sure have at least one variation
+        )
+        {
+            return false;
+        }
+        else
+        {
+            foreach ($variations as $variation){ // Make sure all variation have filled all attribute except image and stock
+                if(
+                    $variation['barcode'] == null ||
+                    $variation['name'] == null ||
+                    $variation['name_en'] == null ||
+                    $variation['price'] == null ||
+                    $variation['weight'] == null
+                )
+                {
+                    return false;
+                }
+            }
+        }
+
+        if($list) $obj->util()->update(['is_listed' => '1']);
+        return true;
     }
 
     public function destroy(Item $item)
