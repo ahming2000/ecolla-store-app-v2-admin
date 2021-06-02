@@ -37,7 +37,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade" id="item" role="tabpanel" aria-labelledby="item-tab">
                         <div id="setting-item-category">
-                            <form method="post" action="{{ url('/setting/update/category') }}">
+                            <form method="post" action="{{ url('/setting/item/category') }}">
 
                                 @csrf
                                 @method('PATCH')
