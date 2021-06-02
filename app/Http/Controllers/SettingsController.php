@@ -7,6 +7,7 @@ use App\Models\SystemConfig;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class SettingsController extends Controller
 {
@@ -62,8 +63,48 @@ class SettingsController extends Controller
         return redirect('/setting/website?show=order')->with('message', '保存成功！');
     }
 
-    public function updateAccountSettings(string $property){
+    public function updateAccountSettings(string $action){
+        switch ($action){
+            case 'name':
+                $validator = Validator::make(request()->all(), [
+                    'name' => 'required'
+                ]);
 
+                if ($validator->fails()) {
+                    return redirect('/setting/account?show=Name')
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+
+                auth()->user()->update(['name' => request('name')]);
+
+                return redirect('/setting/account')->with('message', '名字更改成功！');
+            case 'password':
+                $validator = Validator::make(request()->all(), [
+                    'old_password' => 'required',
+                    'password' => 'required|confirmed',
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('/setting/account?show=Password')
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+                // Check old password
+                if(!password_verify(request('old_password'), auth()->user()->password)){
+                    return redirect('/setting/account?show=Password')
+                        ->withErrors([
+                            'old_password' => '旧密码不正确！请稍后再尝试！',
+                        ]);
+                }
+
+                // Update new password
+                auth()->user()->update(['password' => password_hash(request('password'), PASSWORD_BCRYPT)]);
+
+                return redirect('/setting/account')->with('message', '密码更改成功');
+            default:
+        }
+        return redirect('/setting/account');
     }
 
     public function UpdatePaginationSettings(string $property){
