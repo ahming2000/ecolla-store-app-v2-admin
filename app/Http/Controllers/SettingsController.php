@@ -113,13 +113,11 @@ class SettingsController extends Controller
 
     private function updateCategoryType($data){
         $old = Category::where('id', '>', '10')->get()->toArray();
-        $new = $data['category'];
+        $new = $data['category'] ?? [];
 
         $old = $this->generateArrayKeyFromElement($old, 'id');
 
         $toAdd = [];
-        $toDelete = [];
-        $toUpdate = [];
 
         $temp = [];
         while(!empty($new)){
