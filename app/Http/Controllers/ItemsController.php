@@ -165,7 +165,7 @@ class ItemsController extends Controller
                     $imagePath = $img['newImage']->store('items/' . $item->id . '');
                     $this->processImage(public_path("img/$imagePath"));
 
-                    $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
+                    $imagePath = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
 
                     $itemImage = new ItemImage();
                     $itemImage->setAttribute('image', $imagePath);
@@ -196,7 +196,7 @@ class ItemsController extends Controller
                     $imagePath = $v['image']->store('items/' . $item->id . '');
                     $this->processImage(public_path("img/$imagePath"));
 
-                    $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
+                    $imagePath = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
 
                     DB::table('variations')
                         ->where('barcode', '=', $v['barcode'])
