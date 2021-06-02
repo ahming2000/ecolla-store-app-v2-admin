@@ -31,6 +31,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
+Route::get('/system-update', [HomeController::class, 'performUpdate']);
 
 Route::prefix('/item')->group(function () {
     Route::get('/', [ItemsController::class, 'index'])->name('item.index')->middleware('access:item_view');
@@ -62,12 +63,12 @@ Route::prefix('/order')->group(function () {
 
 Route::prefix('/setting')->group(function () {
     Route::get('/', [SettingsController::class, 'index'])->middleware('access:setting_view');
+    Route::get('/website', [SettingsController::class, 'website'])->middleware('access:setting_view');
+    Route::get('/account', [SettingsController::class, 'account'])->middleware('access:setting_view');
 
-    Route::patch('/update/category', [SettingsController::class, 'updateCategory']); // TODO - Convert to url below
-
-    Route::patch('/item/{property}', [SettingsController::class, 'updateItemSettings']);
+    Route::patch('/item/{action}', [SettingsController::class, 'updateItemSettings']);
     Route::patch('/order/{property}', [SettingsController::class, 'updateOrderSettings']);
-    Route::patch('/account/{property}', [SettingsController::class, 'updateAccountSettings']);
+    Route::patch('/account/{action}', [SettingsController::class, 'updateAccountSettings']);
     Route::patch('/pagination/{type}', [SettingsController::class, 'UpdatePaginationSettings']);
 });
 

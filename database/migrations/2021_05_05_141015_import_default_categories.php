@@ -47,6 +47,53 @@ class ImportDefaultCategories extends Migration
             )
         );
 
+        DB::table('categories')->insert(
+            array(
+                'id' => 5,
+                'name' => '无',
+                'name_en' => 'None'
+            )
+        );
+
+        DB::table('categories')->insert(
+            array(
+                'id' => 6,
+                'name' => '无',
+                'name_en' => 'None'
+            )
+        );
+
+        DB::table('categories')->insert(
+            array(
+                'id' => 7,
+                'name' => '无',
+                'name_en' => 'None'
+            )
+        );
+
+        DB::table('categories')->insert(
+            array(
+                'id' => 8,
+                'name' => '无',
+                'name_en' => 'None'
+            )
+        );
+
+        DB::table('categories')->insert(
+            array(
+                'id' => 9,
+                'name' => '无',
+                'name_en' => 'None'
+            )
+        );
+
+        DB::table('categories')->insert(
+            array(
+                'id' => 10,
+                'name' => '无',
+                'name_en' => 'None'
+            )
+        );
 
     }
 
