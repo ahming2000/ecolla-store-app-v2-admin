@@ -58,8 +58,8 @@ class CreateStandardTable extends Migration
             $table->string('barcode')->unique();
             $table->string('name');
             $table->string('name_en')->nullable();
-            $table->double('price');
-            $table->double('weight');
+            $table->double('price')->default(0);
+            $table->double('weight')->default(0);
             $table->string('image')->nullable();
 
             $table->integer('stock')->default(0);
