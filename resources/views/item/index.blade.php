@@ -113,7 +113,7 @@
                         {{ $item->util->sold ?? 0 }}
                     </td>
                     <td>
-                        <listing-button item-id="{{ $item->id }}" is-listed="{{ $item->util->is_listed }}"></listing-button>
+                        <listing-switch item-id="{{ $item->id }}" is-listed="{{ $item->util->is_listed }}"></listing-switch>
 
                         <button class="btn btn-secondary btn-sm mb-1" onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
                             <i class="icofont icofont-ui-edit"></i> 编辑

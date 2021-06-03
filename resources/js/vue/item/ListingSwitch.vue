@@ -9,14 +9,14 @@
 
 <script>
 export default {
-    name: "ListingButton",
+    name: "ListingSwitch",
     props: [
         'itemId',
         'isListed',
     ],
 
     mounted() {
-        console.log('Listing Button Component mounted.')
+        console.log('Listing Switch Component mounted.')
     },
 
     data: function () {
