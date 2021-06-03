@@ -29,11 +29,12 @@
                     <div class="row text-right mb-2">
                         <div class="col-8">
                             <input type="text"
-                                   class="form-control form-control-sm m-0 @error("search") is-invalid @enderror"
+                                   class="form-control form-control-sm m-0"
                                    maxlength="20"
                                    name="search"
                                    placeholder="搜索名称、货号、规格、出产地、商品描述"
-                                   value="{{ $_GET["search"] ?? "" }}">
+                                   value="{{ $_GET["search"] ?? "" }}"
+                                   required>
 
                             @error("search")
                             <span class="invalid-feedback" role="alert">
