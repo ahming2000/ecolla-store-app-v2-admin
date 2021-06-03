@@ -24,22 +24,23 @@ class ItemsController extends Controller
 
     public function index()
     {
+        // Get request value
         $search = request('search') ?? "";
         $category = request('category') ?? "";
         $paginate = request('paginate') ?? 10;
 
-        if($search != "" && $category != ""){
-            $whereClause = "(categories.name = '$category' OR categories.name_en = '$category') AND (items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
-        } else if ($search != ""){
-            $whereClause = "items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%'";
-        } else if ($category != ""){
-            $whereClause = "categories.name = '$category' OR categories.name_en = '$category'";
-        } else{
-            $whereClause = "";
-        }
+        // Generate Where Clause for SQL Query
+        $searchClause = $this->generateSearchClause($search, $this->ITEM_SEARCH);
+        $category_filterClause = $this->generateFilterClause($category, $this->ITEM_FILTER_CATEGORY);
 
+        $whereClause = $this->combineWhereClause([
+            $searchClause,
+            $category_filterClause,
+        ]);
+
+        // Query all related Item ID
         if ($whereClause != "") {
-            $items_table = DB::table('items')
+            $result = DB::table('items')
                 ->select('items.id')
                 ->join('category_item', 'category_item.item_id', '=', 'items.id')
                 ->join('categories', 'categories.id', '=', 'category_item.category_id')
@@ -47,41 +48,36 @@ class ItemsController extends Controller
                 ->whereRaw($whereClause)
                 ->distinct('items.id')
                 ->get();
-
         } else {
-            $items_table = DB::table('items')
+            $result = DB::table('items')
                 ->select('items.id')
                 ->get();
         }
 
-        $ids = array_column($items_table->toArray(), 'id');
-
+        // Retrieve required data
+        $ids = array_column($result->toArray(), 'id');
         $items = Item::whereIn('id', $ids)
             ->orderBy('created_at', 'desc')
             ->paginate($paginate);
-
         $categories = Category::all();
 
-        // Custom link for laravel pagination
-        if($paginate != 10 && $search != "" && $category != ""){
-            $parameter = "?paginate=$paginate&search=$search&category=$category";
-        } else if($paginate != 10 && $search != ""){
-            $parameter = "?paginate=$paginate&category=$category";
-        } else if($search != "" && $category != ""){
-            $parameter = "?search=$search&category=$category";
-        } else if ($paginate != 10){
-            $parameter = "?paginate=$paginate";
-        } else if ($search != ""){
-            $parameter = "?search=$search";
-        } else if ($category != ""){
-            $parameter = "?category=$category";
-        } else{
-            $parameter = "";
-        }
+        // Set pagination links parameter
+        $items->withPath('/item' . $this->generateParameter(
+            [
+                'paginate' => $paginate,
+                'search' => $search,
+                'category' => $category,
+            ])
+        );
 
-        $items->withPath('/item' . $parameter); // Pagination link path
+        // Generate parameter for filtering (search, category, paginate)
+        $params = [
+            'paginate' => $this->generateParameter(['search' => $search, 'category' => $category], true),
+            'category' => $this->generateParameter(['paginate' => $paginate, 'search' => $search], true),
+        ];
+        //dd($params);
 
-        return view('item.index', compact('items', 'categories'));
+        return view('item.index', compact('items', 'categories', 'params'));
     }
 
     public function show(Item $item)
@@ -225,7 +221,7 @@ class ItemsController extends Controller
             } else {
                 session()->flash('message', '商品资料已保存并成功上架！');
             }
-        } else{
+        } else {
             session()->flash('message', '部分资料已保存！');
         }
 
@@ -234,14 +230,14 @@ class ItemsController extends Controller
 
     public function list(Item $item): bool
     {
-        if($item->util->is_listed){
+        if ($item->util->is_listed) {
             $item->util()->update(['is_listed' => false]);
             return true;
-        } else{
-            if($this->canList($item->id)){
+        } else {
+            if ($this->canList($item->id)) {
                 $item->util()->update(['is_listed' => true]);
                 return true;
-            } else{
+            } else {
                 return false;
             }
         }
@@ -256,7 +252,7 @@ class ItemsController extends Controller
         $variationCount = sizeof($obj->variations->toArray());
         $variations = $obj->variations->toArray();
 
-        if(
+        if (
             $item['name'] == null ||
             $item['name_en'] == null ||
             $item['desc'] == null ||
@@ -264,26 +260,22 @@ class ItemsController extends Controller
             $item['origin_en'] == null || // Make sure item attribute is filled
             $generalImageCount < 1 || // Make sure have at least one general image
             $variationCount < 1 // Make sure have at least one variation
-        )
-        {
+        ) {
             return false;
-        }
-        else
-        {
-            foreach ($variations as $variation){ // Make sure all variation have filled all attribute except image and stock and weight
-                if(
+        } else {
+            foreach ($variations as $variation) { // Make sure all variation have filled all attribute except image and stock and weight
+                if (
                     $variation['barcode'] == null ||
                     $variation['name'] == null ||
                     $variation['name_en'] == null ||
                     $variation['price'] == null
-                )
-                {
+                ) {
                     return false;
                 }
             }
         }
 
-        if($list) $obj->util()->update(['is_listed' => '1']);
+        if ($list) $obj->util()->update(['is_listed' => '1']);
         return true;
     }
 

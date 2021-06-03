@@ -43,13 +43,15 @@
                             @if(isset($_GET['paginate']))
                                 <input type="hidden" name="paginate" value="{{ $_GET['paginate'] }}">
                             @endif
+                            @if(isset($_GET['category']))
+                                <input type="hidden" name="category" value="{{ $_GET['category'] }}">
+                            @endif
                             <input type="text"
                                    class="form-control form-control-sm m-0"
                                    maxlength="20"
                                    name="search"
                                    placeholder="搜索名称、货号、规格、出产地、商品描述"
-                                   value="{{ $_GET["search"] ?? "" }}"
-                                   required>
+                                   value="{{ $_GET["search"] ?? "" }}">
 
                             @error("search")
                             <span class="invalid-feedback" role="alert">
@@ -164,27 +166,17 @@
         function confirmDelete(source) {
             let button = jQuery(source);
             let form = button.parent().find('.delete-item-form');
-
             if (confirm('您确定要删除 ' + button.val() + ' 吗？')) {
                 form.submit();
             }
         }
-    </script>
 
-    <script>
         $(document).ready(function () {
-            // Category bar onchange bar
-            $("#categorySelector").on("change", function () {
-                if ($("#categorySelector option:selected").val() !== "") {
-                    window.location.href = "/item?<?= isset($_GET["search"]) ? "search=" . $_GET["search"] . "&" : ""; ?><?= isset($_GET["paginate"]) ? "paginate=" . $_GET["paginate"] . "&" : ""; ?>category=" + $("#categorySelector option:selected").val();
-                } else {
-                    window.location.href = "/item<?= isset($_GET['search']) || isset($_GET['paginate']) ? '?' : '' ?><?= isset($_GET["search"]) ? "search=" . $_GET["search"] : ""; ?><?= isset($_GET['paginate']) ? '&' : '' ?><?= isset($_GET["paginate"]) ? "paginate=" . $_GET["paginate"] . "&" : ""; ?>";
-                }
-            });
-
-            // Paginate onchange
             $('#paginateSelector').on('change', function () {
-                window.location.href = "/item?<?= isset($_GET["search"]) ? "search=" . $_GET["search"] . "&" : ""; ?><?= isset($_GET["category"]) ? "category=" . $_GET["category"] . "&" : ""; ?>paginate=" + $('#paginateSelector option:selected').val();
+                window.location.href = "/item{!! $params['paginate'] !!}paginate=" + $('#paginateSelector option:selected').val();
+            });
+            $("#categorySelector").on("change", function () {
+                window.location.href = "/item{!! $params['category'] !!}category=" + $('#categorySelector option:selected').val();
             });
         });
     </script>
