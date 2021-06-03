@@ -112,14 +112,14 @@
                         {{ $item->util->sold ?? 0 }}
                     </td>
                     <td>
-                        <a href="#" class="btn btn-secondary btn-sm mb-1">
-                            <i class="icofont icofont-basket"></i> {{ $item->util->is_listed == '1' ? "下架" : "上架" }}
-                        </a><br>
-                        <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-secondary btn-sm mb-1">
+                        <listing-button item-id="{{ $item->id }}" is-listed="{{ $item->util->is_listed }}"></listing-button>
+
+                        <button class="btn btn-secondary btn-sm mb-1" onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
                             <i class="icofont icofont-ui-edit"></i> 编辑
-                        </a><br>
+                        </button><br>
+
                         <button type="button"
-                                class="btn btn-secondary btn-sm m-0 mb-1"
+                                class="btn btn-secondary btn-sm mb-1"
                                 onclick="confirmDelete(this)"
                                 value="{{ $item->name }}">
                             <i class="icofont icofont-ui-delete"></i> 删除
