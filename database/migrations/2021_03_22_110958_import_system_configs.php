@@ -52,16 +52,6 @@ class ImportSystemConfigs extends Migration
 
         DB::table('system_configs')->insert(
             array(
-                'name' => 'mgmt_o_recordPerPage',
-                'value' => '5',
-                'desc' => '在管理员订单查看页面，一页可显示的商品数量',
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            )
-        );
-
-        DB::table('system_configs')->insert(
-            array(
                 'name' => 'clt_o_shippingFeeKampar',
                 'value' => '3',
                 'desc' => '运费，仅限于金宝',

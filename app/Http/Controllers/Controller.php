@@ -33,6 +33,18 @@ class Controller extends BaseController
         ],
     ];
 
+    protected array $ORDER_FILTER_CREATED_AT = [
+        'orders' => [
+            'created_at',
+        ]
+    ];
+
+    protected array $ORDER_FILTER_MODE = [
+        'orders' => [
+            'mode',
+        ]
+    ];
+
     protected static array $infoMessageList = [];
     protected static array $errorMessageList = [];
 
