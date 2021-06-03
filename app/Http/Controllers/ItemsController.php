@@ -247,7 +247,6 @@ class ItemsController extends Controller
         $obj = Item::find($item_id);
 
         $item = $obj->toArray();
-        $generalImageCount = sizeof($obj->images->toArray());
         $variationCount = sizeof($obj->variations->toArray());
         $variations = $obj->variations->toArray();
 
@@ -257,7 +256,6 @@ class ItemsController extends Controller
             $item['desc'] == null ||
             $item['origin'] == null ||
             $item['origin_en'] == null || // Make sure item attribute is filled
-            $generalImageCount < 1 || // Make sure have at least one general image
             $variationCount < 1 // Make sure have at least one variation
         ) {
             if ($list) $obj->util()->update(['is_listed' => '0']);
