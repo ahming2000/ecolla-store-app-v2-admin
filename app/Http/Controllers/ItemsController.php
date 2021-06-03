@@ -25,9 +25,9 @@ class ItemsController extends Controller
     public function index()
     {
         // Get request value
+        $paginate = request('paginate') ?? 10;
         $search = request('search') ?? "";
         $category = request('category') ?? "";
-        $paginate = request('paginate') ?? 10;
 
         // Generate Where Clause for SQL Query
         $searchClause = $this->generateSearchClause($search, $this->ITEM_SEARCH);
@@ -75,7 +75,6 @@ class ItemsController extends Controller
             'paginate' => $this->generateParameter(['search' => $search, 'category' => $category], true),
             'category' => $this->generateParameter(['paginate' => $paginate, 'search' => $search], true),
         ];
-        //dd($params);
 
         return view('item.index', compact('items', 'categories', 'params'));
     }
