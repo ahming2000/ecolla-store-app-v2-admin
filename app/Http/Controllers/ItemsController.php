@@ -227,6 +227,21 @@ class ItemsController extends Controller
         return redirect('/item/' . $item->id . '/edit');
     }
 
+    public function list(Item $item): bool
+    {
+        if($item->util->is_listed){
+            $item->util()->update(['is_listed' => false]);
+            return true;
+        } else{
+            if($this->canList($item->id)){
+                $item->util()->update(['is_listed' => true]);
+                return true;
+            } else{
+                return false;
+            }
+        }
+    }
+
     private function canList(int $item_id, bool $list = false): bool
     {
         $obj = Item::find($item_id);
@@ -255,8 +270,7 @@ class ItemsController extends Controller
                     $variation['barcode'] == null ||
                     $variation['name'] == null ||
                     $variation['name_en'] == null ||
-                    $variation['price'] == null ||
-                    $variation['weight'] == null
+                    $variation['price'] == null
                 )
                 {
                     return false;
