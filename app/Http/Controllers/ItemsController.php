@@ -24,10 +24,9 @@ class ItemsController extends Controller
 
     public function index()
     {
-        $ITEM_PER_PAGE = SystemConfig::where('name', '=', 'mgmt_i_recordPerPage')->first()->value;
-
         $search = request('search') ?? "";
         $category = request('category') ?? "";
+        $paginate = request('paginate') ?? 10;
 
         if($search != "" && $category != ""){
             $whereClause = "(categories.name = '$category' OR categories.name_en = '$category') AND (items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
@@ -59,13 +58,19 @@ class ItemsController extends Controller
 
         $items = Item::whereIn('id', $ids)
             ->orderBy('created_at', 'desc')
-            ->paginate($ITEM_PER_PAGE);
+            ->paginate($paginate);
 
         $categories = Category::all();
 
         // Custom link for laravel pagination
-        if($search != "" && $category != ""){
+        if($paginate != 10 && $search != "" && $category != ""){
+            $parameter = "?paginate=$paginate&search=$search&category=$category";
+        } else if($paginate != 10 && $search != ""){
+            $parameter = "?paginate=$paginate&category=$category";
+        } else if($search != "" && $category != ""){
             $parameter = "?search=$search&category=$category";
+        } else if ($paginate != 10){
+            $parameter = "?paginate=$paginate";
         } else if ($search != ""){
             $parameter = "?search=$search";
         } else if ($category != ""){
