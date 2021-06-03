@@ -41,6 +41,7 @@ Route::prefix('/item')->group(function () {
     Route::post('/', [ItemsController::class, 'store'])->name('item.store');
     Route::patch('/{item}', [ItemsController::class, 'update'])->name('item.update');
     Route::delete('/{item}', [ItemsController::class, 'destroy'])->name('item.destroy');
+    Route::post('/{item}/list', [ItemsController::class, 'list'])->name('item.list');
 });
 
 Route::prefix('/order')->group(function () {
