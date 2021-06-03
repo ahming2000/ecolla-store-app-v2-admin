@@ -33,7 +33,7 @@ export default {
                     this.status = !this.status;
                     console.log('listing success');
                 } else{
-                    alert("上架失败！请确保当前商品达成以下条件：\n商品资料完整（名称、描述、出产地）\n至少要有一个规格（名称、货号、价格）\n至少要有一个封面图")
+                    alert("上架失败！请确保当前商品达成以下条件：\n商品资料完整（名称、描述、出产地）\n至少要有一个规格（名称、货号）")
                     console.log('listing fail');
                 }
             });
