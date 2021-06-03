@@ -265,7 +265,7 @@ class ItemsController extends Controller
         }
         else
         {
-            foreach ($variations as $variation){ // Make sure all variation have filled all attribute except image and stock
+            foreach ($variations as $variation){ // Make sure all variation have filled all attribute except image and stock and weight
                 if(
                     $variation['barcode'] == null ||
                     $variation['name'] == null ||
