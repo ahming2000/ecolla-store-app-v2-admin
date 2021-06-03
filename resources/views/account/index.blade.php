@@ -186,47 +186,47 @@
 <?php
 
 // Hardcoded Permissions
-class Permission
-{
-    public $columnName;
-    public $cnDisplayName;
-    public $elementId;
-    public $checkedByDefault;
+// class Permission
+// {
+//     public $columnName;
+//     public $cnDisplayName;
+//     public $elementId;
+//     public $checkedByDefault;
 
-    function __construct($columnName, $cnDisplayName, $elementId, $checkedByDefault)
-    {
-        $this->columnName = $columnName;
-        $this->cnDisplayName = $cnDisplayName;
-        $this->elementId = $elementId;
-        $this->checkedByDefault = $checkedByDefault;
-    }
-}
+//     function __construct($columnName, $cnDisplayName, $elementId, $checkedByDefault)
+//     {
+//         $this->columnName = $columnName;
+//         $this->cnDisplayName = $cnDisplayName;
+//         $this->elementId = $elementId;
+//         $this->checkedByDefault = $checkedByDefault;
+//     }
+// }
 
-$permissions = array(
-    new Permission('item_view', '商品查看', 'ItemView', true),
-    new Permission('item_create', '商品创建', 'ItemCreate', false),
-    new Permission('item_update', '商品编辑', 'ItemUpdate', false),
-    new Permission('item_delete', '商品删除', 'ItemDelete', false),
-    new Permission('item_list', '商品上架', 'ItemListing', false),
+// $permissions = array(
+//     new Permission('item_view', '商品查看', 'ItemView', true),
+//     new Permission('item_create', '商品创建', 'ItemCreate', false),
+//     new Permission('item_update', '商品编辑', 'ItemUpdate', false),
+//     new Permission('item_delete', '商品删除', 'ItemDelete', false),
+//     new Permission('item_list', '商品上架', 'ItemListing', false),
 
-    new Permission('order_view', '订单查看', 'OrderView', true),
-    new Permission('order_update', '订单基本属性编辑', 'OrderUpdate', false),
-    new Permission('order_delete', '订单删除', 'OrderDelete', false),
-    new Permission('order_receipt_view', '顾客收据查看', 'OrderReceiptView', true),
-    new Permission('order_invoice_download', '订单详情下载', 'OrderInvoiceDownload', false),
+//     new Permission('order_view', '订单查看', 'OrderView', true),
+//     new Permission('order_update', '订单基本属性编辑', 'OrderUpdate', false),
+//     new Permission('order_delete', '订单删除', 'OrderDelete', false),
+//     new Permission('order_receipt_view', '顾客收据查看', 'OrderReceiptView', true),
+//     new Permission('order_invoice_download', '订单详情下载', 'OrderInvoiceDownload', false),
 
-    new Permission('order_item_view', '订单商品查看', 'OrderItemView', true),
-    new Permission('order_item_create', '订单商品创建', 'OrderItemCreate', false),
-    new Permission('order_item_update', '订单商品编辑', 'OrderItemUpdate', false),
-    new Permission('order_item_delete', '订单商品删除', 'OrderItemDelete', false),
+//     new Permission('order_item_view', '订单商品查看', 'OrderItemView', true),
+//     new Permission('order_item_create', '订单商品创建', 'OrderItemCreate', false),
+//     new Permission('order_item_update', '订单商品编辑', 'OrderItemUpdate', false),
+//     new Permission('order_item_delete', '订单商品删除', 'OrderItemDelete', false),
 
-    new Permission('dashboard_view', '仪表板查看', 'DashboardView', true),
-    new Permission('setting_view', '设定查看', 'SettingsView', true),
-    new Permission('setting_account', '账号设置', 'AccountSettings', true),
-    new Permission('setting_item', '商品相关设定', 'ItemPropertiesSettings', false),
-    new Permission('setting_order', '订单相关设定', 'OrderPropertiesSettings', false),
-    new Permission('setting_pagination', '显示数量相关设定', 'PaginationPropertiesSettings', false),
-);
+//     new Permission('dashboard_view', '仪表板查看', 'DashboardView', true),
+//     new Permission('setting_view', '设定查看', 'SettingsView', true),
+//     new Permission('setting_account', '账号设置', 'AccountSettings', true),
+//     new Permission('setting_item', '商品相关设定', 'ItemPropertiesSettings', false),
+//     new Permission('setting_order', '订单相关设定', 'OrderPropertiesSettings', false),
+//     new Permission('setting_pagination', '显示数量相关设定', 'PaginationPropertiesSettings', false),
+// );
 ?>
 
 <main class="container">
@@ -245,151 +245,7 @@ $permissions = array(
         </button>
     </div>
 
-    <users :users={{ $users }}></users>
-
-    <!-- TODO Replaced by Vue -->
-    <!-- Add Account Modal -->
-    <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="addAccountModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addAccountModalLabel">添加员工账户</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group md-form">
-                            <input type="email" class="form-control" id="addAccountNewEmailControl">
-                            <label for="addAccountNewEmailControl">新员工邮箱</label>
-                        </div>
-                        <div class="form-group md-form">
-                            <input type="text" class="form-control" id="addAccountNewFullNameControl">
-                            <label for="addAccountNewFullNameControl">新员工姓名</label>
-                        </div>
-                        <div class="form-group md-form">
-                            <input type="password" class="form-control" id="addAccountNewPasswordControl">
-                            <label for="addAccountNewPasswordControl">新员工密码</label>
-                        </div>
-                        <div class="form-group md-form">
-                            <input type="password" class="form-control" id="addAccountConfirmPasswordControl">
-                            <label for="addAccountConfirmPasswordControl">新员工密码（重填确认）</label>
-                        </div>
-                        <div class="form-group">
-                            <label>权限</label>
-                            <ul class="list-group">
-                                @foreach($permissions as $permission)
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-8 d-flex align-items-center">
-                                            <p class="m-0">{{ $permission->cnDisplayName }}</p>
-                                        </div>
-                                        <div class="col-4 d-flex align-items-center justify-content-end">
-                                            <label class="switch m-0">
-                                                <input type="checkbox" class="form-control" id="addAccount{{ $permission->elementId }}PermissionControl" name="{{ $permission->columnName }}" @if($permission->checkedByDefault)
-                                                checked
-                                                @endif
-                                                >
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-dismiss="modal">
-                        取消
-                    </button>
-                    <button type="button" class="btn btn-primary btn-md" data-dismiss="modal" onclick="showAddAccountSuccessAlert()">添加
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TODO Replaced by Vue -->
-    <!-- Edit Account Modal -->
-    <div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog" aria-labelledby="editAccountModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editAccountModalLabel">编辑员工账户</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post">
-                    @csrf
-                    @method('patch')
-                    <div class="modal-body">
-                        <div class="form-group md-form">
-                            <input type="email" class="form-control" id="editAccountEmailControl" name="email">
-                            <label for="editAccountEmailControl">员工邮箱</label>
-                        </div>
-                        <div class="form-group md-form">
-                            <input type="text" class="form-control @error(" name") is-invalid @enderror" id="editAccountFullNameControl" name="name">
-                            <label for="editAccountFullNameControl">员工姓名</label>
-                            @error("name")
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="form-group md-form">
-                            <input type="password" class="form-control @error(" password") is-invalid @enderror" id="editAccountPasswordControl" name="password">
-                            <label for="editAccountPasswordControl">员工密码</label>
-                            @error("password")
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="form-group md-form">
-                            <input type="password" class="form-control @error(" confirm_password") is-invalid @enderror" id="editAccountConfirmPasswordControl" name="password_confirmation">
-                            <label for="editAccountConfirmPasswordControl">员工密码（重填确认）</label>
-                            @error("confirm_password")
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label>权限</label>
-                            <ul class="list-group">
-                                @foreach($permissions as $permission)
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-8 d-flex align-items-center">
-                                            <p class="m-0">{{ $permission->cnDisplayName }}</p>
-                                        </div>
-                                        <div class="col-4 d-flex align-items-center justify-content-end">
-                                            <label class="switch m-0">
-                                                <input type="checkbox" class="form-control" id="editAccount{{ $permission->elementId }}PermissionControl" name="permissions[{{ $permission->columnName }}]">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-dismiss="modal">取消
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-md">更新</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <users :users={{ $users }} :permissions={{ json_encode($permissions, true) }}></users>
     
 </main>
 

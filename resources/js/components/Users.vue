@@ -1,8 +1,23 @@
 <template>
   <div>
+    <!-- User List -->
     <ul v-for="user in usersData" :key="user.id" class="list-group">
       <user v-bind:user="user" v-on:sendUserToModal="sendUserToModal($event)" />
     </ul>
+
+    <!-- Add Account Modal -->
+    <add-user
+      v-on:addUser="addUser($event)"
+      v-bind:permissions="permissions"
+    ></add-user>
+
+    <!-- Edit Account Modal -->
+    <edit-user
+      v-on:editUser="editUser($event)"
+      v-bind:user="selectedUser"
+      v-bind:permissions="permissions"
+    ></edit-user>
+
     <!-- Delete Account Modal -->
     <delete-user
       v-bind:user="selectedUser"
@@ -14,12 +29,15 @@
 
 <script>
 import User from "./User";
+import AddUser from "./AddUser";
+import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
 
 export default {
   name: "users",
   props: {
     users: Array,
+    permissions: Object,
   },
 
   data() {
@@ -31,6 +49,8 @@ export default {
 
   components: {
     User,
+    AddUser,
+    EditUser,
     DeleteUser,
   },
 
@@ -43,6 +63,29 @@ export default {
       this.selectedUser = user;
     },
 
+    addUser(user) {
+      const body = {
+        email: user.email,
+        name: user.name,
+        password: user.password.password,
+        password_confirmation: user.passwordConfirmation,
+        permissions: user.checkedPermissions,
+      };
+
+      axios
+        .post(`/account`, body)
+        .then((res) => {
+          this.usersData = [...this.usersData, res.data.user];
+          console.log(res.data.message);
+        })
+        .catch((error) => {
+          this.errorMessage = error.message;
+          console.error(`Failed to add user ${user.name}`, error);
+        });
+    },
+    editUser(user) {
+      //TODO: PATCH (`/account/${user.id}`)
+    },
     deleteUser(user) {
       const action = "delete";
       const userId = user.id;
@@ -52,16 +95,13 @@ export default {
         .post(`/account/${user.id}`, body)
         .then((res) => {
           this.usersData = this.usersData.filter((user) => {
-            return (user.id !== userId);
+            return user.id !== userId;
           });
           console.log(res.data.message);
         })
         .catch((error) => {
           this.errorMessage = error.message;
-          console.error(
-            `Failed to delete user ID for ${user.name}`,
-            error
-          );
+          console.error(`Failed to delete user ID for ${user.name}`, error);
         });
     },
   },

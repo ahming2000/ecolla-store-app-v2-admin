@@ -22,6 +22,8 @@ window.Vue = require('vue').default;
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('users', require('./components/Users.vue').default);
 Vue.component('user', require('./components/User.vue').default);
+Vue.component('add-user', require('./components/AddUser.vue').default);
+Vue.component('edit-user', require('./components/EditUser.vue').default);
 Vue.component('delete-user', require('./components/DeleteUser.vue').default);
 
 /**

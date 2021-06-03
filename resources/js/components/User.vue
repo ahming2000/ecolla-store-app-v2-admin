@@ -26,12 +26,13 @@
               class="btn btn-secondary btn-md d-flex justify-content-center align-items-center text-nowrap"
               data-toggle="modal"
               data-target="#editAccountModal"
+              @click.prevent="sendUserToModal(user)"
             >
               <p class="text-center m-0">编辑</p>
             </button>
           </div>
           <div class="col-4 d-flex">
-            <form @submit.prevent="update(user)">
+            <form @submit.prevent="updateStatus(user)">
               <button
                 type="submit"
                 class="btn btn-md d-flex justify-content-center align-items-center text-nowrap"
@@ -89,14 +90,14 @@ export default {
     },
     classObject() {
       return {
-        'btn-warning': this.userData.status == 'enabled',
-        'btn-success': this.userData.status == 'disabled',
-      }
-    }
+        "btn-warning": this.userData.status == "enabled",
+        "btn-success": this.userData.status == "disabled",
+      };
+    },
   },
 
   methods: {
-    update(user) {
+    updateStatus(user) {
       let action;
       switch (this.user.status) {
         case "enabled": {
@@ -111,7 +112,7 @@ export default {
       }
 
       const body = { action: action };
-      
+
       axios
         .post(`/account/${user.id}`, body)
         .then((res) => {
@@ -120,13 +121,15 @@ export default {
         })
         .catch((error) => {
           this.errorMessage = error.message;
-          console.error(`Failed to update user status for ${this.user.name}`, error);
+          console.error(
+            `Failed to update user status for ${this.user.name}`,
+            error
+          );
         });
     },
-
     sendUserToModal(user) {
-      this.$emit('sendUserToModal', user);
-    }
+      this.$emit("sendUserToModal", user);
+    },
   },
 };
 </script>

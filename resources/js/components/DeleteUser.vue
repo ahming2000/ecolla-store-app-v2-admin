@@ -75,7 +75,7 @@ export default {
   },
 
   mounted() {
-    console.log("User Component mounted.");
+    console.log("Delete User Component mounted.");
   },
 
   computed: {

@@ -23,7 +23,9 @@ class AccountsController extends Controller
             ->where('status', '!=', 'deleted')
             ->get();
 
-        return view('account.index', compact('users'));
+        $permissions = UserPermission::getPermissions();
+
+        return view('account.index', array('users' => $users, 'permissions' => $permissions));
     }
 
     public function store()
@@ -50,7 +52,9 @@ class AccountsController extends Controller
         }
         $user->permission()->save($userPermission);
 
-        return redirect('/account')->with('message', "账号 " . $user->name . " 创建成功！");
+        $message = "账号 " . $user->name . " 创建成功！";
+
+        return response()->json(['user' => $user, 'message' => $message]);
     }
 
     public function update(User $user)
