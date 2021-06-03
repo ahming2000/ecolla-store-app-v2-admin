@@ -99,7 +99,8 @@
                                            name="item[name]"
                                            maxlength="250"
                                            value="{{ old('item.name') ?? $item->name ?? "" }}"
-                                           placeholder="商品名称">
+                                           placeholder="商品名称"
+                                           required>
 
                                     @error('item.name')
                                     <span class="invalid-feedback" role="alert">
@@ -306,7 +307,8 @@
                                                                name="variations[{{$i}}][name]"
                                                                maxlength="100"
                                                                value="{{ old("variations.$i.name") ?? "" }}"
-                                                               placeholder="规格">
+                                                               placeholder="规格"
+                                                               required>
 
                                                         @error("variations.$i.name")
                                                         <span class="invalid-feedback" role="alert">
@@ -353,7 +355,8 @@
                                                                name="variations[{{$i}}][name]"
                                                                maxlength="100"
                                                                value="{{ $item->variations[$i]->name ?? "" }}"
-                                                               placeholder="规格">
+                                                               placeholder="规格"
+                                                               required>
                                                     </div>
                                                     <div class="col-md-6 col-sm-12 pl-md-1">
                                                         <input type="text"
@@ -383,7 +386,8 @@
                                                            class="form-control variation-name"
                                                            name="variations[0][name]"
                                                            maxlength="100"
-                                                           placeholder="规格">
+                                                           placeholder="规格"
+                                                           required>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 pl-md-1">
                                                     <input type="text"
@@ -445,27 +449,28 @@
                                                        class="form-control @error("variations.$i.barcode") is-invalid @enderror"
                                                        name="variations[{{$i}}][barcode]"
                                                        maxlength="20"
-                                                       value="{{ old("variations.$i.barcode") ?? "" }}">
+                                                       value="{{ old("variations.$i.barcode") ?? "" }}"
+                                                       required>
                                             </td>
                                             <td><input type="number"
                                                        step="0.01"
                                                        min="0"
                                                        class="form-control @error("variations.$i.price") is-invalid @enderror variation-price-display"
                                                        name="variations[{{$i}}][price]"
-                                                       value="{{ old("variations.$i.price") ?? "" }}">
+                                                       value="{{ old("variations.$i.price") ?? 0 }}">
                                             </td>
                                             <td><input type="number"
                                                        step="0.001"
                                                        min="0"
                                                        class="form-control @error("variations.$i.weight") is-invalid @enderror"
                                                        name="variations[{{$i}}][weight]"
-                                                       value="{{ old("variations.$i.weight") ?? "" }}">
+                                                       value="{{ old("variations.$i.weight") ?? 0 }}">
                                             <td>
                                                 <input type="number"
                                                        min="0"
                                                        class="form-control @error("variations.$i.stock") is-invalid @enderror"
                                                        name="variations[{{$i}}][stock]"
-                                                       value="{{ old("variations.$i.stock") ?? "" }}">
+                                                       value="{{ old("variations.$i.stock") ?? 0 }}">
                                             </td>
                                         </tr>
                                     @endfor
@@ -484,21 +489,22 @@
                                                        class="form-control"
                                                        name="variations[{{$i}}][barcode]"
                                                        maxlength="20"
-                                                       value="{{ $item->variations[$i]->barcode ?? "" }}">
+                                                       value="{{ $item->variations[$i]->barcode ?? "" }}"
+                                                       required>
                                             </td>
                                             <td><input type="number"
                                                        step="0.01"
                                                        min="0"
                                                        class="form-control variation-price-display"
                                                        name="variations[{{$i}}][price]"
-                                                       value="{{ number_format($item->variations[$i]->price, 2, '.', '') ?? "" }}">
+                                                       value="{{ number_format($item->variations[$i]->price, 2, '.', '') ?? 0 }}">
                                             </td>
                                             <td><input type="number"
                                                        step="0.001"
                                                        min="0"
                                                        class="form-control"
                                                        name="variations[{{$i}}][weight]"
-                                                       value="{{ number_format($item->variations[$i]->weight, 3, '.', '') ?? "" }}">
+                                                       value="{{ number_format($item->variations[$i]->weight, 3, '.', '') ?? 0 }}">
                                             </td>
                                             <td>
                                                 <input type="number"
@@ -520,25 +526,29 @@
                                             <input type="text"
                                                    class="form-control"
                                                    name="variations[0][barcode]"
-                                                   maxlength="20">
+                                                   maxlength="20"
+                                                   required>
                                         </td>
                                         <td><input type="number"
                                                    step="0.01"
                                                    min="0"
                                                    class="form-control variation-price-display"
-                                                   name="variations[0][price]">
+                                                   name="variations[0][price]"
+                                                   value="0">
                                         </td>
                                         <td><input type="number"
                                                    step="0.001"
                                                    min="0"
                                                    class="form-control"
-                                                   name="variations[0][weight]">
+                                                   name="variations[0][weight]"
+                                                   value="0">
                                         </td>
                                         <td>
                                             <input type="number"
                                                    min="0"
                                                    class="form-control"
-                                                   name="variations[0][stock]">
+                                                   name="variations[0][stock]"
+                                                   value="0">
                                         </td>
                                     </tr>
                                 @endif
@@ -921,7 +931,7 @@
                                                            class="form-control variation-name"
                                                            name="variations[${variationCount}][name]"
                                                            maxlength="100"
-                                                           placeholder="规格">
+                                                           placeholder="规格" required>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 pl-md-1">
                                                     <input type="text"
@@ -954,25 +964,28 @@
                                             <input type="text"
                                                    class="form-control"
                                                    name="variations[${variationCount}][barcode]"
-                                                   maxlength="20">
+                                                   maxlength="20" required>
                                         </td>
                                         <td><input type="number"
                                                    step="0.01"
                                                    min="0"
                                                    class="form-control variation-price-display"
-                                                   name="variations[${variationCount}][price]">
+                                                   name="variations[${variationCount}][price]"
+                                                    value="0">
                                         </td>
                                         <td><input type="number"
                                                    step="0.001"
                                                    min="0"
                                                    class="form-control"
-                                                   name="variations[${variationCount}][weight]">
+                                                   name="variations[${variationCount}][weight]"
+                                                   value="0">
                                         </td>
                                         <td>
                                             <input type="number"
                                                    min="0"
                                                    class="form-control"
-                                                   name="variations[${variationCount}][stock]">
+                                                   name="variations[${variationCount}][stock]"
+                                                   value="0">
                                         </td>
                                     </tr>
             `;
