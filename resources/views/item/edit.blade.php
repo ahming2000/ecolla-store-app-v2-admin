@@ -640,10 +640,12 @@
                     <!-- General item image -->
                     <div class="row mb-3">
                         <div class="col-12">
-                            基本照片
-                            <span class="ml-2">
-                                <i class="icofont icofont-ui-add" id="add-general-image-button"></i>
-                            </span>
+                            <div class="d-flex justify-content-between">
+                                <div class="mt-2">基本照片</div>
+                                <button type="button" class="btn btn-outline-blue btn-sm" id="add-general-image-button">
+                                    <i class="icofont icofont-ui-add"></i> 添加更多照片
+                                </button>
+                            </div>
                         </div>
                         <div class="col-12">
                             <div class="row" id="general-image-section">
@@ -743,12 +745,12 @@
                                                     <div class="img-upload-overlay-icon edit-img-button"
                                                          title="Upload Image"
                                                          onclick="uploadImage(this)">
-                                                        <i class="icofont-edit"></i>
+                                                        <i class="icofont icofont-edit"></i>
                                                     </div>
                                                     <div class="img-upload-overlay-icon remove-img-button"
                                                          title="Remove Image"
                                                          onclick="removeImage(this)">
-                                                        <i class="icofont-ui-delete"></i>
+                                                        <i class="icofont icofont-ui-delete"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -778,12 +780,12 @@
                                                         <div class="img-upload-overlay-icon edit-img-button"
                                                              title="Upload Image"
                                                              onclick="uploadImage(this)">
-                                                            <i class="icofont-edit"></i>
+                                                            <i class="icofont icofont-edit"></i>
                                                         </div>
                                                         <div class="img-upload-overlay-icon remove-img-button"
                                                              title="Remove Image"
                                                              onclick="removeImage(this)">
-                                                            <i class="icofont-ui-delete"></i>
+                                                            <i class="icofont icofont-ui-delete"></i>
                                                         </div>
                                                     </div>
                                                 </div>
