@@ -1,8 +1,9 @@
 <template>
     <div>
-        <button class="btn btn-sm mb-1" @click="listItem" :class="classObject">
-            <i class="icofont icofont-basket"></i> <span v-text="buttonText"></span>
-        </button>
+        <div class="custom-control custom-switch" @click="listItem">
+            <input type="checkbox" class="custom-control-input" v-bind:checked="checkBoxValue">
+            <label class="custom-control-label"></label>
+        </div>
     </div>
 </template>
 
@@ -40,15 +41,9 @@ export default {
     },
 
     computed: {
-        buttonText() {
-            return this.status ? '下架' : '上架';
+        checkBoxValue() {
+            return this.status ? 'checked' : '';
         },
-        classObject() {
-            return {
-                'btn-danger': !this.status,
-                'btn-success': this.status,
-            }
-        }
     },
 }
 </script>
