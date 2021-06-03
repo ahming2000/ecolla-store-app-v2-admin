@@ -114,19 +114,19 @@ class ItemsController extends Controller
     {
         $data = request()->validate([
             'item.name' => 'required',
-            'item.name_en' => 'required',
-            'item.desc' => 'required',
-            'item.origin' => 'required',
-            'item.origin_en' => 'required',
+            'item.name_en' => '',
+            'item.desc' => '',
+            'item.origin' => '',
+            'item.origin_en' => '',
 
             'categories.*.id' => '',
 
             'variations.*.name' => 'required',
-            'variations.*.name_en' => 'required',
+            'variations.*.name_en' => '',
             'variations.*.barcode' => 'required',
-            'variations.*.price' => 'required',
-            'variations.*.weight' => 'required',
-            'variations.*.stock' => 'required'
+            'variations.*.price' => '',
+            'variations.*.weight' => '',
+            'variations.*.stock' => ''
         ]);
 
         $imageData = request()->validate([
@@ -221,7 +221,7 @@ class ItemsController extends Controller
                 session()->flash('message', '商品资料已保存并成功上架！');
             }
         } else {
-            session()->flash('message', '部分资料已保存！');
+            session()->flash('message', '商品资料已保存，但未上架！');
         }
 
         return redirect('/item/' . $item->id . '/edit');
@@ -260,15 +260,16 @@ class ItemsController extends Controller
             $generalImageCount < 1 || // Make sure have at least one general image
             $variationCount < 1 // Make sure have at least one variation
         ) {
+            if ($list) $obj->util()->update(['is_listed' => '0']);
             return false;
         } else {
-            foreach ($variations as $variation) { // Make sure all variation have filled all attribute except image and stock and weight
+            foreach ($variations as $variation) { // Make sure all variation have filled all attribute except image, stock, weight, price
                 if (
                     $variation['barcode'] == null ||
                     $variation['name'] == null ||
-                    $variation['name_en'] == null ||
-                    $variation['price'] == null
+                    $variation['name_en'] == null
                 ) {
+                    if ($list) $obj->util()->update(['is_listed' => '0']);
                     return false;
                 }
             }
