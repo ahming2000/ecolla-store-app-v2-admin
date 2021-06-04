@@ -819,37 +819,7 @@
 
                 <div class="h2" id="step-five">其他商品设定</div>
 
-                <div class="row mb-3">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col">设定名称</th>
-                            <th scope="col">数值</th>
-                            <th scope="col">操作</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        <tr>
-
-                            <td>商品浏览次数</td>
-                            <td>
-                                <input type="text"
-                                       class="form-control form-control-sm"
-                                       value="{{ $item->util->view_count ?? 0 }}"
-                                       disabled>
-                            </td>
-                            <td>
-                                <button type="submit"
-                                        class="btn btn-primary btn-sm" disabled>
-                                    重置
-                                </button>
-                            </td>
-
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <util-table :util="{{ $item->util }}" item-id="{{ $item->id }}"></util-table>
 
             </div>
             <!-- Content -->

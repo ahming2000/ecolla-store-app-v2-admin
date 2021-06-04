@@ -242,6 +242,12 @@ class ItemsController extends Controller
         }
     }
 
+    public function resetUtil(Item $item, string $attr): bool
+    {
+        $item->util()->update([$attr => 0]);
+        return true;
+    }
+
     private function canList(int $item_id, bool $list = false): bool
     {
         $obj = Item::find($item_id);
