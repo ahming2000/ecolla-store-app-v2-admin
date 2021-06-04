@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class ItemsController extends Controller
 {
@@ -23,23 +24,23 @@ class ItemsController extends Controller
 
     public function index()
     {
-        $ITEM_PER_PAGE = SystemConfig::where('name', '=', 'mgmt_i_recordPerPage')->first()->value;
-
+        // Get request value
+        $paginate = request('paginate') ?? 10;
         $search = request('search') ?? "";
         $category = request('category') ?? "";
 
-        if($search != "" && $category != ""){
-            $whereClause = "(categories.name = '$category' OR categories.name_en = '$category') AND (items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
-        } else if ($search != ""){
-            $whereClause = "items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%'";
-        } else if ($category != ""){
-            $whereClause = "categories.name = '$category' OR categories.name_en = '$category'";
-        } else{
-            $whereClause = "";
-        }
+        // Generate Where Clause for SQL Query
+        $searchClause = $this->generateSearchClause($search, $this->ITEM_SEARCH);
+        $category_filterClause = $this->generateFilterClause($category, $this->ITEM_FILTER_CATEGORY);
 
+        $whereClause = $this->combineWhereClause([
+            $searchClause,
+            $category_filterClause,
+        ]);
+
+        // Query all related Item ID
         if ($whereClause != "") {
-            $items_table = DB::table('items')
+            $result = DB::table('items')
                 ->select('items.id')
                 ->join('category_item', 'category_item.item_id', '=', 'items.id')
                 ->join('categories', 'categories.id', '=', 'category_item.category_id')
@@ -47,35 +48,35 @@ class ItemsController extends Controller
                 ->whereRaw($whereClause)
                 ->distinct('items.id')
                 ->get();
-
         } else {
-            $items_table = DB::table('items')
+            $result = DB::table('items')
                 ->select('items.id')
                 ->get();
         }
 
-        $ids = array_column($items_table->toArray(), 'id');
-
+        // Retrieve required data
+        $ids = array_column($result->toArray(), 'id');
         $items = Item::whereIn('id', $ids)
             ->orderBy('created_at', 'desc')
-            ->paginate($ITEM_PER_PAGE);
-
+            ->paginate($paginate);
         $categories = Category::all();
 
-        // Custom link for laravel pagination
-        if($search != "" && $category != ""){
-            $parameter = "?search=$search&category=$category";
-        } else if ($search != ""){
-            $parameter = "?search=$search";
-        } else if ($category != ""){
-            $parameter = "?category=$category";
-        } else{
-            $parameter = "";
-        }
+        // Set pagination links parameter
+        $items->withPath('/item' . $this->generateParameter(
+            [
+                'paginate' => $paginate,
+                'search' => $search,
+                'category' => $category,
+            ])
+        );
 
-        $items->withPath('/item' . $parameter); // Pagination link path
+        // Generate parameter for filtering (search, category, paginate)
+        $params = [
+            'paginate' => $this->generateParameter(['search' => $search, 'category' => $category], true),
+            'category' => $this->generateParameter(['paginate' => $paginate, 'search' => $search], true),
+        ];
 
-        return view('item.index', compact('items', 'categories'));
+        return view('item.index', compact('items', 'categories', 'params'));
     }
 
     public function show(Item $item)
@@ -113,19 +114,19 @@ class ItemsController extends Controller
     {
         $data = request()->validate([
             'item.name' => 'required',
-            'item.name_en' => 'required',
-            'item.desc' => 'required',
-            'item.origin' => 'required',
-            'item.origin_en' => 'required',
+            'item.name_en' => '',
+            'item.desc' => '',
+            'item.origin' => '',
+            'item.origin_en' => '',
 
             'categories.*.id' => '',
 
             'variations.*.name' => 'required',
-            'variations.*.name_en' => 'required',
+            'variations.*.name_en' => '',
             'variations.*.barcode' => 'required',
-            'variations.*.price' => 'required',
-            'variations.*.weight' => 'required',
-            'variations.*.stock' => 'required'
+            'variations.*.price' => '',
+            'variations.*.weight' => '',
+            'variations.*.stock' => ''
         ]);
 
         $imageData = request()->validate([
@@ -165,7 +166,7 @@ class ItemsController extends Controller
                     $imagePath = $img['newImage']->store('items/' . $item->id . '');
                     $this->processImage(public_path("img/$imagePath"));
 
-                    $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
+                    $imagePath = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
 
                     $itemImage = new ItemImage();
                     $itemImage->setAttribute('image', $imagePath);
@@ -196,7 +197,7 @@ class ItemsController extends Controller
                     $imagePath = $v['image']->store('items/' . $item->id . '');
                     $this->processImage(public_path("img/$imagePath"));
 
-                    $imagePath = "https://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
+                    $imagePath = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
 
                     DB::table('variations')
                         ->where('barcode', '=', $v['barcode'])
@@ -213,19 +214,73 @@ class ItemsController extends Controller
         }
 
         // Check the item can be listed or not
-        // TODO - convert to dynamic function
-        if (!empty(DB::table('variations')->where('item_id', '=', $item->id)->get()->toArray())) {
-            $item->util()->update(['is_listed' => '1']);
+        if ($this->canList($item->id, true)) {
             if (session()->has('error')) {
                 session()->flash('message', '部分资料已保存！');
             } else {
                 session()->flash('message', '商品资料已保存并成功上架！');
             }
-        } else{
-            session()->flash('message', '部分资料已保存！');
+        } else {
+            session()->flash('message', '商品资料已保存，但未上架！');
         }
 
         return redirect('/item/' . $item->id . '/edit');
+    }
+
+    public function list(Item $item): bool
+    {
+        if ($item->util->is_listed) {
+            $item->util()->update(['is_listed' => false]);
+            return true;
+        } else {
+            if ($this->canList($item->id)) {
+                $item->util()->update(['is_listed' => true]);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function resetUtil(Item $item, string $attr): bool
+    {
+        $item->util()->update([$attr => 0]);
+        return true;
+    }
+
+    private function canList(int $item_id, bool $list = false): bool
+    {
+        $obj = Item::find($item_id);
+
+        $item = $obj->toArray();
+        $variationCount = sizeof($obj->variations->toArray());
+        $variations = $obj->variations->toArray();
+
+        if (
+            $item['name'] == null ||
+            $item['name_en'] == null ||
+            $item['desc'] == null ||
+            $item['origin'] == null ||
+            $item['origin_en'] == null || // Make sure item attribute is filled
+            $variationCount < 1 // Make sure have at least one variation
+        ) {
+            if ($list) $obj->util()->update(['is_listed' => '0']);
+            return false;
+        } else {
+            foreach ($variations as $variation) { // Make sure all variation have filled all attribute except image, stock, weight, price
+                if (
+                    $variation['barcode'] == null ||
+                    $variation['name'] == null ||
+                    $variation['name_en'] == null
+                ) {
+                    if ($list) $obj->util()->update(['is_listed' => '0']);
+                    return false;
+                }
+            }
+        }
+
+        if ($list) $obj->util()->update(['is_listed' => '1']);
+        return true;
     }
 
     public function destroy(Item $item)
@@ -292,7 +347,6 @@ class ItemsController extends Controller
             $error = Controller::pullError();
             session()->flash('error', $error);
         }
-        // TODO - Handle duplicate barcode within same item problem (If 3 same barcode save which data?)
     }
 
     private function processImage(string $path, $mode = 'frame')
@@ -302,9 +356,6 @@ class ItemsController extends Controller
         $image = Image::make($path);
         $min = $image->getWidth() < $image->getHeight() ? $image->getWidth() : $image->getHeight();
         $max = $image->getWidth() > $image->getHeight() ? $image->getWidth() : $image->getHeight();
-
-        // Avoid exceed memory limit (128MB)
-        $max = $max > 3000 ? 3000 : $max;
 
         if ($mode == 'crop') {
             $image->fit($min);

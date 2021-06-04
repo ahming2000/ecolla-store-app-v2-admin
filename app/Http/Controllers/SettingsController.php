@@ -55,11 +55,17 @@ class SettingsController extends Controller
     }
 
     public function updateOrderSettings(string $property){
-        $data = request()->validate([
+        $validator = Validator::make(request()->all(), [
             $property => 'required'
         ]);
 
-        SystemConfig::where('name', '=', $property)->update(['value' => $data[$property]]);
+        if ($validator->fails()) {
+            return redirect('/setting/website?show=order')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        SystemConfig::where('name', '=', $property)->update(['value' => request($property)]);
         return redirect('/setting/website?show=order')->with('message', '保存成功！');
     }
 
