@@ -54,15 +54,17 @@ export default {
 
     methods: {
         resetUtil(funcName) {
-            axios.post('/item/' + this.itemId + '/util/reset/' + this.[funcName].name)
-                .then(response => {
-                    if(response.data){
-                        this.[funcName].value = 0;
-                        console.log('Reset success')
-                    } else {
-                        console.log('Reset fail')
-                    }
-                });
+            if(confirm('确定要重置 ' + this.[funcName].display + ' 吗？')){
+                axios.post('/item/' + this.itemId + '/util/reset/' + this.[funcName].name)
+                    .then(response => {
+                        if(response.data){
+                            this.[funcName].value = 0;
+                            console.log('Reset ' + this.[funcName].name + ' successfully!')
+                        } else {
+                            console.log('Reset ' + this.[funcName].name + ' fail!')
+                        }
+                    });
+            }
         },
     },
 
