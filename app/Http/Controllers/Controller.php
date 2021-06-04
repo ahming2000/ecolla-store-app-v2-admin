@@ -169,20 +169,30 @@ class Controller extends BaseController
     /**
      * @param string $keyword
      * @param array $attrToFilter
+     * @param bool $isDate
      * @return string
      */
-    protected function generateFilterClause(string $keyword, array $attrToFilter): string
+    protected function generateFilterClause(string $keyword, array $attrToFilter, bool $isDate = false): string
     {
         $isFirst = true;
         $line = "";
         if ($keyword != "") {
             foreach ($attrToFilter as $tableName => $attributes) {
                 foreach ($attributes as $attributeName) {
-                    if ($isFirst) {
-                        $line = $line . "$tableName.$attributeName = '$keyword'";
-                        $isFirst = false;
-                    } else {
-                        $line = $line . " OR $tableName.$attributeName = '$keyword'";
+                    if($isDate){
+                        if ($isFirst) {
+                            $line = $line . "$tableName.$attributeName LIKE '$keyword%'";
+                            $isFirst = false;
+                        } else {
+                            $line = $line . " OR $tableName.$attributeName LIKE '$keyword%'";
+                        }
+                    } else{
+                        if ($isFirst) {
+                            $line = $line . "$tableName.$attributeName = '$keyword'";
+                            $isFirst = false;
+                        } else {
+                            $line = $line . " OR $tableName.$attributeName = '$keyword'";
+                        }
                     }
                 }
             }
