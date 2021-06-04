@@ -11,6 +11,40 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected array $ITEM_SEARCH = [
+        'items' => [
+            'name',
+            'name_en',
+            'origin',
+            'origin_en',
+            'desc',
+        ],
+        'variations' => [
+            'name',
+            'name_en',
+            'barcode',
+        ],
+    ];
+
+    protected array $ITEM_FILTER_CATEGORY = [
+        'categories' => [
+            'name',
+            'name_en',
+        ],
+    ];
+
+    protected array $ORDER_FILTER_CREATED_AT = [
+        'orders' => [
+            'created_at',
+        ]
+    ];
+
+    protected array $ORDER_FILTER_MODE = [
+        'orders' => [
+            'mode',
+        ]
+    ];
+
     protected static array $infoMessageList = [];
     protected static array $errorMessageList = [];
 
@@ -81,7 +115,7 @@ class Controller extends BaseController
     protected function pullMessage(): string
     {
         $msg = "";
-        foreach (Controller::$infoMessageList as $m){
+        foreach (Controller::$infoMessageList as $m) {
             $msg = $msg . $m . "\n";
         }
         Controller::$infoMessageList = [];
@@ -91,19 +125,120 @@ class Controller extends BaseController
     protected function pullError(): string
     {
         $msg = "";
-        foreach (Controller::$errorMessageList as $m){
+        foreach (Controller::$errorMessageList as $m) {
             $msg = $msg . $m . "\n";
         }
         Controller::$errorMessageList = [];
         return $msg;
     }
 
-    protected function stackMessage(string $message){
+    protected function stackMessage(string $message)
+    {
         Controller::$infoMessageList[] = $message;
     }
 
-    protected function stackError(string $error){
+    protected function stackError(string $error)
+    {
         Controller::$errorMessageList[] = $error;
     }
 
+    /**
+     * @param string $keyword
+     * @param array $attrToSearch
+     * @return string
+     */
+    protected function generateSearchClause(string $keyword, array $attrToSearch): string
+    {
+        $isFirst = true;
+        $line = "";
+        if ($keyword != "") {
+            foreach ($attrToSearch as $tableName => $attributes) {
+                foreach ($attributes as $attributeName) {
+                    if ($isFirst) {
+                        $line = $line . "$tableName.$attributeName LIKE '%$keyword%'";
+                        $isFirst = false;
+                    } else {
+                        $line = $line . " OR $tableName.$attributeName LIKE '%$keyword%'";
+                    }
+                }
+            }
+        }
+        return $line;
+    }
+
+    /**
+     * @param string $keyword
+     * @param array $attrToFilter
+     * @return string
+     */
+    protected function generateFilterClause(string $keyword, array $attrToFilter): string
+    {
+        $isFirst = true;
+        $line = "";
+        if ($keyword != "") {
+            foreach ($attrToFilter as $tableName => $attributes) {
+                foreach ($attributes as $attributeName) {
+                    if ($isFirst) {
+                        $line = $line . "$tableName.$attributeName = '$keyword'";
+                        $isFirst = false;
+                    } else {
+                        $line = $line . " OR $tableName.$attributeName = '$keyword'";
+                    }
+                }
+            }
+        }
+        return $line;
+    }
+
+    /**
+     * @param array $lines
+     * @param string $connector
+     * @return string
+     */
+    protected function combineWhereClause(array $lines, string $connector = 'AND'): string
+    {
+        $isFirst = true;
+        $line = "";
+        foreach ($lines as $l) {
+            if ($l != "") {
+                if ($isFirst) {
+                    $line = $line . "($l)";
+                    $isFirst = false;
+                } else {
+                    $line = $line . " $connector ($l)";
+                }
+            }
+        }
+        return $line;
+    }
+
+    /**
+     * @param array $attributes
+     * @return string
+     */
+    protected function generateParameter(array $attributes, bool $jsFilter = false): string
+    {
+        $line = "";
+        if ($jsFilter) {
+            $line = $line . "?";
+            foreach ($attributes as $key => $value) {
+                if ($value != "") {
+                    $line = $line . "$key=$value&";
+                }
+            }
+        } else {
+            $isFirst = true;
+            foreach ($attributes as $key => $value) {
+                if ($value != "") {
+                    if ($isFirst) {
+                        $line = $line . "?$key=$value";
+                        $isFirst = false;
+                    } else {
+                        $line = $line . "&$key=$value";
+                    }
+                }
+            }
+        }
+        return $line;
+    }
 }

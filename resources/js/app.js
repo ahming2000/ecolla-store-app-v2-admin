@@ -26,6 +26,11 @@ Vue.component('add-user', require('./components/AddUser.vue').default);
 Vue.component('edit-user', require('./components/EditUser.vue').default);
 Vue.component('delete-user', require('./components/DeleteUser.vue').default);
 
+
+Vue.component('listing-switch', require('./components/item/index/ListingSwitch.vue').default);
+
+Vue.component('util-table', require('./components/item/edit/UtilTable.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
