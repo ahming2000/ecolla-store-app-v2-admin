@@ -26,7 +26,7 @@ class OrdersController extends Controller
         $mode = request('mode') ?? "";
 
         // Generate Where Clause for SQL Query
-        $created_at_filterClause = $this->generateFilterClause($created_at, $this->ORDER_FILTER_CREATED_AT);
+        $created_at_filterClause = $this->generateFilterClause($created_at, $this->ORDER_FILTER_CREATED_AT, true);
         $mode_filterClause = $this->generateFilterClause($mode, $this->ORDER_FILTER_MODE);
 
         $whereClause = $this->combineWhereClause([
