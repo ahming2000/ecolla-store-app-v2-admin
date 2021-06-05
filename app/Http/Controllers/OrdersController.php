@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class OrdersController extends Controller
@@ -18,8 +20,47 @@ class OrdersController extends Controller
 
     public function index()
     {
-        $orders = Order::orderBy('created_at', 'desc')->paginate(5);
-        return view('order.index', compact('orders'));
+        // Get request value
+        $paginate = request('paginate') ?? 5;
+        $created_at = request('created_at') ?? "";
+        $mode = request('mode') ?? "";
+
+        // Generate Where Clause for SQL Query
+        $created_at_filterClause = $this->generateFilterClause($created_at, $this->ORDER_FILTER_CREATED_AT, true);
+        $mode_filterClause = $this->generateFilterClause($mode, $this->ORDER_FILTER_MODE);
+
+        $whereClause = $this->combineWhereClause([
+            $created_at_filterClause,
+            $mode_filterClause,
+        ]);
+
+        // Query all related Order
+        if ($whereClause != ""){
+            $orders = Order::whereRaw($whereClause)
+                ->orderBy('created_at', 'desc')
+                ->paginate($paginate);
+        } else{
+            $orders = Order::orderBy('created_at', 'desc')
+                ->paginate($paginate);
+        }
+
+        // Set pagination links parameter
+        $orders->withPath('/order' . $this->generateParameter(
+                [
+                    'paginate' => $paginate,
+                    'created_at' => $created_at,
+                    'mode' => $mode,
+                ])
+        );
+
+        // Generate parameter for filtering (search, category, paginate)
+        $params = [
+            'paginate' => $this->generateParameter(['created_at' => $created_at, 'mode' => $mode], true),
+            'created_at' => $this->generateParameter(['paginate' => $paginate, 'mode' => $mode], true),
+            'mode' => $this->generateParameter(['paginate' => $paginate, 'created_at' => $created_at], true),
+        ];
+
+        return view('order.index', compact('orders', 'params'));
     }
 
     public function show(Order $order)
