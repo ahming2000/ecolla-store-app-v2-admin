@@ -75,7 +75,12 @@
                       <p class="m-0" v-text="permission.cnDisplayName"></p>
                     </div>
                     <div
-                      class="col-4 d-flex align-items-center justify-content-end"
+                      class="
+                        col-4
+                        d-flex
+                        align-items-center
+                        justify-content-end
+                      "
                     >
                       <label class="switch m-0">
                         <input
@@ -85,7 +90,6 @@
                           :name="permission.columnName"
                           :value="permission.columnName"
                           v-model="checkedPermissions"
-                          :checked="permission.checkedByDefault"
                         />
                         <span class="slider round"></span>
                       </label>
@@ -134,9 +138,21 @@ export default {
       passwordConfirmation: "",
       checkedPermissions: Object.keys(this.permissions)
         .filter((key) => this.permissions[key].checkedByDefault)
-        .map((key) => this.permissions[key].columnName),
     };
   },
+
+  // computed: {
+  //   checkedPermissions: {
+  //     get() {
+  //       return Object.keys(this.permissions)
+  //       .filter((key) => this.permissions[key].checkedByDefault)
+  //       .map((key) => this.permissions[key].columnName);
+  //     },
+  //     set(arg2) {;
+  //       console.log(arg2)
+  //     }
+  //   }
+  // },
 
   mounted() {
     console.log("Add User Component mounted.");

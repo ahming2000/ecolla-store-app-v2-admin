@@ -120,10 +120,10 @@ export default {
           console.log(res.data.message);
         })
         .catch((error) => {
-          this.errorMessage = error.message;
+          const errorMessage = error.message;
           console.error(
-            `Failed to update user status for ${this.user.name}`,
-            error
+            `Failed to update user status for ${user.name}`,
+            errorMessage
           );
         });
     },

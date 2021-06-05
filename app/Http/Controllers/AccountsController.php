@@ -19,9 +19,12 @@ class AccountsController extends Controller
 
     public function index()
     {
-        $users = User::where('role', '=', 'employee')
-            ->where('status', '!=', 'deleted')
-            ->get();
+
+        $users = User::with('permission')
+            ->where('users.role', '=', 'employee')
+            ->where('users.status', '!=', 'deleted')->get();
+
+        // dd($users);
 
         $permissions = UserPermission::getPermissions();
 
@@ -44,11 +47,12 @@ class AccountsController extends Controller
         foreach ($userData as $key => $value) {
             $user->setAttribute($key, $value);
         }
+        $user->setAttribute('status', 'disabled');
         $user->save();
 
         $userPermission = new UserPermission();
         foreach ($permissions as $key => $value) {
-            $userPermission->setAttribute($key, '1');
+            $userPermission->setAttribute($value, '1');
         }
         $user->permission()->save($userPermission);
 
@@ -81,7 +85,9 @@ class AccountsController extends Controller
         $user->update($userData);
         $user->permission()->update($permissions);
 
-        return redirect('/account')->with('message', "账号 " . $user->name . " 属性修改成功！");
+        $message = "账号 " . $user->name . " 属性修改成功！";
+
+        return response()->json(['user' => $user, 'message' => $message]);
     }
 
     public function manage(User $user)

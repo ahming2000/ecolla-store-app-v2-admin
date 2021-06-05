@@ -29,6 +29,7 @@
                 id="editAccountEmailControl"
                 name="email"
                 v-model="email"
+                readonly
                 placeholder="员工邮箱"
               />
             </div>
@@ -52,6 +53,7 @@
                 id="editAccountPasswordControl"
                 name="password"
                 placeholder="员工密码"
+                v-model="password"
               />
               <span class="invalid-feedback" role="alert">
                 <strong></strong>
@@ -64,6 +66,7 @@
                 id="editAccountConfirmPasswordControl"
                 name="password_confirmation"
                 placeholder="员工密码（重填确认）"
+                v-model="passwordConfirmation"
               />
               <span class="invalid-feedback" role="alert">
                 <strong></strong>
@@ -83,7 +86,12 @@
                       <p class="m-0">{{ permission.cnDisplayName }}</p>
                     </div>
                     <div
-                      class="col-4 d-flex align-items-center justify-content-end"
+                      class="
+                        col-4
+                        d-flex
+                        align-items-center
+                        justify-content-end
+                      "
                     >
                       <label class="switch m-0">
                         <input
@@ -91,6 +99,8 @@
                           class="form-control"
                           :id="`editAccount${permission.elementId}`"
                           :name="permission.columnName"
+                          :value="permission.columnName"
+                          v-model="checkedPermissions"
                         />
                         <span class="slider round"></span>
                       </label>
@@ -111,7 +121,7 @@
             <button
               type="submit"
               class="btn btn-primary btn-md"
-              @click.prevent="editUser(user)"
+              @click.prevent="editUser()"
             >
               更新
             </button>
@@ -133,16 +143,37 @@ export default {
 
   data() {
     return {
-      userData: this.user,
+      password: "",
+      passwordConfirmation: "",
+      checkedPermissions: [],
     };
   },
 
   computed: {
-    email() {
-      return this.user?.email;
+    email: {
+      get() {
+        return this.user?.email;
+      },
     },
-    name() {
-      return this.user?.name;
+    name: {
+      get() {
+        return this.user?.name;
+      },
+      set(name) {
+        this.user.name = name;
+      },
+    },
+  },
+
+  watch: {
+    user: function () {
+      this.checkedPermissions = Object.entries(this.user.permission)
+        .filter((entry) => entry[1] == 1)
+        .map((entry) => entry[0]);
+    },
+    checkedPermissions: function (val) {
+      console.log("watch val", val);
+      this.checkedPermissions = val;
     },
   },
 
@@ -151,7 +182,14 @@ export default {
   },
 
   methods: {
-    editUser(user) {
+    editUser() {
+      const user = {
+        id: this.user.id,
+        name: this.name,
+        password: this.password,
+        passwordConfirmation: this.passwordConfirmation,
+        checkedPermissions: this.checkedPermissions,
+      };
       this.$emit("editUser", user);
     },
   },

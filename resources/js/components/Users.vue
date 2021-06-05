@@ -67,7 +67,7 @@ export default {
       const body = {
         email: user.email,
         name: user.name,
-        password: user.password.password,
+        password: user.password,
         password_confirmation: user.passwordConfirmation,
         permissions: user.checkedPermissions,
       };
@@ -79,12 +79,31 @@ export default {
           console.log(res.data.message);
         })
         .catch((error) => {
-          this.errorMessage = error.message;
-          console.error(`Failed to add user ${user.name}`, error);
+          const errorMessage = error.message;
+          console.error(`Failed to add user ${user.name}`, errorMessage);
         });
     },
     editUser(user) {
-      //TODO: PATCH (`/account/${user.id}`)
+      console.log("editUser", user);
+
+      const body = {
+        email: user.email,
+        name: user.name,
+        password: user.password,
+        password_confirmation: user.passwordConfirmation,
+        permissions: user.checkedPermissions,
+      };
+
+      axios
+        .patch(`/account/${user.id}`, body)
+        .then((res) => {
+          /// TODO update UI
+          console.log(res.data.message);
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          console.error(`Failed to edit user ${user.name}`, errorMessage);
+        });
     },
     deleteUser(user) {
       const action = "delete";
@@ -100,8 +119,8 @@ export default {
           console.log(res.data.message);
         })
         .catch((error) => {
-          this.errorMessage = error.message;
-          console.error(`Failed to delete user ID for ${user.name}`, error);
+          const errorMessage = error.message;
+          console.error(`Failed to delete user ID for ${user.name}`, errorMessage);
         });
     },
   },
