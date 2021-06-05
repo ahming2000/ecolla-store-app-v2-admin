@@ -76,7 +76,7 @@ class AccountsController extends Controller
 
         // Generate an array that use attribute as key, true or false as value
         foreach ($permissionAttributes as $attr) {
-            if (array_key_exists($attr, $permissions)) {
+            if (in_array($attr, $permissions)) {
                 $permissionsToUpdate[$attr] = '1';
             } else {
                 $permissionsToUpdate[$attr] = '0';
