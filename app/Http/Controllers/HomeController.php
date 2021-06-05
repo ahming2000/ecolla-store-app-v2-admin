@@ -57,6 +57,15 @@ class HomeController extends Controller
         $completed_order_arr = $this->updateOrderDateTime($completed_order_arr);
         $canceled_order_arr = $this->updateOrderDateTime($canceled_order_arr);
 
+        // Get the Default Value when First accessing the dashboard
+        // If the array is empty, it is set as today's date, week or month
+        // If the array is not empty, it is set to the last value of the array
+        // Format: 2021-05-15, 2021-20, May 2021
+        // Returns the value of String used to Filter Order Array
+        $daily_str = $request->input('day', date("Y-m-d"));
+        $week_str = $request->input('week', date('Y') . "-" . date('W'));
+        $month_str = $request->input('month', date("M") . " " . date("Y"));
+
         // Get Options => Daily, Weekly, Monthly
         $daily_option_arr = $this->get_date_options($all_order_arr);
         $week_option_arr = $this->get_week_options($all_order_arr);
@@ -67,22 +76,8 @@ class HomeController extends Controller
         $week_option_str = implode(" ", $week_option_arr);
         $month_option_str = $this->get_month_option_str($month_option_arr);
 
-        // Get the Default Value when First accessing the dashboard
-        // If the array is empty, it is set as today's date, week or month
-        // If the array is not empty, it is set to the last value of the array
-        // Format: 2021-05-15, 2021-20, May 2021
-        $first_date = empty($daily_option_arr) ? date("Y-m-d") : end($daily_option_arr);
-        $first_week = empty($week_option_arr) ? date('Y')."-".date('W') : end($week_option_arr);
-        $first_month = empty($month_option_arr) ? date("M") . " " . date("Y") : end($month_option_arr);
-
-        // Get Date, Week, Month
-        // Returns the value of String used to Filter Order Array
-        $daily_str = $request->input('day', $first_date);
-        $week_str = $request->input('week', $first_week);
-        $month_str = $request->input('month', $first_month);
-
         // Pipeline
-        // 1. Get Daily, Week and Month Order Array Based on daily_str, week_str and month_str
+        //  Get Daily, Week and Month Order Array Based on daily_str, week_str and month_str
         $daily_order_arr = $this->get_order_arr_date($completed_order_arr, $daily_str);
         $week_order_arr = $this->get_order_arr_week($completed_order_arr, $week_str);
         $month_order_arr = $this->get_order_arr_month($completed_order_arr, $month_str);
@@ -93,72 +88,25 @@ class HomeController extends Controller
         $canceled_week_order_arr = $this->get_order_arr_week($canceled_order_arr, $week_str);
         $canceled_month_arr = $this->get_order_arr_month($canceled_order_arr, $month_str);
 
-        // 2. Get Info Array
-        // Info Array Contains Number of Orders, Number of Product, Total Sales Revenue and Product Array
-        $daily_info_arr = $this->get_product_arr_count_sales($daily_order_arr);
-        $week_info_arr = $this->get_product_arr_count_sales($week_order_arr);
-        $month_info_arr = $this->get_product_arr_count_sales($month_order_arr);
-
-        // Get Canceled Info Array
-        $canceled_daily_info_arr = $this->get_product_arr_count_sales($canceled_daily_order_arr);
-        $canceled_week_info_arr = $this->get_product_arr_count_sales($canceled_week_order_arr);
-        $canceled_month_info_arr = $this->get_product_arr_count_sales($canceled_month_arr);
-
-        // 3. Get Order Count / Number of Orders Based on Daily, Week and Month
-        $daily_order_count = $daily_info_arr[0];
-        $week_order_count = $week_info_arr[0];
-        $month_order_count = $month_info_arr[0];
-
-        // 4. Get Product Count / Number of Products Based on Daily, Week and Month
-        $daily_product_count = $daily_info_arr[1];
-        $week_product_count = $week_info_arr[1];
-        $month_product_count = $month_info_arr[1];
-
-        // 5. Get Total Sales Revenue Based on Daily, Week and Month
-        $daily_product_sales_revenue = $daily_info_arr[2];
-        $week_product_sales_revenue = $week_info_arr[2];
-        $month_product_sales_revenue = $month_info_arr[2];
-
-        // Canceled Total Sales Revenue
-        $canceled_daily_product_sales_revenue = $canceled_daily_info_arr[2];
-        $canceled_week_product_sales_revenue = $canceled_week_info_arr[2];
-        $canceled_month_product_sales_revenue = $canceled_month_info_arr[2];
-
-        // 6. Get Product Array Based on Daily, Week and Month
-        $daily_product_arr = $daily_info_arr[3];
-        $week_product_arr = $week_info_arr[3];
-        $month_product_arr = $month_info_arr[3];
-
-        // 7. Get Hashmap Based on Daily, Week And Month
+        //  Get Hashmap Based on Daily, Week And Month
         // Hashmap is for the graph, it sorts the daily, week and month order array according to timestamp, daily and weekly
         // Hashmap contains the Number of Orders, Number of Products and Total Sales Revenue Based on the TimeStamp, Daily and Week
         $daily_hashmap = $this->get_time_graph_hashmap($daily_order_arr);
         $week_hashmap = $this->get_week_graph_hashmap($week_order_arr, $week_str);
         $month_hashmap = $this->get_month_graph_hashmap($month_order_arr, $month_str);
 
-        // 8. Get Graph Array Based on Daily, Weekly and Monthly
-        // The graph array contains the number of orders, number of products and total sales revenue
-        // The Array contains the string format of the hashmap information
-        // 0 => Number of Orders (String format), 1 => Number of Products (String format), 2 => Total Sales Revenue (String format)
-        $daily_graph_arr = $this->get_graph_arr($daily_hashmap);
-        $week_graph_arr = $this->get_graph_arr($week_hashmap);
-        $month_graph_arr = $this->get_graph_arr($month_hashmap);
+        //  Get Info Array
+        // Info Array Contains Number of Orders, Number of Product, Total Sales Revenue and Product Array
+        $daily_info_arr = $this->get_info_arr($daily_order_arr, $canceled_daily_order_arr, $daily_hashmap, $daily_str, $daily_option_str);
+        $week_info_arr = $this->get_info_arr($week_order_arr, $canceled_week_order_arr, $week_hashmap, $week_str, $week_option_str);
+        $month_info_arr = $this->get_info_arr($month_order_arr, $canceled_month_arr, $month_hashmap, $month_str, $month_option_str);
 
         // Tab Active controls which tab the dashboard shows to the user
         $tab_active = $request->input('type', "daily");
 
-        // $test = $this->get_order_arr_week_test($order_arr, "2021-20");
+        $test = $this->order_details_info($all_order_arr);
 
-        return view('home', compact(
-            'daily_option_str','week_option_str','month_option_str',
-            'daily_order_count', 'week_order_count', 'month_order_count',
-            'daily_product_count', 'week_product_count', 'month_product_count',
-            'daily_product_sales_revenue', 'week_product_sales_revenue', 'month_product_sales_revenue',
-            'canceled_daily_product_sales_revenue', 'canceled_week_product_sales_revenue', 'canceled_month_product_sales_revenue',
-            'daily_product_arr', 'week_product_arr', 'month_product_arr',
-            'daily_graph_arr', 'week_graph_arr', 'month_graph_arr',
-            'tab_active'
-        ));
+        return view('home', compact('daily_info_arr', 'week_info_arr', 'month_info_arr','tab_active'));
     }
 
     // Add 8 Hours to Order
@@ -258,23 +206,6 @@ class HomeController extends Controller
         for ($i = $first_week_of_month; $i <= $last_week_of_month; $i++)
             array_push($arr, "$year_chosen-$i");
         return $arr;
-    }
-
-    /**
-     * get_product_arr_count_sales
-     *
-     * @param  Array $order_arr
-     * @return Array
-     */
-    // Combine Part 3, 4, 5 into a single array
-    function get_product_arr_count_sales($order_arr)
-    {
-        // 1. Number of Orders, 2. Number of Products, 3. Total Sales Revenue of Product
-        $product_arr = $this->get_product_arr($order_arr);
-        $product_count = (sizeof($product_arr) == 0) ? 0 : $this->get_product_count($product_arr);
-        $total_sales_revenue = (sizeof($product_arr) == 0) ? 0 : $this->get_product_sales_revenue($product_arr);
-        $product_arr = (sizeof($product_arr) > $this->num_of_items) ? array_slice($product_arr, 0, $this->num_of_items) : $product_arr;
-        return array(sizeof($order_arr), $product_count, $total_sales_revenue, $product_arr);
     }
 
     /**
@@ -398,6 +329,7 @@ class HomeController extends Controller
 
         return $arr;
     }
+
     // 3. Get Product Array
     // Get Products Array From Order Array
     /**
@@ -434,10 +366,7 @@ class HomeController extends Controller
      */
     function get_product_count($product_arr)
     {
-        $num = array_reduce($product_arr, function ($i, $obj) {
-            return $i += $obj->quantity;
-        });
-        return $num;
+        return sizeof($product_arr);
     }
 
     // 5. Get Total Amount of Sales Revenue / Canceled / Refunded Orders
@@ -455,7 +384,57 @@ class HomeController extends Controller
         return $sum;
     }
 
-    // 6. Show Graph
+    // 6. Combine Options, Product Array, Order Count, Product Count, Total Sales Revenue, Graph String Into A Single Info Assiociative Array
+    /**
+     * get_product_arr_count_sales
+     *
+     * @param  Array $order_arr
+     * @return Array
+     */
+    function get_product_arr_count_sales($order_arr){
+        // Get Product Array Based on Daily, Week and Month
+        $product_arr = $this->get_product_arr($order_arr);
+        // Get Order Count / Number of Orders Based on Daily, Week and Month
+        $order_count = sizeof($order_arr);
+        // Get Product Count / Number of Products Based on Daily, Week and Month
+        $product_count = (sizeof($product_arr) == 0) ? 0 : $this->get_product_count($product_arr);
+        // Get Total Sales Revenue Based on Daily, Week and Month
+        $total_sales_revenue = (sizeof($product_arr) == 0) ? 0 : $this->get_product_sales_revenue($product_arr);
+        // Limit Size of Product Array according to Number of Items [Global Variable]
+        $product_arr = (sizeof($product_arr) > $this->num_of_items) ? array_slice($product_arr, 0, $this->num_of_items) : $product_arr;
+        return array(
+            "orderCount" => $order_count,
+            "productCount" => $product_count,
+            "totalSalesRevenue" => $total_sales_revenue,
+            "productArr" => $product_arr
+        );
+    }
+
+    // Store all 9 Variables into an associative Array for easy retrieval
+    // The 9 Variables are Order Count, Product Count, Total Sales Revenue, Canceled Sales Revenue
+    // Product Array, Option String, Order Count Graph, Product Count Graph, Total Sales Revenue Graph
+    function get_info_arr($order_arr, $canceled_arr, $hashmap, $selected_str, $option_str){
+        $all_order_arr = array_merge($order_arr, $canceled_arr);
+
+        // Get Order Count, Product Count, Total Sales Revenue and Product Array
+        $info_1 = $this->get_product_arr_count_sales($order_arr);
+        // Get Cancelled Sales Revenue
+        $info_2 = $this->get_product_arr_count_sales($canceled_arr)["totalSalesRevenue"];
+        // Get Graph String
+        $info_3 = $this->get_graph_arr($hashmap);
+        // Get All Order Detail Information
+        $info_4 = $this->order_details_info($all_order_arr);
+
+        $arr = array_merge($info_1, $info_3);
+        $arr["canceledSalesRevenue"] = $info_2;
+        $arr["optionStr"] = $option_str;
+        $arr["selectedStr"] = $selected_str;
+        $arr["orderDetailInfo"] = $info_4;
+
+        return $arr;
+    }
+
+    // 7. Show Graph
     /**
      * get_graph_arr
      *
@@ -465,27 +444,30 @@ class HomeController extends Controller
     // Converts into Data Points to be parsed By Javascript
     function get_graph_arr($hashmap)
     {
-        $str = "";
-        $str2 = "";
-        $str3 = "";
-        $graph_arr = $hashmap;
-        $label_arr = array_keys($graph_arr);
+        // The Array contains the string format of the hashmap information
+        // Contains Number of Orders, Number of Products and Total Sales Revenue
+        $label_arr = array_keys($hashmap);
 
-        foreach ($label_arr as $label) {
-            $str .= $label . "/" . $graph_arr[$label][2] . "/";
-            $str2 .= $label . "/" . $graph_arr[$label][1] . "/";
-            $str3 .= $label . "/" . $graph_arr[$label][0] . "/";
-        }
+        $order_count_arr = array_map(function($label) use ($hashmap) {
+            return $label . "/" . $hashmap[$label]["orderCount"];
+        }, $label_arr);
 
-        // Str = Number of Orders, Str2 = Number of Products, Str3 = Total Amount of Sales Revenue
-        $str = substr($str, 0, strlen($str) - 1);
-        $str2 = substr($str2, 0, strlen($str2) - 1);
-        $str3 = substr($str3, 0, strlen($str3) - 1);
+        $product_count_arr = array_map(function($label) use ($hashmap) {
+            return $label . "/" . $hashmap[$label]["productCount"];
+        }, $label_arr);
 
-        return array($str, $str2, $str3);
+        $total_sales_revenue_arr = array_map(function($label) use ($hashmap) {
+            return $label . "/" . $hashmap[$label]["totalSalesRevenue"];
+        }, $label_arr);
+
+        return array(
+            "orderCountGraph" => implode("/", $order_count_arr),
+            "productCountGraph" => implode("/", $product_count_arr),
+            "totalSalesRevenueGraph" => implode("/", $total_sales_revenue_arr)
+        );
     }
 
-    // 7. Get Data Points
+    // 8. Get Data Points
     /**
      * get_time_graph_hashmap
      *
@@ -530,5 +512,23 @@ class HomeController extends Controller
             $ind++;
         }
         return $hashmap;
+    }
+
+    // 9. Get Order Details
+    // Shows Order Barcode, Order Payment Method, Order Status, Order Creation Date, Number of Product and Subtotal
+    function order_details_info($order_arr){
+        $arr = [];
+        foreach($order_arr as $order){
+            $product_arr = DB::select("SELECT * FROM order_items WHERE order_id = " . $order->id);
+            $tmp_item = [];
+            $tmp_item["orderCode"] = $order->code;
+            $tmp_item["orderStatus"] = $order->status;
+            $tmp_item["timeStamp"] = $order->created_at;
+            $tmp_item["paymentMethod"] = $order->payment_method;
+            $tmp_item["productCount"] = $this->get_product_count($product_arr);
+            $tmp_item["subTotal"] = $this->get_product_sales_revenue($product_arr);
+            array_push($arr, $tmp_item);
+        }
+        return $arr;
     }
 };

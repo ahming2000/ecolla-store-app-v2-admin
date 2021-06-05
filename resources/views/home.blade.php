@@ -32,11 +32,11 @@
                             <nav class="nav-justified">
                                 <div class="nav nav-tabs " id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link" id="pop1-tab" data-toggle="tab" href="#pop1"
-                                        role="tab" aria-controls="pop1" aria-selected="true" onclick="update_chart('timestamp_sales_chart')">Daily</a>
+                                        role="tab" aria-controls="pop1" aria-selected="true" onclick="update_chart('timestamp_sales_chart')">每日</a>
                                     <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2"
-                                        role="tab" aria-controls="pop2" aria-selected="false" onclick="update_chart('daily_sales_chart')">Weekly</a>
+                                        role="tab" aria-controls="pop2" aria-selected="false" onclick="update_chart('daily_sales_chart')">每周</a>
                                     <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3"
-                                        role="tab" aria-controls="pop3" aria-selected="false" onclick="update_chart('weekly_sales_chart')">Monthly</a>
+                                        role="tab" aria-controls="pop3" aria-selected="false" onclick="update_chart('weekly_sales_chart')">每月</a>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
@@ -44,37 +44,37 @@
                                     aria-labelledby="pop1-tab">
                                     <div class="pt-3"></div>
 
-                                    <div class="container mb-3">
-                                        <form action="{{ url('/home') }}" method="GET" id="day_form">
-                                            <div class="row">
-                                                <div class="form_small_col">
-                                                    <label for="day">請選日期: </label>
-                                                </div>
-                                                <div class="form_large_col">
-                                                    <input type="text" id="datePicker" name="day" class="form-control" form="day_form" required/>
-                                                </div>
-                                                <div class="form_button_col">
-                                                    <button class="btn btn-success" type="submit" name="type" value="daily">提交</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
                                     <div class="container">
+                                        <div class="container mb-3">
+                                            <form action="{{ url('/home') }}" method="GET" id="day_form">
+                                                <div class="row">
+                                                    <div class="form_small_col">
+                                                        <label for="day">请选日期: </label>
+                                                    </div>
+                                                    <div class="form_large_col">
+                                                        <input type="text" id="datePicker" name="day" class="form-control" form="day_form" autocomplete="off" required/>
+                                                    </div>
+                                                    <div class="form_button_col">
+                                                        <button class="btn btn-sm btn-success" type="submit" name="type" value="daily">提交</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        
                                         <div class="row mb-3">
                                             <div class="card_small_col">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
-                                                        <div class="display_card_header">訂單數量</div>
-                                                        <div class="display_card_text">{{ $daily_order_count }}</div>
+                                                        <div class="display_card_header">订单数量</div>
+                                                        <div class="display_card_text">{{ $daily_info_arr["orderCount"] }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card_small_col">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
-                                                        <div class="display_card_header">產品數量</div>
-                                                        <div class="display_card_text">{{ $daily_product_count }}</div>
+                                                        <div class="display_card_header">产品数量</div>
+                                                        <div class="display_card_text">{{ $daily_info_arr["productCount"] }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -82,7 +82,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
                                                         <div class="display_card_header">总销售收入</div>
-                                                        <div class="display_card_text">RM {{ number_format($daily_product_sales_revenue, 2) }}</div>
+                                                        <div class="display_card_text">RM {{ number_format($daily_info_arr["totalSalesRevenue"], 2) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -90,10 +90,37 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM {{ number_format($canceled_daily_product_sales_revenue, 2)}}</div>
+                                                        <div class="display_card_text">RM {{ number_format($daily_info_arr["canceledSalesRevenue"], 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="border border-success border_order_table">
+                                            <table class="table table-striped order_table">
+                                                <thead>
+                                                    <tr class="table-success">
+                                                        <th>订单代码</th>
+                                                        <th>订单状态</th>
+                                                        <th>订购时间</th>
+                                                        <th>支付方法</th>
+                                                        <th>产品数量</th>
+                                                        <th>小计</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($daily_info_arr["orderDetailInfo"] as $orderDetailInfo)
+                                                        <tr>
+                                                            <td>{{ $orderDetailInfo["orderCode"] }}</td>
+                                                            <td>{{ $orderDetailInfo["orderStatus"] }}</td>
+                                                            <td>{{ $orderDetailInfo["timeStamp"] }}</td>
+                                                            <td>{{ $orderDetailInfo["paymentMethod"] }}</td>
+                                                            <td>{{ $orderDetailInfo["productCount"] }}</td>
+                                                            <td>RM {{ number_format($orderDetailInfo["subTotal"], 2) }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
 
                                         <div class="row">
@@ -104,17 +131,17 @@
                                             </div>
                                             <div class="half_width p-3">
                                                 <div class="border border-primary border_table_css">
-                                                    <table class="table table-striped">
-                                                        <thead class="item_table_header">
+                                                    <table class="table table-striped item_table">
+                                                        <thead>
                                                             <tr class="table-primary">
                                                                 <th>名字</th>
-                                                                <th>單品價錢</th>
-                                                                <th>數量</th>
+                                                                <th>单品价钱</th>
+                                                                <th>数量</th>
                                                                 <th>小计</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody class="item_table_body">
-                                                            @foreach ($daily_product_arr as $product)
+                                                        <tbody>
+                                                            @foreach ($daily_info_arr["productArr"] as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
                                                                 <td>RM {{ number_format($product->price, 2) }}</td>
@@ -133,37 +160,37 @@
                                 <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
                                     <div class="pt-3"></div>
 
-                                    <div class="container mb-3">
-                                        <form action="{{ url('/home') }}" method="GET" id="week_form">
-                                            <div class="row">
-                                                <div class="form_small_col">
-                                                    <label for="week">請選星期: </label>
-                                                </div>
-                                                <div class="form_large_col">
-                                                    <input type="text" id="weekPicker" name="week" class="form-control" form="week_form" required/>
-                                                </div>
-                                                <div class="form_button_col">
-                                                    <button class="btn btn-success" type="submit" name="type" value="weekly">提交</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
                                     <div class="container">
+                                        <div class="container mb-3">
+                                            <form action="{{ url('/home') }}" method="GET" id="week_form">
+                                                <div class="row">
+                                                    <div class="form_small_col">
+                                                        <label for="week">请选星期: </label>
+                                                    </div>
+                                                    <div class="form_large_col">
+                                                        <input type="text" id="weekPicker" name="week" class="form-control" form="week_form" autocomplete="off" required/>
+                                                    </div>
+                                                    <div class="form_button_col">
+                                                        <button class="btn btn-sm btn-success" type="submit" name="type" value="weekly">提交</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
                                         <div class="row mb-3">
                                             <div class="card_small_col">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
-                                                        <div class="display_card_header">訂單數量</div>
-                                                        <div class="display_card_text">{{ $week_order_count }}</div>
+                                                        <div class="display_card_header">订单数量</div>
+                                                        <div class="display_card_text">{{ $week_info_arr["orderCount"] }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card_small_col">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
-                                                        <div class="display_card_header">產品數量</div>
-                                                        <div class="display_card_text">{{ $week_product_count }}</div>
+                                                        <div class="display_card_header">产品数量</div>
+                                                        <div class="display_card_text">{{ $week_info_arr["productCount"] }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,7 +198,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
                                                         <div class="display_card_header">总销售收入</div>
-                                                        <div class="display_card_text">RM {{ number_format($week_product_sales_revenue, 2) }}</div>
+                                                        <div class="display_card_text">RM {{ number_format($week_info_arr["totalSalesRevenue"], 2) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,10 +206,37 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM {{ number_format( $canceled_week_product_sales_revenue, 2)}}</div>
+                                                        <div class="display_card_text">RM {{ number_format( $week_info_arr["canceledSalesRevenue"], 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="border border-success border_order_table">
+                                            <table class="table table-striped order_table">
+                                                <thead>
+                                                    <tr class="table-success">
+                                                        <th>订单代码</th>
+                                                        <th>订单状态</th>
+                                                        <th>订购时间</th>
+                                                        <th>支付方法</th>
+                                                        <th>产品数量</th>
+                                                        <th>小计</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($week_info_arr["orderDetailInfo"] as $orderDetailInfo)
+                                                        <tr>
+                                                            <td>{{ $orderDetailInfo["orderCode"] }}</td>
+                                                            <td>{{ $orderDetailInfo["orderStatus"] }}</td>
+                                                            <td>{{ $orderDetailInfo["timeStamp"] }}</td>
+                                                            <td>{{ $orderDetailInfo["paymentMethod"] }}</td>
+                                                            <td>{{ $orderDetailInfo["productCount"] }}</td>
+                                                            <td>RM {{ number_format($orderDetailInfo["subTotal"], 2) }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
 
                                         <div class="row">
@@ -193,17 +247,17 @@
                                             </div>
                                             <div class="half_width p-3">
                                                 <div class="border border-primary border_table_css">
-                                                    <table class="table table-striped">
-                                                        <thead class="item_table_header">
+                                                    <table class="table table-striped item_table">
+                                                        <thead>
                                                             <tr class="table-primary">
                                                                 <th>名字</th>
-                                                                <th>單品價錢</th>
-                                                                <th>數量</th>
+                                                                <th>单品价钱</th>
+                                                                <th>数量</th>
                                                                 <th>小计</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody class="item_table_body">
-                                                            @foreach ($week_product_arr as $product)
+                                                        <tbody>
+                                                            @foreach ($week_info_arr["productArr"] as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
                                                                 <td>RM {{ number_format($product->price, 2) }}</td>
@@ -222,37 +276,37 @@
                                 <div class="tab-pane fade" id="pop3" role="tabpanel" aria-labelledby="pop3-tab">
                                     <div class="pt-3"></div>
 
-                                    <div class="container mb-3">
-                                        <form action="{{ url('/home') }}" method="GET" id="month_form">
-                                            <div class="row">
-                                                <div class="form_small_col">
-                                                    <label for="month">請選月份: </label>
-                                                </div>
-                                                <div class="form_large_col">
-                                                    <input type="text" id="monthPicker" name="month" class="form-control" form="month_form"/>
-                                                </div>
-                                                <div class="form_button_col">
-                                                    <button class="btn btn-success" type="submit" name="type" value="monthly">提交</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
                                     <div class="container">
+                                        <div class="container mb-3">
+                                            <form action="{{ url('/home') }}" method="GET" id="month_form">
+                                                <div class="row">
+                                                    <div class="form_small_col">
+                                                        <label for="month">请选月份: </label>
+                                                    </div>
+                                                    <div class="form_large_col">
+                                                        <input type="text" id="monthPicker" name="month" class="form-control" form="month_form" autocomplete="off" required/>
+                                                    </div>
+                                                    <div class="form_button_col">
+                                                        <button class="btn btn-sm btn-success" type="submit" name="type" value="monthly">提交</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
                                         <div class="row mb-3">
                                             <div class="card_small_col">
                                                 <div class="card card-inverse card-success">
                                                     <div class="card-block bg-success">
-                                                        <div class="display_card_header">訂單數量</div>
-                                                        <div class="display_card_text">{{ $month_order_count }}</div>
+                                                        <div class="display_card_header">订单数量</div>
+                                                        <div class="display_card_text">{{ $month_info_arr["orderCount"] }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card_small_col">
                                                 <div class="card card-inverse card-danger">
                                                     <div class="card-block bg-danger">
-                                                        <div class="display_card_header">產品數量</div>
-                                                        <div class="display_card_text">{{ $month_product_count }}</div>
+                                                        <div class="display_card_header">产品数量</div>
+                                                        <div class="display_card_text">{{ $month_info_arr["productCount"] }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -260,7 +314,7 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-info">
                                                         <div class="display_card_header">总销售收入</div>
-                                                        <div class="display_card_text">RM {{ number_format($month_product_sales_revenue, 2) }}</div>
+                                                        <div class="display_card_text">RM {{ number_format($month_info_arr["totalSalesRevenue"], 2) }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -268,10 +322,37 @@
                                                 <div class="card card-inverse card-info">
                                                     <div class="card-block bg-warning">
                                                         <div class="display_card_header">退款数量</div>
-                                                        <div class="display_card_text">RM {{ number_format($canceled_month_product_sales_revenue, 2)}}</div>
+                                                        <div class="display_card_text">RM {{ number_format($month_info_arr["canceledSalesRevenue"], 2)}}</div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="border border-success border_order_table">
+                                            <table class="table table-striped order_table">
+                                                <thead>
+                                                    <tr class="table-success">
+                                                        <th>订单代码</th>
+                                                        <th>订单状态</th>
+                                                        <th>订购时间</th>
+                                                        <th>支付方法</th>
+                                                        <th>产品数量</th>
+                                                        <th>小计</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($month_info_arr["orderDetailInfo"] as $orderDetailInfo)
+                                                        <tr>
+                                                            <td>{{ $orderDetailInfo["orderCode"] }}</td>
+                                                            <td>{{ $orderDetailInfo["orderStatus"] }}</td>
+                                                            <td>{{ $orderDetailInfo["timeStamp"] }}</td>
+                                                            <td>{{ $orderDetailInfo["paymentMethod"] }}</td>
+                                                            <td>{{ $orderDetailInfo["productCount"] }}</td>
+                                                            <td>RM {{ number_format($orderDetailInfo["subTotal"], 2) }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
 
                                         <div class="row">
@@ -282,17 +363,17 @@
                                             </div>
                                             <div class="half_width p-3">
                                                 <div class="border border-primary border_table_css">
-                                                    <table class="table table-striped">
-                                                        <thead class="item_table_header">
+                                                    <table class="table table-striped item_table">
+                                                        <thead>
                                                             <tr class="table-primary">
                                                                 <th>名字</th>
-                                                                <th>單品價錢</th>
-                                                                <th>數量</th>
+                                                                <th>单品价钱</th>
+                                                                <th>数量</th>
                                                                 <th>小计</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody class="item_table_body">
-                                                            @foreach ($month_product_arr as $product)
+                                                        <tbody>
+                                                            @foreach ($month_info_arr["productArr"] as $product)
                                                             <tr>
                                                                 <td>{{ $product->name }}</td>
                                                                 <td>RM {{ number_format($product->price, 2) }}</td>
@@ -318,21 +399,25 @@
     </div>
 
     <div style="display: none">
-        <p id="date_option_str">{{ $daily_option_str }}</p>
-        <p id="week_option_str">{{ $week_option_str }}</p>
-        <p id="month_option_str">{{ $month_option_str }}</p>
+        <p id="date_selected_str">{{ $daily_info_arr["selectedStr"] }}</p>
+        <p id="week_selected_str">{{ $week_info_arr["selectedStr"] }}</p>
+        <p id="month_selected_str">{{ $month_info_arr["selectedStr"] }}</p>
 
-        <p id="month_1">{{ $month_graph_arr[0] }}</p>
-        <p id="month_2">{{ $month_graph_arr[1] }}</p>
-        <p id="month_3">{{ $month_graph_arr[2] }}</p>
+        <p id="date_option_str">{{ $daily_info_arr["optionStr"] }}</p>
+        <p id="week_option_str">{{ $week_info_arr["optionStr"] }}</p>
+        <p id="month_option_str">{{ $month_info_arr["optionStr"] }}</p>
 
-        <p id="week_1">{{ $week_graph_arr[0] }}</p>
-        <p id="week_2">{{ $week_graph_arr[1] }}</p>
-        <p id="week_3">{{ $week_graph_arr[2] }}</p>
+        <p id="daily_1">{{ $daily_info_arr["totalSalesRevenueGraph"] }}</p>
+        <p id="daily_2">{{ $daily_info_arr["productCountGraph"] }}</p>
+        <p id="daily_3">{{ $daily_info_arr["orderCountGraph"] }}</p>
 
-        <p id="daily_1">{{ $daily_graph_arr[0] }}</p>
-        <p id="daily_2">{{ $daily_graph_arr[1] }}</p>
-        <p id="daily_3">{{ $daily_graph_arr[2] }}</p>
+        <p id="week_1">{{ $week_info_arr["totalSalesRevenueGraph"] }}</p>
+        <p id="week_2">{{ $week_info_arr["productCountGraph"] }}</p>
+        <p id="week_3">{{ $week_info_arr["orderCountGraph"] }}</p>
+
+        <p id="month_1">{{ $month_info_arr["totalSalesRevenueGraph"] }}</p>
+        <p id="month_2">{{ $month_info_arr["productCountGraph"] }}</p>
+        <p id="month_3">{{ $month_info_arr["orderCountGraph"] }}</p>
 
         <p id="tab_active">{{ $tab_active }}</p>
     </div>
@@ -344,15 +429,22 @@
     <script src="{{ asset('js/jquery.ui.datepicker.monthyearpicker.js') }}"></script>
     <script src="{{ asset('js/weekPicker.js') }}"></script>
     <script>
-
-        let weekly_sales_chart, daily_sales_chart, timestamp_sales_chart;
         let date_option_arr = [],
             week_option_arr = [],
             month_option_hashmap = {},
-            month_option_year_hashmap = {};
-        let month_txt_arr = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
+            month_option_year_hashmap = {},
+            month_txt_arr = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
         $(function() {
-            //Controls Which Tab is Active
+            // Update the Input Bar To Show Selected Date, Week and Month
+            let date_selected_str = $("#date_selected_str").html(),
+                week_selected_str = $("#week_selected_str").html(),
+                month_selected_str = $("#month_selected_str").html();
+            
+            $("#datePicker").val(date_selected_str);
+            $("#weekPicker").val(week_selected_str);
+            $("#monthPicker").val(month_selected_str);
+
+            // Controls Which Tab is Active
             let tab_active = $("#tab_active").html();
             switch(tab_active){
                 case "daily":
@@ -373,6 +465,7 @@
             // Daily
             let date_option_str = $("#date_option_str").html();
             let date_option_arr = date_option_str.split(" ");
+
             // Weekly
             let week_option_str = $("#week_option_str").html();
             let w_arr = week_option_str.split(" ");
@@ -382,6 +475,7 @@
                     tmp_week = parseInt(tmp_arr[1]);
                 week_option_arr = week_option_arr.concat(getDateOfISOWeekArr(tmp_week, tmp_year));
             }
+
             // Monthly
             let month_option_str = $("#month_option_str").html();
             let m_arr = month_option_str.split(",");
@@ -445,9 +539,9 @@
                 daily_2 = $("#daily_2").html(),
                 daily_3 = $("#daily_3").html();
 
-            weekly_sales_chart = new CanvasJS.Chart("weekly_sales_chart", {
+            let weekly_sales_chart = new CanvasJS.Chart("weekly_sales_chart", {
                 title: {
-                    text: "每周訂單分析"
+                    text: "每周订单分析"
                 },
                 exportEnabled: true,
                 animationEnabled: true,
@@ -474,14 +568,14 @@
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "產品數量",
+                    name: "产品数量",
                     color: "rgba(194, 70, 66, 0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "訂單數量",
+                    name: "订单数量",
                     color: "rgba(0,75,141,0.7)",
                     showInLegend: true,
                     axisYIndex: 1,
@@ -489,9 +583,9 @@
                 }]
             });
 
-            daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
+            let daily_sales_chart = new CanvasJS.Chart("daily_sales_chart", {
                 title: {
-                    text: "每日訂單分析"
+                    text: "每日订单分析"
                 },
                 exportEnabled: true,
                 animationEnabled: true,
@@ -518,14 +612,14 @@
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "產品數量",
+                    name: "产品数量",
                     color: "rgba(194, 70, 66, 0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "訂單數量",
+                    name: "订单数量",
                     color: "rgba(0,75,141,0.7)",
                     showInLegend: true,
                     axisYIndex: 1,
@@ -533,9 +627,9 @@
                 }]
             });
 
-            timestamp_sales_chart = new CanvasJS.Chart("timestamp_sales_chart", {
+            let timestamp_sales_chart = new CanvasJS.Chart("timestamp_sales_chart", {
                 title: {
-                    text: "訂單时间戳记分析"
+                    text: "订单时间戳记分析"
                 },
                 exportEnabled: true,
                 animationEnabled: true,
@@ -562,14 +656,14 @@
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "產品數量",
+                    name: "产品数量",
                     color: "rgba(194, 70, 66, 0.6)",
                     axisYIndex: 0,
                     showInLegend: true,
                     dataPoints: []
                 }, {
                     type: "area",
-                    name: "訂單數量",
+                    name: "订单数量",
                     color: "rgba(0,75,141,0.7)",
                     showInLegend: true,
                     axisYIndex: 1,

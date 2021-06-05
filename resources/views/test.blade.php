@@ -22,6 +22,10 @@
 {{ var_dump($canceled_month_product_sales_revenue) }}
 {{ var_dump($month_graph_arr) }} --}}
 
-{{ var_dump($daily_option_str) }}
+{{-- {{ var_dump($daily_option_str) }}
 {{ var_dump($week_option_str) }}
-{{ var_dump($month_option_str) }}
+{{ var_dump($month_option_str) }} --}}
+
+{{-- {{ var_dump($daily_info_arr) }}
+{{ var_dump($week_info_arr) }}
+{{ var_dump($month_info_arr) }} --}}
