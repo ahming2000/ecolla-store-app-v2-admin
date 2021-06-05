@@ -84,15 +84,14 @@ export default {
         });
     },
     editUser(user) {
-      console.log("editUser", user);
-
       const body = {
-        email: user.email,
         name: user.name,
         password: user.password,
         password_confirmation: user.passwordConfirmation,
         permissions: user.checkedPermissions,
       };
+
+      console.log("PATCH Request Body", body)
 
       axios
         .patch(`/account/${user.id}`, body)
