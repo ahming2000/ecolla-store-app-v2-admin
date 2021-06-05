@@ -74,16 +74,17 @@ class AccountsController extends Controller
 
         $permissionAttributes = UserPermission::getAllAttributes();
 
+        // Generate an array that use attribute as key, true or false as value
         foreach ($permissionAttributes as $attr) {
             if (array_key_exists($attr, $permissions)) {
-                $permissions[$attr] = '1';
+                $permissionsToUpdate[$attr] = '1';
             } else {
-                $permissions[$attr] = '0';
+                $permissionsToUpdate[$attr] = '0';
             }
         }
 
         $user->update($userData);
-        $user->permission()->update($permissions);
+        $user->permission()->update($permissionsToUpdate ?? []);
 
         $message = "账号 " . $user->name . " 属性修改成功！";
 
