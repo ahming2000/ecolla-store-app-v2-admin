@@ -13,7 +13,7 @@
             </div>
         @endif
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-md-6 col-sm-12">
                 <div style="font-size: 40px; font-weight: bolder">商品管理</div>
             </div>
@@ -88,70 +88,72 @@
             </div>
         </div>
 
-        <table class="table table-bordered mt-3">
-            <thead>
-            <tr>
-                <th scope="col">名称</th>
-                <th scope="col">规格</th>
-                <th scope="col">价格</th>
-                <th scope="col">数量</th>
-                <th scope="col">销售</th>
-                <th scope="col">操作</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div class="row mb-3">
             @foreach($items as $item)
-                <tr>
-                    <td>
-                        <a href="{{ url('/item/' . $item->id) }}">{{ $item->name }}</a>
-                    </td>
-                    <td>
-                        @foreach($item->variations as $variation)
-                            {{ $variation->name }}<br>
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach($item->variations as $variation)
-                            @if($variation->discount != null)
-                                RM{{ number_format($variation->price * $variation->discount->rate, 2, '.', '') }}<br>
-                            @else
-                                RM{{ number_format($variation->price, 2, '.', '') }}<br>
-                            @endif
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach($item->variations as $variation)
-                            {{ $variation->stock }}<br>
-                        @endforeach
-                    </td>
-                    <td>
-                        {{ $item->util->sold ?? 0 }}
-                    </td>
-                    <td>
-                        <listing-switch item-id="{{ $item->id }}" is-listed="{{ $item->util->is_listed }}"></listing-switch>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+                                    <listing-switch item-id="{{ $item->id }}"
+                                                    is-listed="{{ $item->util->is_listed }}"></listing-switch>
+                                </div>
+                            </div>
 
-                        <button class="btn btn-secondary btn-sm mb-1" onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
-                            <i class="icofont icofont-ui-edit"></i> 编辑
-                        </button><br>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <h6 class="text-truncate">
+                                        <a href="{{ url('/item/' . $item->id) }}">{{ $item->name }}</a>
+                                    </h6>
+                                </div>
+                            </div>
 
-                        <button type="button"
-                                class="btn btn-secondary btn-sm mb-1"
-                                onclick="confirmDelete(this)"
-                                value="{{ $item->name }}">
-                            <i class="icofont icofont-ui-delete"></i> 删除
-                        </button>
-                        <br>
+                            <div class="row mb-3">
+                                <div class="col-12">规格：</div>
+                                <div class="col-12">
+                                    @foreach($item->variations as $variation)
+                                        <div class="row">
+                                            <div class="col-6">
+                                                {{ $variation->name }}
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                @if($variation->discount != null)
+                                                    RM{{ number_format($variation->price * $variation->discount->rate, 2, '.', '') }}
+                                                @else
+                                                    RM{{ number_format($variation->price, 2, '.', '') }}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
 
-                        <form action="{{ url('/item/' . $item->id) }}" method="post" class="delete-item-form">
-                            @csrf
-                            @method('DELETE')
-                        </form>
+                            <div class="row mb-3">
+                                <div class="col-12 text-center">
+                                    <button type="button" class=" btn btn-secondary btn-sm"
+                                            onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
+                                        <i class="icofont icofont-ui-edit"></i> 编辑
+                                    </button>
 
-                    </td>
-                </tr>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="confirmDelete(this)"
+                                            value="{{ $item->name }}">
+                                        <i class="icofont icofont-ui-delete"></i> 删除
+                                    </button>
+
+                                    <form action="{{ url('/item/' . $item->id) }}" method="post"
+                                          class="delete-item-form">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
-            </tbody>
-        </table>
+
+        </div>
+
 
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
