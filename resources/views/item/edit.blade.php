@@ -799,10 +799,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <figcaption class="figure-caption text-center">
-                                                    {{ $item->variations[$i]->name }}
-                                                </figcaption>
                                             </figure>
+                                            <h6 class="figure-caption text-center text-truncate">{{ $item->variations[$i]->name }}</h6>
                                         </div>
                                     @endfor
                                 @endif
@@ -993,8 +991,8 @@
                             </div>
                         </div>
                     </div>
-                    <figcaption class="figure-caption text-center"></figcaption>
                 </figure>
+                <h6 class="figure-caption text-center text-truncate"></h6>
             </div>
             `;
         }
