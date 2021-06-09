@@ -28,11 +28,9 @@
                 <div class="row text-right mb-2">
                     <div class="col-12">
                         <select name="paginate" id="paginateSelector" class="custom-select custom-select-sm">
-                            <option value="10" {{ @$_GET['paginate'] == 10 ? "selected" : "" }}>一页显示10件商品</option>
-                            <option value="20" {{ @$_GET['paginate'] == 20 ? "selected" : "" }}>一页显示20件商品</option>
-                            <option value="30" {{ @$_GET['paginate'] == 30 ? "selected" : "" }}>一页显示30件商品</option>
+                            <option value="30" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25件商品</option>
                             <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50件商品</option>
-                            <option value="80" {{ @$_GET['paginate'] == 80 ? "selected" : "" }}>一页显示80件商品</option>
+                            <option value="80" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75件商品</option>
                             <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100件商品</option>
                         </select>
                     </div>
