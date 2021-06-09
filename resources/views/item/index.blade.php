@@ -27,7 +27,7 @@
                 </div>
                 <div class="row text-right mb-2">
                     <div class="col-12">
-                        <select name="paginate" id="paginateSelector" class="custom-select custom-select-sm">
+                        <select name="paginate" id="paginateSelector" class="custom-select custom-select-sm shadow">
                             <option value="30" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25件商品</option>
                             <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50件商品</option>
                             <option value="80" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75件商品</option>
@@ -45,7 +45,7 @@
                                 <input type="hidden" name="category" value="{{ $_GET['category'] }}">
                             @endif
                             <input type="text"
-                                   class="form-control form-control-sm m-0"
+                                   class="form-control form-control-sm m-0 shadow"
                                    maxlength="20"
                                    name="search"
                                    placeholder="搜索名称、货号、规格、出产地、商品描述"
@@ -66,7 +66,7 @@
                 </form>
                 <div class="row text-right mb-2">
                     <div class="col-12">
-                        <select class="custom-select custom-select-sm" name="category" id="categorySelector">
+                        <select class="custom-select custom-select-sm shadow" name="category" id="categorySelector">
                             <option value="">
                                 全部商品 (<?= \App\Models\Item::all()->count() ?>)
                             </option>
@@ -88,7 +88,7 @@
 
         <div class="row mb-3">
             @foreach($items as $item)
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 mb-3">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="row mb-3">
@@ -128,13 +128,13 @@
 
                             <div class="row mb-3">
                                 <div class="col-6">
-                                    <button type="button" class=" btn btn-secondary btn-sm w-100 ml-0"
+                                    <button type="button" class=" btn btn-primary btn-sm w-100 ml-0"
                                             onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
                                         <i class="icofont icofont-ui-edit"></i> 编辑
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-secondary btn-sm w-100 ml-0" onclick="confirmDelete(this)"
+                                    <button type="button" class="btn btn-danger btn-sm w-100 ml-0" onclick="confirmDelete(this)"
                                             value="{{ $item->name }}">
                                         <i class="icofont icofont-ui-delete"></i> 删除
                                     </button>
