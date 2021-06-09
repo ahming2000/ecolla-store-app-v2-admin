@@ -203,14 +203,10 @@
             @endforeach
         </div>
 
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                {{ $orders->links() }}
-            </div>
+        <div class="row d-flex justify-content-center">
+            {{ $orders->links() }}
         </div>
-
     </main>
-
 @endsection
 
 @section('extraScriptEnd')

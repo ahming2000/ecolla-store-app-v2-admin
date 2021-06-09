@@ -129,13 +129,14 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-12 text-center">
-                                    <button type="button" class=" btn btn-secondary btn-sm"
+                                <div class="col-6">
+                                    <button type="button" class=" btn btn-secondary btn-sm w-100 ml-0"
                                             onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
                                         <i class="icofont icofont-ui-edit"></i> 编辑
                                     </button>
-
-                                    <button type="button" class="btn btn-secondary btn-sm" onclick="confirmDelete(this)"
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-secondary btn-sm w-100 ml-0" onclick="confirmDelete(this)"
                                             value="{{ $item->name }}">
                                         <i class="icofont icofont-ui-delete"></i> 删除
                                     </button>
@@ -154,11 +155,8 @@
 
         </div>
 
-
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                {{ $items->links() }}
-            </div>
+        <div class="row d-flex justify-content-center">
+            {{ $items->links() }}
         </div>
     </main>
 @endsection
