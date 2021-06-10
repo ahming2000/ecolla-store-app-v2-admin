@@ -10,18 +10,18 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v1.5.4 Beta';
-        $updateDate = '2021/05/29';
+        $currentVersion = 'v2.0.0 Beta';
+        $updateDate = '2021/06/12';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
-            new LogClass('v1.6', [
+            new LogClass('v2.0', [
 
-                new Log('v1.6.0', 'N/A', [
+                new Log('v2.0.0', '2021/06/12', [
                     new LogDetail('功能', [
-                        //'添加了账号权限功能，并可供给管理员管理',
+                        '添加了账号权限功能，并可供给管理员管理',
                         '添加了个人账号设置功能',
                         '添加了订单开头于金宝邮费设置',
                         '添加了商品上下架按钮功能',
@@ -36,6 +36,7 @@ class ChangingLogController extends Controller
                         '修复了规格照片下方规格名称超出窗口的问题（商品编辑）',
                         '优化了商品查看界面',
                         '优化了订单查看界面',
+                        '优化了商品编辑界面'
                     ]),
 
                     new LogDetail('页面更新', [
