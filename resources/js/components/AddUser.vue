@@ -155,6 +155,13 @@ export default {
         checkedPermissions: this.checkedPermissions,
       };
       this.$emit("addUser", user);
+
+      this.email = "";
+      this.name = "";
+      this.password = "";
+      this.passwordConfirmation = "";
+      this.checkedPermissions = Object.keys(this.permissions)
+        .filter((key) => this.permissions[key].checkedByDefault)
     },
   },
 };
