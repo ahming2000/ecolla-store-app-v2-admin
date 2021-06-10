@@ -1,9 +1,21 @@
 <template>
   <div>
+    <div
+      v-if="alert.message.length > 0"
+      class="alert alert-dismissable"
+      :class="classObject"
+      role="alert"
+    >
+      {{ alert.message }}
+    </div>
+
     <!-- User List -->
     <ul v-for="user in usersData" :key="user.id" class="list-group">
-      <user v-bind:user="user" 
-      v-on:updateStatus="updateStatus($event)" v-on:sendUserToParent="sendUserToParent($event)" />
+      <user
+        v-bind:user="user"
+        v-on:updateStatus="updateStatus($event)"
+        v-on:sendUserToParent="sendUserToParent($event)"
+      />
     </ul>
 
     <!-- Add Account Modal -->
@@ -45,6 +57,10 @@ export default {
     return {
       selectedUser: null,
       usersData: this.users,
+      alert: {
+        message: "",
+        type: "",
+      },
     };
   },
 
@@ -57,6 +73,15 @@ export default {
 
   mounted() {
     console.log("Users Component mounted.");
+  },
+
+  computed: {
+    classObject() {
+      return {
+        "alert-success": this.alert.type == "success",
+        "alert-danger": this.alert.type == "error",
+      };
+    },
   },
 
   methods: {
@@ -77,11 +102,15 @@ export default {
         .post(`/account`, body)
         .then((res) => {
           this.usersData = [...this.usersData, res.data.user];
+
           console.log(res.data.message);
+          this.makeAlert(res.data.message, "success");
         })
         .catch((error) => {
           const errorMessage = error.message;
+
           console.error(`Failed to add user ${user.name}`, errorMessage);
+          this.makeAlert(errorMessage, "error");
         });
     },
     editUser(user) {
@@ -92,7 +121,7 @@ export default {
         permissions: user.checkedPermissions,
       };
 
-      console.log("PATCH Request Body", body)
+      console.log("PATCH Request Body", body);
 
       axios
         .patch(`/account/${user.id}`, body)
@@ -100,30 +129,38 @@ export default {
           /// TODO update UI
           this.selectedUser.name = res.data.user.name;
           this.selectedUser.permission = res.data.user.permission;
+
           console.log(res.data.message);
+          this.makeAlert(res.data.message, "success");
         })
         .catch((error) => {
           const errorMessage = error.message;
+
           console.error(`Failed to edit user ${user.name}`, errorMessage);
+          this.makeAlert(errorMessage, "error");
         });
     },
     updateStatus(data) {
       this.selectedUser = data.user;
-      
-      const body = {action: data.action};
+
+      const body = { action: data.action };
 
       axios
         .post(`/account/${data.user.id}`, body)
         .then((res) => {
           this.selectedUser.status = res.data.user_status;
           console.log(res.data.message);
+
+          this.makeAlert(res.data.message, "success");
         })
         .catch((error) => {
           const errorMessage = error.message;
+
           console.error(
             `Failed to update user status for ${data.user.name}`,
             errorMessage
           );
+          this.makeAlert(errorMessage, "error");
         });
     },
     deleteUser(user) {
@@ -137,12 +174,25 @@ export default {
           this.usersData = this.usersData.filter((user) => {
             return user.id !== userId;
           });
+
           console.log(res.data.message);
+          this.makeAlert(res.data.message, "success");
         })
         .catch((error) => {
           const errorMessage = error.message;
-          console.error(`Failed to delete user ID for ${user.name}`, errorMessage);
+
+          console.error(
+            `Failed to delete user ID for ${user.name}`,
+            errorMessage
+          );
+          this.makeAlert(errorMessage, "error");
         });
+    },
+    makeAlert(message, type) {
+      this.alert = {
+        message: message,
+        type: type,
+      };
     },
   },
 };
