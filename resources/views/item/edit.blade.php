@@ -274,7 +274,7 @@
                         </div>
                         <div class="col-12 text-center">
                             <button type="button" class="btn btn-outline-blue btn-sm" id="extra-category-button">
-                                添加更多类别/标签
+                                <i class="icofont icofont-ui-add"></i> 添加更多类别/标签
                             </button>
                         </div>
                     </div>
@@ -843,7 +843,9 @@
                     <!-- Variation image -->
 
                     <div class="col-12 text-center mb-3">
-                        <button class="btn btn-primary mr-2" type="submit">保存</button>
+                        <button class="btn btn-primary mr-2" type="submit">
+                            保存
+                        </button>
                     </div>
 
                 </form>
