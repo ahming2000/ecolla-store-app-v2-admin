@@ -25,7 +25,7 @@ class ItemsController extends Controller
     public function index()
     {
         // Get request value
-        $paginate = request('paginate') ?? 10;
+        $paginate = request('paginate') ?? 25;
         $search = request('search') ?? "";
         $category = request('category') ?? "";
 

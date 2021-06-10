@@ -1,11 +1,11 @@
 <template>
     <div class="row mb-3">
-        <table class="table table-bordered">
+        <table class="table table-light">
             <thead>
             <tr>
-                <th scope="col">功能</th>
-                <th scope="col">数值</th>
-                <th scope="col">操作</th>
+                <th scope="col" style="border: 3px solid lightgrey;">功能</th>
+                <th scope="col" style="border: 3px solid lightgrey;">数值</th>
+                <th scope="col" style="border: 3px solid lightgrey;">操作</th>
             </tr>
             </thead>
 

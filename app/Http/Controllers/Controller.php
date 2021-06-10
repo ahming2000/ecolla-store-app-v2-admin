@@ -207,48 +207,36 @@ class Controller extends BaseController
      */
     protected function combineWhereClause(array $lines, string $connector = 'AND'): string
     {
-        $isFirst = true;
         $line = "";
-        foreach ($lines as $l) {
-            if ($l != "") {
-                if ($isFirst) {
-                    $line = $line . "($l)";
-                    $isFirst = false;
-                } else {
-                    $line = $line . " $connector ($l)";
-                }
-            }
+
+        $lines = array_filter($lines, function ($l){
+            return $l != "";
+        });
+
+        foreach ($lines as $key => $l) {
+            $line = array_key_first($lines) == $key ? $line . "($l)" : $line . " $connector ($l)";
         }
+
         return $line;
     }
 
     /**
      * @param array $attributes
+     * @param bool $andSym
      * @return string
      */
-    protected function generateParameter(array $attributes, bool $jsFilter = false): string
+    protected function generateParameter(array $attributes, bool $andSym = false): string
     {
-        $line = "";
-        if ($jsFilter) {
-            $line = $line . "?";
-            foreach ($attributes as $key => $value) {
-                if ($value != "") {
-                    $line = $line . "$key=$value&";
-                }
-            }
-        } else {
-            $isFirst = true;
-            foreach ($attributes as $key => $value) {
-                if ($value != "") {
-                    if ($isFirst) {
-                        $line = $line . "?$key=$value";
-                        $isFirst = false;
-                    } else {
-                        $line = $line . "&$key=$value";
-                    }
-                }
-            }
+        $line = "?";
+
+        $attributes = array_filter($attributes, function ($value){
+            return $value != "";
+        });
+
+        foreach ($attributes as $key => $value) {
+            $line = array_key_first($attributes) == $key ? $line . "$key=$value&" : $line . "$key=$value";
         }
-        return $line;
+
+        return $andSym ? $line . '&' : $line;
     }
 }

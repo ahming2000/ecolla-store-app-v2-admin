@@ -5,6 +5,7 @@ use App\Http\Controllers\ChangingLog\ChangingLogController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SystemUpdateController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -82,3 +83,5 @@ Route::prefix('/account')->group(function () {
 });
 
 Route::get('/changing-log', [ChangingLogController::class, 'index']);
+
+Route::get('/perform-update', [SystemUpdateController::class, 'performUpdate']);
