@@ -56,9 +56,12 @@ class AccountsController extends Controller
         }
         $user->permission()->save($userPermission);
 
+        $newUser = User::with('permission')
+        ->where('users.id', '=', $user->id)
+        ->get();
         $message = "账号 " . $user->name . " 创建成功！";
 
-        return response()->json(['user' => $user, 'message' => $message]);
+        return response()->json(['user' => $newUser[0], 'message' => $message]);
     }
 
     public function update(User $user)
@@ -86,9 +89,12 @@ class AccountsController extends Controller
         $user->update($userData);
         $user->permission()->update($permissionsToUpdate ?? []);
 
+        $updatedUser = User::with('permission')
+            ->where('users.id', '=', $user->id)
+            ->get();
         $message = "账号 " . $user->name . " 属性修改成功！";
 
-        return response()->json(['user' => $user, 'message' => $message]);
+        return response()->json(['user' => $updatedUser[0], 'message' => $message]);
     }
 
     public function manage(User $user)

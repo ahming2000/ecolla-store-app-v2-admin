@@ -7,7 +7,16 @@
             <h4 class="card-title m-0">{{ user.name }}</h4>
             <span
               v-if="user.status == 'disabled'"
-              class="badge rounded-pill bg-warning shadow-none text-dark ml-2 px-2 h-75"
+              class="
+                badge
+                rounded-pill
+                bg-warning
+                shadow-none
+                text-dark
+                ml-2
+                px-2
+                h-75
+              "
               >未激活</span
             >
           </div>
@@ -17,38 +26,60 @@
         </div>
       </div>
       <div
-        class="flex-column d-flex align-items-center justify-content-center my-2"
+        class="
+          flex-column
+          d-flex
+          align-items-center
+          justify-content-center
+          my-2
+        "
       >
         <div class="row">
           <div class="col-4 d-flex">
             <button
               type="submit"
-              class="btn btn-secondary btn-md d-flex justify-content-center align-items-center text-nowrap"
+              class="
+                btn btn-secondary btn-md
+                d-flex
+                justify-content-center
+                align-items-center
+                text-nowrap
+              "
               data-toggle="modal"
               data-target="#editAccountModal"
-              @click.prevent="sendUserToModal(user)"
+              @click.prevent="sendUserToParent()"
             >
               <p class="text-center m-0">编辑</p>
             </button>
           </div>
           <div class="col-4 d-flex">
-            <form @submit.prevent="updateStatus(user)">
-              <button
-                type="submit"
-                class="btn btn-md d-flex justify-content-center align-items-center text-nowrap"
-                :class="classObject"
-              >
-                <p class="text-center m-0" v-text="buttonText">停用</p>
-              </button>
-            </form>
+            <button
+              class="
+                btn btn-md
+                d-flex
+                justify-content-center
+                align-items-center
+                text-nowrap
+              "
+              :class="classObject"
+              @click.prevent="updateStatus()"
+            >
+              <p class="text-center m-0" v-text="buttonText">停用</p>
+            </button>
           </div>
           <div class="col-4 d-flex">
             <button
               type="submit"
-              class="btn btn-danger btn-md d-flex justify-content-center align-items-center text-nowrap"
+              class="
+                btn btn-danger btn-md
+                d-flex
+                justify-content-center
+                align-items-center
+                text-nowrap
+              "
               data-toggle="modal"
               data-target="#deleteAccountModal"
-              @click.prevent="sendUserToModal(user)"
+              @click.prevent="sendUserToParent()"
             >
               <p class="text-center m-0">删除</p>
             </button>
@@ -97,9 +128,9 @@ export default {
   },
 
   methods: {
-    updateStatus(user) {
+    updateStatus() {
       let action;
-      switch (this.user.status) {
+      switch (this.userData.status) {
         case "enabled": {
           action = "deactivate";
           break;
@@ -111,24 +142,12 @@ export default {
         default:
       }
 
-      const body = { action: action };
+      const data = { user: this.user, action: action };
 
-      axios
-        .post(`/account/${user.id}`, body)
-        .then((res) => {
-          this.userData.status = res.data.user_status;
-          console.log(res.data.message);
-        })
-        .catch((error) => {
-          const errorMessage = error.message;
-          console.error(
-            `Failed to update user status for ${user.name}`,
-            errorMessage
-          );
-        });
+      this.$emit("updateStatus", data);
     },
-    sendUserToModal(user) {
-      this.$emit("sendUserToModal", user);
+    sendUserToParent() {
+      this.$emit("sendUserToParent", this.userData);
     },
   },
 };

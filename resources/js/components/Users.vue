@@ -2,7 +2,8 @@
   <div>
     <!-- User List -->
     <ul v-for="user in usersData" :key="user.id" class="list-group">
-      <user v-bind:user="user" v-on:sendUserToModal="sendUserToModal($event)" />
+      <user v-bind:user="user" 
+      v-on:updateStatus="updateStatus($event)" v-on:sendUserToParent="sendUserToParent($event)" />
     </ul>
 
     <!-- Add Account Modal -->
@@ -59,7 +60,7 @@ export default {
   },
 
   methods: {
-    sendUserToModal(user) {
+    sendUserToParent(user) {
       this.selectedUser = user;
     },
 
@@ -97,11 +98,32 @@ export default {
         .patch(`/account/${user.id}`, body)
         .then((res) => {
           /// TODO update UI
+          this.selectedUser.name = res.data.user.name;
+          this.selectedUser.permission = res.data.user.permission;
           console.log(res.data.message);
         })
         .catch((error) => {
           const errorMessage = error.message;
           console.error(`Failed to edit user ${user.name}`, errorMessage);
+        });
+    },
+    updateStatus(data) {
+      this.selectedUser = data.user;
+      
+      const body = {action: data.action};
+
+      axios
+        .post(`/account/${data.user.id}`, body)
+        .then((res) => {
+          this.selectedUser.status = res.data.user_status;
+          console.log(res.data.message);
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          console.error(
+            `Failed to update user status for ${data.user.name}`,
+            errorMessage
+          );
         });
     },
     deleteUser(user) {

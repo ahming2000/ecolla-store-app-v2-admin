@@ -50,7 +50,7 @@
             type="submit"
             class="btn btn-danger btn-md"
             data-dismiss="modal"
-            @click.prevent="deleteUser(user)"
+            @click.prevent="deleteUser()"
           >
             确定删除
           </button>
@@ -70,7 +70,8 @@ export default {
 
   data() {
     return {
-      userData: this.user,
+      email: '',
+      name: '',
     };
   },
 
@@ -78,18 +79,16 @@ export default {
     console.log("Delete User Component mounted.");
   },
 
-  computed: {
-    name() {
-      return this.user?.name;
-    },
-    email() {
-      return this.user?.email;
+  watch: {
+    user: function () {
+      this.email = this.user.email;
+      this.name = this.user.name;
     },
   },
 
   methods: {
-    deleteUser(user) {
-      this.$emit('deleteUser', user);
+    deleteUser() {
+      this.$emit('deleteUser', this.user);
     },
   },
 };

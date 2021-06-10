@@ -121,6 +121,7 @@
             <button
               type="submit"
               class="btn btn-primary btn-md"
+              data-dismiss="modal"
               @click.prevent="editUser()"
             >
               更新
@@ -143,32 +144,20 @@ export default {
 
   data() {
     return {
+      email: "",
+      name: "",
       password: "",
       passwordConfirmation: "",
       checkedPermissions: [],
     };
   },
 
-  computed: {
-    email: {
-      get() {
-        return this.user?.email;
-      },
-    },
-    name: {
-      get() {
-        return this.user?.name;
-      },
-      set(name) {
-        this.user.name = name;
-      },
-    },
-  },
-
   watch: {
     user: function () {
+      this.email = this.user.email;
+      this.name = this.user.name;
       this.checkedPermissions = Object.entries(this.user.permission)
-        .filter((entry) => entry[1] == 1)
+        .filter((entry) => entry[0] !== "user_id" && entry[0] !== "created_at" && entry[0] !== "updated_at" && entry[1] == 1)
         .map((entry) => entry[0]);
     },
     checkedPermissions: function (val) {
@@ -191,6 +180,8 @@ export default {
         checkedPermissions: this.checkedPermissions,
       };
       this.$emit("editUser", user);
+      this.password = '';
+      this.passwordConfirmation = '';
     },
   },
 };

@@ -141,19 +141,6 @@ export default {
     };
   },
 
-  // computed: {
-  //   checkedPermissions: {
-  //     get() {
-  //       return Object.keys(this.permissions)
-  //       .filter((key) => this.permissions[key].checkedByDefault)
-  //       .map((key) => this.permissions[key].columnName);
-  //     },
-  //     set(arg2) {;
-  //       console.log(arg2)
-  //     }
-  //   }
-  // },
-
   mounted() {
     console.log("Add User Component mounted.");
   },
