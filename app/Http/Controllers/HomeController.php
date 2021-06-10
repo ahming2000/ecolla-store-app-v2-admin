@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 use DateInterval;
@@ -10,52 +13,33 @@ use DateInterval;
 class HomeController extends Controller
 {
     private int $num_of_items = 5;
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware(['auth', 'access:status_check']);
     }
 
-    public function performUpdate(){
-        echo 'Category Item attribute update process starting...<br>';
-        DB::table('category_item')->where('category_id', '=', '5')->update(['category_id' => '14']);
-        DB::table('category_item')->where('category_id', '=', '6')->update(['category_id' => '17']);
-        DB::table('category_item')->where('category_id', '=', '8')->update(['category_id' => '19']);
-        DB::table('category_item')->where('category_id', '=', '9')->update(['category_id' => '20']);
-        DB::table('category_item')->where('category_id', '=', '10')->update(['category_id' => '21']);
-        echo 'Category Item attribute update completed.<br>';
-
-
-
-        die('Task completed.');
-    }
-
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @throws Exception
      */
-    public function index()
-    {
-        $test = DB::select("SELECT * FROM items");
-        return view('home', compact('test'));
-    }
-
     public function homeDoGet(Request $request)
     {
+
+
         // Get Order Arrays => All Existing Orders, Completed Orders, Cancelled Orders
         $all_order_arr = DB::select("SELECT * FROM orders");
         $completed_order_arr = DB::select("SELECT * FROM orders WHERE status = 'completed'");
         $canceled_order_arr = DB::select("SELECT * FROM orders WHERE status IN ('canceled', 'refunded')");
+        /* Replace with Order::class */
+        $orders = Order::all();
+        $succeedOrder = Order::where('status', '=', 'completed')->get();
+        $failedOrder = Order::whereIn('status', ['canceled', 'refunded'])->get();
 
         // Update Order Arrays => Add 8 Hour Time to the Order Arrays
         $all_order_arr = $this->updateOrderDateTime($all_order_arr);
         $completed_order_arr = $this->updateOrderDateTime($completed_order_arr);
         $canceled_order_arr = $this->updateOrderDateTime($canceled_order_arr);
+        /* Replace with Order::getOrderCreateDateTime('object'), not need to load with any code again */
 
         // Get the Default Value when First accessing the dashboard
         // If the array is empty, it is set as today's date, week or month
@@ -65,16 +49,26 @@ class HomeController extends Controller
         $daily_str = $request->input('day', date("Y-m-d"));
         $week_str = $request->input('week', date('Y') . "-" . date('W'));
         $month_str = $request->input('month', date("M") . " " . date("Y"));
+        /* Use request() helper function instead */
+        $requestData = [
+            'daily' => request('day', date('Y-m-d')),
+            'weekly' => request('week', date('Y-W')),
+            'monthly' => request('month', date('M Y')),
+        ];
 
         // Get Options => Daily, Weekly, Monthly
         $daily_option_arr = $this->get_date_options($all_order_arr);
         $week_option_arr = $this->get_week_options($all_order_arr);
         $month_option_arr = $this->get_month_options($all_order_arr);
+        /* Use Order::getOrderCreateDateTime('object') over here and filter to js friendly data with single function */
+        $options = $this->getDateSelectOption($orders);
+        $temp = json_encode($options);
 
         // Options in String Format => To be Read by Javascript
         $daily_option_str = implode(" ", $daily_option_arr);
         $week_option_str = implode(" ", $week_option_arr);
         $month_option_str = $this->get_month_option_str($month_option_arr);
+        /* Skip this, since json encode already help js easily to read */
 
         // Pipeline
         //  Get Daily, Week and Month Order Array Based on daily_str, week_str and month_str
@@ -106,11 +100,15 @@ class HomeController extends Controller
 
         $test = $this->order_details_info($all_order_arr);
 
-        return view('home', compact('daily_info_arr', 'week_info_arr', 'month_info_arr','tab_active'));
+        return view('home', compact('daily_info_arr', 'week_info_arr', 'month_info_arr', 'tab_active', 'temp'));
     }
 
     // Add 8 Hours to Order
-    function getOrderCreateDateTime($date_time)
+
+    /**
+     * @throws Exception
+     */
+    function getOrderCreateDateTime($date_time): string
     {
         $result = date_add(new DateTime($date_time), new DateInterval('PT8H')); // GMT +8
         return $result->format('Y-m-d H:i:s');
@@ -126,13 +124,14 @@ class HomeController extends Controller
     }
 
     // 0. Extra Function
+
     /**
      * check_time_group
      *
-     * @param  String $time_stamp
+     * @param String $time_stamp
      * @return String
      */
-    function check_time_group($time_stamp)
+    function check_time_group(string $time_stamp): string
     {
         $hour = date('H', strtotime($time_stamp));
         if ($hour < 6) return "0:01 - 6:00";
@@ -144,10 +143,10 @@ class HomeController extends Controller
     /**
      * add_duplicates_tgt
      *
-     * @param  Array $order_item_arr
-     * @return Array
+     * @param array $order_item_arr
+     * @return array
      */
-    function add_duplicates_tgt($order_item_arr)
+    function add_duplicates_tgt(array $order_item_arr): array
     {
         $arr = [];
         foreach ($order_item_arr as $order_item) {
@@ -162,11 +161,11 @@ class HomeController extends Controller
     /**
      * get_dates_from_week_year_arr
      *
-     * @param  String $week_str
-     * @return Array
+     * @param String $week_str
+     * @return array
      */
     // Gets an Array of Days based on the week number and the year
-    function get_dates_from_week_year_arr($week_str)
+    function get_dates_from_week_year_arr(string $week_str): array
     {
         $tmp_split = explode("-", $week_str);
         $year_chosen = $tmp_split[0];
@@ -185,11 +184,11 @@ class HomeController extends Controller
     /**
      * get_weeks_from_month_year_arr
      *
-     * @param  String $month_str
-     * @return Array
+     * @param String $month_str
+     * @return array
      */
     // Gets an Array of Weeks in the format of Week Str From The Month
-    function get_weeks_from_month_year_arr($month_str)
+    function get_weeks_from_month_year_arr(string $month_str): array
     {
         $tmp_split = explode(" ", $month_str);
         $month_chosen = $tmp_split[0];
@@ -199,7 +198,7 @@ class HomeController extends Controller
         $last_dt = new DateTime("$year_chosen-$month_chosen-1");
         $last_dt->modify('last day of this month');
 
-        $first_week_of_month = (int) date('W', strtotime($first_dt->format('Y-m-d')));
+        $first_week_of_month = (int)date('W', strtotime($first_dt->format('Y-m-d')));
         $last_week_of_month = date('W', strtotime($last_dt->format('Y-m-d')));
 
         $arr = [];
@@ -211,17 +210,18 @@ class HomeController extends Controller
     /**
      * get_month_option_str
      *
-     * @param  Array $month_option_arr
+     * @param $option_arr
      * @return String
      */
     // Outputs String format of Month Options => For Javascript to Parse Input
-    function get_month_option_str($option_arr){
+    function get_month_option_str($option_arr): string
+    {
         $arr = [];
-        foreach($option_arr as $month_str){
+        foreach ($option_arr as $month_str) {
             $tmp_split = explode(" ", $month_str);
             $month = $tmp_split[0];
             $year = $tmp_split[1];
-            if(array_key_exists($year, $arr))
+            if (array_key_exists($year, $arr))
                 array_push($arr[$year], $month);
             else
                 $arr[$year] = array($month);
@@ -230,7 +230,7 @@ class HomeController extends Controller
         $year_arr = array_keys($arr);
 
         $str = "";
-        foreach($year_arr as $year){
+        foreach ($year_arr as $year) {
             $str .= $year . "/" . implode(" ", $arr[$year]) . ",";
         }
 
@@ -240,12 +240,12 @@ class HomeController extends Controller
     // Pipeline
     // 1. Get Options Based on...
     /**
-     * @param  Array $order_arr
-     * @return Array
+     * @param array $order_arr
+     * @return array
      */
 
     // Date
-    function get_date_options($order_arr)
+    function get_date_options(array $order_arr): array
     {
         $arr = array_map(function ($obj) {
             return date('Y-m-d', strtotime($obj->created_at));
@@ -254,7 +254,7 @@ class HomeController extends Controller
     }
 
     // Week
-    function get_week_options($order_arr)
+    function get_week_options($order_arr): array
     {
         $arr = array_map(function ($obj) {
             return date('Y', strtotime($obj->created_at)) . "-" . date('W', strtotime($obj->created_at));
@@ -263,7 +263,7 @@ class HomeController extends Controller
     }
 
     // Month
-    function get_month_options($order_arr)
+    function get_month_options($order_arr): array
     {
         $arr = array_map(function ($obj) {
             return date('M', strtotime($obj->created_at)) . " " . date('Y', strtotime($obj->created_at));
@@ -274,13 +274,13 @@ class HomeController extends Controller
     // 2. Get Order Array Based on...
     /**
      * get_order_arr_[Conditions]
-     * @param  Array $order_arr
-     * @param  String $str
-     * @return Array
+     * @param array $order_arr
+     * @param $time_range
+     * @return array
      */
 
     // Time
-    function get_order_arr_time($order_arr, $time_range)
+    function get_order_arr_time(array $order_arr, $time_range): array
     {
         $arr = array_filter($order_arr, function ($obj) use ($time_range) {
             $time_match = $this->check_time_group($obj->created_at);
@@ -290,7 +290,7 @@ class HomeController extends Controller
     }
 
     // Date
-    function get_order_arr_date($order_arr, $daily_date)
+    function get_order_arr_date($order_arr, $daily_date): array
     {
         $arr = array_filter($order_arr, function ($obj) use ($daily_date) {
             $date_match = date('Y-m-d', strtotime($obj->created_at));
@@ -300,7 +300,7 @@ class HomeController extends Controller
     }
 
     // Week
-    function get_order_arr_week($order_arr, $week_str)
+    function get_order_arr_week($order_arr, $week_str): array
     {
         $tmp_split = explode("-", $week_str);
         $year_chosen = $tmp_split[0];
@@ -315,7 +315,7 @@ class HomeController extends Controller
     }
 
     // Month
-    function get_order_arr_month($order_arr, $month_str)
+    function get_order_arr_month($order_arr, $month_str): array
     {
         $tmp_split = explode(" ", $month_str);
         $month_chosen = $tmp_split[0];
@@ -335,10 +335,10 @@ class HomeController extends Controller
     /**
      * get_product_arr
      *
-     * @param  Array $order_arr
-     * @return Array $product_arr
+     * @param array $order_arr
+     * @return array $product_arr
      */
-    function get_product_arr($order_arr)
+    function get_product_arr(array $order_arr)
     {
         $arr = [];
         foreach ($order_arr as $order) {
@@ -358,25 +358,27 @@ class HomeController extends Controller
     }
 
     // 4. Get Number of Products
+
     /**
      * get_product_count
      *
-     * @param  Array $product_arr
+     * @param array $product_arr
      * @return Integer $number_of_products
      */
-    function get_product_count($product_arr)
+    function get_product_count(array $product_arr): int
     {
         return sizeof($product_arr);
     }
 
     // 5. Get Total Amount of Sales Revenue / Canceled / Refunded Orders
+
     /**
      * get_product_sales_revenue
      *
-     * @param  Array $product_arr
+     * @param array $product_arr
      * @return Integer $Total_Amount_Of_Sales_Revenue
      */
-    function get_product_sales_revenue($product_arr)
+    function get_product_sales_revenue(array $product_arr): int
     {
         $sum = array_reduce($product_arr, function ($i, $obj) {
             return $i += $obj->quantity * $obj->price;
@@ -385,13 +387,15 @@ class HomeController extends Controller
     }
 
     // 6. Combine Options, Product Array, Order Count, Product Count, Total Sales Revenue, Graph String Into A Single Info Assiociative Array
+
     /**
      * get_product_arr_count_sales
      *
-     * @param  Array $order_arr
-     * @return Array
+     * @param array $order_arr
+     * @return array
      */
-    function get_product_arr_count_sales($order_arr){
+    function get_product_arr_count_sales(array $order_arr): array
+    {
         // Get Product Array Based on Daily, Week and Month
         $product_arr = $this->get_product_arr($order_arr);
         // Get Order Count / Number of Orders Based on Daily, Week and Month
@@ -413,7 +417,8 @@ class HomeController extends Controller
     // Store all 9 Variables into an associative Array for easy retrieval
     // The 9 Variables are Order Count, Product Count, Total Sales Revenue, Canceled Sales Revenue
     // Product Array, Option String, Order Count Graph, Product Count Graph, Total Sales Revenue Graph
-    function get_info_arr($order_arr, $canceled_arr, $hashmap, $selected_str, $option_str){
+    function get_info_arr($order_arr, $canceled_arr, $hashmap, $selected_str, $option_str)
+    {
         $all_order_arr = array_merge($order_arr, $canceled_arr);
 
         // Get Order Count, Product Count, Total Sales Revenue and Product Array
@@ -438,25 +443,25 @@ class HomeController extends Controller
     /**
      * get_graph_arr
      *
-     * @param  Array $hashmap
-     * @return Array
+     * @param array $hashmap
+     * @return array
      */
     // Converts into Data Points to be parsed By Javascript
-    function get_graph_arr($hashmap)
+    function get_graph_arr(array $hashmap): array
     {
         // The Array contains the string format of the hashmap information
         // Contains Number of Orders, Number of Products and Total Sales Revenue
         $label_arr = array_keys($hashmap);
 
-        $order_count_arr = array_map(function($label) use ($hashmap) {
+        $order_count_arr = array_map(function ($label) use ($hashmap) {
             return $label . "/" . $hashmap[$label]["orderCount"];
         }, $label_arr);
 
-        $product_count_arr = array_map(function($label) use ($hashmap) {
+        $product_count_arr = array_map(function ($label) use ($hashmap) {
             return $label . "/" . $hashmap[$label]["productCount"];
         }, $label_arr);
 
-        $total_sales_revenue_arr = array_map(function($label) use ($hashmap) {
+        $total_sales_revenue_arr = array_map(function ($label) use ($hashmap) {
             return $label . "/" . $hashmap[$label]["totalSalesRevenue"];
         }, $label_arr);
 
@@ -468,18 +473,20 @@ class HomeController extends Controller
     }
 
     // 8. Get Data Points
+
     /**
      * get_time_graph_hashmap
      *
-     * @param  String $daily_date_arr
-     * @return Array
+     * @param array $daily_date_arr
+     * @return array
      */
-    function get_time_graph_hashmap($daily_date_arr) {
+    function get_time_graph_hashmap(array $daily_date_arr): array
+    {
         // All Time Range For the Option Array
         $options_arr = array("0:01 - 6:00", "6:01 - 12:00", "12:01 - 18:00", "18:01 - 0:00");
 
         $hashmap = [];
-        foreach($options_arr as $option){
+        foreach ($options_arr as $option) {
             $order_arr = $this->get_order_arr_time($daily_date_arr, $option);
             $hashmap[$option] = $this->get_product_arr_count_sales($order_arr);
         }
@@ -487,12 +494,13 @@ class HomeController extends Controller
     }
 
     // Daily
-    function get_week_graph_hashmap($week_arr, $week_str){
+    function get_week_graph_hashmap($week_arr, $week_str): array
+    {
         // All Dates For the Option Array
         $options_arr = $this->get_dates_from_week_year_arr($week_str);
 
         $hashmap = [];
-        foreach($options_arr as $option){
+        foreach ($options_arr as $option) {
             $order_arr = $this->get_order_arr_date($week_arr, $option);
             $hashmap[$option] = $this->get_product_arr_count_sales($order_arr);
         }
@@ -500,13 +508,14 @@ class HomeController extends Controller
     }
 
     // Weekly
-    function get_month_graph_hashmap($month_arr, $month_str) {
+    function get_month_graph_hashmap($month_arr, $month_str): array
+    {
         // All Weeks For the Option Array
         $options_arr = $this->get_weeks_from_month_year_arr($month_str);
 
         $hashmap = [];
         $ind = 1;
-        foreach($options_arr as $option){
+        foreach ($options_arr as $option) {
             $order_arr = $this->get_order_arr_week($month_arr, $option);
             $hashmap["Week " . $ind] = $this->get_product_arr_count_sales($order_arr);
             $ind++;
@@ -516,9 +525,10 @@ class HomeController extends Controller
 
     // 9. Get Order Details
     // Shows Order Barcode, Order Payment Method, Order Status, Order Creation Date, Number of Product and Subtotal
-    function order_details_info($order_arr){
+    function order_details_info($order_arr): array
+    {
         $arr = [];
-        foreach($order_arr as $order){
+        foreach ($order_arr as $order) {
             $product_arr = DB::select("SELECT * FROM order_items WHERE order_id = " . $order->id);
             $tmp_item = [];
             $tmp_item["orderCode"] = $order->code;
@@ -531,4 +541,50 @@ class HomeController extends Controller
         }
         return $arr;
     }
-};
+
+    /**
+     * @param $orders
+     * @return array
+     * @throws Exception
+     */
+    private function getDateSelectOption($orders): array
+    {
+        foreach ($orders as $order) {
+
+            $date = $order->getOrderCreateDateTime('object'); // DateTime object returned
+
+            // Daily
+            $options['daily'][] = $date->format('Y-m-d');
+            $options['daily'] = array_values(array_unique($options['daily'])); // Filter duplicated date
+
+
+            // Weekly
+            $dayToSubToMon = $date->format('N') - 1; // Get week's day, Monday -> 0, etc.
+            $dateToAdd = $date->sub(new DateInterval("P" . $dayToSubToMon . "D")); // Sub the value to first day of week
+            for ($i = 0; $i < 7; $i++){ // $dateToAdd(day)++ for 7 times to push each day for the following week
+                $options['weekly'][] = $dateToAdd->format('Y-m-d');
+                $dateToAdd->add(new DateInterval('P1D'));
+            }
+            $options['weekly'] = array_values(array_unique($options['weekly'])); // Filter duplicated date
+
+
+            // Monthly
+            $options['monthly'][$date->format('Y')][] = $date->format('M');
+            foreach ($options['monthly'] as $key => $value){ // Filter duplicated date
+                $options['monthly'][$key] = array_unique($value);
+            }
+
+
+            // Yearly
+            $start = number_format($date->format('Y') / 10) * 10 - 1; // Get year period starting value
+            $options['yearly'][$start][] = intval($date->format('Y'));
+            foreach ($options['yearly'] as $key => $value){ // Filter duplicated date
+                $options['yearly'][$key] = array_unique($value);
+            }
+
+        }
+        return $options ?? [];
+    }
+}
+
+;

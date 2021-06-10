@@ -451,42 +451,46 @@
                     break;
             }
 
+            let temp = {!! $temp !!};
             // Get Options
             // Daily
-            let date_option_str = $("#date_option_str").html();
-            let date_option_arr = date_option_str.split(" ");
+            // let date_option_str = $("#date_option_str").html();
+            // let date_option_arr = date_option_str.split(" ");
+            let date_option_arr = temp.daily;
 
-            // Weekly
-            let week_option_str = $("#week_option_str").html();
-            let w_arr = week_option_str.split(" ");
-            for (let week of w_arr) {
-                let tmp_arr = week.split("-");
-                let tmp_year = parseInt(tmp_arr[0]),
-                    tmp_week = parseInt(tmp_arr[1]);
-                week_option_arr = week_option_arr.concat(getDateOfISOWeekArr(tmp_week, tmp_year));
-            }
+            // let week_option_str = $("#week_option_str").html();
+            // let w_arr = week_option_str.split(" ");
+            // for (let week of w_arr) {
+            //     let tmp_arr = week.split("-");
+            //     let tmp_year = parseInt(tmp_arr[0]),
+            //         tmp_week = parseInt(tmp_arr[1]);
+            //     week_option_arr = week_option_arr.concat(getDateOfISOWeekArr(tmp_week, tmp_year));
+            // }
+            week_option_arr = temp.weekly;
 
             // Monthly
-            let month_option_str = $("#month_option_str").html();
-            let m_arr = month_option_str.split(",");
-            for (let str of m_arr) {
-                let tmp_arr = str.split("/");
-                let tmp_year = tmp_arr[0];
-                if (month_option_hashmap[tmp_year])
-                    month_option_hashmap[tmp_year] = month_option_hashmap[tmp_year].concat(tmp_arr[1].split(" "));
-                else
-                    month_option_hashmap[tmp_year] = tmp_arr[1].split(" ");
-            }
+            // let month_option_str = $("#month_option_str").html();
+            // let m_arr = month_option_str.split(",");
+            // for (let str of m_arr) {
+            //     let tmp_arr = str.split("/");
+            //     let tmp_year = tmp_arr[0];
+            //     if (month_option_hashmap[tmp_year])
+            //         month_option_hashmap[tmp_year] = month_option_hashmap[tmp_year].concat(tmp_arr[1].split(" "));
+            //     else
+            //         month_option_hashmap[tmp_year] = tmp_arr[1].split(" ");
+            // }
+            month_option_hashmap = temp.monthly;
 
             // Get All Year From Month
-            let month_option_year = Object.keys(month_option_hashmap);
-            for (let yr of month_option_year) {
-                let ind = parseInt(parseInt(yr) / 10, 10) * 10;
-                if (month_option_year_hashmap[ind - 1])
-                    month_option_year_hashmap[ind - 1].push(parseInt(yr));
-                else
-                    month_option_year_hashmap[ind - 1] = [parseInt(yr)];
-            }
+            // let month_option_year = Object.keys(month_option_hashmap);
+            // for (let yr of month_option_year) {
+            //     let ind = parseInt(parseInt(yr) / 10, 10) * 10;
+            //     if (month_option_year_hashmap[ind - 1])
+            //         month_option_year_hashmap[ind - 1].push(parseInt(yr));
+            //     else
+            //         month_option_year_hashmap[ind - 1] = [parseInt(yr)];
+            // }
+            month_option_year_hashmap = temp.yearly;
 
             // Date Picker
             $("#datePicker").datepicker({
