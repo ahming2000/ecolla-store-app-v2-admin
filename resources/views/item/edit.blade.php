@@ -197,7 +197,7 @@
                             商品类别/标签：
                         </div>
 
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3">
                             <div id="category-section">
                                 @if(!empty(old('categories')))
                                     <input type="hidden"
@@ -205,7 +205,7 @@
                                            id="currentCategoryCount">
                                     @for($i = 0; $i < sizeof(old('categories')); $i++)
                                         <div class="row category-item">
-                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                            <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                                                 <select class="form-control" name="categories[{{$i}}][id]">
                                                     @foreach($categories as $category)
                                                         <option
@@ -216,9 +216,9 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                            <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
                                                 <button type="button"
-                                                        class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                                                        class="btn btn-danger btn-sm remove-button category-remove-button px-3 py-1 w-100">
                                                     X
                                                 </button>
                                             </div>
@@ -230,7 +230,7 @@
                                            id="currentCategoryCount">
                                     @for($i = 0; $i < sizeof($item->categories); $i++)
                                         <div class="row category-item">
-                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                            <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                                                 <select class="form-control" name="categories[{{$i}}][id]">
                                                     @foreach($categories as $category)
                                                         <option
@@ -241,9 +241,9 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                            <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
                                                 <button type="button"
-                                                        class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                                                        class="btn btn-danger btn-sm remove-button category-remove-button px-3 py-1 w-100">
                                                     X
                                                 </button>
                                             </div>
@@ -252,7 +252,7 @@
                                 @else
                                     <input type="hidden" value="1" id="currentCategoryCount">
                                     <div class="row category-item">
-                                        <div class="col-11 mb-1 mr-0 pr-0">
+                                        <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                                             <select class="form-control" name="categories[0][id]">
                                                 @foreach($categories as $category)
                                                     <option value="{{ $category->id }}">
@@ -262,35 +262,43 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-1 mb-1 ml-0 pl-0">
+                                        <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
                                             <button type="button"
-                                                    class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                                                    class="btn btn-danger btn-sm remove-button category-remove-button px-3 py-1 w-100">
                                                 X
                                             </button>
                                         </div>
                                     </div>
                                 @endif
-
                             </div>
                         </div>
-
                         <div class="col-12 text-center">
-                            <button type="button" class="btn btn-secondary" id="extra-category-button">
+                            <button type="button" class="btn btn-outline-blue btn-sm" id="extra-category-button">
                                 添加更多类别/标签
                             </button>
                         </div>
                     </div>
                     <!-- Category -->
 
-                    <div class="h2" id="step-two">规格资讯</div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div style="font-size: 30px; font-weight: bolder" id="step-two">规格资讯</div>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button type="button" class="btn btn-outline-blue btn-sm mb-3" id="extra-variation-button">
+                                <i class="icofont icofont-ui-add"></i> 添加更多规格
+                            </button>
+                        </div>
+
+                    </div>
 
                     <!-- Variation Name -->
                     <div class="row mb-3">
-                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-3">
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 text-sm-left text-md-right mb-2">
                             规格：
                         </div>
 
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 mb-3 text-center">
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-8 text-center">
                             <div id="variation-section">
                                 @if(!empty(old('variations')))
                                     <input type="hidden"
@@ -299,7 +307,7 @@
 
                                     @for($i = 0; $i < sizeof(old('variations')); $i++)
                                         <div class="row variation-item">
-                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                            <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                                                 <div class="row">
                                                     <div class="col-md-6 col-sm-12 pr-md-1">
                                                         <input type="text"
@@ -332,9 +340,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                            <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
                                                 <button type="button"
-                                                        class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                        class="btn btn-danger btn-sm remove-button variation-remove-button px-3 py-1 w-100">
                                                     X
                                                 </button>
                                             </div>
@@ -347,7 +355,7 @@
                                     >
                                     @for($i = 0; $i < sizeof($item->variations); $i++)
                                         <div class="row variation-item">
-                                            <div class="col-11 mb-1 mr-0 pr-0">
+                                            <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                                                 <div class="row">
                                                     <div class="col-md-6 col-sm-12 pr-md-1">
                                                         <input type="text"
@@ -368,9 +376,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-1 mb-1 ml-0 pl-0">
+                                            <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
                                                 <button type="button"
-                                                        class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                        class="btn btn-danger btn-sm remove-button variation-remove-button px-3 py-1 w-100">
                                                     X
                                                 </button>
                                             </div>
@@ -379,7 +387,7 @@
                                 @else
                                     <input type="hidden" value="1" id="currentVariationCount">
                                     <div class="row variation-item">
-                                        <div class="col-11 mb-1 mr-0 pr-0">
+                                        <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12 pr-md-1">
                                                     <input type="text"
@@ -398,9 +406,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-1 mb-1 ml-0 pl-0">
+                                        <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
                                             <button type="button"
-                                                    class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                    class="btn btn-danger btn-sm remove-button variation-remove-button px-3 py-1 w-100">
                                                 X
                                             </button>
                                         </div>
@@ -408,160 +416,185 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="col-12 text-center">
-                            <button type="button" class="btn btn-secondary mb-3" id="extra-variation-button">
-                                添加更多规格
-                            </button>
-                        </div>
                     </div>
                     <!-- Variation Name -->
 
                     <!-- Variation Detail -->
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            规格销售
-                        </div>
-                        <div class="col-12">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th scope="col">名称</th>
-                                    <th scope="col">货号</th>
-                                    <th scope="col">价格(RM)</th>
-                                    <th scope="col">重量(kg)</th>
-                                    <th scope="col">库存</th>
-                                </tr>
-                                </thead>
-
-                                <tbody id="variation-table-section">
-                                @if(!empty(old('variations')))
-                                    @for($i = 0; $i < sizeof(old('variations')); $i++)
-                                        <tr class="variation-table-item">
-                                            <td>
+                    <div class="row mb-3" id="variation-table-section">
+                        @if(!empty(old('variations')))
+                            @for($i = 0; $i < sizeof(old('variations')); $i++)
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3 variation-table-item">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row mb-2">
+                                                <div class="col-12">
+                                                    <h6 class="text-truncate variation-name-display">{{ $item->variations[$i]->name }}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <input type="text"
+                                                           class="form-control form-control-sm @error("variations.$i.barcode") is-invalid @enderror"
+                                                           name="variations[{{$i}}][barcode]"
+                                                           maxlength="20"
+                                                           value="{{ old("variations.$i.barcode") ?? "" }}"
+                                                           placeholder="货号"
+                                                           autocomplete="off"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col-6 mr-0 pr-1">
+                                                    <input type="number"
+                                                           step="0.01"
+                                                           min="0"
+                                                           class="form-control form-control-sm @error("variations.$i.price") is-invalid @enderror variation-price-display"
+                                                           name="variations[{{$i}}][price]"
+                                                           value="{{ old("variations.$i.price") ?? 0 }}"
+                                                           placeholder="价钱（RM）">
+                                                </div>
+                                                <div class="col-6 ml-0 pl-1">
+                                                    <input type="number"
+                                                           min="0"
+                                                           class="form-control form-control-sm @error("variations.$i.stock") is-invalid @enderror"
+                                                           name="variations[{{$i}}][stock]"
+                                                           value="{{ old("variations.$i.stock") ?? 0 }}"
+                                                           placeholder="库存">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col-6 mr-0 pr-1">
+                                                    <input type="number"
+                                                           step="0.001"
+                                                           min="0"
+                                                           class="form-control form-control-sm @error("variations.$i.weight") is-invalid @enderror"
+                                                           name="variations[{{$i}}][weight]"
+                                                           value="{{ old("variations.$i.weight") ?? 0 }}"
+                                                           placeholder="重量（kg）">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
+                        @elseif(!empty($item->variations->toArray()))
+                            @for($i = 0; $i < sizeof($item->variations); $i++)
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3 variation-table-item">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row mb-2">
+                                                <div class="col-12">
+                                                    <h6 class="text-truncate variation-name-display">{{ $item->variations[$i]->name }}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
+                                                           name="variations[{{$i}}][barcode]"
+                                                           maxlength="20"
+                                                           value="{{ $item->variations[$i]->barcode ?? "" }}"
+                                                           placeholder="货号"
+                                                           autocomplete="off"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col-6 mr-0 pr-1">
+                                                    <input type="number"
+                                                           step="0.01"
+                                                           min="0"
+                                                           class="form-control form-control-sm variation-price-display"
+                                                           name="variations[{{$i}}][price]"
+                                                           value="{{ number_format($item->variations[$i]->price, 2, '.', '') ?? 0 }}"
+                                                           placeholder="价钱（RM）">
+                                                </div>
+                                                <div class="col-6 ml-0 pl-1">
+                                                    <input type="number"
+                                                           min="0"
+                                                           class="form-control form-control-sm"
+                                                           name="variations[{{$i}}][stock]"
+                                                           value="{{ $item->variations[$i]->stock ?? 0 }}"
+                                                           placeholder="库存">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col-6 mr-0 pr-1">
+                                                    <input type="number"
+                                                           step="0.001"
+                                                           min="0"
+                                                           class="form-control form-control-sm"
+                                                           name="variations[{{$i}}][weight]"
+                                                           value="{{ number_format($item->variations[$i]->weight, 3, '.', '') ?? 0 }}"
+                                                           placeholder="重量（kg）">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
+                        @else
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3 variation-table-item">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-12">
+                                                <h6 class="text-truncate variation-name-display"></h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 mb-1">
                                                 <input type="text"
-                                                       class="form-control variation-name-display"
-                                                       value="{{ (old("variations.$i.name") ?? "") }}"
-                                                       disabled>
-                                            </td>
-                                            <td>
-                                                <input type="text"
-                                                       class="form-control @error("variations.$i.barcode") is-invalid @enderror"
-                                                       name="variations[{{$i}}][barcode]"
+                                                       class="form-control form-control-sm"
+                                                       name="variations[0][barcode]"
                                                        maxlength="20"
-                                                       value="{{ old("variations.$i.barcode") ?? "" }}"
+                                                       value=""
+                                                       placeholder="货号"
+                                                       autocomplete="off"
                                                        required>
-                                            </td>
-                                            <td><input type="number"
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-6 mr-0 pr-1">
+                                                <input type="number"
                                                        step="0.01"
                                                        min="0"
-                                                       class="form-control @error("variations.$i.price") is-invalid @enderror variation-price-display"
-                                                       name="variations[{{$i}}][price]"
-                                                       value="{{ old("variations.$i.price") ?? 0 }}">
-                                            </td>
-                                            <td><input type="number"
-                                                       step="0.001"
-                                                       min="0"
-                                                       class="form-control @error("variations.$i.weight") is-invalid @enderror"
-                                                       name="variations[{{$i}}][weight]"
-                                                       value="{{ old("variations.$i.weight") ?? 0 }}">
-                                            <td>
+                                                       class="form-control form-control-sm variation-price-display"
+                                                       name="variations[0][price]"
+                                                       value="0"
+                                                       placeholder="价钱（RM）">
+                                            </div>
+                                            <div class="col-6 ml-0 pl-1">
                                                 <input type="number"
                                                        min="0"
-                                                       class="form-control @error("variations.$i.stock") is-invalid @enderror"
-                                                       name="variations[{{$i}}][stock]"
-                                                       value="{{ old("variations.$i.stock") ?? 0 }}">
-                                            </td>
-                                        </tr>
-                                    @endfor
-                                @elseif(!empty($item->variations->toArray()))
-                                    @for($i = 0; $i < sizeof($item->variations); $i++)
-
-                                        <tr class="variation-table-item">
-                                            <td>
-                                                <input type="text"
-                                                       class="form-control variation-name-display"
-                                                       value="{{ $item->variations[$i]->name }}"
-                                                       disabled>
-                                            </td>
-                                            <td>
-                                                <input type="text"
-                                                       class="form-control"
-                                                       name="variations[{{$i}}][barcode]"
-                                                       maxlength="20"
-                                                       value="{{ $item->variations[$i]->barcode ?? "" }}"
-                                                       required>
-                                            </td>
-                                            <td><input type="number"
-                                                       step="0.01"
-                                                       min="0"
-                                                       class="form-control variation-price-display"
-                                                       name="variations[{{$i}}][price]"
-                                                       value="{{ number_format($item->variations[$i]->price, 2, '.', '') ?? 0 }}">
-                                            </td>
-                                            <td><input type="number"
+                                                       class="form-control form-control-sm"
+                                                       name="variations[0][stock]"
+                                                       value="0"
+                                                       placeholder="库存">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-6 mr-0 pr-1">
+                                                <input type="number"
                                                        step="0.001"
                                                        min="0"
-                                                       class="form-control"
-                                                       name="variations[{{$i}}][weight]"
-                                                       value="{{ number_format($item->variations[$i]->weight, 3, '.', '') ?? 0 }}">
-                                            </td>
-                                            <td>
-                                                <input type="number"
-                                                       min="0"
-                                                       class="form-control"
-                                                       name="variations[{{$i}}][stock]"
-                                                       value="{{ $item->variations[$i]->stock ?? 0 }}">
-                                            </td>
-                                        </tr>
-                                    @endfor
-                                @else
-                                    <tr class="variation-table-item">
-                                        <td>
-                                            <input type="text"
-                                                   class="form-control variation-name-display"
-                                                   disabled>
-                                        </td>
-                                        <td>
-                                            <input type="text"
-                                                   class="form-control"
-                                                   name="variations[0][barcode]"
-                                                   maxlength="20"
-                                                   required>
-                                        </td>
-                                        <td><input type="number"
-                                                   step="0.01"
-                                                   min="0"
-                                                   class="form-control variation-price-display"
-                                                   name="variations[0][price]"
-                                                   value="0">
-                                        </td>
-                                        <td><input type="number"
-                                                   step="0.001"
-                                                   min="0"
-                                                   class="form-control"
-                                                   name="variations[0][weight]"
-                                                   value="0">
-                                        </td>
-                                        <td>
-                                            <input type="number"
-                                                   min="0"
-                                                   class="form-control"
-                                                   name="variations[0][stock]"
-                                                   value="0">
-                                        </td>
-                                    </tr>
-                                @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                                       class="form-control form-control-sm"
+                                                       name="variations[0][weight]"
+                                                       value="0"
+                                                       placeholder="重量（kg）">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <!-- Variation Detail -->
 
                     <div class="h2" id="step-three">折扣管理</div>
 
                     <div class="row mb-3">
-                        <div class="col-12 text-center">Under Maintenance</div>
+                        <div class="col-12 text-center">暂未开放</div>
                     </div>
                     <!-- Variation discount -->
                 {{--                    <div class="row mb-3">--}}
@@ -764,8 +797,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <figcaption class="figure-caption text-center"></figcaption>
                                         </figure>
+                                        <h6 class="figure-caption text-center text-truncate"></h6>
                                     </div>
                                 @else
                                     @for($i = 0; $i < sizeof($item->variations->toArray()); $i++)
@@ -856,7 +889,7 @@
         function getExtraCategoryHTML(categoryCount) {
             return `
             <div class="row category-item">
-                <div class="col-11 mb-1 mr-0 pr-0">
+                <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                     <select class="form-control" name="categories[${categoryCount}][id]">
                         @foreach($categories as $category)
             <option value="{{ $category->id }}">
@@ -866,9 +899,9 @@
             </select>
         </div>
 
-        <div class="col-1 mb-1 ml-0 pl-0">
+        <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
             <button type="button"
-                    class="btn default-color white-text btn-sm remove-button category-remove-button px-3 py-1">
+                    class="btn btn-danger btn-sm remove-button category-remove-button px-3 py-1 w-100">
                 X
             </button>
         </div>
@@ -892,7 +925,7 @@
         function getExtraVariationHTML(variationCount) {
             return `
             <div class="row variation-item">
-                                        <div class="col-11 mb-1 mr-0 pr-0">
+                                        <div class="col-xs-10 col-sm-11 mb-1 mr-0 pr-0">
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12 pr-md-1">
                                                     <input type="text"
@@ -910,9 +943,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-1 mb-1 ml-0 pl-0">
+                                        <div class="col-xs-2 col-sm-1 mb-1 ml-0 pl-0">
                                             <button type="button"
-                                                    class="btn default-color white-text btn-sm remove-button variation-remove-button px-3 py-1">
+                                                    class="btn btn-danger btn-sm remove-button variation-remove-button px-3 py-1 w-100">
                                                 X
                                             </button>
                                         </div>
@@ -922,40 +955,59 @@
 
         function getExtraVariationTableRowHTML(variationCount) {
             return `
-            <tr class="variation-table-item">
-                                        <td>
-                                            <input type="text"
-                                                   class="form-control variation-name-display"
-                                                   disabled>
-                                        </td>
-                                        <td>
-                                            <input type="text"
-                                                   class="form-control"
-                                                   name="variations[${variationCount}][barcode]"
-                                                   maxlength="20" required>
-                                        </td>
-                                        <td><input type="number"
-                                                   step="0.01"
-                                                   min="0"
-                                                   class="form-control variation-price-display"
-                                                   name="variations[${variationCount}][price]"
-                                                    value="0">
-                                        </td>
-                                        <td><input type="number"
-                                                   step="0.001"
-                                                   min="0"
-                                                   class="form-control"
-                                                   name="variations[${variationCount}][weight]"
-                                                   value="0">
-                                        </td>
-                                        <td>
-                                            <input type="number"
-                                                   min="0"
-                                                   class="form-control"
-                                                   name="variations[${variationCount}][stock]"
-                                                   value="0">
-                                        </td>
-                                    </tr>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3 variation-table-item">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-12">
+                                                <h6 class="text-truncate variation-name-display"></h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 mb-1">
+                                                <input type="text"
+                                                       class="form-control form-control-sm"
+                                                       name="variations[${variationCount}][barcode]"
+                                                       maxlength="20"
+                                                       value=""
+                                                       placeholder="货号"
+                                                       autocomplete="off"
+                                                       required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-6 mr-0 pr-1">
+                                                <input type="number"
+                                                       step="0.01"
+                                                       min="0"
+                                                       class="form-control form-control-sm variation-price-display"
+                                                       name="variations[${variationCount}][price]"
+                                                       value="0"
+                                                       placeholder="价钱（RM）">
+                                            </div>
+                                            <div class="col-6 ml-0 pl-1">
+                                                <input type="number"
+                                                       min="0"
+                                                       class="form-control form-control-sm"
+                                                       name="variations[${variationCount}][stock]"
+                                                       value="0"
+                                                       placeholder="库存">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-6 mr-0 pr-1">
+                                                <input type="number"
+                                                       step="0.001"
+                                                       min="0"
+                                                       class="form-control form-control-sm"
+                                                       name="variations[${variationCount}][weight]"
+                                                       value="0"
+                                                       placeholder="重量（kg）">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
             `;
         }
 
@@ -981,13 +1033,13 @@
                                  title="Upload Image"
                                  onclick="uploadImage(this)"
                             >
-                                <i class="icofont-edit"></i>
+                                <i class="icofont icofont-edit"></i>
                             </div>
                             <div class="img-upload-overlay-icon remove-img-button"
                                  title="Remove Image"
                                  onclick="removeImage(this)"
                             >
-                                <i class="icofont-ui-delete"></i>
+                                <i class="icofont icofont-ui-delete"></i>
                             </div>
                         </div>
                     </div>
@@ -1005,7 +1057,7 @@
             let value = sourceSelector.find('.variation-name').eq(0).val();
             let variationIndex = $(".variation-item").index($(this).closest('.variation-item'));
 
-            $(".variation-table-item").eq(variationIndex).find('.variation-name-display').val(value);
+            $(".variation-table-item").eq(variationIndex).find('.variation-name-display').html(value);
             $(".variation-image-item").eq(variationIndex).find(".figure-caption").html(value); // Variety Image Box Caption
         });
 
@@ -1190,7 +1242,9 @@
             if ($(this).hasClass("variation-remove-button")) {
                 let variationIndex = $(".variation-item").index($(this).closest('.variation-item'));
 
-                $(".variation-table-item").eq(variationIndex).html('');
+                let variationItemSelector =  $(".variation-table-item").eq(variationIndex);
+                variationItemSelector.attr('hidden', 'hidden'); // Hide the blank space
+                variationItemSelector.html('');
 
                 let variationImageItemSelector = $(".variation-image-item").eq(variationIndex);
                 variationImageItemSelector.attr("hidden", "hidden"); // Hide the blank space
