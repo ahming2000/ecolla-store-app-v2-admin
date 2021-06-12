@@ -14,14 +14,21 @@ class AccountsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'access:admin']);
+        $this->middleware(['auth', 'access:admin', 'access:status_check']);
     }
 
     public function index()
     {
-        $users = User::all();
 
-        // return view('account.index', compact('users')); // TODO - return front-end view
+        $users = User::with('permission')
+            ->where('users.role', '=', 'employee')
+            ->where('users.status', '!=', 'deleted')->get();
+
+        // dd($users);
+
+        $permissions = UserPermission::getPermissions();
+
+        return view('account.index', array('users' => $users, 'permissions' => $permissions));
     }
 
     public function store()
@@ -40,21 +47,26 @@ class AccountsController extends Controller
         foreach ($userData as $key => $value) {
             $user->setAttribute($key, $value);
         }
+        $user->setAttribute('status', 'disabled');
         $user->save();
 
         $userPermission = new UserPermission();
         foreach ($permissions as $key => $value) {
-            $userPermission->setAttribute($key, $value);
+            $userPermission->setAttribute($value, '1');
         }
         $user->permission()->save($userPermission);
 
-        return redirect('/account')->with('message', "账号 " . $user->name . " 创建成功！");
+        $newUser = User::with('permission')
+        ->where('users.id', '=', $user->id)
+        ->get();
+        $message = "账号 " . $user->name . " 创建成功！";
+
+        return response()->json(['user' => $newUser[0], 'message' => $message]);
     }
 
     public function update(User $user)
     {
         $userData = request()->validate([
-            'email' => ['email', 'required', 'unique:users'],
             'name' => 'required',
             'password' => ['required', 'confirmed']
         ]);
@@ -63,16 +75,33 @@ class AccountsController extends Controller
 
         $permissions = request('permissions');
 
-        $user->update($userData);
-        $user->permission()->update($permissions);
+        $permissionAttributes = UserPermission::getAllAttributes();
 
-        return redirect('/account')->with('message', "账号 " . $user->name . " 属性修改成功！");
+        // Generate an array that use attribute as key, true or false as value
+        foreach ($permissionAttributes as $attr) {
+            if (in_array($attr, $permissions)) {
+                $permissionsToUpdate[$attr] = '1';
+            } else {
+                $permissionsToUpdate[$attr] = '0';
+            }
+        }
+
+        $user->update($userData);
+        $user->permission()->update($permissionsToUpdate ?? []);
+
+        $updatedUser = User::with('permission')
+            ->where('users.id', '=', $user->id)
+            ->get();
+        $message = "账号 " . $user->name . " 属性修改成功！";
+
+        return response()->json(['user' => $updatedUser[0], 'message' => $message]);
     }
 
-    public function manage(User $user){
+    public function manage(User $user)
+    {
         $action = request('action');
 
-        switch ($action){
+        switch ($action) {
             case 'activate':
                 $user->update(['status' => 'enabled']);
                 $message = "账号 " . $user->name . " 已激活！";
@@ -88,7 +117,6 @@ class AccountsController extends Controller
             default:
         }
 
-        return redirect('/account')->with('message', $message);
+        return response()->json(['user_status' => $user->status, 'message' => $message]);
     }
-
 }

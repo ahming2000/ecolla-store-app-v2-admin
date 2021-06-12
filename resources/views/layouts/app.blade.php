@@ -20,7 +20,8 @@
     @yield('extraStyle')
 
 </head>
-<body>
+
+<body style="min-width: 100%;">
 
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -52,7 +53,6 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">主页</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/item') }}">商品</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/order') }}">订单</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/setting/website') }}">网站属性设置</a></li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -60,7 +60,13 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url('/setting/account') }}">个人账号设置</a>
+                                @if(auth()->user()->hasAccess('setting_view'))
+                                    <a class="dropdown-item" href="{{ url('/setting/website') }}">网站属性设置</a>
+                                    <a class="dropdown-item" href="{{ url('/setting/account') }}">个人账号设置</a>
+                                @endif
+                                @if(auth()->user()->role == 'admin')
+                                    <a class="dropdown-item" href="{{ url('/account') }}">员工账户管理</a>
+                                @endif
                                 <a class="dropdown-item" href="{{ url('/changing-log') }}">应用更新日志</a>
                                 <a class="dropdown-item"
                                    href="{{ route('logout') }}"
@@ -94,3 +100,4 @@
 
 </body>
 </html>
+

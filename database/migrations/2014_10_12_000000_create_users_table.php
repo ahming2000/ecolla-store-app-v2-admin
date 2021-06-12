@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role')->default('employee');
-            $table->string('status')->default('disable'); // enable/disable/deleted
+            $table->string('status')->default('disabled'); // enabled/disabled/deleted
             $table->rememberToken();
             $table->timestamps();
         });

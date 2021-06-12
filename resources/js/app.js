@@ -20,6 +20,11 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('users', require('./components/Users.vue').default);
+Vue.component('user', require('./components/User.vue').default);
+Vue.component('add-user', require('./components/AddUser.vue').default);
+Vue.component('edit-user', require('./components/EditUser.vue').default);
+Vue.component('delete-user', require('./components/DeleteUser.vue').default);
 
 
 Vue.component('listing-switch', require('./components/item/index/ListingSwitch.vue').default);
@@ -33,5 +38,5 @@ Vue.component('util-table', require('./components/item/edit/UtilTable.vue').defa
  */
 
 const app = new Vue({
-    el: '#app',
+    el: '#app'
 });

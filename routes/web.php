@@ -5,6 +5,7 @@ use App\Http\Controllers\ChangingLog\ChangingLogController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SystemUpdateController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -76,10 +77,11 @@ Route::prefix('/setting')->group(function () {
 
 Route::prefix('/account')->group(function () {
     Route::get('/', [AccountsController::class, 'index']);
-    Route::get('/{user}/edit', [AccountsController::class, 'edit']);
     Route::post('/', [AccountsController::class, 'store']);
     Route::post('/{user}', [AccountsController::class, 'manage']);
     Route::patch('/{user}', [AccountsController::class, 'update']);
 });
 
 Route::get('/changing-log', [ChangingLogController::class, 'index']);
+
+Route::get('/perform-update', [SystemUpdateController::class, 'performUpdate']);
