@@ -28,7 +28,7 @@ class AccountsController extends Controller
 
         $permissions = UserPermission::getPermissions();
 
-        return view('account.index', array('users' => $users, 'permissions' => $permissions));
+        return view('account.index', compact('users','permissions'));
     }
 
     public function store()
@@ -68,7 +68,7 @@ class AccountsController extends Controller
     {
         $userData = request()->validate([
             'name' => 'required',
-            'password' => ['required', 'confirmed']
+            'password' => ['confirmed']
         ]);
 
         $userData['password'] = password_hash($userData['password'], PASSWORD_BCRYPT);
