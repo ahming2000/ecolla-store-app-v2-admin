@@ -28,7 +28,7 @@ class AccountsController extends Controller
 
         $permissions = UserPermission::getPermissions();
 
-        return view('account.index', array('users' => $users, 'permissions' => $permissions));
+        return view('account.index', compact('users','permissions'));
     }
 
     public function store()
