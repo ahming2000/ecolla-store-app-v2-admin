@@ -20,12 +20,12 @@ class ImportUsers extends Migration
             'email' => 'admin@newrainbowmarket.com',
             'role' => 'admin',
             'status' => 'enabled',
-            'password' => '$2y$10$w9UfBq/NxgJz5IkR8U.upeJwqIQsSHxWn6a4U2NpPVbFrjJH3.Jf.'
+            'password' => '$2y$10$PMMdxuBaRgc1Syb8ELKP0eoIMRu7UxacCkaNZmY6Q3skvlAbsNcg.', // Isd22*d11Z
         ]);
 
         DB::table('users')->insert([
             'id' => 2,
-            'name' => 'Ah Ming',
+            'name' => 'AhMing',
             'email' => 'ahming@newrainbowmarket.com',
             'role' => 'admin',
             'status' => 'enabled',
@@ -52,80 +52,21 @@ class ImportUsers extends Migration
 
         DB::table('users')->insert([
             'id' => 5,
-            'name' => 'user',
+            'name' => 'User',
             'email' => 'user@newrainbowmarket.com',
-            'role' => 'employee',
+            'role' => 'admin',
             'status' => 'enabled',
-            'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
+            'password' => '$2y$10$PMMdxuBaRgc1Syb8ELKP0eoIMRu7UxacCkaNZmY6Q3skvlAbsNcg.' // Isd22*d11Z
         ]);
 
         DB::table('users')->insert([
             'id' => 6,
-            'name' => 'Yasuo',
-            'email' => 'yasuo@newrainbowmarket.com',
-            'role' => 'employee',
+            'name' => 'mslam',
+            'email' => 'mslam@newrainbowmarket.com',
+            'role' => 'admin',
             'status' => 'enabled',
-            'password' => '$2y$10$ATi9K/dqzv/IzUYBaBk9DODp4jYEExnGyWTmGhuFBWWcKt1RMd5/S' //Password: some_password
+            'password' => '$2y$10$H4LbjAg23kul8TnoiWv9juy7oMrvWK/hu6rpWKgI82wrQvBO6N5re' // test123
         ]);
-
-        DB::table('user_permissions')->insert([
-            'user_id' => '5',
-
-            'item_view' => '1',
-            'item_create' => '0',
-            'item_update' => '0',
-            'item_delete' => '1',
-            'item_list' => '1',
-
-            'order_view' => '0',
-            'order_update' => '1',
-            'order_delete' => '1',
-            'order_receipt_view' => '1',
-            'order_invoice_download' => '0',
-
-            'order_item_view' => '1',
-            'order_item_create' => '0',
-            'order_item_update' => '0',
-            'order_item_delete' => '0',
-
-            'dashboard_view' => '1',
-
-            'setting_view' => '1',
-            'setting_item' => '0',
-            'setting_order' => '0',
-            'setting_pagination' => '0',
-            'setting_account' => '0',
-        ]);
-
-        DB::table('user_permissions')->insert([
-            'user_id' => '6',
-
-            'item_view' => '1',
-            'item_create' => '0',
-            'item_update' => '0',
-            'item_delete' => '1',
-            'item_list' => '1',
-
-            'order_view' => '0',
-            'order_update' => '1',
-            'order_delete' => '1',
-            'order_receipt_view' => '1',
-            'order_invoice_download' => '0',
-
-            'order_item_view' => '1',
-            'order_item_create' => '0',
-            'order_item_update' => '0',
-            'order_item_delete' => '0',
-
-            'dashboard_view' => '1',
-
-            'setting_view' => '1',
-            'setting_item' => '0',
-            'setting_order' => '0',
-            'setting_pagination' => '0',
-            'setting_account' => '0',
-        ]);
-
     }
 
     /**
