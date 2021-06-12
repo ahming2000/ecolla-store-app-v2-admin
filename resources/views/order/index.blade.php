@@ -6,20 +6,20 @@
 
 @section('extraStyle')
     <style>
-        .order-attr-value{
+        .order-attr-value {
             color: green;
             font-weight: bold;
         }
 
-        .order-status-success{
+        .order-status-success {
             color: green;
         }
 
-        .order-status-fail{
+        .order-status-fail {
             color: orange;
         }
 
-        .order-status{
+        .order-status {
             font-weight: bold;
         }
     </style>
@@ -97,7 +97,8 @@
                                         <div class="col-12">
                                             状态
                                         </div>
-                                        <div class="col-12 order-status {{ $order->status == 'canceled' || $order->status == 'refunded' ? 'order-status-fail' : '' }} {{ $order->status == 'completed' ? 'order-status-success' : '' }}">
+                                        <div
+                                            class="col-12 order-status {{ $order->status == 'canceled' || $order->status == 'refunded' ? 'order-status-fail' : '' }} {{ $order->status == 'completed' ? 'order-status-success' : '' }}">
                                             {{ $order->getStatusDesc() }}
                                         </div>
                                     </div>
@@ -174,27 +175,42 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-6 text-center">
-                                    <button type="button"
-                                            class="btn btn-sm btn-primary w-100 ml-0"
-                                            onclick="window.location.href = '{{ url('/order/' . $order->id) }}'">
-                                        <i class="icofont icofont-search-document"></i> 订单详情
-                                    </button>
-                                </div>
-                                <div class="col-6 text-center">
-                                    <button type="button"
-                                            class="btn btn-sm btn-info w-100 ml-0"
-                                            onclick="window.location.href = '{{ url('/order/' . $order->id . '/item') }}'">
-                                        <i class="icofont icofont-align-left"></i> 订单商品
-                                    </button>
-                                </div>
-                                <div class="col-6 text-center">
-                                    <button type="button"
-                                            class="btn btn-sm btn-secondary w-100 ml-0"
-                                            onclick="window.location.href = '{{ url('/order/' . $order->id . '/pdf') }}'">
-                                        <i class="icofont icofont-download"></i> 收据下载
-                                    </button>
-                                </div>
+                                @if(auth()->user()->hasAccess('order_update'))
+                                    <div class="col-6 text-center">
+                                        <button type="button"
+                                                class="btn btn-sm btn-primary w-100 ml-0"
+                                                onclick="window.location.href = '{{ url('/order/' . $order->id) }}'">
+                                            <i class="icofont icofont-search-document"></i> 订单详情
+                                        </button>
+                                    </div>
+                                @endif
+                                @if(auth()->user()->hasAccess('order_item_view'))
+                                    <div class="col-6 text-center">
+                                        <button type="button"
+                                                class="btn btn-sm btn-info w-100 ml-0"
+                                                onclick="window.location.href = '{{ url('/order/' . $order->id . '/item') }}'">
+                                            <i class="icofont icofont-align-left"></i> 订单商品
+                                        </button>
+                                    </div>
+                                @endif
+                                @if(auth()->user()->hasAccess('order_receipt_view'))
+                                    <div class="col-6 text-center">
+                                        <a class="btn btn-sm btn-secondary w-100 ml-0"
+                                           href="{{ $order->receipt_image }}"
+                                           target="_blank">
+                                            <i class="icofont icofont-picture"></i> 收据查看
+                                        </a>
+                                    </div>
+                                @endif
+                                @if(auth()->user()->hasAccess('order_invoice_download'))
+                                    <div class="col-6 text-center">
+                                        <button type="button"
+                                                class="btn btn-sm btn-secondary w-100 ml-0"
+                                                onclick="window.location.href = '{{ url('/order/' . $order->id . '/pdf') }}'">
+                                            <i class="icofont icofont-download"></i> 订单下载
+                                        </button>
+                                    </div>
+                                @endif
                             </div>
 
                         </div>

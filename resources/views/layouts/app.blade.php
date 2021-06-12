@@ -53,6 +53,9 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">主页</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/item') }}">商品</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/order') }}">订单</a></li>
+                        @if(auth()->user()->role == 'admin')
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/account') }}">员工账户管理</a></li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -61,11 +64,12 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 @if(auth()->user()->hasAccess('setting_view'))
-                                    <a class="dropdown-item" href="{{ url('/setting/website') }}">网站属性设置</a>
-                                    <a class="dropdown-item" href="{{ url('/setting/account') }}">个人账号设置</a>
-                                @endif
-                                @if(auth()->user()->role == 'admin')
-                                    <a class="dropdown-item" href="{{ url('/account') }}">员工账户管理</a>
+                                    @if(auth()->user()->hasAccess('setting_item') || auth()->user()->hasAccess('setting_order'))
+                                        <a class="dropdown-item" href="{{ url('/setting/website') }}">网站属性设置</a>
+                                    @endif
+                                    @if(auth()->user()->hasAccess('setting_account'))
+                                        <a class="dropdown-item" href="{{ url('/setting/account') }}">个人账号设置</a>
+                                    @endif
                                 @endif
                                 <a class="dropdown-item" href="{{ url('/changing-log') }}">应用更新日志</a>
                                 <a class="dropdown-item"

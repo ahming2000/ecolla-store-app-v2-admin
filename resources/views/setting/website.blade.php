@@ -36,6 +36,7 @@
 
                 <div class="tab-content">
                     <div class="tab-pane fade" id="item" role="tabpanel" aria-labelledby="item-tab">
+                        @if(auth()->user()->hasAccess('setting_item'))
                         <div id="setting-item-category">
                             <form method="post" action="{{ url('/setting/item/category') }}">
 
@@ -175,9 +176,11 @@
                                 </div>
                             </form>
                         </div>
+                        @endif
                     </div>
 
                     <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
+                        @if(auth()->user()->hasAccess('setting_order'))
                         <div class="row" id="setting-order-prefix">
                             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-4 align-content-center text-sm-left text-md-right mb-2">
                                 订单编号开头：
@@ -241,6 +244,7 @@
                                 </form>
                             </div>
                         </div>
+                        @endif
                     </div>
 
                     <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
