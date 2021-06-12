@@ -11,6 +11,7 @@
 @endsection
 
 @section('content')
+    @if(auth()->user()->hasAccess('dashboard_view'))
     <div class="container">
         <div class="card">
             <div class="card-header">订单仪表板</div>
@@ -411,6 +412,7 @@
 
         <p id="tab_active">{{ $tab_active }}</p>
     </div>
+    @endif
 @endsection
 
 @section('extraScriptEnd')
@@ -418,6 +420,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/jquery.ui.datepicker.monthyearpicker.js') }}"></script>
     <script src="{{ asset('js/weekPicker.js') }}"></script>
+    @if(auth()->user()->hasAccess('dashboard_view'))
     <script>
         let date_option_arr = [],
             week_option_arr = [],
@@ -729,4 +732,5 @@
             $(`#${id} canvas`).css("width", "100%");
         }
     </script>
+    @endif
 @endsection
