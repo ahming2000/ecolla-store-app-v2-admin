@@ -68,7 +68,7 @@ class AccountsController extends Controller
     {
         $userData = request()->validate([
             'name' => 'required',
-            'password' => ['required', 'confirmed']
+            'password' => ['confirmed']
         ]);
 
         $userData['password'] = password_hash($userData['password'], PASSWORD_BCRYPT);
