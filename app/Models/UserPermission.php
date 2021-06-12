@@ -41,31 +41,31 @@ class UserPermission extends Model
     {
         return [
             'item' => [
-                'item_view' => [
+                'view' => [
                     'columnName' => 'item_view',
                     'cnDisplayName' => '商品查看',
                     'elementId' => 'ItemView',
                     'checkedByDefault' => true,
                 ],
-                'item_create' => [
+                'create' => [
                     'columnName' => 'item_create',
                     'cnDisplayName' => '商品创建',
                     'elementId' => 'ItemCreate',
                     'checkedByDefault' => false,
                 ],
-                'item_update' => [
+                'update' => [
                     'columnName' => 'item_update',
                     'cnDisplayName' => '商品编辑',
                     'elementId' => 'ItemUpdate',
                     'checkedByDefault' => false,
                 ],
-                'item_delete' => [
+                'delete' => [
                     'columnName' => 'item_delete',
                     'cnDisplayName' => '商品删除',
                     'elementId' => 'ItemDelete',
                     'checkedByDefault' => false,
                 ],
-                'item_list' => [
+                'list' => [
                     'columnName' => 'item_list',
                     'cnDisplayName' => '商品上架',
                     'elementId' => 'ItemListing',
@@ -73,56 +73,56 @@ class UserPermission extends Model
                 ],
             ],
             'order' => [
-                'order_view' => [
+                'view' => [
                     'columnName' => 'order_view',
                     'cnDisplayName' => '订单查看',
                     'elementId' => 'OrderView',
                     'checkedByDefault' => true,
                 ],
-                'order_update' => [
+                'update' => [
                     'columnName' => 'order_update',
                     'cnDisplayName' => '订单基本属性编辑',
                     'elementId' => 'OrderUpdate',
                     'checkedByDefault' => false,
                 ],
-                'order_delete' => [
+                'delete' => [
                     'columnName' => 'order_delete',
                     'cnDisplayName' => '订单删除',
                     'elementId' => 'OrderDelete',
                     'checkedByDefault' => false,
                 ],
-                'order_receipt_view' => [
+                'receipt_view' => [
                     'columnName' => 'order_receipt_view',
                     'cnDisplayName' => '顾客收据查看',
                     'elementId' => 'OrderReceiptView',
                     'checkedByDefault' => true,
                 ],
-                'order_invoice_download' => [
+                'invoice_download' => [
                     'columnName' => 'order_invoice_download',
                     'cnDisplayName' => '订单详情下载',
                     'elementId' => 'OrderInvoiceDownload',
                     'checkedByDefault' => false,
                 ],
-                'order_item' => [
-                    'order_item_view' => [
+                'item' => [
+                    'view' => [
                         'columnName' => 'order_item_view',
                         'cnDisplayName' => '订单商品查看',
                         'elementId' => 'OrderItemView',
                         'checkedByDefault' => true,
                     ],
-                    'order_item_create' => [
+                    'create' => [
                         'columnName' => 'order_item_create',
                         'cnDisplayName' => '订单商品创建',
                         'elementId' => 'OrderItemCreate',
                         'checkedByDefault' => false,
                     ],
-                    'order_item_update' => [
+                    'update' => [
                         'columnName' => 'order_item_update',
                         'cnDisplayName' => '订单商品编辑',
                         'elementId' => 'OrderItemUpdate',
                         'checkedByDefault' => false,
                     ],
-                    'order_item_delete' => [
+                    'delete' => [
                         'columnName' => 'order_item_delete',
                         'cnDisplayName' => '订单商品删除',
                         'elementId' => 'OrderItemDelete',
@@ -131,7 +131,7 @@ class UserPermission extends Model
                 ],
             ],
             'dashboard' => [
-                'dashboard_view' => [
+                'view' => [
                     'columnName' => 'dashboard_view',
                     'cnDisplayName' => '仪表板查看',
                     'elementId' => 'DashboardView',
@@ -139,25 +139,25 @@ class UserPermission extends Model
                 ],
             ],
             'setting' => [
-                'setting_view' => [
+                'view' => [
                     'columnName' => 'setting_view',
                     'cnDisplayName' => '设定查看',
                     'elementId' => 'SettingsView',
                     'checkedByDefault' => true,
                 ],
-                'setting_item' => [
+                'item' => [
                     'columnName' => 'setting_item',
                     'cnDisplayName' => '商品相关设定',
                     'elementId' => 'ItemPropertiesSettings',
                     'checkedByDefault' => true,
                 ],
-                'setting_order' => [
+                'order' => [
                     'columnName' => 'setting_order',
                     'cnDisplayName' => '订单相关设定',
                     'elementId' => 'OrderPropertiesSettings',
                     'checkedByDefault' => false,
                 ],
-                'setting_account' => [
+                'account' => [
                     'columnName' => 'setting_account',
                     'cnDisplayName' => '账号设置',
                     'elementId' => 'AccountSettings',
