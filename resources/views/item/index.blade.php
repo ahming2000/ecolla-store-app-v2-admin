@@ -20,9 +20,11 @@
             <div class="col-md-6 col-sm-12">
                 <div class="row mb-2">
                     <div class="col-12 text-right">
-                        <a href="{{ url('/item/create') }}">
-                            <i class="icofont icofont-ui-add"></i> 添加商品
-                        </a>
+                        @if(auth()->user()->hasAccess('item_create'))
+                            <a href="{{ url('/item/create') }}">
+                                <i class="icofont icofont-ui-add"></i> 添加商品
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <div class="row text-right mb-2">
@@ -93,8 +95,10 @@
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-                                    <listing-switch item-id="{{ $item->id }}"
+                                    @if(auth()->user()->hasAccess('item_list'))
+                                        <listing-switch item-id="{{ $item->id }}"
                                                     is-listed="{{ $item->util->is_listed }}"></listing-switch>
+                                    @endif
                                 </div>
                             </div>
 
@@ -128,22 +132,26 @@
 
                             <div class="row mb-3">
                                 <div class="col-6">
-                                    <button type="button" class=" btn btn-primary btn-sm w-100 ml-0"
-                                            onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
-                                        <i class="icofont icofont-ui-edit"></i> 编辑
-                                    </button>
+                                    @if(auth()->user()->hasAccess('item_update'))
+                                        <button type="button" class=" btn btn-primary btn-sm w-100 ml-0"
+                                                onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
+                                            <i class="icofont icofont-ui-edit"></i> 编辑
+                                        </button>
+                                    @endif
                                 </div>
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-danger btn-sm w-100 ml-0" onclick="confirmDelete(this)"
-                                            value="{{ $item->name }}">
-                                        <i class="icofont icofont-ui-delete"></i> 删除
-                                    </button>
+                                    @if(auth()->user()->hasAccess('item_delete'))
+                                        <button type="button" class="btn btn-danger btn-sm w-100 ml-0" onclick="confirmDelete(this)"
+                                                value="{{ $item->name }}">
+                                            <i class="icofont icofont-ui-delete"></i> 删除
+                                        </button>
 
-                                    <form action="{{ url('/item/' . $item->id) }}" method="post"
-                                          class="delete-item-form">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
+                                        <form action="{{ url('/item/' . $item->id) }}" method="post"
+                                              class="delete-item-form">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -161,13 +169,15 @@
 
 @section('extraScriptEnd')
     <script>
-        function confirmDelete(source) {
-            let button = jQuery(source);
-            let form = button.parent().find('.delete-item-form');
-            if (confirm('您确定要删除 ' + button.val() + ' 吗？')) {
-                form.submit();
+        @if(auth()->user()->hasAccess('item_delete'))
+            function confirmDelete(source) {
+                let button = jQuery(source);
+                let form = button.parent().find('.delete-item-form');
+                if (confirm('您确定要删除 ' + button.val() + ' 吗？')) {
+                    form.submit();
+                }
             }
-        }
+        @endif
 
         $(document).ready(function () {
             $('#paginateSelector').on('change', function () {

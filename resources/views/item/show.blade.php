@@ -37,20 +37,24 @@
                 </table>
 
                 <div class="row d-flex justify-content-center">
-                    <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
-                        <i class="icofont icofont-ui-edit"></i> 编辑商品
-                    </a>
-                    <button type="button"
-                            class="btn btn-primary btn-sm"
-                            onclick="confirmDelete(this)"
-                            value="{{ $item->name }}">
-                        <i class="icofont icofont-ui-delete"></i> 删除商品
-                    </button>
+                    @if(auth()->user()->hasAccess('item_update'))
+                        <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
+                            <i class="icofont icofont-ui-edit"></i> 编辑商品
+                        </a>
+                    @endif
+                    @if(auth()->user()->hasAccess('item_delete'))
+                        <button type="button"
+                                class="btn btn-primary btn-sm"
+                                onclick="confirmDelete(this)"
+                                value="{{ $item->name }}">
+                            <i class="icofont icofont-ui-delete"></i> 删除商品
+                        </button>
 
-                    <form action="{{ url('/item/' . $item->id) }}" method="post" class="delete-item-form">
-                        @csrf
-                        @method('DELETE')
-                    </form>
+                        <form action="{{ url('/item/' . $item->id) }}" method="post" class="delete-item-form">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -64,13 +68,15 @@
     </script>
 
     <script>
-        function confirmDelete(source){
-            let button = jQuery(source);
-            let form = button.parent().find('.delete-item-form');
+        @if(auth()->user()->hasAccess('item_delete'))
+            function confirmDelete(source){
+                let button = jQuery(source);
+                let form = button.parent().find('.delete-item-form');
 
-            if(confirm('您确定要删除 ' + button.val() + ' 吗？')){
-                form.submit();
+                if(confirm('您确定要删除 ' + button.val() + ' 吗？')){
+                    form.submit();
+                }
             }
-        }
+        @endif
     </script>
 @endsection
