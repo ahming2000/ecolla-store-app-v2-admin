@@ -64,39 +64,97 @@
             </div>
             <div class="form-group">
               <label>权限</label>
-              <ul
-                class="list-group"
-                v-for="permission in permissions"
-                :key="permission.columnName"
+              <div
+                class="mb-3"
+                v-for="permissionGroup in permissions"
+                :key="permissionGroup.key"
               >
-                <li class="list-group-item">
-                  <div class="row">
-                    <div class="col-8 d-flex align-items-center">
-                      <p class="m-0" v-text="permission.cnDisplayName"></p>
+                <ul
+                  class="list-group"
+                  v-for="permission in permissionGroup"
+                  :key="permission.columnName"
+                >
+                  <li
+                    v-if="(typeof permission.columnName) != 'undefined'"
+                    class="list-group-item"
+                    :class="{ 'ml-3': permission != permissionGroup['view'] }"
+                  >
+                    <div class="row">
+                      <div class="col-8 d-flex align-items-center">
+                        <p class="m-0">{{ permission.cnDisplayName }}</p>
+                      </div>
+                      <div
+                        class="
+                          col-4
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                        "
+                      >
+                        <label class="switch m-0">
+                          <input
+                            type="checkbox"
+                            class="form-control"
+                            :id="`editAccount${permission.elementId}`"
+                            :name="permission.columnName"
+                            :value="permission.columnName"
+                            v-model="checkedPermissions"
+                            @change="
+                              onPermissionChange(
+                                $event,
+                                permissionGroup,
+                                permission
+                              )
+                            "
+                          />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
                     </div>
-                    <div
-                      class="
-                        col-4
-                        d-flex
-                        align-items-center
-                        justify-content-end
-                      "
+                  </li>
+                  <div
+                    v-if="typeof permission.columnName == 'undefined'"
+                    class="ml-3"
+                  >
+                    <ul
+                      class="list-group"
+                      v-for="subPermission in permission"
+                      :key="subPermission.columnName"
                     >
-                      <label class="switch m-0">
-                        <input
-                          type="checkbox"
-                          class="form-control"
-                          :id="`addAccount${permission.elementId}`"
-                          :name="permission.columnName"
-                          :value="permission.columnName"
-                          v-model="checkedPermissions"
-                        />
-                        <span class="slider round"></span>
-                      </label>
-                    </div>
+                      <li
+                        class="list-group-item"
+                        :class="{ 'ml-3': subPermission != permission['view'] }"
+                      >
+                        <div class="row">
+                          <div class="col-8 d-flex align-items-center">
+                            <p class="m-0">{{ subPermission.cnDisplayName }}</p>
+                          </div>
+                          <div
+                            class="
+                              col-4
+                              d-flex
+                              align-items-center
+                              justify-content-end
+                            "
+                          >
+                            <label class="switch m-0">
+                              <input
+                                type="checkbox"
+                                class="form-control"
+                                :id="`editAccount${subPermission.elementId}`"
+                                :name="subPermission.columnName"
+                                :value="subPermission.columnName"
+                                v-model="checkedPermissions"
+                              />
+                              <span class="slider round"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
                   </div>
-                </li>
-              </ul>
+                </ul>
+              </div>
             </div>
           </form>
         </div>
@@ -136,8 +194,7 @@ export default {
       name: "",
       password: "",
       passwordConfirmation: "",
-      checkedPermissions: Object.keys(this.permissions)
-        .filter((key) => this.permissions[key].checkedByDefault)
+      checkedPermissions: this.getPermissionsCheckedByDefault(),
     };
   },
 
@@ -146,6 +203,20 @@ export default {
   },
 
   methods: {
+    getPermissionsCheckedByDefault() {
+      const entries1 = Object.entries(this.permissions);
+      const entries2 = entries1.map((entry) => entry[1]);
+
+      const permissionsArray = entries2
+        .map((permission) => Object.values(permission))
+        .flat();
+
+      const checkedPermissionsArray = permissionsArray.filter(
+        (permission) => permission.checkedByDefault
+      ).map(permission => permission.columnName);
+
+      return checkedPermissionsArray;
+    },
     addUser() {
       const user = {
         email: this.email,
@@ -160,8 +231,59 @@ export default {
       this.name = "";
       this.password = "";
       this.passwordConfirmation = "";
-      this.checkedPermissions = Object.keys(this.permissions)
-        .filter((key) => this.permissions[key].checkedByDefault)
+      this.checkedPermissions = Object.keys(this.permissions).filter(
+        (key) => this.permissions[key].checkedByDefault
+      );
+    },
+    onPermissionChange(event, permissionGroup, permission) {
+      console.log(permissionGroup);
+      console.log(permission);
+
+      if (
+        !this.isViewPermissionChecked(permissionGroup) &&
+        this.isViewPermission(permissionGroup, permission)
+      ) {
+        this.checkedPermissions = this.checkedPermissions.filter(
+          (checkedPermission) => {
+            return !this.isCheckedPermissionBelongsTo(
+              checkedPermission,
+              permissionGroup
+            );
+          }
+        );
+      } else if (
+        !this.isViewPermissionChecked(permissionGroup) &&
+        !this.isViewPermission(permissionGroup, permission)
+      ) {
+        this.checkedPermissions.push(this.getViewPermission(permissionGroup));
+      }
+    },
+    isViewPermissionChecked(permissionGroup) {
+      return this.checkedPermissions.includes(
+        this.getViewPermission(permissionGroup)
+      );
+    },
+    isViewPermission(permissionGroup, permission) {
+      let viewPermission = Object.entries(permissionGroup).find(
+        (entry) => entry[0] == "view"
+      )[1];
+
+      return permission == viewPermission;
+    },
+
+    isCheckedPermissionBelongsTo(checkedPermission, permissionGroup) {
+      let matchedEntry = Object.entries(permissionGroup).find(
+        (entry) => entry[1].columnName == checkedPermission
+      );
+
+      return matchedEntry !== undefined;
+    },
+    getViewPermission(permissionGroup) {
+      let permissionGroupName = Object.entries(this.permissions).find(
+        (entry) => entry[1] == permissionGroup
+      )[0];
+
+      return `${permissionGroupName}_view`;
     },
   },
 };

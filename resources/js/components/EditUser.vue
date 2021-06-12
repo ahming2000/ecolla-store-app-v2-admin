@@ -86,7 +86,7 @@
                   :key="permission.columnName"
                 >
                   <li
-                    v-if="typeof permission.columnName != 'undefined'"
+                    v-if="(typeof permission.columnName) != 'undefined'"
                     class="list-group-item"
                     :class="{ 'ml-3': permission != permissionGroup['view'] }"
                   >
