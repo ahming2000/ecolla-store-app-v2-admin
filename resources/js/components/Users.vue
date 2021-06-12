@@ -1,12 +1,12 @@
 <template>
   <div>
     <div
-      v-if="alert.message.length > 0"
+      v-if="alerts[0].message.length > 0"
       class="alert alert-dismissable"
       :class="classObject"
       role="alert"
     >
-      {{ alert.message }}
+      {{ alerts[0].message }}
     </div>
 
     <!-- User List -->
@@ -57,10 +57,12 @@ export default {
     return {
       selectedUser: null,
       usersData: this.users,
-      alert: {
-        message: "",
-        type: "",
-      },
+      alerts: [
+        {
+          message: "",
+          type: "",
+        },
+      ],
     };
   },
 
@@ -78,8 +80,8 @@ export default {
   computed: {
     classObject() {
       return {
-        "alert-success": this.alert.type == "success",
-        "alert-danger": this.alert.type == "error",
+        "alert-success": this.alerts[0].type == "success",
+        "alert-danger": this.alerts[0].type == "error",
       };
     },
   },
@@ -107,9 +109,17 @@ export default {
           this.makeAlert(res.data.message, "success");
         })
         .catch((error) => {
-          const errorMessage = error.message;
-
-          console.error(`Failed to add user ${user.name}`, errorMessage);
+          let errorMessage;
+          if (error.response.data.errors.email) {
+            errorMessage = error.response.data.errors.email[0];
+          } else if (error.response.data.errors.name) {
+            errorMessage = error.response.data.errors.name[0];
+          } else if (error.response.data.errors.password) {
+            errorMessage = error.response.data.errors.password[0];
+          } else if (error.request) {
+            errorMessage = error.request.data;
+          }
+          console.error(`Failed to edit user ${user.name}`, errorMessage);
           this.makeAlert(errorMessage, "error");
         });
     },
@@ -126,7 +136,6 @@ export default {
       axios
         .patch(`/account/${user.id}`, body)
         .then((res) => {
-          /// TODO update UI
           this.selectedUser.name = res.data.user.name;
           this.selectedUser.permission = res.data.user.permission;
 
@@ -134,8 +143,14 @@ export default {
           this.makeAlert(res.data.message, "success");
         })
         .catch((error) => {
-          const errorMessage = error.message;
-
+          let errorMessage;
+          if (error.response.data.errors.name) {
+            errorMessage = error.response.data.errors.name[0];
+          } else if (error.response.data.errors.password) {
+            errorMessage = error.response.data.errors.password[0];
+          } else if (error.request) {
+            errorMessage = error.request.data;
+          }
           console.error(`Failed to edit user ${user.name}`, errorMessage);
           this.makeAlert(errorMessage, "error");
         });
@@ -189,10 +204,12 @@ export default {
         });
     },
     makeAlert(message, type) {
-      this.alert = {
-        message: message,
-        type: type,
-      };
+      this.alerts = [
+        {
+          message: message,
+          type: type,
+        },
+      ];
     },
   },
 };

@@ -48,6 +48,7 @@
               data-toggle="modal"
               data-target="#editAccountModal"
               @click.prevent="sendUserToParent()"
+              :disabled="user.status == 'disabled'"
             >
               <p class="text-center m-0">编辑</p>
             </button>
