@@ -42,7 +42,8 @@ class ChangingLogController extends Controller
                         '修复了规格照片下方规格名称超出窗口的问题（商品编辑）',
                         '优化了商品查看界面',
                         '优化了订单查看界面',
-                        '优化了商品编辑界面'
+                        '优化了商品编辑界面',
+                        '翻译了错误显示的语言',
                     ]),
 
                     new LogDetail('页面更新', [
