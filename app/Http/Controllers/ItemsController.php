@@ -305,6 +305,13 @@ class ItemsController extends Controller
 
     private function updateVariation(Item $item, array $old, array $new)
     {
+        // Replace all null value with default value
+        for ($i = 0; $i < sizeof($new); $i++){
+            $new[$i]['price'] = $new[$i]['price'] ?? 0;
+            $new[$i]['weight'] = $new[$i]['weight'] ?? 0;
+            $new[$i]['stock'] = $new[$i]['stock'] ?? 0;
+        }
+
         $oldBarcode = array_column($old, 'barcode');
         $newBarcode = array_column($new, 'barcode');
 
