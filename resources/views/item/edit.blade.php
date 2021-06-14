@@ -971,7 +971,6 @@
                                                        class="form-control form-control-sm"
                                                        name="variations[${variationCount}][barcode]"
                                                        maxlength="20"
-                                                       value=""
                                                        placeholder="货号"
                                                        autocomplete="off"
                                                        required>
@@ -984,7 +983,6 @@
                                                        min="0"
                                                        class="form-control form-control-sm variation-price-display"
                                                        name="variations[${variationCount}][price]"
-                                                       value="0"
                                                        placeholder="价钱（RM）">
                                             </div>
                                             <div class="col-6 ml-0 pl-1">
@@ -992,7 +990,6 @@
                                                        min="0"
                                                        class="form-control form-control-sm"
                                                        name="variations[${variationCount}][stock]"
-                                                       value="0"
                                                        placeholder="库存">
                                             </div>
                                         </div>
@@ -1003,7 +1000,6 @@
                                                        min="0"
                                                        class="form-control form-control-sm"
                                                        name="variations[${variationCount}][weight]"
-                                                       value="0"
                                                        placeholder="重量（kg）">
                                             </div>
                                         </div>
