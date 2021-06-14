@@ -11,7 +11,7 @@ class ChangingLogController extends Controller
     {
 
         $currentVersion = 'v2.0.2 Beta';
-        $updateDate = '2021/06/15';
+        $updateDate = '2021/06/14';
         $color = 'orange'; // Beta: orange, Release: green
 
 
@@ -19,12 +19,15 @@ class ChangingLogController extends Controller
 
             new LogClass('v2.0', [
 
-                new Log('v2.0.2', '2021/06/15', [
+                new Log('v2.0.2', '2021/06/14', [
                     new LogDetail('优化',[
                         '修复了相同商品类别列表显示超过10样商品的问题（顾客商品页面）',
                         '修复了购物车部分图标显示不正常的问题',
                         '修复了在英文页面，只有一张商品照片时，显示不正常的问题',
                         '优化了加入购物车讯息显示代码',
+                        '商品管理主页现在可以查看商品封面',
+                        '优化了商品编辑界面',
+                        '优化了账号管理，特权相关功能'
                     ]),
 
                     new LogDetail('页面更新', [
