@@ -50,7 +50,7 @@ export default {
   name: "users",
   props: {
     users: Array,
-    permissions: Object,
+    permissions: Array,
   },
 
   data() {

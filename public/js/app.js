@@ -187,16 +187,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "add-user",
   props: {
-    permissions: Object
+    permissions: Array
   },
   data: function data() {
     return {
@@ -216,14 +210,17 @@ __webpack_require__.r(__webpack_exports__);
       var entries2 = entries1.map(function (entry) {
         return entry[1];
       });
-      var permissionsArray = entries2.map(function (permission) {
-        return Object.values(permission);
-      }).flat();
-      var checkedPermissionsArray = permissionsArray.filter(function (permission) {
+      var allPermissions = [];
+      entries2.forEach(function (entry) {
+        return allPermissions.push(entry.permissions);
+      });
+      allPermissions = allPermissions.flat();
+      var checkedPermissionsArray = allPermissions.filter(function (permission) {
         return permission.checkedByDefault;
       }).map(function (permission) {
         return permission.columnName;
       });
+      console.log('getPermissionsCheckedByDefault()', checkedPermissionsArray);
       return checkedPermissionsArray;
     },
     addUser: function addUser() {
@@ -245,40 +242,71 @@ __webpack_require__.r(__webpack_exports__);
         return _this.permissions[key].checkedByDefault;
       });
     },
-    onPermissionChange: function onPermissionChange(event, permissionGroup, permission) {
+    onPermissionChange: function onPermissionChange(event, group) {
       var _this2 = this;
 
-      console.log(permissionGroup);
-      console.log(permission);
+      console.log(event.target.value); // if user turned off '{group}_view'
 
-      if (!this.isViewPermissionChecked(permissionGroup) && this.isViewPermission(permissionGroup, permission)) {
+      if (event.target.value == this.getViewPermissionName(group) && !this.isViewPermissionChecked(group)) {
+        // auto turns off '{group}_*'
         this.checkedPermissions = this.checkedPermissions.filter(function (checkedPermission) {
-          return !_this2.isCheckedPermissionBelongsTo(checkedPermission, permissionGroup);
+          return !_this2.isCheckedPermissionBelongsToGroup(checkedPermission, group);
         });
-      } else if (!this.isViewPermissionChecked(permissionGroup) && !this.isViewPermission(permissionGroup, permission)) {
-        this.checkedPermissions.push(this.getViewPermission(permissionGroup));
-      }
+
+        if (this.hasSubGroups(group)) {
+          // auto turns off '{subGroup}_*' as well
+          this.checkedPermissions = this.checkedPermissions.filter(function (checkedPermission) {
+            return !_this2.isCheckedPermissionBelongsToGroup(checkedPermission, group.subGroups[0]);
+          });
+        }
+      } // if user turned on/off '{group}_*' while '{group}_view' is turned off
+      else if (event.target.value != this.getViewPermissionName(group) && !this.isViewPermissionChecked(group)) {
+          // auto turns on '{group}_view'
+          this.checkedPermissions.push(this.getViewPermissionName(group)); // if '{parentGroup}_view' is turned off
+
+          if (this.hasParentGroup(group) && !this.isViewPermissionChecked(this.getParentGroup(group))) {
+            // auto turns on '{parentGroup}_view' as well
+            this.checkedPermissions.push(this.getViewPermissionName(this.getParentGroup(group)));
+          }
+        } // if user turned on '{group}_view'
+        else if (event.target.value == this.getViewPermissionName(group) && this.isViewPermissionChecked(group)) {
+            // if '{parentGroup}_view' is turned off
+            if (this.hasParentGroup(group) && !this.isViewPermissionChecked(this.getParentGroup(group))) {
+              // auto turns on '{parentGroup}_view'
+              this.checkedPermissions.push(this.getViewPermissionName(this.getParentGroup(group)));
+            }
+          }
+
+      console.log("\n");
     },
-    isViewPermissionChecked: function isViewPermissionChecked(permissionGroup) {
-      return this.checkedPermissions.includes(this.getViewPermission(permissionGroup));
+    isViewPermissionChecked: function isViewPermissionChecked(group) {
+      console.log("isViewPermissionChecked(".concat(group, ")"), this.checkedPermissions.includes(group.permissions[0].columnName));
+      return this.checkedPermissions.includes(group.permissions[0].columnName);
     },
-    isViewPermission: function isViewPermission(permissionGroup, permission) {
-      var viewPermission = Object.entries(permissionGroup).find(function (entry) {
-        return entry[0] == "view";
-      })[1];
-      return permission == viewPermission;
+    getViewPermissionName: function getViewPermissionName(group) {
+      console.log("getViewPermissionName(".concat(group, ")"), group.permissions[0].columnName);
+      return group.permissions[0].columnName;
     },
-    isCheckedPermissionBelongsTo: function isCheckedPermissionBelongsTo(checkedPermission, permissionGroup) {
-      var matchedEntry = Object.entries(permissionGroup).find(function (entry) {
-        return entry[1].columnName == checkedPermission;
+    isCheckedPermissionBelongsToGroup: function isCheckedPermissionBelongsToGroup(checkedPermission, group) {
+      console.log("isCheckedPermissionBelongsToGroup(".concat(checkedPermission, ", ").concat(group, ")"), group.permissions.find(function (permission) {
+        return checkedPermission == permission.columnName;
+      }) !== undefined);
+      return group.permissions.find(function (permission) {
+        return checkedPermission == permission.columnName;
+      }) !== undefined;
+    },
+    hasSubGroups: function hasSubGroups(group) {
+      console.log("hasSubGroups(".concat(group, ")"), group.subGroups.length > 0);
+      return group.subGroups.length > 0;
+    },
+    getParentGroup: function getParentGroup(group) {
+      return this.permissions.find(function (permission) {
+        return permission.groupName == group.parent;
       });
-      return matchedEntry !== undefined;
     },
-    getViewPermission: function getViewPermission(permissionGroup) {
-      var permissionGroupName = Object.entries(this.permissions).find(function (entry) {
-        return entry[1] == permissionGroup;
-      })[0];
-      return "".concat(permissionGroupName, "_view");
+    hasParentGroup: function hasParentGroup(group) {
+      console.log("hasParentGroup(".concat(group, ")"), group.parent !== "root");
+      return group.parent !== "root";
     }
   }
 });
@@ -585,17 +613,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-user",
   props: {
     user: Object,
-    permissions: Object
+    permissions: Array
   },
   data: function data() {
     return {
@@ -638,40 +660,71 @@ __webpack_require__.r(__webpack_exports__);
       this.password = "";
       this.passwordConfirmation = "";
     },
-    onPermissionChange: function onPermissionChange(event, permissionGroup, permission) {
+    onPermissionChange: function onPermissionChange(event, group) {
       var _this = this;
 
-      console.log(permissionGroup);
-      console.log(permission);
+      console.log(event.target.value); // if user turned off '{group}_view'
 
-      if (!this.isViewPermissionChecked(permissionGroup) && this.isViewPermission(permissionGroup, permission)) {
+      if (event.target.value == this.getViewPermissionName(group) && !this.isViewPermissionChecked(group)) {
+        // auto turns off '{group}_*'
         this.checkedPermissions = this.checkedPermissions.filter(function (checkedPermission) {
-          return !_this.isCheckedPermissionBelongsTo(checkedPermission, permissionGroup);
+          return !_this.isCheckedPermissionBelongsToGroup(checkedPermission, group);
         });
-      } else if (!this.isViewPermissionChecked(permissionGroup) && !this.isViewPermission(permissionGroup, permission)) {
-        this.checkedPermissions.push(this.getViewPermission(permissionGroup));
-      }
+
+        if (this.hasSubGroups(group)) {
+          // auto turns off '{subGroup}_*' as well
+          this.checkedPermissions = this.checkedPermissions.filter(function (checkedPermission) {
+            return !_this.isCheckedPermissionBelongsToGroup(checkedPermission, group.subGroups[0]);
+          });
+        }
+      } // if user turned on/off '{group}_*' while '{group}_view' is turned off
+      else if (event.target.value != this.getViewPermissionName(group) && !this.isViewPermissionChecked(group)) {
+          // auto turns on '{group}_view'
+          this.checkedPermissions.push(this.getViewPermissionName(group)); // if '{parentGroup}_view' is turned off
+
+          if (this.hasParentGroup(group) && !this.isViewPermissionChecked(this.getParentGroup(group))) {
+            // auto turns on '{parentGroup}_view' as well
+            this.checkedPermissions.push(this.getViewPermissionName(this.getParentGroup(group)));
+          }
+        } // if user turned on '{group}_view'
+        else if (event.target.value == this.getViewPermissionName(group) && this.isViewPermissionChecked(group)) {
+            // if '{parentGroup}_view' is turned off
+            if (this.hasParentGroup(group) && !this.isViewPermissionChecked(this.getParentGroup(group))) {
+              // auto turns on '{parentGroup}_view'
+              this.checkedPermissions.push(this.getViewPermissionName(this.getParentGroup(group)));
+            }
+          }
+
+      console.log("\n");
     },
-    isViewPermissionChecked: function isViewPermissionChecked(permissionGroup) {
-      return this.checkedPermissions.includes(this.getViewPermission(permissionGroup));
+    isViewPermissionChecked: function isViewPermissionChecked(group) {
+      console.log("isViewPermissionChecked(".concat(group, ")"), this.checkedPermissions.includes(group.permissions[0].columnName));
+      return this.checkedPermissions.includes(group.permissions[0].columnName);
     },
-    isViewPermission: function isViewPermission(permissionGroup, permission) {
-      var viewPermission = Object.entries(permissionGroup).find(function (entry) {
-        return entry[0] == "view";
-      })[1];
-      return permission == viewPermission;
+    getViewPermissionName: function getViewPermissionName(group) {
+      console.log("getViewPermissionName(".concat(group, ")"), group.permissions[0].columnName);
+      return group.permissions[0].columnName;
     },
-    isCheckedPermissionBelongsTo: function isCheckedPermissionBelongsTo(checkedPermission, permissionGroup) {
-      var matchedEntry = Object.entries(permissionGroup).find(function (entry) {
-        return entry[1].columnName == checkedPermission;
+    isCheckedPermissionBelongsToGroup: function isCheckedPermissionBelongsToGroup(checkedPermission, group) {
+      console.log("isCheckedPermissionBelongsToGroup(".concat(checkedPermission, ", ").concat(group, ")"), group.permissions.find(function (permission) {
+        return checkedPermission == permission.columnName;
+      }) !== undefined);
+      return group.permissions.find(function (permission) {
+        return checkedPermission == permission.columnName;
+      }) !== undefined;
+    },
+    hasSubGroups: function hasSubGroups(group) {
+      console.log("hasSubGroups(".concat(group, ")"), group.subGroups.length > 0);
+      return group.subGroups.length > 0;
+    },
+    getParentGroup: function getParentGroup(group) {
+      return this.permissions.find(function (permission) {
+        return permission.groupName == group.parent;
       });
-      return matchedEntry !== undefined;
     },
-    getViewPermission: function getViewPermission(permissionGroup) {
-      var permissionGroupName = Object.entries(this.permissions).find(function (entry) {
-        return entry[1] == permissionGroup;
-      })[0];
-      return "".concat(permissionGroupName, "_view");
+    hasParentGroup: function hasParentGroup(group) {
+      console.log("hasParentGroup(".concat(group, ")"), group.parent !== "root");
+      return group.parent !== "root";
     }
   }
 });
@@ -964,7 +1017,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   name: "users",
   props: {
     users: Array,
-    permissions: Object
+    permissions: Array
   },
   data: function data() {
     return {
@@ -2212,150 +2265,152 @@ var render = function() {
                 [
                   _c("label", [_vm._v("权限")]),
                   _vm._v(" "),
-                  _vm._l(_vm.permissions, function(permissionGroup) {
+                  _vm._l(_vm.permissions, function(group) {
                     return _c(
                       "div",
-                      { key: permissionGroup.key, staticClass: "mb-3" },
-                      _vm._l(permissionGroup, function(permission) {
-                        return _c(
-                          "ul",
-                          {
-                            key: permission.columnName,
-                            staticClass: "list-group"
-                          },
-                          [
-                            typeof permission.columnName != "undefined"
-                              ? _c(
-                                  "li",
-                                  {
-                                    staticClass: "list-group-item",
-                                    class: {
-                                      "ml-3":
-                                        permission != permissionGroup["view"]
-                                    }
-                                  },
-                                  [
-                                    _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-8 d-flex align-items-center"
-                                        },
-                                        [
-                                          _c("p", { staticClass: "m-0" }, [
-                                            _vm._v(
-                                              _vm._s(permission.cnDisplayName)
-                                            )
-                                          ])
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
-                                        },
-                                        [
-                                          _c(
-                                            "label",
-                                            { staticClass: "switch m-0" },
-                                            [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value:
-                                                      _vm.checkedPermissions,
-                                                    expression:
-                                                      "checkedPermissions"
-                                                  }
-                                                ],
-                                                staticClass: "form-control",
-                                                attrs: {
-                                                  type: "checkbox",
-                                                  id:
-                                                    "editAccount" +
-                                                    permission.elementId,
-                                                  name: permission.columnName
-                                                },
-                                                domProps: {
-                                                  value: permission.columnName,
-                                                  checked: Array.isArray(
-                                                    _vm.checkedPermissions
-                                                  )
-                                                    ? _vm._i(
-                                                        _vm.checkedPermissions,
-                                                        permission.columnName
-                                                      ) > -1
-                                                    : _vm.checkedPermissions
-                                                },
-                                                on: {
-                                                  change: [
-                                                    function($event) {
-                                                      var $$a =
-                                                          _vm.checkedPermissions,
-                                                        $$el = $event.target,
-                                                        $$c = $$el.checked
-                                                          ? true
-                                                          : false
-                                                      if (Array.isArray($$a)) {
-                                                        var $$v =
-                                                            permission.columnName,
-                                                          $$i = _vm._i($$a, $$v)
-                                                        if ($$el.checked) {
-                                                          $$i < 0 &&
-                                                            (_vm.checkedPermissions = $$a.concat(
-                                                              [$$v]
-                                                            ))
-                                                        } else {
-                                                          $$i > -1 &&
-                                                            (_vm.checkedPermissions = $$a
-                                                              .slice(0, $$i)
-                                                              .concat(
-                                                                $$a.slice(
-                                                                  $$i + 1
-                                                                )
-                                                              ))
-                                                        }
-                                                      } else {
-                                                        _vm.checkedPermissions = $$c
-                                                      }
-                                                    },
-                                                    function($event) {
-                                                      return _vm.onPermissionChange(
-                                                        $event,
-                                                        permissionGroup,
-                                                        permission
-                                                      )
-                                                    }
-                                                  ]
-                                                }
-                                              }),
-                                              _vm._v(" "),
-                                              _c("span", {
-                                                staticClass: "slider round"
-                                              })
-                                            ]
+                      { key: group.groupName, staticClass: "mb-3" },
+                      [
+                        _vm._l(group.permissions, function(permission, index) {
+                          return _c(
+                            "ul",
+                            {
+                              key: permission.columnName,
+                              staticClass: "list-group"
+                            },
+                            [
+                              _c(
+                                "li",
+                                {
+                                  staticClass: "list-group-item",
+                                  class: { "ml-3": index > 0 }
+                                },
+                                [
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-8 d-flex align-items-center"
+                                      },
+                                      [
+                                        _c("p", { staticClass: "m-0" }, [
+                                          _vm._v(
+                                            _vm._s(permission.cnDisplayName)
                                           )
-                                        ]
-                                      )
-                                    ])
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            typeof permission.columnName == "undefined"
-                              ? _c(
+                                        ])
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
+                                      },
+                                      [
+                                        _c(
+                                          "label",
+                                          { staticClass: "switch m-0" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.checkedPermissions,
+                                                  expression:
+                                                    "checkedPermissions"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                type: "checkbox",
+                                                id:
+                                                  "addAccount" +
+                                                  permission.elementId,
+                                                name: permission.columnName
+                                              },
+                                              domProps: {
+                                                value: permission.columnName,
+                                                checked: Array.isArray(
+                                                  _vm.checkedPermissions
+                                                )
+                                                  ? _vm._i(
+                                                      _vm.checkedPermissions,
+                                                      permission.columnName
+                                                    ) > -1
+                                                  : _vm.checkedPermissions
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    var $$a =
+                                                        _vm.checkedPermissions,
+                                                      $$el = $event.target,
+                                                      $$c = $$el.checked
+                                                        ? true
+                                                        : false
+                                                    if (Array.isArray($$a)) {
+                                                      var $$v =
+                                                          permission.columnName,
+                                                        $$i = _vm._i($$a, $$v)
+                                                      if ($$el.checked) {
+                                                        $$i < 0 &&
+                                                          (_vm.checkedPermissions = $$a.concat(
+                                                            [$$v]
+                                                          ))
+                                                      } else {
+                                                        $$i > -1 &&
+                                                          (_vm.checkedPermissions = $$a
+                                                            .slice(0, $$i)
+                                                            .concat(
+                                                              $$a.slice($$i + 1)
+                                                            ))
+                                                      }
+                                                    } else {
+                                                      _vm.checkedPermissions = $$c
+                                                    }
+                                                  },
+                                                  function($event) {
+                                                    return _vm.onPermissionChange(
+                                                      $event,
+                                                      group
+                                                    )
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("span", {
+                                              staticClass: "slider round"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                ]
+                              )
+                            ]
+                          )
+                        }),
+                        _vm._v(" "),
+                        group.subGroups.length > 0
+                          ? _c(
+                              "div",
+                              { staticClass: "ml-3" },
+                              _vm._l(group.subGroups, function(subGroup) {
+                                return _c(
                                   "div",
-                                  { staticClass: "ml-3" },
-                                  _vm._l(permission, function(subPermission) {
+                                  { key: subGroup.groupName },
+                                  _vm._l(subGroup.permissions, function(
+                                    permission,
+                                    index
+                                  ) {
                                     return _c(
                                       "ul",
                                       {
-                                        key: subPermission.columnName,
+                                        key: permission.columnName,
                                         staticClass: "list-group"
                                       },
                                       [
@@ -2363,11 +2418,7 @@ var render = function() {
                                           "li",
                                           {
                                             staticClass: "list-group-item",
-                                            class: {
-                                              "ml-3":
-                                                subPermission !=
-                                                permission["view"]
-                                            }
+                                            class: { "ml-3": index > 0 }
                                           },
                                           [
                                             _c("div", { staticClass: "row" }, [
@@ -2384,7 +2435,7 @@ var render = function() {
                                                     [
                                                       _vm._v(
                                                         _vm._s(
-                                                          subPermission.cnDisplayName
+                                                          permission.cnDisplayName
                                                         )
                                                       )
                                                     ]
@@ -2421,67 +2472,76 @@ var render = function() {
                                                         attrs: {
                                                           type: "checkbox",
                                                           id:
-                                                            "editAccount" +
-                                                            subPermission.elementId,
+                                                            "addAccount" +
+                                                            permission.elementId,
                                                           name:
-                                                            subPermission.columnName
+                                                            permission.columnName
                                                         },
                                                         domProps: {
                                                           value:
-                                                            subPermission.columnName,
+                                                            permission.columnName,
                                                           checked: Array.isArray(
                                                             _vm.checkedPermissions
                                                           )
                                                             ? _vm._i(
                                                                 _vm.checkedPermissions,
-                                                                subPermission.columnName
+                                                                permission.columnName
                                                               ) > -1
                                                             : _vm.checkedPermissions
                                                         },
                                                         on: {
-                                                          change: function(
-                                                            $event
-                                                          ) {
-                                                            var $$a =
-                                                                _vm.checkedPermissions,
-                                                              $$el =
-                                                                $event.target,
-                                                              $$c = $$el.checked
-                                                                ? true
-                                                                : false
-                                                            if (
-                                                              Array.isArray($$a)
-                                                            ) {
-                                                              var $$v =
-                                                                  subPermission.columnName,
-                                                                $$i = _vm._i(
-                                                                  $$a,
-                                                                  $$v
-                                                                )
+                                                          change: [
+                                                            function($event) {
+                                                              var $$a =
+                                                                  _vm.checkedPermissions,
+                                                                $$el =
+                                                                  $event.target,
+                                                                $$c = $$el.checked
+                                                                  ? true
+                                                                  : false
                                                               if (
-                                                                $$el.checked
+                                                                Array.isArray(
+                                                                  $$a
+                                                                )
                                                               ) {
-                                                                $$i < 0 &&
-                                                                  (_vm.checkedPermissions = $$a.concat(
-                                                                    [$$v]
-                                                                  ))
-                                                              } else {
-                                                                $$i > -1 &&
-                                                                  (_vm.checkedPermissions = $$a
-                                                                    .slice(
-                                                                      0,
-                                                                      $$i
-                                                                    )
-                                                                    .concat(
-                                                                      $$a.slice(
-                                                                        $$i + 1
-                                                                      )
+                                                                var $$v =
+                                                                    permission.columnName,
+                                                                  $$i = _vm._i(
+                                                                    $$a,
+                                                                    $$v
+                                                                  )
+                                                                if (
+                                                                  $$el.checked
+                                                                ) {
+                                                                  $$i < 0 &&
+                                                                    (_vm.checkedPermissions = $$a.concat(
+                                                                      [$$v]
                                                                     ))
+                                                                } else {
+                                                                  $$i > -1 &&
+                                                                    (_vm.checkedPermissions = $$a
+                                                                      .slice(
+                                                                        0,
+                                                                        $$i
+                                                                      )
+                                                                      .concat(
+                                                                        $$a.slice(
+                                                                          $$i +
+                                                                            1
+                                                                        )
+                                                                      ))
+                                                                }
+                                                              } else {
+                                                                _vm.checkedPermissions = $$c
                                                               }
-                                                            } else {
-                                                              _vm.checkedPermissions = $$c
+                                                            },
+                                                            function($event) {
+                                                              return _vm.onPermissionChange(
+                                                                $event,
+                                                                subGroup
+                                                              )
                                                             }
-                                                          }
+                                                          ]
                                                         }
                                                       }),
                                                       _vm._v(" "),
@@ -2501,11 +2561,12 @@ var render = function() {
                                   }),
                                   0
                                 )
-                              : _vm._e()
-                          ]
-                        )
-                      }),
-                      0
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ],
+                      2
                     )
                   })
                 ],
@@ -2867,150 +2928,152 @@ var render = function() {
                 [
                   _c("label", [_vm._v("权限")]),
                   _vm._v(" "),
-                  _vm._l(_vm.permissions, function(permissionGroup) {
+                  _vm._l(_vm.permissions, function(group) {
                     return _c(
                       "div",
-                      { key: permissionGroup.key, staticClass: "mb-3" },
-                      _vm._l(permissionGroup, function(permission) {
-                        return _c(
-                          "ul",
-                          {
-                            key: permission.columnName,
-                            staticClass: "list-group"
-                          },
-                          [
-                            typeof permission.columnName != "undefined"
-                              ? _c(
-                                  "li",
-                                  {
-                                    staticClass: "list-group-item",
-                                    class: {
-                                      "ml-3":
-                                        permission != permissionGroup["view"]
-                                    }
-                                  },
-                                  [
-                                    _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-8 d-flex align-items-center"
-                                        },
-                                        [
-                                          _c("p", { staticClass: "m-0" }, [
-                                            _vm._v(
-                                              _vm._s(permission.cnDisplayName)
-                                            )
-                                          ])
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
-                                        },
-                                        [
-                                          _c(
-                                            "label",
-                                            { staticClass: "switch m-0" },
-                                            [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value:
-                                                      _vm.checkedPermissions,
-                                                    expression:
-                                                      "checkedPermissions"
-                                                  }
-                                                ],
-                                                staticClass: "form-control",
-                                                attrs: {
-                                                  type: "checkbox",
-                                                  id:
-                                                    "editAccount" +
-                                                    permission.elementId,
-                                                  name: permission.columnName
-                                                },
-                                                domProps: {
-                                                  value: permission.columnName,
-                                                  checked: Array.isArray(
-                                                    _vm.checkedPermissions
-                                                  )
-                                                    ? _vm._i(
-                                                        _vm.checkedPermissions,
-                                                        permission.columnName
-                                                      ) > -1
-                                                    : _vm.checkedPermissions
-                                                },
-                                                on: {
-                                                  change: [
-                                                    function($event) {
-                                                      var $$a =
-                                                          _vm.checkedPermissions,
-                                                        $$el = $event.target,
-                                                        $$c = $$el.checked
-                                                          ? true
-                                                          : false
-                                                      if (Array.isArray($$a)) {
-                                                        var $$v =
-                                                            permission.columnName,
-                                                          $$i = _vm._i($$a, $$v)
-                                                        if ($$el.checked) {
-                                                          $$i < 0 &&
-                                                            (_vm.checkedPermissions = $$a.concat(
-                                                              [$$v]
-                                                            ))
-                                                        } else {
-                                                          $$i > -1 &&
-                                                            (_vm.checkedPermissions = $$a
-                                                              .slice(0, $$i)
-                                                              .concat(
-                                                                $$a.slice(
-                                                                  $$i + 1
-                                                                )
-                                                              ))
-                                                        }
-                                                      } else {
-                                                        _vm.checkedPermissions = $$c
-                                                      }
-                                                    },
-                                                    function($event) {
-                                                      return _vm.onPermissionChange(
-                                                        $event,
-                                                        permissionGroup,
-                                                        permission
-                                                      )
-                                                    }
-                                                  ]
-                                                }
-                                              }),
-                                              _vm._v(" "),
-                                              _c("span", {
-                                                staticClass: "slider round"
-                                              })
-                                            ]
+                      { key: group.groupName, staticClass: "mb-3" },
+                      [
+                        _vm._l(group.permissions, function(permission, index) {
+                          return _c(
+                            "ul",
+                            {
+                              key: permission.columnName,
+                              staticClass: "list-group"
+                            },
+                            [
+                              _c(
+                                "li",
+                                {
+                                  staticClass: "list-group-item",
+                                  class: { "ml-3": index > 0 }
+                                },
+                                [
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-8 d-flex align-items-center"
+                                      },
+                                      [
+                                        _c("p", { staticClass: "m-0" }, [
+                                          _vm._v(
+                                            _vm._s(permission.cnDisplayName)
                                           )
-                                        ]
-                                      )
-                                    ])
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            typeof permission.columnName == "undefined"
-                              ? _c(
+                                        ])
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
+                                      },
+                                      [
+                                        _c(
+                                          "label",
+                                          { staticClass: "switch m-0" },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.checkedPermissions,
+                                                  expression:
+                                                    "checkedPermissions"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                type: "checkbox",
+                                                id:
+                                                  "editAccount" +
+                                                  permission.elementId,
+                                                name: permission.columnName
+                                              },
+                                              domProps: {
+                                                value: permission.columnName,
+                                                checked: Array.isArray(
+                                                  _vm.checkedPermissions
+                                                )
+                                                  ? _vm._i(
+                                                      _vm.checkedPermissions,
+                                                      permission.columnName
+                                                    ) > -1
+                                                  : _vm.checkedPermissions
+                                              },
+                                              on: {
+                                                change: [
+                                                  function($event) {
+                                                    var $$a =
+                                                        _vm.checkedPermissions,
+                                                      $$el = $event.target,
+                                                      $$c = $$el.checked
+                                                        ? true
+                                                        : false
+                                                    if (Array.isArray($$a)) {
+                                                      var $$v =
+                                                          permission.columnName,
+                                                        $$i = _vm._i($$a, $$v)
+                                                      if ($$el.checked) {
+                                                        $$i < 0 &&
+                                                          (_vm.checkedPermissions = $$a.concat(
+                                                            [$$v]
+                                                          ))
+                                                      } else {
+                                                        $$i > -1 &&
+                                                          (_vm.checkedPermissions = $$a
+                                                            .slice(0, $$i)
+                                                            .concat(
+                                                              $$a.slice($$i + 1)
+                                                            ))
+                                                      }
+                                                    } else {
+                                                      _vm.checkedPermissions = $$c
+                                                    }
+                                                  },
+                                                  function($event) {
+                                                    return _vm.onPermissionChange(
+                                                      $event,
+                                                      group
+                                                    )
+                                                  }
+                                                ]
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("span", {
+                                              staticClass: "slider round"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                ]
+                              )
+                            ]
+                          )
+                        }),
+                        _vm._v(" "),
+                        group.subGroups.length > 0
+                          ? _c(
+                              "div",
+                              { staticClass: "ml-3" },
+                              _vm._l(group.subGroups, function(subGroup) {
+                                return _c(
                                   "div",
-                                  { staticClass: "ml-3" },
-                                  _vm._l(permission, function(subPermission) {
+                                  { key: subGroup.groupName },
+                                  _vm._l(subGroup.permissions, function(
+                                    permission,
+                                    index
+                                  ) {
                                     return _c(
                                       "ul",
                                       {
-                                        key: subPermission.columnName,
+                                        key: permission.columnName,
                                         staticClass: "list-group"
                                       },
                                       [
@@ -3018,11 +3081,7 @@ var render = function() {
                                           "li",
                                           {
                                             staticClass: "list-group-item",
-                                            class: {
-                                              "ml-3":
-                                                subPermission !=
-                                                permission["view"]
-                                            }
+                                            class: { "ml-3": index > 0 }
                                           },
                                           [
                                             _c("div", { staticClass: "row" }, [
@@ -3039,7 +3098,7 @@ var render = function() {
                                                     [
                                                       _vm._v(
                                                         _vm._s(
-                                                          subPermission.cnDisplayName
+                                                          permission.cnDisplayName
                                                         )
                                                       )
                                                     ]
@@ -3077,66 +3136,75 @@ var render = function() {
                                                           type: "checkbox",
                                                           id:
                                                             "editAccount" +
-                                                            subPermission.elementId,
+                                                            permission.elementId,
                                                           name:
-                                                            subPermission.columnName
+                                                            permission.columnName
                                                         },
                                                         domProps: {
                                                           value:
-                                                            subPermission.columnName,
+                                                            permission.columnName,
                                                           checked: Array.isArray(
                                                             _vm.checkedPermissions
                                                           )
                                                             ? _vm._i(
                                                                 _vm.checkedPermissions,
-                                                                subPermission.columnName
+                                                                permission.columnName
                                                               ) > -1
                                                             : _vm.checkedPermissions
                                                         },
                                                         on: {
-                                                          change: function(
-                                                            $event
-                                                          ) {
-                                                            var $$a =
-                                                                _vm.checkedPermissions,
-                                                              $$el =
-                                                                $event.target,
-                                                              $$c = $$el.checked
-                                                                ? true
-                                                                : false
-                                                            if (
-                                                              Array.isArray($$a)
-                                                            ) {
-                                                              var $$v =
-                                                                  subPermission.columnName,
-                                                                $$i = _vm._i(
-                                                                  $$a,
-                                                                  $$v
-                                                                )
+                                                          change: [
+                                                            function($event) {
+                                                              var $$a =
+                                                                  _vm.checkedPermissions,
+                                                                $$el =
+                                                                  $event.target,
+                                                                $$c = $$el.checked
+                                                                  ? true
+                                                                  : false
                                                               if (
-                                                                $$el.checked
+                                                                Array.isArray(
+                                                                  $$a
+                                                                )
                                                               ) {
-                                                                $$i < 0 &&
-                                                                  (_vm.checkedPermissions = $$a.concat(
-                                                                    [$$v]
-                                                                  ))
-                                                              } else {
-                                                                $$i > -1 &&
-                                                                  (_vm.checkedPermissions = $$a
-                                                                    .slice(
-                                                                      0,
-                                                                      $$i
-                                                                    )
-                                                                    .concat(
-                                                                      $$a.slice(
-                                                                        $$i + 1
-                                                                      )
+                                                                var $$v =
+                                                                    permission.columnName,
+                                                                  $$i = _vm._i(
+                                                                    $$a,
+                                                                    $$v
+                                                                  )
+                                                                if (
+                                                                  $$el.checked
+                                                                ) {
+                                                                  $$i < 0 &&
+                                                                    (_vm.checkedPermissions = $$a.concat(
+                                                                      [$$v]
                                                                     ))
+                                                                } else {
+                                                                  $$i > -1 &&
+                                                                    (_vm.checkedPermissions = $$a
+                                                                      .slice(
+                                                                        0,
+                                                                        $$i
+                                                                      )
+                                                                      .concat(
+                                                                        $$a.slice(
+                                                                          $$i +
+                                                                            1
+                                                                        )
+                                                                      ))
+                                                                }
+                                                              } else {
+                                                                _vm.checkedPermissions = $$c
                                                               }
-                                                            } else {
-                                                              _vm.checkedPermissions = $$c
+                                                            },
+                                                            function($event) {
+                                                              return _vm.onPermissionChange(
+                                                                $event,
+                                                                subGroup
+                                                              )
                                                             }
-                                                          }
+                                                          ]
                                                         }
                                                       }),
                                                       _vm._v(" "),
@@ -3156,11 +3224,12 @@ var render = function() {
                                   }),
                                   0
                                 )
-                              : _vm._e()
-                          ]
-                        )
-                      }),
-                      0
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ],
+                      2
                     )
                   })
                 ],
