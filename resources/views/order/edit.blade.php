@@ -49,6 +49,16 @@
                         <td>邮寄费用：</td>
                         <td>RM{{ number_format($order->shipping_fee, 2, '.','') }}</td>
                     </tr>
+                    @if($order->mode == 'delivery')
+                        <tr>
+                            <td>顾客资料</td>
+                            <td>
+                                名称：{{ $order->customer->name }}<br>
+                                电话：{{ $order->customer->phone }}<br>
+                                地址：<br>{{ $order->customer->addressLine1 }}<br>
+                            </td>
+                        </tr>
+                    @endif
                     </tbody>
                 </table>
             </div>
