@@ -92,6 +92,7 @@
             @foreach($items as $item)
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3">
                     <div class="card">
+                        <img src="{{ $item->getCoverImage() }}" class="card-img-top">
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
