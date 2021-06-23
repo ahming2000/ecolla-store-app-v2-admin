@@ -32,7 +32,6 @@ class ItemsController extends Controller
         // Generate Where Clause for SQL Query
         $searchClause = $this->generateSearchClause($search, $this->ITEM_SEARCH);
         $category_filterClause = $this->generateFilterClause($category, $this->ITEM_FILTER_CATEGORY);
-
         $whereClause = $this->combineWhereClause([
             $searchClause,
             $category_filterClause,
@@ -61,7 +60,7 @@ class ItemsController extends Controller
             ->paginate($paginate);
         $categories = Category::all();
 
-        // Set pagination links parameter
+        // Set pagination links url parameter
         $items->withPath('/item' . $this->generateParameter(
             [
                 'paginate' => $paginate,
@@ -104,6 +103,24 @@ class ItemsController extends Controller
     }
 
     public function edit(Item $item)
+    {
+        // Category
+        $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
+        $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
+
+        // Item
+        $item = Item::with("categories")
+            ->with("util")
+            ->with("discounts")
+            ->with("variations")
+            ->with("images")
+            ->where("items.id", "=", $item->id)
+            ->first();
+
+        return view('item.edit', compact('item', 'categories'));
+    }
+
+    public function editOld(Item $item)
     {
         $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
         $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
@@ -248,6 +265,26 @@ class ItemsController extends Controller
         return true;
     }
 
+    public function destroy(Item $item)
+    {
+        DB::beginTransaction();
+        try {
+            $item->images()->delete();
+            $item->util()->delete();
+            $item->variations()->delete();
+            $item->categories()->detach();
+            $item->discounts()->delete();
+            $item->userRating()->delete();
+            $item->delete();
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            session()->flash('message', '商品删除失败！请联系客服！');
+        }
+
+        return redirect('/item')->with('message', "成功删除 " . $item->name . "!");
+    }
+
     private function canList(int $item_id, bool $list = false): bool
     {
         $obj = Item::find($item_id);
@@ -281,26 +318,6 @@ class ItemsController extends Controller
 
         if ($list) $obj->util()->update(['is_listed' => '1']);
         return true;
-    }
-
-    public function destroy(Item $item)
-    {
-        DB::beginTransaction();
-        try {
-            $item->images()->delete();
-            $item->util()->delete();
-            $item->variations()->delete();
-            $item->categories()->detach();
-            $item->discounts()->delete();
-            $item->userRating()->delete();
-            $item->delete();
-            DB::commit();
-        } catch (Exception $ex) {
-            DB::rollBack();
-            session()->flash('message', '商品删除失败！请联系客服！');
-        }
-
-        return redirect('/item')->with('message', "成功删除 " . $item->name . "!");
     }
 
     private function updateVariation(Item $item, array $old, array $new)
