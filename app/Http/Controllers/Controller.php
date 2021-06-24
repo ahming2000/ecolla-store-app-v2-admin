@@ -116,7 +116,7 @@ class Controller extends BaseController
     {
         $msg = "";
         foreach (Controller::$infoMessageList as $m) {
-            $msg = $msg . $m . "\n";
+            $msg = $msg . $m . "<br>";
         }
         Controller::$infoMessageList = [];
         return $msg;
@@ -126,7 +126,7 @@ class Controller extends BaseController
     {
         $msg = "";
         foreach (Controller::$errorMessageList as $m) {
-            $msg = $msg . $m . "\n";
+            $msg = $msg . $m . "<br>";
         }
         Controller::$errorMessageList = [];
         return $msg;
