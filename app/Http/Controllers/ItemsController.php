@@ -117,7 +117,7 @@ class ItemsController extends Controller
             ->where("items.id", "=", $item->id)
             ->first();
 
-        return view('item.edit', compact('item', 'categories'));
+        return view('item.edit2', compact('item', 'categories'));
     }
 
     public function editOld(Item $item)
