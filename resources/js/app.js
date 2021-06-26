@@ -6,7 +6,6 @@
 
 require('./bootstrap')
 
-
 window.Vue = require('vue').default;
 
 /**
@@ -41,7 +40,7 @@ Vue.component('edit-item-variation-list', require('./components/item/edit/variat
 Vue.component('edit-item-variation', require('./components/item/edit/variations/EditItemVariation.vue').default);
 Vue.component('edit-item-wholesale-discount-list', require('./components/item/edit/wholesales/EditItemWholesaleDiscountList.vue').default);
 Vue.component('edit-item-wholesale-discount', require('./components/item/edit/wholesales/EditItemWholesaleDiscount.vue').default);
-Vue.component('edit-discount', require('./components/shared/EditDiscount.vue').default);
+Vue.component('edit-discount', require('./components/shared/components/EditDiscount.vue').default);
 Vue.component('util-table', require('./components/item/edit/UtilTable.vue').default);
 
 /**

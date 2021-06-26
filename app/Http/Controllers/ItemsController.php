@@ -61,12 +61,14 @@ class ItemsController extends Controller
         $categories = Category::all();
 
         // Set pagination links url parameter
-        $items->withPath('/item' . $this->generateParameter(
-            [
-                'paginate' => $paginate,
-                'search' => $search,
-                'category' => $category,
-            ])
+        $items->withPath(
+            '/item' . $this->generateParameter(
+                [
+                    'paginate' => $paginate,
+                    'search' => $search,
+                    'category' => $category,
+                ]
+            )
         );
 
         // Generate parameter for filtering (search, category, paginate)
@@ -106,6 +108,7 @@ class ItemsController extends Controller
     {
         // Category
         $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
+
         $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
 
         // Item
@@ -323,7 +326,7 @@ class ItemsController extends Controller
     private function updateVariation(Item $item, array $old, array $new)
     {
         // Replace all null value with default value
-        for ($i = 0; $i < sizeof($new); $i++){
+        for ($i = 0; $i < sizeof($new); $i++) {
             $new[$i]['price'] = $new[$i]['price'] ?? 0;
             $new[$i]['weight'] = $new[$i]['weight'] ?? 0;
             $new[$i]['stock'] = $new[$i]['stock'] ?? 0;
@@ -428,5 +431,4 @@ class ItemsController extends Controller
             ->get();
         return !empty($result->toArray());
     }
-
 }

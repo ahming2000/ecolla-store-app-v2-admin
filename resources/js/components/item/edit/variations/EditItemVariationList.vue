@@ -1,30 +1,172 @@
 <template>
-  <div class="container">
-      <edit-item-variation v-for="variation in variations" v-bind:key="variation.id" :variation="variation"></edit-item-variation>
+  <div>
+    <div class="container">
+      <edit-item-variation
+        v-for="variation in variations"
+        v-bind:key="variation.id"
+        :variation="variation"
+        v-on:onEdit="openEditModal($event)"
+        v-on:onDelete="openDeleteModal($event)"
+      ></edit-item-variation>
+
+      <div class="d-flex justify-content-center mt-3">
+        <button
+          class="btn btn-outline-primary btn-circle shadow-none"
+          type="submit"
+          data-toggle="modal"
+          data-target="#addItemVariationModal"
+          @click.prevent="openAddModal()"
+        >
+          <i class="icofont icofont-ui-add icofont-2x"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Add/Edit/Delete Modal -->
+    <item-variation-modal
+      :action="action"
+      :variation="selectedVariation"
+      v-on:onSaveAdd="saveAdd($event)"
+      v-on:onSaveEdit="saveEdit($event)"
+      v-on:onConfirmDelete="confirmDelete($event)"
+    ></item-variation-modal>
   </div>
 </template>
 
 <script>
-import EditItemVariation from './EditItemVariation.vue';
+import ItemVariationModal from "../../../shared/modals/ItemVariationModal.vue";
+import EditItemVariation from "./EditItemVariation.vue";
 export default {
   name: "edit-item-variation-list",
+
+  components: { EditItemVariation, ItemVariationModal },
 
   props: {
     variations: Array,
   },
 
   data() {
-    return {};
+    return {
+      action: null,
+      selectedVariation: null,
+    };
   },
 
-  components: { EditItemVariation },
+  methods: {
+    openAddModal() {
+      console.log("openAddModal()");
 
-  computed: {
-    classObject() {
-      return {};
+      this.action = {
+        name: "添加",
+        enName: "Add",
+        value: "add",
+        contentType: "form",
+        button: {
+          confirm: {
+            name: "添加",
+            enName: "Add",
+            class: "btn-primary",
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            class: "btn-outline-danger",
+          },
+        },
+        modalId: "addItemVariationModal",
+      };
+
+      this.selectedVariation = null;
+
+      console.log(this.action);
+    },
+
+    openEditModal(variation) {
+      console.log("openEditModal()");
+
+      this.action = {
+        name: "编辑",
+        enName: "Edit",
+        value: "edit",
+        contentType: "form",
+        button: {
+          confirm: {
+            name: "保存",
+            enName: "Save",
+            class: "btn-primary",
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            class: "btn-outline-danger",
+          },
+        },
+        modalId: "editItemVariationModal",
+      };
+
+      this.selectedVariation = variation;
+
+      console.log(this.action, this.selectedVariation);
+    },
+
+    openDeleteModal(variation) {
+      console.log("openDeleteModal()");
+
+      this.action = {
+        name: "删除",
+        enName: "Delete",
+        value: "delete",
+        contentType: "confirmation",
+        button: {
+          confirm: {
+            name: "删除",
+            enName: "Delete",
+            class: "btn-danger",
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            class: "btn-outline-primary",
+          },
+        },
+        modalId: "deleteItemVariationModal",
+      };
+
+      this.selectedVariation = variation;
+
+      console.log(this.action, this.selectedVariation);
+    },
+
+    saveAdd(variation) {
+      console.log("saveAdd()");
+
+      console.log(variation);
+
+      // TODO Save Added Variation
+      // TODO Update Variations
+    },
+
+    saveEdit(variation) {
+      console.log("saveEdit()");
+
+      this.selectedVariation = variation;
+
+      console.log(this.selectedVariation);
+
+      // TODO Save Edited Variation
+      // TODO Update Variations
+    },
+
+    confirmDelete(variation) {
+      console.log("confirmDelete()");
+
+      this.selectedVariation = variation;
+
+      console.log(this.selectedVariation);
+
+      // TODO Delete Variation
+      // TODO Update Variations
     },
   },
-
-  methods: {},
 };
 </script>

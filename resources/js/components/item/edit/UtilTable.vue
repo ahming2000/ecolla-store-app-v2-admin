@@ -1,19 +1,21 @@
 <template>
-  <div class="row mb-3">
-    <table class="table table-light">
-      <thead>
-        <tr>
-          <th scope="col" style="border: 3px solid lightgrey">功能</th>
-          <th scope="col" style="border: 3px solid lightgrey">数值</th>
-          <th scope="col" style="border: 3px solid lightgrey">操作</th>
-        </tr>
-      </thead>
+  <div class="container">
+    <div class="row mb-3">
+      <table class="table table-light">
+        <thead>
+          <tr>
+            <th scope="col" style="border: 3px solid lightgrey">功能</th>
+            <th scope="col" style="border: 3px solid lightgrey">数值</th>
+            <th scope="col" style="border: 3px solid lightgrey">操作</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <UtilTableRow @toggle-reset="resetUtil" :type="viewCount" />
-        <UtilTableRow @toggle-reset="resetUtil" :type="sold" />
-      </tbody>
-    </table>
+        <tbody>
+          <UtilTableRow @toggle-reset="resetUtil" :type="viewCount" />
+          <UtilTableRow @toggle-reset="resetUtil" :type="sold" />
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
