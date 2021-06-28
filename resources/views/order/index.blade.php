@@ -42,12 +42,9 @@
                 <div class="row text-right mb-2">
                     <div class="col-12">
                         <select name="paginate" id="paginateSelector" class="custom-select custom-select-sm shadow">
-                            <option value="5" {{ @$_GET['paginate'] == 5 ? "selected" : "" }}>一页显示5个订单</option>
-                            <option value="10" {{ @$_GET['paginate'] == 10 ? "selected" : "" }}>一页显示10个订单</option>
-                            <option value="20" {{ @$_GET['paginate'] == 20 ? "selected" : "" }}>一页显示20个订单</option>
-                            <option value="30" {{ @$_GET['paginate'] == 30 ? "selected" : "" }}>一页显示30个订单</option>
+                            <option value="25" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25个订单</option>
                             <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50个订单</option>
-                            <option value="80" {{ @$_GET['paginate'] == 80 ? "selected" : "" }}>一页显示80个订单</option>
+                            <option value="75" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75个订单</option>
                             <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100个订单</option>
                         </select>
                     </div>

@@ -60,15 +60,13 @@ class ItemsController extends Controller
             ->paginate($paginate);
         $categories = Category::all();
 
-        // Set pagination links url parameter
-        $items->withPath(
-            '/item' . $this->generateParameter(
+        // Set pagination links parameter
+        $items->withPath('/item' . $this->generateParameter(
                 [
                     'paginate' => $paginate,
                     'search' => $search,
                     'category' => $category,
-                ]
-            )
+                ])
         );
 
         // Generate parameter for filtering (search, category, paginate)
@@ -161,7 +159,18 @@ class ItemsController extends Controller
         ]);
 
         // Item
-        $item->update($data['item']);
+        $temp = DB::table('items')
+            ->select('id')
+            ->where('name', '=', $data['item']['name'])
+            ->where('id', '!=', $item->id)
+            ->first();
+        if ($temp == null) {
+            $item->update($data['item']);
+        } else {
+            Controller::stackError("此商品名称已被使用！请到<a href=\"/item/" . $temp->id . "/edit\">点击此处</a>添加规格！");
+            session()->flash('error', Controller::pullError());
+            return redirect('/item/' . $item->id . '/edit');
+        }
 
         // Category
         $this->updateCategoryItem($item, array_column($item->categories->toArray(), 'id'), array_column($data['categories'], 'id'));

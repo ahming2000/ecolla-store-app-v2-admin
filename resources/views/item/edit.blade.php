@@ -62,13 +62,13 @@
 
         @if(session()->has('message'))
             <div class="alert alert-info text-center" role="alert">
-                {!! nl2br(e(session('message'))) !!}
+                {!! session('message') !!}
             </div>
         @endif
 
         @if(session()->has('error'))
             <div class="alert alert-danger text-center" role="alert">
-                {!! nl2br(e(session('error'))) !!}
+                {!! session('error') !!}
             </div>
         @endif
 
