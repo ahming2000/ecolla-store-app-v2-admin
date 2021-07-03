@@ -10,14 +10,42 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.0.2 Beta';
-        $updateDate = '2021/06/14';
+        $currentVersion = 'v2.1.0 Beta';
+        $updateDate = '2021/06/27';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
+            new LogClass('v2.1', [
+
+                new Log('v2.1.0', '2021/06/27', [
+                    new LogDetail('功能', [
+                        '添加了多样商品加入购物车的功能',
+                    ]),
+
+                    new LogDetail('优化', [
+                        '优化了商品浏览页面',
+                        '优化了商品页面',
+                        '优化了购物车页面',
+                        '优化了下单成功页面',
+                    ]),
+
+                    new LogDetail('其他', [
+                        '移除了一些残留的资源',
+                    ]),
+                ]),
+
+            ]),
+
             new LogClass('v2.0', [
+
+                new Log('v2.0.3', '2021/06/24', [
+                    new LogDetail('优化',[
+                        '修复了商品名称可以重复的问题',
+                        '优化了顾客页面浏览商品页面链接，名字可允许放置"/"符号',
+                    ]),
+                ]),
 
                 new Log('v2.0.2', '2021/06/14', [
                     new LogDetail('优化',[

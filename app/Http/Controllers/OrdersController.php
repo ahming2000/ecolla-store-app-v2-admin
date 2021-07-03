@@ -21,7 +21,7 @@ class OrdersController extends Controller
     public function index()
     {
         // Get request value
-        $paginate = request('paginate') ?? 5;
+        $paginate = request('paginate') ?? 25;
         $created_at = request('created_at') ?? "";
         $mode = request('mode') ?? "";
 
