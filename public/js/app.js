@@ -1414,11 +1414,8 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 try {
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js").default;
 
-  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
-
-  __webpack_require__(/*! mdbootstrap/js/mdb */ "./node_modules/mdbootstrap/js/mdb.js");
+  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 } catch (e) {}
 
 __webpack_require__(/*! selectize */ "./node_modules/selectize/dist/js/selectize.js");
@@ -3775,18 +3772,15 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      {
-        staticClass: "custom-control custom-switch",
-        on: { click: _vm.listItem }
-      },
+      { staticClass: "form-control form-switch", on: { click: _vm.listItem } },
       [
         _c("input", {
-          staticClass: "custom-control-input",
+          staticClass: "form-check-input",
           attrs: { type: "checkbox" },
           domProps: { checked: _vm.checkBoxValue }
         }),
         _vm._v(" "),
-        _c("label", { staticClass: "custom-control-label" })
+        _c("label", { staticClass: "form-check-label" })
       ]
     )
   ])
