@@ -4,7 +4,7 @@
     编辑 {{ $item->name }}
 @endsection
 
-@section('extraStyle')
+@section('style')
     <style>
         .img-upload-container {
             position: relative;
@@ -876,8 +876,7 @@
     </main>
 @endsection
 
-
-@section('extraScriptEnd')
+@section('script')
     <script>
         /* Category */
         function getCategoryCount() {

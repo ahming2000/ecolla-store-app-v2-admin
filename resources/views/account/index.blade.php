@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('title')
-员工账户管理
+    员工账户管理
 @endsection
 
-@section('extraStyle')
+@section('style')
 <style type="text/css">
     /* The switch - the box around the slider */
     .switch {
@@ -69,7 +69,7 @@
         border-radius: 50%;
     }
 </style>
-@endsection('extraStyle')
+@endsection
 
 @section('content')
 
@@ -77,13 +77,13 @@
     <div class="h1">员工账户管理</div>
 
     <div class="row-flex d-flex justify-content-end w-100 my-2">
-        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addAccountModal">
-            <i class="icofont icofont-ui-add icofont-1x mr-2"></i>添加员工账户
+        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+            <i class="icofont icofont-ui-add icofont-1x me-2"></i>添加员工账户
         </button>
     </div>
 
     <users :users='{{ $users }}' :permissions={{ json_encode($permissions, true) }}></users>
-    
+
 </main>
 
 @endsection

@@ -4,7 +4,7 @@
     仪表板
 @endsection
 
-@section('extraStyle')
+@section('style')
     <link href="{{ asset('css/home_styles.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.ui.datepicker.monthyearpicker.css') }}" />
@@ -22,11 +22,11 @@
                         <div class="col-md-12">
                             <nav class="nav-justified">
                                 <div class="nav nav-tabs " id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link" id="pop1-tab" data-toggle="tab" href="#pop1"
+                                    <a class="nav-item nav-link" id="pop1-tab" data-bs-toggle="tab" href="#pop1"
                                         role="tab" aria-controls="pop1" aria-selected="true" onclick="update_chart('timestamp_sales_chart')">每日</a>
-                                    <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2"
+                                    <a class="nav-item nav-link" id="pop2-tab" data-bs-toggle="tab" href="#pop2"
                                         role="tab" aria-controls="pop2" aria-selected="false" onclick="update_chart('daily_sales_chart')">每周</a>
-                                    <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3"
+                                    <a class="nav-item nav-link" id="pop3-tab" data-bs-toggle="tab" href="#pop3"
                                         role="tab" aria-controls="pop3" aria-selected="false" onclick="update_chart('weekly_sales_chart')">每月</a>
                                 </div>
                             </nav>
@@ -415,7 +415,7 @@
     @endif
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js" integrity="sha512-FJ2OYvUIXUqCcPf1stu+oTBlhn54W0UisZB/TNrZaVMHHhYvLBV9jMbvJYtvDe5x/WVaoXZ6KB+Uqe5hT2vlyA==" crossorigin="anonymous" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/jquery.ui.datepicker.monthyearpicker.js') }}"></script>

@@ -24,8 +24,8 @@
                             {{ auth()->user()->name }}
                             <a href="#"
                                style="color: blue"
-                               data-toggle="modal"
-                               data-target="#editNameModal">
+                               data-bs-toggle="modal"
+                               data-bs-target="#editNameModal">
                                 点击进行修改
                             </a>
                         </td>
@@ -38,8 +38,8 @@
                         <td>密码：</td>
                         <td>
                             <a href="#" style="color: blue"
-                               data-toggle="modal"
-                               data-target="#editPasswordModal">
+                               data-bs-toggle="modal"
+                               data-bs-target="#editPasswordModal">
                                 点击进行修改
                             </a>
                         </td>
@@ -54,7 +54,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editNameModalLabel">更换名字</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn btn-danger btn-sm px-3" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -70,7 +70,7 @@
                         @enderror
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-dismiss="modal">
+                        <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-bs-dismiss="modal">
                             取消
                         </button>
                         <button type="submit" class="btn btn-primary btn-md">
@@ -87,7 +87,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editPasswordModalLabel">更换密码</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn btn-danger btn-sm px-3" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-dismiss="modal">
+                        <button type="button" class="btn btn-outline-danger btn-md shadow-none" data-bs-dismiss="modal">
                             取消
                         </button>
                         <button type="submit" class="btn btn-primary btn-md">
@@ -135,7 +135,7 @@
 
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         // Auto toggle the selected modal with needed
         $(document).ready(function () {

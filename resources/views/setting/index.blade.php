@@ -12,12 +12,12 @@
                 <div class="row d-flex justify-content-between mt-5">
                     @if(auth()->user()->hasAccess('setting_item') || auth()->user()->hasAccess('setting_order'))
                         <div class="col-6 text-center">
-                            <a href="{{ url('/setting/website') }}" class="btn btn-primary btn-block">网站属性设定</a>
+                            <a href="{{ url('/setting/website') }}" class="btn btn-primary w-100">网站属性设定</a>
                         </div>
                     @endif
                     @if(auth()->user()->hasAccess('setting_account'))
                         <div class="col-6 text-center">
-                            <a href="{{ url('/setting/account') }}" class="btn btn-primary btn-block">个人账号设定</a>
+                            <a href="{{ url('/setting/account') }}" class="btn btn-primary w-100">个人账号设定</a>
                         </div>
                     @endif
                 </div>

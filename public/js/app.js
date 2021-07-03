@@ -2577,7 +2577,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-outline-danger btn-md shadow-none",
-                attrs: { type: "button", "data-dismiss": "modal" }
+                attrs: { type: "button", "data-bs-dismiss": "modal" }
               },
               [_vm._v("\n          取消\n        ")]
             ),
@@ -2586,7 +2586,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-primary btn-md",
-                attrs: { type: "button", "data-dismiss": "modal" },
+                attrs: { type: "button", "data-bs-dismiss": "modal" },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -2620,7 +2620,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: {
             type: "button",
-            "data-dismiss": "modal",
+            "data-bs-dismiss": "modal",
             "aria-label": "Close"
           }
         },
@@ -2700,7 +2700,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-outline-primary btn-md shadow-none",
-                attrs: { type: "button", "data-dismiss": "modal" }
+                attrs: { type: "button", "data-bs-dismiss": "modal" }
               },
               [_vm._v("\n          取消\n        ")]
             ),
@@ -2709,7 +2709,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-danger btn-md",
-                attrs: { type: "submit", "data-dismiss": "modal" },
+                attrs: { type: "submit", "data-bs-dismiss": "modal" },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -2746,7 +2746,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: {
             type: "button",
-            "data-dismiss": "modal",
+            "data-bs-dismiss": "modal",
             "aria-label": "Close"
           }
         },
@@ -3239,7 +3239,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-outline-danger btn-md shadow-none",
-                  attrs: { type: "button", "data-dismiss": "modal" }
+                  attrs: { type: "button", "data-bs-dismiss": "modal" }
                 },
                 [_vm._v("\n            取消\n          ")]
               ),
@@ -3248,7 +3248,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary btn-md",
-                  attrs: { type: "submit", "data-dismiss": "modal" },
+                  attrs: { type: "submit", "data-bs-dismiss": "modal" },
                   on: {
                     click: function($event) {
                       $event.preventDefault()
@@ -3283,7 +3283,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: {
             type: "button",
-            "data-dismiss": "modal",
+            "data-bs-dismiss": "modal",
             "aria-label": "Close"
           }
         },
@@ -3440,8 +3440,8 @@ var render = function() {
                       "\n              btn btn-secondary btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     attrs: {
                       type: "submit",
-                      "data-toggle": "modal",
-                      "data-target": "#editAccountModal",
+                      "data-bs-toggle": "modal",
+                      "data-bs-target": "#editAccountModal",
                       disabled: _vm.user.status == "disabled"
                     },
                     on: {
@@ -3494,8 +3494,8 @@ var render = function() {
                       "\n              btn btn-danger btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     attrs: {
                       type: "submit",
-                      "data-toggle": "modal",
-                      "data-target": "#deleteAccountModal"
+                      "data-bs-toggle": "modal",
+                      "data-bs-target": "#deleteAccountModal"
                     },
                     on: {
                       click: function($event) {
