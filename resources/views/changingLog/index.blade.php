@@ -16,21 +16,19 @@
                 <div class="h2 mb-3">更新日志</div>
                 <div class="accordion" id="version-list">
                     @foreach($logs as $logClass)
-                        <div class="card">
-                            <div class="card-header" id="heading-{{ $logClass->getPlainClassName() }}">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed p-0 pl-3" type="button"
-                                            data-toggle="collapse" data-target="#{{ $logClass->getPlainClassName() }}"
-                                            aria-expanded="false" aria-controls="{{ $logClass->getPlainClassName() }}">
-                                        <span style="font-size: large">{{ $logClass->class }}</span>
-                                    </button>
-                                </h2>
-                            </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-{{ $logClass->getPlainClassName() }}">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#{{ $logClass->getPlainClassName() }}"
+                                        aria-expanded="false" aria-controls="{{ $logClass->getPlainClassName() }}">
+                                    <span style="font-size: large">{{ $logClass->class }}</span>
+                                </button>
+                            </h2>
 
-                            <div id="{{ $logClass->getPlainClassName() }}" class="collapse"
+                            <div id="{{ $logClass->getPlainClassName() }}" class="accordion-collapse collapse"
                                  aria-labelledby="heading-{{ $logClass->getPlainClassName() }}"
-                                 data-parent="#version-list">
-                                <div class="card-body">
+                                 data-bs-parent="#version-list">
+                                <div class="accordion-body">
                                     @foreach($logClass->logs as $log)
                                         <div class="mb-3">
                                             <div class="h4">{{ $log->version }}（{{ $log->date }}）</div>
@@ -55,11 +53,11 @@
     </main>
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).ready(function () {
             // Show the first child
-            let selector = $('#version-list').children('.card').first();
+            let selector = $('#version-list').children('.accordion-item').first();
             selector.find('button').removeClass('collapsed');
             selector.find('.collapse').addClass('show');
         });

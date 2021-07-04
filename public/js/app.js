@@ -2623,11 +2623,8 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 try {
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js").default;
 
-  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
-
-  __webpack_require__(/*! mdbootstrap/js/mdb */ "./node_modules/mdbootstrap/js/mdb.js");
+  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 } catch (e) {}
 
 __webpack_require__(/*! selectize */ "./node_modules/selectize/dist/js/selectize.js");
@@ -4437,7 +4434,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-outline-danger btn-md shadow-none",
-                attrs: { type: "button", "data-dismiss": "modal" }
+                attrs: { type: "button", "data-bs-dismiss": "modal" }
               },
               [_vm._v("\n          取消\n        ")]
             ),
@@ -4446,7 +4443,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-primary btn-md",
-                attrs: { type: "button", "data-dismiss": "modal" },
+                attrs: { type: "button", "data-bs-dismiss": "modal" },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -4480,7 +4477,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: {
             type: "button",
-            "data-dismiss": "modal",
+            "data-bs-dismiss": "modal",
             "aria-label": "Close"
           }
         },
@@ -4560,7 +4557,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-outline-primary btn-md shadow-none",
-                attrs: { type: "button", "data-dismiss": "modal" }
+                attrs: { type: "button", "data-bs-dismiss": "modal" }
               },
               [_vm._v("\n          取消\n        ")]
             ),
@@ -4569,7 +4566,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-danger btn-md",
-                attrs: { type: "submit", "data-dismiss": "modal" },
+                attrs: { type: "submit", "data-bs-dismiss": "modal" },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -4606,7 +4603,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: {
             type: "button",
-            "data-dismiss": "modal",
+            "data-bs-dismiss": "modal",
             "aria-label": "Close"
           }
         },
@@ -5099,7 +5096,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-outline-danger btn-md shadow-none",
-                  attrs: { type: "button", "data-dismiss": "modal" }
+                  attrs: { type: "button", "data-bs-dismiss": "modal" }
                 },
                 [_vm._v("\n            取消\n          ")]
               ),
@@ -5108,7 +5105,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary btn-md",
-                  attrs: { type: "submit", "data-dismiss": "modal" },
+                  attrs: { type: "submit", "data-bs-dismiss": "modal" },
                   on: {
                     click: function($event) {
                       $event.preventDefault()
@@ -5143,7 +5140,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: {
             type: "button",
-            "data-dismiss": "modal",
+            "data-bs-dismiss": "modal",
             "aria-label": "Close"
           }
         },
@@ -5300,8 +5297,8 @@ var render = function() {
                       "\n              btn btn-secondary btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     attrs: {
                       type: "submit",
-                      "data-toggle": "modal",
-                      "data-target": "#editAccountModal",
+                      "data-bs-toggle": "modal",
+                      "data-bs-target": "#editAccountModal",
                       disabled: _vm.user.status == "disabled"
                     },
                     on: {
@@ -5354,8 +5351,8 @@ var render = function() {
                       "\n              btn btn-danger btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     attrs: {
                       type: "submit",
-                      "data-toggle": "modal",
-                      "data-target": "#deleteAccountModal"
+                      "data-bs-toggle": "modal",
+                      "data-bs-target": "#deleteAccountModal"
                     },
                     on: {
                       click: function($event) {
@@ -6328,18 +6325,15 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      {
-        staticClass: "custom-control custom-switch",
-        on: { click: _vm.listItem }
-      },
+      { staticClass: "form-control form-switch", on: { click: _vm.listItem } },
       [
         _c("input", {
-          staticClass: "custom-control-input",
+          staticClass: "form-check-input",
           attrs: { type: "checkbox" },
           domProps: { checked: _vm.checkBoxValue }
         }),
         _vm._v(" "),
-        _c("label", { staticClass: "custom-control-label" })
+        _c("label", { staticClass: "form-check-label" })
       ]
     )
   ])

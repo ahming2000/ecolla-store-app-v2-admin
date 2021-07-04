@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="custom-control custom-switch" @click="listItem">
-            <input type="checkbox" class="custom-control-input" :checked="checkBoxValue">
-            <label class="custom-control-label"></label>
+        <div class="form-control form-switch" @click="listItem">
+            <input type="checkbox" class="form-check-input" :checked="checkBoxValue">
+            <label class="form-check-label"></label>
         </div>
     </div>
 </template>

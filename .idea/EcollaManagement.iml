@@ -128,7 +128,6 @@
     <orderEntry type="library" name="jquery-3.6.0" level="application" />
     <orderEntry type="library" name="popper.js" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
-    <orderEntry type="library" name="mdbootstrap" level="application" />
     <orderEntry type="library" name="selectize.js" level="application" />
     <orderEntry type="library" name="canvasjs" level="application" />
     <orderEntry type="library" name="tiny-slider" level="application" />

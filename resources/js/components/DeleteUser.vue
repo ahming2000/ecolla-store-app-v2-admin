@@ -15,7 +15,7 @@
           <button
             type="button"
             class="close"
-            data-dismiss="modal"
+            data-bs-dismiss="modal"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
@@ -42,14 +42,14 @@
           <button
             type="button"
             class="btn btn-outline-primary btn-md shadow-none"
-            data-dismiss="modal"
+            data-bs-dismiss="modal"
           >
             取消
           </button>
           <button
             type="submit"
             class="btn btn-danger btn-md"
-            data-dismiss="modal"
+            data-bs-dismiss="modal"
             @click.prevent="deleteUser()"
           >
             确定删除

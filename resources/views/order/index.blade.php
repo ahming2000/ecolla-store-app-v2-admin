@@ -4,7 +4,7 @@
     订单查看
 @endsection
 
-@section('extraStyle')
+@section('style')
     <style>
         .order-attr-value {
             color: green;
@@ -36,28 +36,30 @@
 
         <div class="row mb-3">
             <div class="col-md-6 col-sm-12">
-                <div style="font-size: 40px; font-weight: bolder">订单查看</div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="row text-right mb-2">
-                    <div class="col-12">
-                        <select name="paginate" id="paginateSelector" class="custom-select custom-select-sm shadow">
-                            <option value="25" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25个订单</option>
-                            <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50个订单</option>
-                            <option value="75" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75个订单</option>
-                            <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100个订单</option>
-                        </select>
-                    </div>
+                <div class="h1">
+                    订单查看
                 </div>
-                <div class="row text-right mb-2">
-                    <div class="col-8">
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+
+                <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
+                    <option value="25" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25个订单</option>
+                    <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50个订单</option>
+                    <option value="75" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75个订单</option>
+                    <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100个订单</option>
+                </select>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="flex-grow-1 me-2">
                         <input type="date"
-                               class="form-control form-control-sm shadow"
+                               class="form-control shadow"
                                name="created_at"
                                id="dateSelector"
                                value="{{ $_GET['created_at'] ?? '' }}">
                     </div>
-                    <div class="col-4">
+
+                    <div>
                         <form action="{{ url('/order') }}" method="get">
                             @if(isset($_GET['paginate']))
                                 <input type="hidden" name="paginate" value="{{ $_GET['paginate'] }}">
@@ -65,29 +67,32 @@
                             @if(isset($_GET['mode']))
                                 <input type="hidden" name="mode" value="{{ $_GET['mode'] }}">
                             @endif
-                            <button type="submit" class="btn btn-primary btn-sm m-0 w-100">
+
+                            <button type="submit" class="btn btn-primary">
                                 <i class="icofont icofont-trash"></i> 重置
                             </button>
                         </form>
                     </div>
                 </div>
-                <div class="row text-right mb-2">
-                    <div class="col-12">
-                        <select class="custom-select custom-select-sm shadow" name="mode" id="modeSelector">
-                            <option value="">全部订单模式</option>
-                            <option value="pickup" {{ @$_GET['mode'] == 'pickup' ? "selected" : "" }}>预购取货</option>
-                            <option value="delivery" {{ @$_GET['mode'] == 'delivery' ? "selected" : "" }}>外送</option>
-                        </select>
-                    </div>
-                </div>
+
+                <select class="form-select shadow" name="mode" id="modeSelector">
+                    <option value="">全部订单模式</option>
+                    <option value="pickup" {{ @$_GET['mode'] == 'pickup' ? "selected" : "" }}>预购取货</option>
+                    <option value="delivery" {{ @$_GET['mode'] == 'delivery' ? "selected" : "" }}>外送</option>
+                </select>
+
             </div>
+
         </div>
 
         <div class="row mb-3">
+
             @foreach($orders as $order)
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3">
                     <div class="card">
+
                         <div class="card-body">
+
                             <div class="row mb-3">
                                 <div class="col-6">
                                     <div class="row">
@@ -100,6 +105,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-6">
                                     <div class="row">
                                         <div class="col-12">
@@ -123,6 +129,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-6">
                                     <div class="row">
                                         <div class="col-12">
@@ -173,26 +180,26 @@
 
                             <div class="row mb-3">
                                 @if(auth()->user()->hasAccess('order_update'))
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-center mb-2">
                                         <button type="button"
-                                                class="btn btn-sm btn-primary w-100 ml-0"
+                                                class="btn btn-sm btn-primary w-100 ms-0"
                                                 onclick="window.location.href = '{{ url('/order/' . $order->id) }}'">
                                             <i class="icofont icofont-search-document"></i> 订单详情
                                         </button>
                                     </div>
                                 @endif
                                 @if(auth()->user()->hasAccess('order_item_view'))
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-center mb-2">
                                         <button type="button"
-                                                class="btn btn-sm btn-info w-100 ml-0"
+                                                class="btn btn-sm btn-primary w-100 ms-0"
                                                 onclick="window.location.href = '{{ url('/order/' . $order->id . '/item') }}'">
                                             <i class="icofont icofont-align-left"></i> 订单商品
                                         </button>
                                     </div>
                                 @endif
                                 @if(auth()->user()->hasAccess('order_receipt_view'))
-                                    <div class="col-6 text-center">
-                                        <a class="btn btn-sm btn-secondary w-100 ml-0"
+                                    <div class="col-6 text-center mb-2">
+                                        <a class="btn btn-sm btn-secondary w-100 ms-0"
                                            href="{{ $order->receipt_image }}"
                                            target="_blank">
                                             <i class="icofont icofont-picture"></i> 收据查看
@@ -200,9 +207,9 @@
                                     </div>
                                 @endif
                                 @if(auth()->user()->hasAccess('order_invoice_download'))
-                                    <div class="col-6 text-center">
+                                    <div class="col-6 text-center mb-2">
                                         <button type="button"
-                                                class="btn btn-sm btn-secondary w-100 ml-0"
+                                                class="btn btn-sm btn-secondary w-100 ms-0"
                                                 onclick="window.location.href = '{{ url('/order/' . $order->id . '/pdf') }}'">
                                             <i class="icofont icofont-download"></i> 订单下载
                                         </button>
@@ -216,13 +223,13 @@
             @endforeach
         </div>
 
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             {{ $orders->links() }}
         </div>
     </main>
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         function viewReceipt(source) {
             let url = source.value;

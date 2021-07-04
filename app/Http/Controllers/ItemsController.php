@@ -12,7 +12,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class ItemsController extends Controller
 {
@@ -128,7 +127,7 @@ class ItemsController extends Controller
         return view('item.edit', compact('item', 'categories'));
     }
 
-    public function update(Item $item)
+    public function updateOld(Item $item)
     {
         $data = request()->validate([
             'item.name' => 'required',

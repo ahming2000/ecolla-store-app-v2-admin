@@ -15,87 +15,92 @@
 
         <div class="row mb-3">
             <div class="col-md-6 col-sm-12">
-                <div style="font-size: 40px; font-weight: bolder">商品管理</div>
+                <div class="h1">
+                    商品管理
+                </div>
             </div>
+
             <div class="col-md-6 col-sm-12">
-                <div class="row mb-2">
-                    <div class="col-12 text-right">
-                        @if(auth()->user()->hasAccess('item_create'))
-                            <a href="{{ url('/item/create') }}">
-                                <i class="icofont icofont-ui-add"></i> 添加商品
-                            </a>
-                        @endif
-                    </div>
+                <div class="text-end mb-2">
+                    @if(auth()->user()->hasAccess('item_create'))
+                        <button type="button" class="btn btn-outline-primary" onclick="window.location.href = '{{ url('/item/create') }}'">
+                            <i class="icofont icofont-ui-add"></i> 添加商品
+                        </button>
+                    @endif
                 </div>
-                <div class="row text-right mb-2">
-                    <div class="col-12">
-                        <select name="paginate" id="paginateSelector" class="custom-select custom-select-sm shadow">
-                            <option value="25" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25件商品</option>
-                            <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50件商品</option>
-                            <option value="75" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75件商品</option>
-                            <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100件商品</option>
-                        </select>
-                    </div>
-                </div>
+
+                <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
+                    <option value="25" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25件商品</option>
+                    <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50件商品</option>
+                    <option value="75" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75件商品</option>
+                    <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100件商品</option>
+                </select>
+
                 <form action="{{ url('/item') }}" method="get">
-                    <div class="row text-right mb-2">
-                        <div class="col-8">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <div class="flex-grow-1 me-2">
                             @if(isset($_GET['paginate']))
                                 <input type="hidden" name="paginate" value="{{ $_GET['paginate'] }}">
                             @endif
+
                             @if(isset($_GET['category']))
                                 <input type="hidden" name="category" value="{{ $_GET['category'] }}">
                             @endif
+
                             <input type="text"
-                                   class="form-control form-control-sm m-0 shadow"
+                                   class="form-control shadow"
                                    maxlength="20"
                                    name="search"
                                    placeholder="搜索名称、货号、规格、出产地、商品描述"
                                    value="{{ $_GET["search"] ?? "" }}">
 
                             @error("search")
-                            <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-sm m-0 w-100">
+
+                        <div>
+                            <button type="submit" class="btn btn-primary">
                                 <i class="icofont icofont-search"></i> 搜索
                             </button>
                         </div>
                     </div>
                 </form>
-                <div class="row text-right mb-2">
-                    <div class="col-12">
-                        <select class="custom-select custom-select-sm shadow" name="category" id="categorySelector">
-                            <option value="">
-                                全部商品 (<?= \App\Models\Item::all()->count() ?>)
-                            </option>
 
-                            @foreach($categories as $category)
-                                @if(\App\Models\Category::getItemCount($category->id) != 0)
-                                    <option value="{{ $category->name }}"
-                                        {{ @$_GET['category'] == $category->name || @$_GET['category'] == $category->name_en ? " selected" : "" }}>
-                                        {{ $category->name }}
-                                        ({{ \App\Models\Category::getItemCount($category->id) }})
-                                    </option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                <select class="form-select shadow" name="category" id="categorySelector">
+                    <option value="">
+                        全部商品 (<?= \App\Models\Item::all()->count() ?>)
+                    </option>
+
+                    @foreach($categories as $category)
+                        @if(\App\Models\Category::getItemCount($category->id) != 0)
+                            <option value="{{ $category->name }}"
+                                {{ @$_GET['category'] == $category->name || @$_GET['category'] == $category->name_en ? " selected" : "" }}>
+                                {{ $category->name }}
+                                ({{ \App\Models\Category::getItemCount($category->id) }})
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
 
         <div class="row mb-3">
+
             @foreach($items as $item)
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mb-3">
+                <div class="col-12 col-md-4 col-lg-4 mb-3">
                     <div class="card">
-                        <img src="{{ $item->getCoverImage() }}" class="card-img-top">
+
+                        <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="" loading="lazy">
+
                         <div class="card-body">
+
                             <div class="row mb-3">
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+                                <div class="col-6 col-sm-4 col-md-4 col-lg-3">
                                     @if(auth()->user()->hasAccess('item_list'))
                                         <listing-switch item-id="{{ $item->id }}"
                                                     is-listed="{{ $item->util->is_listed }}"></listing-switch>
@@ -119,7 +124,7 @@
                                             <div class="col-6">
                                                 {{ $variation->name }}
                                             </div>
-                                            <div class="col-6 text-right">
+                                            <div class="col-6 text-end">
                                                 @if($variation->discount != null)
                                                     RM{{ number_format($variation->price * $variation->discount->rate, 2, '.', '') }}
                                                 @else
@@ -168,7 +173,7 @@
     </main>
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         @if(auth()->user()->hasAccess('item_delete'))
             function confirmDelete(source) {
