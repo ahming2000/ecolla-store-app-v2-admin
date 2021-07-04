@@ -2028,6 +2028,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-discount",
   props: {
@@ -2035,14 +2092,63 @@ __webpack_require__.r(__webpack_exports__);
     rate: Number
   },
   data: function data() {
-    return {};
+    var _this$rate, _this$original_price;
+
+    return {
+      discountRate: (_this$rate = this.rate) !== null && _this$rate !== void 0 ? _this$rate : 0,
+      originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : 0
+    };
   },
-  computed: {
-    classObject: function classObject() {
-      return {};
+  watch: {
+    rate: function rate(val) {
+      this.refetchDiscountRate(val);
+    },
+    original_price: function original_price(val) {
+      this.refetchOriginalPrice(val);
+    },
+    discountRate: function discountRate(val) {
+      this.onRateChange(val);
     }
   },
-  methods: {}
+  computed: {
+    discountPrice: {
+      get: function get() {
+        return !this.discountRate ? 0 : (this.originalPrice * this.discountRate).toFixed(2);
+      },
+      set: function set(val) {
+        this.discountRate = val / this.originalPrice;
+      }
+    },
+    discountRatePercentage: {
+      get: function get() {
+        return !this.discountRate ? 0 : (this.discountRate * 100).toFixed(2);
+      },
+      set: function set(val) {
+        this.discountRate = val / 100;
+      }
+    },
+    discountedPrice: {
+      get: function get() {
+        return !this.discountRate ? this.originalPrice : (this.originalPrice - this.discountPrice).toFixed(2);
+      },
+      set: function set(val) {
+        this.discountRate = (this.originalPrice - val) / this.originalPrice;
+      }
+    }
+  },
+  methods: {
+    refetchDiscountRate: function refetchDiscountRate(val) {
+      this.discountRate = 0;
+      this.discountRate = val;
+    },
+    refetchOriginalPrice: function refetchOriginalPrice(val) {
+      this.originalPrice = 0;
+      this.originalPrice = val;
+    },
+    onRateChange: function onRateChange(val) {
+      this.$emit("onRateChange", val);
+    }
+  }
 });
 
 /***/ }),
@@ -2058,6 +2164,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue");
 //
 //
 //
@@ -2117,23 +2224,188 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    EditDiscount: _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
   name: "item-variation-modal",
   props: {
     variation: Object,
     action: Object
-  },
-  data: function data() {
-    return {
-      variationData: null
-    };
-  },
-  watch: {
-    variation: function variation(val) {
-      this.refetchVariationData();
-    },
-    action: function action(val) {// if(this.action.)
-    }
   },
 
   /**
@@ -2142,11 +2414,29 @@ __webpack_require__.r(__webpack_exports__);
    * e.g.
    * {{ parent?.child }}
    *
-   * so I have to use this way to workaround
+   * so I have to use this way to workaround >:(
    */
-  computed: {
-    id: function id() {
-      return this.variationData === null ? null : this.variationData.id;
+  data: function data() {
+    var _this$variation$id, _this$variation, _this$variation$image, _this$variation2, _this$variation$name, _this$variation3, _this$variation$name_, _this$variation4, _this$variation$barco, _this$variation5, _this$variation$price, _this$variation6, _this$variation$stock, _this$variation7, _this$variation$weigh, _this$variation8, _this$variation$disco, _this$variation9, _this$variation$disco2, _this$variation10, _this$variation10$dis, _this$variation$disco3, _this$variation11;
+
+    return {
+      variationId: (_this$variation$id = (_this$variation = this.variation) === null || _this$variation === void 0 ? void 0 : _this$variation.id) !== null && _this$variation$id !== void 0 ? _this$variation$id : null,
+      variationImage: (_this$variation$image = (_this$variation2 = this.variation) === null || _this$variation2 === void 0 ? void 0 : _this$variation2.image) !== null && _this$variation$image !== void 0 ? _this$variation$image : null,
+      variationName: (_this$variation$name = (_this$variation3 = this.variation) === null || _this$variation3 === void 0 ? void 0 : _this$variation3.name) !== null && _this$variation$name !== void 0 ? _this$variation$name : null,
+      variationEnName: (_this$variation$name_ = (_this$variation4 = this.variation) === null || _this$variation4 === void 0 ? void 0 : _this$variation4.name_en) !== null && _this$variation$name_ !== void 0 ? _this$variation$name_ : null,
+      variationBarcode: (_this$variation$barco = (_this$variation5 = this.variation) === null || _this$variation5 === void 0 ? void 0 : _this$variation5.barcode) !== null && _this$variation$barco !== void 0 ? _this$variation$barco : null,
+      variationPrice: (_this$variation$price = (_this$variation6 = this.variation) === null || _this$variation6 === void 0 ? void 0 : _this$variation6.price) !== null && _this$variation$price !== void 0 ? _this$variation$price : 0,
+      variationStock: (_this$variation$stock = (_this$variation7 = this.variation) === null || _this$variation7 === void 0 ? void 0 : _this$variation7.stock) !== null && _this$variation$stock !== void 0 ? _this$variation$stock : 0,
+      variationWeight: (_this$variation$weigh = (_this$variation8 = this.variation) === null || _this$variation8 === void 0 ? void 0 : _this$variation8.weight) !== null && _this$variation$weigh !== void 0 ? _this$variation$weigh : 0,
+      variationDiscount: (_this$variation$disco = (_this$variation9 = this.variation) === null || _this$variation9 === void 0 ? void 0 : _this$variation9.discount) !== null && _this$variation$disco !== void 0 ? _this$variation$disco : null,
+      variationDiscountRate: (_this$variation$disco2 = (_this$variation10 = this.variation) === null || _this$variation10 === void 0 ? void 0 : (_this$variation10$dis = _this$variation10.discount) === null || _this$variation10$dis === void 0 ? void 0 : _this$variation10$dis.rate) !== null && _this$variation$disco2 !== void 0 ? _this$variation$disco2 : 0,
+      isVariationDiscountEnabled: (_this$variation$disco3 = (_this$variation11 = this.variation) === null || _this$variation11 === void 0 ? void 0 : _this$variation11.discount) !== null && _this$variation$disco3 !== void 0 ? _this$variation$disco3 : false
+    };
+  },
+  watch: {
+    variation: function variation(val) {
+      this.clearVariationData();
+      this.fetchVariationData(val);
     }
   },
   methods: {
@@ -2173,9 +2463,84 @@ __webpack_require__.r(__webpack_exports__);
           }
       }
     },
-    refetchVariationData: function refetchVariationData() {
-      this.variationData = null;
-      this.variationData = this.variation;
+    addImage: function addImage() {
+      console.log("addImage()"); // TODO add image
+    },
+    onChange: function onChange(event, name) {
+      var newValue = event.target.value.trim();
+      console.log(newValue);
+
+      switch (name) {
+        case "name":
+          {
+            this.variationName = newValue;
+            break;
+          }
+
+        case "enName":
+          {
+            this.variationEnName = newValue;
+            break;
+          }
+
+        case "barcode":
+          {
+            this.variationBarcode = newValue;
+            break;
+          }
+
+        case "price":
+          {
+            this.variationPrice = Number(newValue);
+            break;
+          }
+
+        case "stock":
+          {
+            this.variationStock = Number(newValue);
+            break;
+          }
+
+        case "weight":
+          {
+            this.variationWeight = Number(newValue);
+            break;
+          }
+
+        default:
+          {}
+      }
+    },
+    onRateChange: function onRateChange(newRate) {
+      this.variationDiscountRate = newRate;
+    },
+    fetchVariationData: function fetchVariationData(val) {
+      var _val$id, _val$image, _val$name, _val$name_en, _val$barcode, _val$price, _val$stock, _val$weight, _val$discount, _val$discount$rate, _val$discount2, _val$discount3;
+
+      this.variationId = (_val$id = val.id) !== null && _val$id !== void 0 ? _val$id : null;
+      this.variationImage = (_val$image = val.image) !== null && _val$image !== void 0 ? _val$image : null;
+      this.variationName = (_val$name = val.name) !== null && _val$name !== void 0 ? _val$name : null;
+      this.variationEnName = (_val$name_en = val.name_en) !== null && _val$name_en !== void 0 ? _val$name_en : null;
+      this.variationBarcode = (_val$barcode = val.barcode) !== null && _val$barcode !== void 0 ? _val$barcode : null;
+      this.variationPrice = (_val$price = val.price) !== null && _val$price !== void 0 ? _val$price : 0;
+      this.variationStock = (_val$stock = val.stock) !== null && _val$stock !== void 0 ? _val$stock : 0;
+      this.variationWeight = (_val$weight = val.weight) !== null && _val$weight !== void 0 ? _val$weight : 0;
+      this.variationDiscount = (_val$discount = val.discount) !== null && _val$discount !== void 0 ? _val$discount : null;
+      this.variationDiscountRate = (_val$discount$rate = (_val$discount2 = val.discount) === null || _val$discount2 === void 0 ? void 0 : _val$discount2.rate) !== null && _val$discount$rate !== void 0 ? _val$discount$rate : 0;
+      this.isVariationDiscountEnabled = (_val$discount3 = val.discount) !== null && _val$discount3 !== void 0 ? _val$discount3 : false;
+    },
+    clearVariationData: function clearVariationData() {
+      this.variationId = null;
+      this.variationImage = null;
+      this.variationName = null;
+      this.variationEnName = null;
+      this.variationBarcode = null;
+      this.variationPrice = 0;
+      this.variationStock = 0;
+      this.variationWeight = 0;
+      this.variationDiscount = null;
+      this.variationDiscountRate = 0;
+      this.isVariationDiscountEnabled = false;
     }
   }
 });
@@ -2224,8 +2589,13 @@ Vue.component('edit-item-variation-list', __webpack_require__(/*! ./components/i
 Vue.component('edit-item-variation', __webpack_require__(/*! ./components/item/edit/variations/EditItemVariation.vue */ "./resources/js/components/item/edit/variations/EditItemVariation.vue").default);
 Vue.component('edit-item-wholesale-discount-list', __webpack_require__(/*! ./components/item/edit/wholesales/EditItemWholesaleDiscountList.vue */ "./resources/js/components/item/edit/wholesales/EditItemWholesaleDiscountList.vue").default);
 Vue.component('edit-item-wholesale-discount', __webpack_require__(/*! ./components/item/edit/wholesales/EditItemWholesaleDiscount.vue */ "./resources/js/components/item/edit/wholesales/EditItemWholesaleDiscount.vue").default);
-Vue.component('edit-discount', __webpack_require__(/*! ./components/shared/components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue").default);
 Vue.component('util-table', __webpack_require__(/*! ./components/item/edit/UtilTable.vue */ "./resources/js/components/item/edit/UtilTable.vue").default);
+/**
+ * Shared
+ */
+
+Vue.component('edit-discount', __webpack_require__(/*! ./components/shared/components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue").default);
+Vue.component('item-variation-modal', __webpack_require__(/*! ./components/shared/modals/ItemVariationModal.vue */ "./resources/js/components/shared/modals/ItemVariationModal.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -5711,7 +6081,7 @@ var render = function() {
                 "span",
                 {
                   staticClass:
-                    "badge badge-pill badge-primary shadow-none p-2 mr-3"
+                    "badge badge-pill badge-success shadow-none p-2 mr-3"
                 },
                 [
                   _vm._v(
@@ -5722,13 +6092,16 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "badge badge-pill badge-primary shadow-none p-2"
-                },
-                [_vm._v("\n            RM ???\n          ")]
-              )
+              _vm.variation.discount
+                ? _c(
+                    "span",
+                    {
+                      staticClass:
+                        "badge badge-pill badge-success shadow-none p-2"
+                    },
+                    [_vm._v("\n            RM ???\n          ")]
+                  )
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
@@ -5825,7 +6198,8 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-outline-primary btn-circle shadow-none",
+                staticClass:
+                  "btn btn-outline-primary btn-circle-60 shadow-none",
                 attrs: {
                   type: "submit",
                   "data-toggle": "modal",
@@ -5993,7 +6367,164 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" })
+  return _c("div", { staticClass: "container mt-3" }, [
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "label",
+        { staticClass: "label", attrs: { for: "discountRateRange" } },
+        [_vm._v("折扣率")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.discountPrice,
+            expression: "discountPrice"
+          }
+        ],
+        staticClass: "form-control-range",
+        attrs: {
+          type: "range",
+          max: _vm.originalPrice,
+          min: "0",
+          step: "0.01",
+          id: "discountRateRange"
+        },
+        domProps: { value: _vm.discountPrice },
+        on: {
+          __r: function($event) {
+            _vm.discountPrice = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-6 pr-0" }, [
+        _c("div", { staticClass: "form-group w-100" }, [
+          _c("div", { staticClass: "input-group" }, [
+            _c(
+              "span",
+              {
+                staticClass: "input-group-text",
+                attrs: { id: "negativeCurrencyUnit" }
+              },
+              [_vm._v("- RM")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.discountPrice,
+                  expression: "discountPrice"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "number", id: "discountPrice" },
+              domProps: { value: _vm.discountPrice },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.discountPrice = $event.target.value
+                }
+              }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-6 pl-0" }, [
+        _c("div", { staticClass: "form-group w-100" }, [
+          _c("div", { staticClass: "input-group" }, [
+            _c(
+              "span",
+              { staticClass: "input-group-text", attrs: { id: "openBracket" } },
+              [_vm._v("(")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.discountRatePercentage,
+                  expression: "discountRatePercentage"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                id: "discountRate",
+                min: "0",
+                max: "100",
+                step: "1"
+              },
+              domProps: { value: _vm.discountRatePercentage },
+              on: {
+                change: function($event) {
+                  return _vm.onChange($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.discountRatePercentage = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "span",
+              { staticClass: "input-group-text", attrs: { id: "percentage" } },
+              [_vm._v("%)")]
+            )
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group w-100" }, [
+      _c("label", { staticClass: "label", attrs: { for: "discountedPrice" } }, [
+        _vm._v("折扣后的价钱")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group" }, [
+        _c(
+          "span",
+          { staticClass: "input-group-text", attrs: { id: "currencyUnit" } },
+          [_vm._v("RM")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.discountedPrice,
+              expression: "discountedPrice"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "number", id: "discountedPrice" },
+          domProps: { value: _vm.discountedPrice },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.discountedPrice = $event.target.value
+            }
+          }
+        })
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -6058,24 +6589,367 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.action.contentType === "form"
-                    ? _c("div", [
-                        _vm._v(
-                          "\n          Form\n          " +
-                            _vm._s(_vm.action.name) +
-                            "\n          " +
-                            _vm._s(_vm.id) +
-                            "\n        "
-                        )
+                    ? _c("div", { staticClass: "container" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "media d-flex justify-content-center align-items-center"
+                            },
+                            [
+                              _vm.variationImage
+                                ? _c("img", {
+                                    staticClass:
+                                      "\n                  figure-img\n                  img-fluid\n                  border border-primary border-2\n                  rounded\n                  mr-3\n                ",
+                                    attrs: {
+                                      src: _vm.variationImage,
+                                      height: "100px",
+                                      width: "100px"
+                                    }
+                                  })
+                                : _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "\n                  figure-img\n                  img-fluid\n                  border border-light border-2\n                  rounded\n                  mr-3\n                  bg-white\n                  d-flex\n                  justify-content-center\n                  align-items-center\n                ",
+                                      staticStyle: {
+                                        height: "100px",
+                                        width: "100px"
+                                      }
+                                    },
+                                    [
+                                      !_vm.variationImage
+                                        ? _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "\n                    btn btn-outline-light btn-circle-40 btn-image\n                    border-4\n                    shadow-none\n                    d-flex\n                    justify-content-center\n                    align-items-center\n                  ",
+                                              attrs: { type: "submit" },
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  return _vm.addImage()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass:
+                                                  "icofont icofont-ui-add"
+                                              })
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "media-body" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "label",
+                                  attrs: { for: "variationName" }
+                                },
+                                [_vm._v("规格")]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "text", id: "variationName" },
+                                domProps: { value: _vm.variationName },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.onChange($event, "name")
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "label",
+                                  attrs: { for: "variationEnName" }
+                                },
+                                [_vm._v("Variation")]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "text", id: "variationEnName" },
+                                domProps: { value: _vm.variationEnName },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.onChange($event, "enName")
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group w-100" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "label",
+                                attrs: { for: "variationBarcode" }
+                              },
+                              [_vm._v("货号")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: { type: "text", id: "variationBarcode" },
+                              domProps: { value: _vm.variationBarcode },
+                              on: {
+                                change: function($event) {
+                                  return _vm.onChange($event, "barcode")
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-6" }, [
+                              _c("div", { staticClass: "form-group w-100" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "label",
+                                    attrs: { for: "variationPrice" }
+                                  },
+                                  [_vm._v("原价")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group" }, [
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "input-group-text",
+                                      attrs: { id: "currencyUnit" }
+                                    },
+                                    [_vm._v("RM")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "number",
+                                      id: "variationPrice",
+                                      min: "0.00",
+                                      step: "0.10"
+                                    },
+                                    domProps: {
+                                      value: _vm.variationPrice.toFixed(2)
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.onChange($event, "price")
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-6" }, [
+                              _c("div", { staticClass: "form-group w-100" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "label",
+                                    attrs: { for: "variationStock" }
+                                  },
+                                  [_vm._v("库存")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "number",
+                                    id: "variationStock",
+                                    min: "0",
+                                    step: "1"
+                                  },
+                                  domProps: { value: _vm.variationStock },
+                                  on: {
+                                    change: function($event) {
+                                      return _vm.onChange($event, "stock")
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group w-100" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "label",
+                                attrs: { for: "variationWeight" }
+                              },
+                              [_vm._v("重量")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "number",
+                                  id: "variationWeight",
+                                  min: "0.01",
+                                  step: "0.01"
+                                },
+                                domProps: {
+                                  value: _vm.variationWeight.toFixed(2)
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.onChange($event, "weight")
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "input-group-text",
+                                  attrs: { id: "weightUnit" }
+                                },
+                                [_vm._v("kg")]
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col-4 d-flex align-items-center justify-content-end"
+                            },
+                            [
+                              _c("label", { staticClass: "switch m-0" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.isVariationDiscountEnabled,
+                                      expression: "isVariationDiscountEnabled"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "checkbox",
+                                    id: "variationDiscountToggle"
+                                  },
+                                  domProps: {
+                                    checked: Array.isArray(
+                                      _vm.isVariationDiscountEnabled
+                                    )
+                                      ? _vm._i(
+                                          _vm.isVariationDiscountEnabled,
+                                          null
+                                        ) > -1
+                                      : _vm.isVariationDiscountEnabled
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.isVariationDiscountEnabled,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = null,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.isVariationDiscountEnabled = $$a.concat(
+                                              [$$v]
+                                            ))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.isVariationDiscountEnabled = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.isVariationDiscountEnabled = $$c
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "slider round" })
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.isVariationDiscountEnabled
+                          ? _c("div", [
+                              _c(
+                                "div",
+                                { staticClass: "row" },
+                                [
+                                  _c("edit-discount", {
+                                    attrs: {
+                                      original_price: _vm.variationPrice,
+                                      rate: _vm.variationDiscountRate
+                                    },
+                                    on: {
+                                      onRateChange: function($event) {
+                                        return _vm.onRateChange($event)
+                                      }
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" })
+                            ])
+                          : _vm._e()
                       ])
                     : _vm.action.contentType === "confirmation"
-                    ? _c("div", [
-                        _vm._v(
-                          "\n          Confirmation\n          " +
-                            _vm._s(_vm.action.name) +
-                            "\n          " +
-                            _vm._s(_vm.id) +
-                            "\n        "
-                        )
+                    ? _c("div", { staticClass: "container" }, [
+                        _c("div", { staticClass: "col" }, [
+                          _c("p", [_vm._v("确定删除此规格？此动作无法挽回。")]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col flex-column d-inline-flex justify-content-center"
+                            },
+                            [
+                              _c("p", {
+                                staticClass: "m-0 p-0 h5 d-inline-flex",
+                                attrs: { id: "variationName" },
+                                domProps: {
+                                  textContent: _vm._s(_vm.variationName)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("p", {
+                                staticClass: "m-0 p-0 text-muted d-inline-flex",
+                                attrs: { id: "variationEnName" },
+                                domProps: {
+                                  textContent: _vm._s(_vm.variationEnName)
+                                }
+                              })
+                            ]
+                          )
+                        ])
                       ])
                     : _vm._e()
                 ]),
@@ -6145,6 +7019,14 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-8 d-flex align-items-center" }, [
+      _c("p", { staticClass: "m-0 font-weight-bold" }, [_vm._v("折扣")])
+    ])
   }
 ]
 render._withStripped = true

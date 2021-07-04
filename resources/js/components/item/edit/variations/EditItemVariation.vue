@@ -24,11 +24,11 @@
             <h5>{{ variation.name }}</h5>
             <p>{{ variation.name_en }}</p>
             <!-- Original Price -->
-            <span class="badge badge-pill badge-primary shadow-none p-2 mr-3">
+            <span class="badge badge-pill badge-success shadow-none p-2 mr-3">
               RM {{ variation.price.toFixed(2) }}
             </span>
             <!-- Discounted Price -->
-            <span class="badge badge-pill badge-primary shadow-none p-2">
+            <span v-if="variation.discount" class="badge badge-pill badge-success shadow-none p-2">
               RM ???
             </span>
           </div>

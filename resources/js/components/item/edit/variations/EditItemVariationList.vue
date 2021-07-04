@@ -11,7 +11,7 @@
 
       <div class="d-flex justify-content-center mt-3">
         <button
-          class="btn btn-outline-primary btn-circle shadow-none"
+          class="btn btn-outline-primary btn-circle-60 shadow-none"
           type="submit"
           data-toggle="modal"
           data-target="#addItemVariationModal"
