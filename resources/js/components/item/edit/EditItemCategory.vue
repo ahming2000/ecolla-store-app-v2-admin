@@ -29,7 +29,7 @@
       style="height: 100px; background-color: white"
     >
       <button
-        class="btn btn-primary btn-block"
+        class="btn btn-primary w-100"
         type="submit"
         @click.prevent="updateCategory()"
       >

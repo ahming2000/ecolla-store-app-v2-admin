@@ -1,53 +1,56 @@
 <template>
   <li class="card my-2">
     <div class="card-body d-flex justify-content-center flex-wrap">
-      <div class="col">
-        <div class="d-flex row">
-          <div class="media">
-            <img
-              v-if="variation.image !== null && variation.image !== undefined"
-              class="figure-img img-fluid rounded mr-3"
-              :src="variation.image"
-              height="100px"
-              width="100px"
-            />
-            <!-- TODO Image Placeholder -->
-            <img
-              v-else
-              class="figure-img img-fluid rounded mr-3"
-              src="http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png"
-              height="100px"
-              width="100px"
-            />
-          </div>
-          <div class="media-body">
-            <h5>{{ variation.name }}</h5>
-            <p>{{ variation.name_en }}</p>
-            <!-- Original Price -->
-            <span class="badge badge-pill badge-success shadow-none p-2 mr-3">
-              RM {{ variation.price.toFixed(2) }}
-            </span>
-            <!-- Discounted Price -->
-            <span v-if="variation.discount" class="badge badge-pill badge-success shadow-none p-2">
-              RM ???
-            </span>
-          </div>
+      <div class="d-flex row mb-3">
+        <div class="col-4">
+          <img
+            v-if="variation.image !== null && variation.image !== undefined"
+            class="figure-img img-fluid rounded mr-3"
+            :src="variation.image"
+          />
+          <!-- TODO Image Placeholder -->
+          <img
+            v-else
+            class="figure-img img-fluid rounded mr-3"
+            src="http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png"
+            height="100px"
+            width="100px"
+          />
         </div>
-        <div class="d-flex row justify-content-around mt-3">
+        <div class="col-8">
+          <h5>{{ variation.name }}</h5>
+          <p>{{ variation.name_en }}</p>
+          <!-- Original Price -->
+          <span class="badge rounded-pill bg-success shadow-none p-2 mr-3">
+            RM {{ variation.price.toFixed(2) }}
+          </span>
+          <!-- Discounted Price -->
+          <span
+            v-if="variation.discount"
+            class="badge rounded-pill bg-success shadow-none p-2"
+          >
+            RM ???
+          </span>
+        </div>
+      </div>
+      <div class="row justify-content-center w-100">
+        <div class="col-6">
           <button
-            class="btn btn-primary"
+            class="btn btn-primary w-100"
             type="submit"
-            data-toggle="modal"
-            data-target="#editItemVariationModal"
+            data-bs-toggle="modal"
+            data-bs-target="#itemVariationModal"
             @click.prevent="onEdit()"
           >
             编辑
           </button>
+        </div>
+        <div class="col-6">
           <button
-            class="btn btn-danger"
+            class="btn btn-danger w-100"
             type="submit"
-            data-toggle="modal"
-            data-target="#deleteItemVariationModal"
+            data-bs-toggle="modal"
+            data-bs-target="#itemVariationModal"
             @click.prevent="onDelete()"
           >
             删除

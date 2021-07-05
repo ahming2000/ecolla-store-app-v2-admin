@@ -2,13 +2,17 @@
   <div>
     <!-- Tab Panel -->
     <div class="">
-      <ul class="nav nav-pills mb-3 flex-nowrap scroll" id="pills-tab" role="tablist">
+      <ul
+        class="nav nav-pills mb-3 pb-3 flex-nowrap overflow-auto row-cols-auto"
+        id="pills-tab"
+        role="tablist"
+      >
         <li class="nav-item" role="presentation">
           <a
             class="nav-link active"
             id="pills-basic-info-tab"
-            data-toggle="pill"
-            href="#pills-basic-info"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-basic-info"
             role="tab"
             aria-controls="pills-basic-info"
             aria-selected="true"
@@ -19,8 +23,8 @@
           <a
             class="nav-link"
             id="pills-category-tab"
-            data-toggle="pill"
-            href="#pills-category"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-category"
             role="tab"
             aria-controls="pills-category"
             aria-selected="false"
@@ -31,8 +35,8 @@
           <a
             class="nav-link"
             id="pills-variation-tab"
-            data-toggle="pill"
-            href="#pills-variation"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-variation"
             role="tab"
             aria-controls="pills-variation"
             aria-selected="false"
@@ -41,10 +45,10 @@
         </li>
         <li class="nav-item" role="presentation">
           <a
-            class="nav-link"
+            class="nav-link d-inline-block"
             id="pills-wholesale-discount-tab"
-            data-toggle="pill"
-            href="#pills-wholesale-discount"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-wholesale-discount"
             role="tab"
             aria-controls="pills-wholesale-discount"
             aria-selected="false"
@@ -55,8 +59,8 @@
           <a
             class="nav-link"
             id="pills-util-tab"
-            data-toggle="pill"
-            href="#pills-util"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-util"
             role="tab"
             aria-controls="pills-util"
             aria-selected="false"
@@ -76,7 +80,6 @@
       >
         <edit-item-basic-info
           :item_info="item_info"
-          :images="item.images"
         ></edit-item-basic-info>
       </div>
       <div
@@ -154,6 +157,7 @@ export default {
         id: this.item.id,
         name: this.item.name,
         name_en: this.item.name_en,
+        desc: this.item.desc,
         origin: this.item.origin,
         origin_en: this.item.origin_en,
         created_at: this.item.created_at,

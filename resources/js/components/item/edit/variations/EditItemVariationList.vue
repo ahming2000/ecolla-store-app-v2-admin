@@ -1,3 +1,14 @@
+<style scoped>
+.btn-circle-60 {
+  width: 60px;
+  height: 60px;
+  padding: 0px 0px 0px 0px;
+  border-radius: 50px;
+  font-size: 18px;
+  text-align: center;
+}
+</style>
+
 <template>
   <div>
     <div class="container">
@@ -13,8 +24,8 @@
         <button
           class="btn btn-outline-primary btn-circle-60 shadow-none"
           type="submit"
-          data-toggle="modal"
-          data-target="#addItemVariationModal"
+          data-bs-toggle="modal"
+          data-bs-target="#itemVariationModal"
           @click.prevent="openAddModal()"
         >
           <i class="icofont icofont-ui-add icofont-2x"></i>
@@ -73,7 +84,6 @@ export default {
             class: "btn-outline-danger",
           },
         },
-        modalId: "addItemVariationModal",
       };
 
       this.selectedVariation = null;
@@ -101,7 +111,6 @@ export default {
             class: "btn-outline-danger",
           },
         },
-        modalId: "editItemVariationModal",
       };
 
       this.selectedVariation = variation;
@@ -129,7 +138,6 @@ export default {
             class: "btn-outline-primary",
           },
         },
-        modalId: "deleteItemVariationModal",
       };
 
       this.selectedVariation = variation;
