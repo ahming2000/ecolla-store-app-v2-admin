@@ -22,6 +22,18 @@
         <li class="nav-item" role="presentation">
           <a
             class="nav-link"
+            id="pills-images-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-images"
+            role="tab"
+            aria-controls="pills-images"
+            aria-selected="false"
+            >商品照片</a
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
             id="pills-category-tab"
             data-bs-toggle="pill"
             data-bs-target="#pills-category"
@@ -83,6 +95,14 @@
       </div>
       <div
         class="tab-pane fade"
+        id="pills-images"
+        role="tabpanel"
+        aria-labelledby="pills-images-tab"
+      >
+        <edit-item-image-list :images="item.images"></edit-item-image-list>
+      </div>
+      <div
+        class="tab-pane fade"
         id="pills-category"
         role="tabpanel"
         aria-labelledby="pills-category-tab"
@@ -129,6 +149,7 @@
 <script>
 import EditItemBasicInfo from "./EditItemBasicInfo.vue";
 import EditItemCategory from "./EditItemCategory.vue";
+import EditItemImageList from './EditItemImageList.vue';
 import UtilTable from "./UtilTable.vue";
 import EditItemVariationList from "./variations/EditItemVariationList.vue";
 import EditItemWholesaleDiscountList from "./wholesales/EditItemWholesaleDiscountList.vue";
@@ -142,6 +163,7 @@ export default {
     EditItemVariationList,
     EditItemWholesaleDiscountList,
     UtilTable,
+    EditItemImageList,
   },
 
   props: {
