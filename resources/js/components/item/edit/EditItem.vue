@@ -47,7 +47,6 @@
           <a
             class="nav-link d-inline-block"
             id="pills-wholesale-discount-tab"
-            data-bs-toggle="pill"
             data-bs-target="#pills-wholesale-discount"
             role="tab"
             aria-controls="pills-wholesale-discount"

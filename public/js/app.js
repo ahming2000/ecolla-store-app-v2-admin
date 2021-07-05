@@ -1311,7 +1311,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -6083,7 +6082,6 @@ var staticRenderFns = [
                   staticClass: "nav-link d-inline-block",
                   attrs: {
                     id: "pills-wholesale-discount-tab",
-                    "data-bs-toggle": "pill",
                     "data-bs-target": "#pills-wholesale-discount",
                     role: "tab",
                     "aria-controls": "pills-wholesale-discount",
