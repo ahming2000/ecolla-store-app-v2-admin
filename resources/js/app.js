@@ -29,7 +29,26 @@ Vue.component('delete-user', require('./components/DeleteUser.vue').default);
 
 Vue.component('listing-switch', require('./components/item/index/ListingSwitch.vue').default);
 
+/**
+ * Edit Item
+ */
+
+Vue.component('edit-item', require('./components/item/edit/EditItem.vue').default);
+Vue.component('edit-item-basic-info', require('./components/item/edit/EditItemBasicInfo.vue').default);
+Vue.component('edit-item-image-list', require('./components/item/edit/EditItemImageList.vue').default);
+Vue.component('edit-item-category', require('./components/item/edit/EditItemCategory.vue').default);
+Vue.component('edit-item-variation-list', require('./components/item/edit/variations/EditItemVariationList.vue').default);
+Vue.component('edit-item-variation', require('./components/item/edit/variations/EditItemVariation.vue').default);
+Vue.component('edit-item-wholesale-discount-list', require('./components/item/edit/wholesales/EditItemWholesaleDiscountList.vue').default);
+Vue.component('edit-item-wholesale-discount', require('./components/item/edit/wholesales/EditItemWholesaleDiscount.vue').default);
 Vue.component('util-table', require('./components/item/edit/UtilTable.vue').default);
+
+/**
+ * Shared
+ */
+
+Vue.component('edit-discount', require('./components/shared/components/EditDiscount.vue').default);
+Vue.component('item-variation-modal', require('./components/shared/modals/ItemVariationModal.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

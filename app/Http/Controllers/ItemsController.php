@@ -60,7 +60,7 @@ class ItemsController extends Controller
             ->paginate($paginate);
         $categories = Category::all();
 
-        // Set pagination links url parameter
+        // Set pagination links parameter
         $items->withPath('/item' . $this->generateParameter(
                 [
                     'paginate' => $paginate,
@@ -106,6 +106,7 @@ class ItemsController extends Controller
     {
         // Category
         $DEFAULT_CATEGORY_COUNT = SystemConfig::where('name', '=', 'mgmt_i_defaultCategoryCount')->first()->value;
+
         $categories = Category::whereNotBetween('id', [$DEFAULT_CATEGORY_COUNT + 1, 10])->get();
 
         // Item
@@ -117,7 +118,7 @@ class ItemsController extends Controller
             ->where("items.id", "=", $item->id)
             ->first();
 
-        return view('item.edit', compact('item', 'categories'));
+        return view('item.edit2', compact('item', 'categories'));
     }
 
     public function editOld(Item $item)
@@ -539,5 +540,4 @@ class ItemsController extends Controller
             ->get();
         return !empty($result->toArray());
     }
-
 }

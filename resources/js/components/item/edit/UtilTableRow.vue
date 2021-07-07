@@ -7,7 +7,7 @@
                    :value="type.value"
                    disabled>
         </td>
-        <td style="border: 3px solid lightgrey;">
+        <td class="" style="border: 3px solid lightgrey;">
             <button type="submit"
                     class="btn btn-primary btn-sm m-0" @click="$emit('toggle-reset', type.funcName)" :disabled="buttonStatus">
                 重置
