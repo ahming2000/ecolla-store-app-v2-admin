@@ -8,6 +8,7 @@ use App\Models\ItemImage;
 use App\Models\ItemUtil;
 use App\Models\SystemConfig;
 use App\Models\Variation;
+use App\Models\VariationDiscount;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -329,6 +330,106 @@ class ItemsController extends Controller
         if ($list) $obj->util()->update(['is_listed' => '1']);
         return true;
     }
+
+    public function update(Item $item, string $type, string $action){
+
+        switch ($type){
+
+            case "itemBasic":
+
+                $itemInfo = request('item_info');
+
+                $temp = DB::table('items')
+                    ->select('id')
+                    ->where('name', '=', $itemInfo['name'])
+                    ->where('id', '!=', $item->id)
+                    ->first();
+
+                if ($temp == null) {
+                    foreach ($itemInfo as $attribute => $value){
+                        if($attribute == 'images'){
+                            $item->images()->delete();
+                        } else {
+                            if(!$item->update([$attribute => $value])){
+                                $this->stackError("保存 $attribute 失败！");
+                            }
+                        }
+                    }
+                } else {
+                    $this->stackError("此商品名称已被使用！请到<a href=\"/item/" . $temp->id . "/edit\">点击此处</a>添加规格！");
+                    return redirect('/item/' . $item->id . '/edit');
+                }
+
+
+
+                break;
+
+
+            case "category":
+
+                //
+                $categories = request('categories');
+
+
+                break;
+
+
+            case "variation":
+
+                $data = request('variations');
+
+                switch ($action){
+                    case "add":
+
+                        $variation = new Variation();
+                        foreach ($data as $attribute => $value){
+                            if($attribute == "variation_discount"){
+                                    $variationDiscount = new VariationDiscount();
+                                foreach ($value as $vdAttr => $vdValue){
+                                    $variationDiscount->setAttribute($vdAttr, $vdValue);
+
+                                }
+                            } else {
+
+                                $variation->setAttribute($attribute, $value);
+                            }
+                        }
+
+                        break;
+
+                    case "update":
+
+                        break;
+
+                    case "delete":
+
+                        break;
+
+                    default:
+                }
+
+                break;
+
+            case "wholesale":
+
+                break;
+
+            default:
+        }
+
+        if($this->hasError()){
+            session()->flash('error', $this->pullError());
+        }
+
+        if($this->hasMessage()){
+            session()->flash('message', $this->pullMessage());
+        }
+
+    }
+
+
+
+
 
     private function updateVariation(Item $item, array $old, array $new)
     {
