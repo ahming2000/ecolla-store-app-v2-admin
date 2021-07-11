@@ -23,8 +23,9 @@ class ItemsController extends Controller
         $this->middleware(['auth', 'access:status_check']);
     }
 
-    public function test(){
-        dd($this->getItem("白家阿宽 大厨外卖袋装面", '', 'id')->id);
+    public function test()
+    {
+
     }
 
     public function index()
@@ -338,11 +339,12 @@ class ItemsController extends Controller
         return true;
     }
 
-    public function update(Item $item, string $type, string $action){
+    public function update(Item $item, string $type, string $action)
+    {
 
         $msgMgr = new MessageManager();
 
-        switch ($type){
+        switch ($type) {
 
             case "itemBasic":
 
@@ -351,9 +353,7 @@ class ItemsController extends Controller
                 if ($this->itemNameIsDuplicated($item->id, $data['name'])) {
                     $id = $this->getItem($data['name'], 'id')->id;
                     $msgMgr->pushError("此商品名称已被使用！请到<a href=\"/item/$id/edit\">点击此处</a>添加规格！");
-                }
-
-                else {
+                } else {
                     $item->update($data);
                     $msgMgr->pushInfo("基本资料保存成功！");
                 }
@@ -374,7 +374,7 @@ class ItemsController extends Controller
 
                 $data = request('variation');
 
-                switch ($action){
+                switch ($action) {
 
                     case "add":
 
@@ -388,7 +388,7 @@ class ItemsController extends Controller
 
                     case "update":
 
-                        if($this->updateVariation($data)){
+                        if ($this->updateVariation($data)) {
                             $msgMgr->pushInfo("规格保存成功！");
                         } else {
                             $msgMgr->pushError("更新规格失败！请联系技术人员！");
@@ -398,7 +398,7 @@ class ItemsController extends Controller
 
                     case "delete":
 
-                        if($this->deleteVariation($item, $data['info']['id'])){
+                        if ($this->deleteVariation($item, $data['info']['id'])) {
                             $msgMgr->pushInfo("规格删除成功！");
                         } else {
                             $msgMgr->pushError("删除规格失败！请联系技术人员！");
@@ -426,13 +426,13 @@ class ItemsController extends Controller
     {
         $variation = new Variation();
         $variation->setRawAttributes($data['info']);
-        if (!$variation->save()) return false;
-
-        $discount = new VariationDiscount();
-        $discount->setRawAttributes($data['discount']);
-        if (!$variation->discount()->save($discount)) return false;
-
         if (!$item->variations()->save($variation)) return false;
+
+        if (!empty($data['discount'])) {
+            $discount = new VariationDiscount();
+            $discount->setRawAttributes($data['discount']);
+            if (!$variation->discount()->save($discount)) return false;
+        }
 
         return true;
     }
@@ -442,7 +442,10 @@ class ItemsController extends Controller
         $variation = Variation::find($data['info']['id']);
 
         if (!$variation->update($data['info'])) return false;
-        if (!$variation->discount()->update($data['discount'])) return false;
+
+        if (!empty($data['discount'])) {
+            if (!$variation->discount()->update($data['discount'])) return false;
+        }
 
         return true;
     }
@@ -464,7 +467,8 @@ class ItemsController extends Controller
         return $id != null;
     }
 
-    private function getItem(string $name, string $select = '*'){
+    private function getItem(string $name, string $select = '*')
+    {
         return DB::table('items')
             ->selectRaw($select)
             ->where('name', '=', $name)
