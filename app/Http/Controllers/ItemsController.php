@@ -372,32 +372,37 @@ class ItemsController extends Controller
 
             case "variation":
 
-                $data = request('variations');
+                $data = request('variation');
 
                 switch ($action){
+
                     case "add":
 
-                        $variation = new Variation();
-                        foreach ($data as $attribute => $value){
-                            if($attribute == "variation_discount"){
-                                    $variationDiscount = new VariationDiscount();
-                                foreach ($value as $vdAttr => $vdValue){
-                                    $variationDiscount->setAttribute($vdAttr, $vdValue);
-
-                                }
-                            } else {
-
-                                $variation->setAttribute($attribute, $value);
-                            }
+                        if ($this->addVariation($item, $data)) {
+                            $msgMgr->pushInfo("添加规格成功！");
+                        } else {
+                            $msgMgr->pushError("添加规格失败！请联系技术人员！");
                         }
 
                         break;
 
                     case "update":
 
+                        if($this->updateVariation($data)){
+                            $msgMgr->pushInfo("规格保存成功！");
+                        } else {
+                            $msgMgr->pushError("更新规格失败！请联系技术人员！");
+                        }
+
                         break;
 
                     case "delete":
+
+                        if($this->deleteVariation($item, $data['info']['id'])){
+                            $msgMgr->pushInfo("规格删除成功！");
+                        } else {
+                            $msgMgr->pushError("删除规格失败！请联系技术人员！");
+                        }
 
                         break;
 
@@ -413,26 +418,40 @@ class ItemsController extends Controller
             default:
         }
 
-
         $msgMgr->flashAll();
         return redirect('/item/' . $item->id . '/edit');
     }
 
-    private function processItem(Item $item, array $data){
+    private function addVariation(Item $item, $data): bool
+    {
+        $variation = new Variation();
+        $variation->setRawAttributes($data['info']);
+        if (!$variation->save()) return false;
 
+        $discount = new VariationDiscount();
+        $discount->setRawAttributes($data['discount']);
+        if (!$variation->discount()->save($discount)) return false;
+
+        if (!$item->variations()->save($variation)) return false;
+
+        return true;
     }
 
-    private function processVariation($data, $action){
+    private function updateVariation($data): bool
+    {
+        $variation = Variation::find($data['info']['id']);
 
+        if (!$variation->update($data['info'])) return false;
+        if (!$variation->discount()->update($data['discount'])) return false;
+
+        return true;
     }
 
-    private function processCategory($data){
-
+    private function deleteVariation(Item $item, $id): bool
+    {
+        return $item->variations()->find($id)->delete();
     }
 
-    private function processImages($data){
-
-    }
 
     private function itemNameIsDuplicated($id, $name): bool
     {
