@@ -98,11 +98,43 @@ input:checked + .slider:before {
               <div
                 class="col-4 d-flex justify-content-center align-items-center"
               >
-                <img
-                  v-if="variationImage"
-                  class="img-fluid border border-primary border-2 rounded mr-3"
-                  :src="variationImage"
-                />
+                <!-- If image exists -->
+                <div class="position-relative" v-if="variationImage">
+                  <img
+                    class="
+                      img-fluid
+                      border border-primary border-2
+                      rounded
+                      mr-3
+                    "
+                    :src="variationImage"
+                    height="100px"
+                    width="100px"
+                  />
+                  <button
+                    class="
+                      btn btn-primary
+                      rounded-circle
+                      position-absolute
+                      top-100
+                      start-100
+                      translate-middle
+                      d-flex
+                      justify-content-center
+                      align-items-center
+                    "
+                    style="height: 30px; width: 30px"
+                    type="submit"
+                    data-bs-toggle="modal"
+                    data-bs-target="#uploadImageModal"
+                  >
+                    <i
+                      class="icofont icofont-ui-edit"
+                      style="font-size: 10px"
+                    ></i>
+                  </button>
+                </div>
+                <!-- If image doesn't exist -->
                 <div
                   v-else
                   class="
@@ -118,6 +150,12 @@ input:checked + .slider:before {
                   "
                   style="height: 100px; width: 100px"
                 >
+                  <input
+                    class="d-none"
+                    type="file"
+                    @change="onFileSelected($event)"
+                    ref="fileInput"
+                  />
                   <button
                     v-if="!variationImage"
                     class="
@@ -129,7 +167,7 @@ input:checked + .slider:before {
                       align-items-center
                     "
                     type="submit"
-                    @click.prevent="addImage()"
+                    @click.prevent="$refs.fileInput.click()"
                   >
                     <i class="icofont icofont-ui-add"></i>
                   </button>
@@ -260,50 +298,48 @@ input:checked + .slider:before {
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="discountDuration"
-                      :value="true"
-                      v-model="isDurationLimited"
-                      id="limitedDuration"
-                    />
-                    <label class="form-check-label" for="limitedDuration">
-                      有期限
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      id="unlimitedDuration"
-                      name="discountDuration"
-                      :value="false"
-                      v-model="isDurationLimited"
-                      checked
-                    />
-                    <label class="form-check-label" for="unlimitedDuration">
-                      无期限
-                    </label>
+                  <div v-if="isDurationLimited" class="row mb-3">
+                    <div class="form-group">
+                      <label class="label" for="discountEndDate"
+                        >折扣结束日期</label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="discountEndDate"
+                        :value="variationDiscountEnd"
+                        v-on:change="onChange($event, 'discountEnd')"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div v-if="isDurationLimited" class="row mb-3">
-                <div class="col-6">
-                  <div class="form-group">
-                    <label class="label" for="discountEndDate"
-                      >折扣结束日期</label
-                    >
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="discountEndDate"
-                      :value="variationDiscountEnd"
-                      v-on:change="onChange($event, 'discountEnd')"
-                    />
-                  </div>
-                </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="discountDuration"
+                  :value="true"
+                  v-model="isDurationLimited"
+                  id="limitedDuration"
+                />
+                <label class="form-check-label" for="limitedDuration">
+                  有期限
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="unlimitedDuration"
+                  name="discountDuration"
+                  :value="false"
+                  v-model="isDurationLimited"
+                  checked
+                />
+                <label class="form-check-label" for="unlimitedDuration">
+                  无期限
+                </label>
               </div>
             </div>
           </div>
@@ -435,8 +471,18 @@ export default {
       }
     },
 
-    addImage() {
-      console.log("addImage()");
+    onFileSelected(event) {
+      let newImage = event.target.files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(newImage);
+      reader.onload = (e) => {
+        let rawImage = e.target.result;
+        this.$emit("onImageSelect", rawImage);
+      };
+    },
+
+    uploadImage() {
+      console.log("uploadImage()");
       // TODO add image
     },
 

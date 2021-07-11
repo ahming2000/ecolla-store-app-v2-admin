@@ -37,20 +37,35 @@
     <item-variation-modal
       :action="action"
       :variation="selectedVariation"
+      v-on:onImageSelect="onImageSelect($event)"
       v-on:onSaveAdd="saveAdd($event)"
       v-on:onSaveEdit="saveEdit($event)"
       v-on:onConfirmDelete="confirmDelete($event)"
     ></item-variation-modal>
+
+    <!-- Upload Image Modal -->
+    <button
+      class="d-none"
+      type="submit"
+      data-bs-toggle="modal"
+      data-bs-target="#uploadImageModal"
+      ref="imagePreviewButton"
+    ></button>
+    <upload-image-modal
+      v-on:onUpload="confirmUpload($event)"
+      :image="processedImage"
+    ></upload-image-modal>
   </div>
 </template>
 
 <script>
 import ItemVariationModal from "../../../shared/modals/ItemVariationModal.vue";
+import UploadImageModal from "../../../shared/modals/UploadImageModal.vue";
 import EditItemVariation from "./EditItemVariation.vue";
 export default {
   name: "edit-item-variation-list",
 
-  components: { EditItemVariation, ItemVariationModal },
+  components: { EditItemVariation, ItemVariationModal, UploadImageModal },
 
   props: {
     variations: Array,
@@ -60,6 +75,8 @@ export default {
     return {
       action: null,
       selectedVariation: null,
+      selectedImage: null,
+      processedImage: null,
     };
   },
 
@@ -145,6 +162,17 @@ export default {
       console.log(this.action, this.selectedVariation);
     },
 
+    onImageSelect(rawImage) {
+      this.selectedImage = rawImage;
+      this.processImage(this.selectedImage);
+    },
+
+    processImage(rawImage) {
+      // TODO Call BE to process raw image and return processed image
+      this.processedImage = rawImage;
+      this.$refs.imagePreviewButton.click();
+    },
+
     saveAdd(variation) {
       console.log("saveAdd()");
 
@@ -174,6 +202,12 @@ export default {
 
       // TODO Delete Variation
       // TODO Update Variations
+    },
+
+    confirmUpload(image) {
+      console.log("confirmUpload()", image);
+      // TODO Upload Image
+      // TODO Update Variation Image
     },
   },
 };

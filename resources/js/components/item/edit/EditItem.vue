@@ -28,7 +28,7 @@
             role="tab"
             aria-controls="pills-images"
             aria-selected="false"
-            >商品照片</a
+            >基本照片</a
           >
         </li>
         <li class="nav-item" role="presentation">

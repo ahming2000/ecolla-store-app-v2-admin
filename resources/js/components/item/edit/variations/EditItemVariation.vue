@@ -5,16 +5,14 @@
         <div class="col-4">
           <img
             v-if="variation.image !== null && variation.image !== undefined"
-            class="figure-img img-fluid rounded mr-3"
+            class="img-thumbnail img-fluid rounded mr-3"
             :src="variation.image"
           />
           <!-- TODO Image Placeholder -->
           <img
             v-else
-            class="figure-img img-fluid rounded mr-3"
+            class="img-thumbnail img-fluid rounded mr-3"
             src="http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png"
-            height="100px"
-            width="100px"
           />
         </div>
         <div class="col-8">
