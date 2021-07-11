@@ -1856,6 +1856,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-variation",
   props: {
@@ -2786,7 +2790,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3089,6 +3092,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     confirmUpload: function confirmUpload() {
       this.$emit("onUpload", this.imageData);
+      this.clearImageData();
+    },
+    clearImageData: function clearImageData() {
+      this.imageData = null;
     }
   }
 });
@@ -7038,13 +7045,19 @@ var render = function() {
             _vm.variation.image !== null && _vm.variation.image !== undefined
               ? _c("img", {
                   staticClass: "img-thumbnail img-fluid rounded mr-3",
-                  attrs: { src: _vm.variation.image }
+                  attrs: {
+                    src: _vm.variation.image,
+                    height: "200px",
+                    width: "200px"
+                  }
                 })
               : _c("img", {
                   staticClass: "img-thumbnail img-fluid rounded mr-3",
                   attrs: {
                     src:
-                      "http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png"
+                      "http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png",
+                    height: "200px",
+                    width: "200px"
                   }
                 })
           ]),
@@ -7558,6 +7571,17 @@ var render = function() {
                             "col-4 d-flex justify-content-center align-items-center"
                         },
                         [
+                          _c("input", {
+                            ref: "fileInput",
+                            staticClass: "d-none",
+                            attrs: { type: "file" },
+                            on: {
+                              change: function($event) {
+                                return _vm.onFileSelected($event)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
                           _vm.variationImage
                             ? _c("div", { staticClass: "position-relative" }, [
                                 _c("img", {
@@ -7570,7 +7594,30 @@ var render = function() {
                                   }
                                 }),
                                 _vm._v(" "),
-                                _vm._m(0)
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "\n                    btn btn-primary\n                    rounded-circle\n                    position-absolute\n                    top-100\n                    start-100\n                    translate-middle\n                    d-flex\n                    justify-content-center\n                    align-items-center\n                  ",
+                                    staticStyle: {
+                                      height: "30px",
+                                      width: "30px"
+                                    },
+                                    attrs: { type: "submit" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.$refs.fileInput.click()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "icofont icofont-ui-edit",
+                                      staticStyle: { "font-size": "10px" }
+                                    })
+                                  ]
+                                )
                               ])
                             : _c(
                                 "div",
@@ -7583,17 +7630,6 @@ var render = function() {
                                   }
                                 },
                                 [
-                                  _c("input", {
-                                    ref: "fileInput",
-                                    staticClass: "d-none",
-                                    attrs: { type: "file" },
-                                    on: {
-                                      change: function($event) {
-                                        return _vm.onFileSelected($event)
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
                                   !_vm.variationImage
                                     ? _c(
                                         "button",
@@ -7804,7 +7840,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "row mb-3" }, [
-                      _vm._m(1),
+                      _vm._m(0),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -8142,30 +8178,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass:
-          "\n                    btn btn-primary\n                    rounded-circle\n                    position-absolute\n                    top-100\n                    start-100\n                    translate-middle\n                    d-flex\n                    justify-content-center\n                    align-items-center\n                  ",
-        staticStyle: { height: "30px", width: "30px" },
-        attrs: {
-          type: "submit",
-          "data-bs-toggle": "modal",
-          "data-bs-target": "#uploadImageModal"
-        }
-      },
-      [
-        _c("i", {
-          staticClass: "icofont icofont-ui-edit",
-          staticStyle: { "font-size": "10px" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-8 d-flex align-items-center" }, [
       _c("p", { staticClass: "m-0 font-weight-bold" }, [_vm._v("折扣")])
     ])
@@ -8221,7 +8233,7 @@ var render = function() {
               _c("div", { staticClass: "row" }, [
                 _c("img", {
                   staticClass: "rounded mx-auto d-block",
-                  attrs: { src: _vm.image, alt: "..." }
+                  attrs: { src: _vm.imageData, alt: "..." }
                 })
               ])
             ]),

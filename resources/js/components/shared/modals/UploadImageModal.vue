@@ -22,7 +22,7 @@
             <h5 class="fw-light text-center">图片预览</h5>
           </div>
           <div class="row">
-            <img :src="image" class="rounded mx-auto d-block" alt="..." />
+            <img :src="imageData" class="rounded mx-auto d-block" alt="..." />
           </div>
         </div>
         <div class="modal-footer justify-content-center w-100">
@@ -76,6 +76,11 @@ export default {
   methods: {
     confirmUpload() {
       this.$emit("onUpload", this.imageData);
+      this.clearImageData();
+    },
+
+    clearImageData() {
+      this.imageData = null;
     },
   },
 };

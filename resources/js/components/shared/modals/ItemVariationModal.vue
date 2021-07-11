@@ -98,6 +98,12 @@ input:checked + .slider:before {
               <div
                 class="col-4 d-flex justify-content-center align-items-center"
               >
+                <input
+                  class="d-none"
+                  type="file"
+                  @change="onFileSelected($event)"
+                  ref="fileInput"
+                />
                 <!-- If image exists -->
                 <div class="position-relative" v-if="variationImage">
                   <img
@@ -125,8 +131,7 @@ input:checked + .slider:before {
                     "
                     style="height: 30px; width: 30px"
                     type="submit"
-                    data-bs-toggle="modal"
-                    data-bs-target="#uploadImageModal"
+                    @click.prevent="$refs.fileInput.click()"
                   >
                     <i
                       class="icofont icofont-ui-edit"
@@ -150,12 +155,6 @@ input:checked + .slider:before {
                   "
                   style="height: 100px; width: 100px"
                 >
-                  <input
-                    class="d-none"
-                    type="file"
-                    @change="onFileSelected($event)"
-                    ref="fileInput"
-                  />
                   <button
                     v-if="!variationImage"
                     class="
