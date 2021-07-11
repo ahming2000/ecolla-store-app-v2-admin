@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Images\ImageHandler;
+use App\Util\ImageHandler;
 use Illuminate\Http\Request;
 
 class ImagesProcessController extends Controller

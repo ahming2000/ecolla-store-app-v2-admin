@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Images;
+namespace App\Util;
 
 
 use Intervention\Image\Facades\Image;
