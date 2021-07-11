@@ -221,8 +221,31 @@ class ItemsController extends Controller
 
             case "images":
 
-                $data = request('images');
+                $data = request('image');
 
+                switch ($action){
+                    case 'add':
+
+                        if($this->addItemImage($item, $data)){
+                            $msgMgr->pushInfo("商品照片保存成功！");
+                        } else {
+                            $msgMgr->pushError("保存商品照片失败！请联系技术人员！");
+                        }
+
+                        break;
+
+                    case 'delete':
+
+                        if($this->deleteItemImage($data)){
+                            $msgMgr->pushInfo("商品照片删除成功！");
+                        } else {
+                            $msgMgr->pushError("删除商品照片失败！请联系技术人员！");
+                        }
+
+                        break;
+
+                    default:
+                }
 
                 break;
 
@@ -310,6 +333,18 @@ class ItemsController extends Controller
             ->first();
     }
 
+    private function addItemImage(Item $item, $data): bool
+    {
+        $itemImage = new ItemImage();
+        $itemImage->setAttribute('image', $data);
+        return $item->images()->save($itemImage);
+    }
+
+    private function deleteItemImage($id):bool
+    {
+        return ItemImage::find($id)->delete();
+    }
+
     private function addVariation(Item $item, $data): bool
     {
         $variation = new Variation();
@@ -384,6 +419,5 @@ class ItemsController extends Controller
             $item->categories()->detach($tr);
         }
     }
-
 
 }
