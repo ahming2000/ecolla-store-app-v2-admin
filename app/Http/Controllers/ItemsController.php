@@ -362,12 +362,13 @@ class ItemsController extends Controller
 
             case "category":
 
-                //
-                $categories = request('categories');
+                $old = array_column($item->categories->toArray(), 'id');
+                $new = request('categories');
 
+                $this->processCategories($item, $old, $new);
+                $msgMgr->pushInfo("商品分类保存成功！");
 
                 break;
-
 
             case "variation":
 
@@ -531,27 +532,26 @@ class ItemsController extends Controller
 //        }
 //        $image->save();
 //    }
-//
-//    private function updateCategoryItem(Item $item, array $old, array $new)
-//    {
-//
-//        for ($i = 0; $i < sizeof($old); $i++) {
-//            $old[$i] = strval($old[$i]);
-//        }
-//
-//        $toAdd = array_diff($new, $old);
-//        $toRemove = array_diff($old, $new);
-//
-//        // To add
-//        foreach ($toAdd as $ta) {
-//            DB::table('category_item')->insert(['item_id' => $item->id, 'category_id' => $ta]);
-//        }
-//
-//        // To remove
-//        foreach ($toRemove as $tr) {
-//            $item->categories()->detach($tr);
-//        }
-//    }
+
+    private function processCategories(Item $item, array $old, array $new)
+    {
+        for ($i = 0; $i < sizeof($old); $i++) {
+            $old[$i] = strval($old[$i]);
+        }
+
+        $toAdd = array_diff($new, $old);
+        $toRemove = array_diff($old, $new);
+
+        // To add
+        foreach ($toAdd as $ta) {
+            DB::table('category_item')->insert(['item_id' => $item->id, 'category_id' => $ta]);
+        }
+
+        // To remove
+        foreach ($toRemove as $tr) {
+            $item->categories()->detach($tr);
+        }
+    }
 
     private function variationIsDuplicated(array $variations, string $barcode, string $item_id): bool
     {
