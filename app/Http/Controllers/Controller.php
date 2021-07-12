@@ -45,9 +45,6 @@ class Controller extends BaseController
         ]
     ];
 
-    protected static array $infoMessageList = [];
-    protected static array $errorMessageList = [];
-
     /**
      * @param array $array
      * @param string $arrayKey
@@ -100,46 +97,6 @@ class Controller extends BaseController
         return array_filter($array, function ($element) use ($key, $searchFor) {
             return isset($element[$key]) && $element[$key] == $searchFor;
         });
-    }
-
-    protected function hasMessage(): bool
-    {
-        return !empty(Controller::$infoMessageList);
-    }
-
-    protected function hasError(): bool
-    {
-        return !empty(Controller::$errorMessageList);
-    }
-
-    protected function pullMessage(): string
-    {
-        $msg = "";
-        foreach (Controller::$infoMessageList as $m) {
-            $msg = $msg . $m . "<br>";
-        }
-        Controller::$infoMessageList = [];
-        return $msg;
-    }
-
-    protected function pullError(): string
-    {
-        $msg = "";
-        foreach (Controller::$errorMessageList as $m) {
-            $msg = $msg . $m . "<br>";
-        }
-        Controller::$errorMessageList = [];
-        return $msg;
-    }
-
-    protected function stackMessage(string $message)
-    {
-        Controller::$infoMessageList[] = $message;
-    }
-
-    protected function stackError(string $error)
-    {
-        Controller::$errorMessageList[] = $error;
     }
 
     /**

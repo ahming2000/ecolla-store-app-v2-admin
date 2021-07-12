@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Images;
+namespace App\Util;
 
 
 use Intervention\Image\Facades\Image;
@@ -9,23 +9,12 @@ use Intervention\Image\Facades\Image;
 class ImageHandler
 {
 
-    public function getProcessedImage($image): string
+    public function getEncodeDataURL($image, $mode): string
     {
-        return $this->processImage($image->getPathName(), 'frame', true);
+        return $this->processImage($image->getPathName(), $mode, true);
     }
 
-    public function storeClientReceipt(){
-        // TODO - Refactor from EcollaClient Project
-    }
-
-    public function storeItemImage($image, string $itemId): string
-    {
-        $imagePath = $image->store('items/' . $itemId . '');
-        $this->processImage(public_path("img/$imagePath"));
-        return $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . "/img/" . $imagePath;
-    }
-
-    private function processImage(string $path, string $mode = 'frame', bool $encodeDataURL = false)
+    private function processImage(string $path, string $mode = 'frame', bool $encodeDataURL = false): \Intervention\Image\Image
     {
         // $mode can be 'crop'(fit) or 'frame'(resizeCanvas)
 

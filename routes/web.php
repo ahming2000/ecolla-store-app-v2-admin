@@ -40,7 +40,7 @@ Route::prefix('/item')->group(function () {
     Route::get('/{item}', [ItemsController::class, 'show'])->middleware('access:item_view');
     Route::get('/{item}/edit', [ItemsController::class, 'edit'])->middleware('access:item_update');
 
-    Route::post('/', [ItemsController::class, 'store']);
+    Route::post('/', [ItemsController::class, 'add']);
 
     Route::post('/image/process', [ImagesProcessController::class, 'process']);
     Route::patch('/{item}/{type}/{action}', [ItemsController::class, 'update']);
