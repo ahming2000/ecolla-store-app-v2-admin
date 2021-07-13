@@ -1331,7 +1331,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -1474,9 +1473,10 @@ __webpack_require__.r(__webpack_exports__);
     item_info: Object
   },
   data: function data() {
-    var _this$item_info$name, _this$item_info$name_, _this$item_info$desc, _this$item_info$origi, _this$item_info$origi2;
+    var _this$item_info$id, _this$item_info$name, _this$item_info$name_, _this$item_info$desc, _this$item_info$origi, _this$item_info$origi2;
 
     return {
+      itemId: (_this$item_info$id = this.item_info.id) !== null && _this$item_info$id !== void 0 ? _this$item_info$id : null,
       itemName: (_this$item_info$name = this.item_info.name) !== null && _this$item_info$name !== void 0 ? _this$item_info$name : null,
       itemEnName: (_this$item_info$name_ = this.item_info.name_en) !== null && _this$item_info$name_ !== void 0 ? _this$item_info$name_ : null,
       itemDescription: (_this$item_info$desc = this.item_info.desc) !== null && _this$item_info$desc !== void 0 ? _this$item_info$desc : null,
@@ -1492,6 +1492,21 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     updateBasicInfo: function updateBasicInfo() {
       console.log("updateBasicInfo()");
+      var body = {
+        item_info: {
+          name: this.itemName,
+          name_en: this.itemEnName,
+          desc: this.itemDescription,
+          origin: this.itemOrigin,
+          origin_en: this.itemEnOrigin
+        }
+      };
+      console.log(body);
+      axios.patch("/item/".concat(this.itemId, "/itemBasic"), body).then(function (res) {
+        console.log(res); // TODO Success Message
+      })["catch"](function (error) {
+        console.error(error); // TODO Error Message
+      });
     },
     onChange: function onChange(event, name) {
       var newValue = event.target.value.trim();
@@ -1591,11 +1606,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-category",
   props: {
+    item_id: Number,
     allCategories: Array,
     categories: Array
   },
   data: function data() {
+    var _this$item_id;
+
     return {
+      itemId: (_this$item_id = this.item_id) !== null && _this$item_id !== void 0 ? _this$item_id : null,
       checkedCategories: this.categories.map(function (category) {
         return category.id;
       })
@@ -1608,7 +1627,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateCategory: function updateCategory() {
-      console.log('checkedCategories', this.checkedCategories); // TODO call BE with Axios
+      var body = {
+        categories: this.checkedCategories
+      };
+      console.log(body);
+      axios.patch("/item/".concat(this.itemId, "/category"), body).then(function (res) {
+        console.log(res); // TODO Success Message
+      })["catch"](function (error) {
+        console.error(error); // TODO Error Message
+      });
     }
   }
 });
@@ -6374,6 +6401,7 @@ var render = function() {
           [
             _c("edit-item-category", {
               attrs: {
+                item_id: _vm.item.id,
                 allCategories: _vm.allCategories,
                 categories: _vm.item.categories
               }

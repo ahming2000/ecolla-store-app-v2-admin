@@ -93,6 +93,7 @@ export default {
 
   data() {
     return {
+      itemId: this.item_info.id ?? null,
       itemName: this.item_info.name ?? null,
       itemEnName: this.item_info.name_en ?? null,
       itemDescription: this.item_info.desc ?? null,
@@ -110,6 +111,26 @@ export default {
   methods: {
     updateBasicInfo() {
       console.log("updateBasicInfo()");
+      const body = {
+        item_info: {
+          name: this.itemName,
+          name_en: this.itemEnName,
+          desc: this.itemDescription,
+          origin: this.itemOrigin,
+          origin_en: this.itemEnOrigin,
+        }
+      };
+      console.log(body);
+      axios
+        .patch(`/item/${this.itemId}/itemBasic`, body)
+        .then((res) => {
+          console.log(res);
+          // TODO Success Message
+        })
+        .catch((error) => {
+          console.error(error);
+          // TODO Error Message
+        });
     },
 
     onChange(event, name) {
@@ -137,7 +158,6 @@ export default {
           break;
         }
         default: {
-
         }
       }
     },

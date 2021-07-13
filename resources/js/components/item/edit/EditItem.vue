@@ -89,9 +89,7 @@
         role="tabpanel"
         aria-labelledby="pills-basic-info-tab"
       >
-        <edit-item-basic-info
-          :item_info="item_info"
-        ></edit-item-basic-info>
+        <edit-item-basic-info :item_info="item_info"></edit-item-basic-info>
       </div>
       <div
         class="tab-pane fade"
@@ -108,6 +106,7 @@
         aria-labelledby="pills-category-tab"
       >
         <edit-item-category
+          :item_id="item.id"
           :allCategories="allCategories"
           :categories="item.categories"
         ></edit-item-category>
@@ -149,7 +148,7 @@
 <script>
 import EditItemBasicInfo from "./EditItemBasicInfo.vue";
 import EditItemCategory from "./EditItemCategory.vue";
-import EditItemImageList from './EditItemImageList.vue';
+import EditItemImageList from "./EditItemImageList.vue";
 import UtilTable from "./UtilTable.vue";
 import EditItemVariationList from "./variations/EditItemVariationList.vue";
 import EditItemWholesaleDiscountList from "./wholesales/EditItemWholesaleDiscountList.vue";

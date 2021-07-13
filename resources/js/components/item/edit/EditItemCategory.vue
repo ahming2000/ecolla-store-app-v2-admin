@@ -44,12 +44,14 @@ export default {
   name: "edit-item-category",
 
   props: {
+    item_id: Number,
     allCategories: Array,
     categories: Array,
   },
 
   data() {
     return {
+      itemId: this.item_id ?? null,
       checkedCategories: this.categories.map((category) => category.id),
     };
   },
@@ -62,8 +64,21 @@ export default {
 
   methods: {
     updateCategory() {
-      console.log('checkedCategories', this.checkedCategories);
-      // TODO call BE with Axios
+      const body = {
+        categories: this.checkedCategories,
+      };
+      
+      console.log(body);
+      axios
+        .patch(`/item/${this.itemId}/category`, body)
+        .then((res) => {
+          console.log(res);
+          // TODO Success Message
+        })
+        .catch((error) => {
+          console.error(error);
+          // TODO Error Message
+        });
     },
   },
 };
