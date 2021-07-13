@@ -198,8 +198,9 @@ class ItemsController extends Controller
         return true;
     }
 
-    public function update(Item $item, string $type, string $action)
+    public function update(Item $item, string $type): \Illuminate\Http\JsonResponse
     {
+        $action = request('action') ?? "";
 
         $msgMgr = new MessageManager();
 
@@ -321,8 +322,7 @@ class ItemsController extends Controller
             $msgMgr->pushInfo("商品未上架！");
         }
 
-        $msgMgr->flashAll();
-        return redirect('/item/' . $item->id . '/edit');
+        return response()->json(["message" => $msgMgr->getAllInfos('string'), "error" => $msgMgr->getAllErrors('string')]);
     }
 
     private function getItem(string $name, string $select = '*')
