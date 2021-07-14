@@ -125,11 +125,15 @@ export default {
         .patch(`/item/${this.itemId}/itemBasic`, body)
         .then((res) => {
           console.log(res);
-          // TODO Success Message
+          if(res.data.message !== "") {
+              this.$emit("onResponse", res.data.message);
+            } else {
+              this.$emit("onResponse", res.data.error);
+            }
         })
         .catch((error) => {
-          console.error(error);
-          // TODO Error Message
+          onsole.error(error);
+          this.$emit("onResponse", error.message);
         });
     },
 

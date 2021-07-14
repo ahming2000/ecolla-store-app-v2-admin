@@ -67,17 +67,23 @@ export default {
       const body = {
         categories: this.checkedCategories,
       };
-      
+
       console.log(body);
       axios
         .patch(`/item/${this.itemId}/category`, body)
         .then((res) => {
           console.log(res);
-          // TODO Success Message
+          if (res.status === 200) {
+            if(res.data.message !== "") {
+              this.$emit("onResponse", res.data.message);
+            } else {
+              this.$emit("onResponse", res.data.error);
+            }
+          }
         })
         .catch((error) => {
           console.error(error);
-          // TODO Error Message
+          this.$emit("onResponse", error.message);
         });
     },
   },

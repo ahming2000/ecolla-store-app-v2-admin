@@ -1,3 +1,9 @@
+<style scoped>
+li:hover {
+  cursor: pointer;
+}
+</style>
+
 <template>
   <div>
     <!-- Tab Panel -->
@@ -89,7 +95,10 @@
         role="tabpanel"
         aria-labelledby="pills-basic-info-tab"
       >
-        <edit-item-basic-info :item_info="item_info"></edit-item-basic-info>
+        <edit-item-basic-info
+          :item_info="item_info"
+          @onResponse="onResponse($event)"
+        ></edit-item-basic-info>
       </div>
       <div
         class="tab-pane fade"
@@ -109,6 +118,7 @@
           :item_id="item.id"
           :allCategories="allCategories"
           :categories="item.categories"
+          @onResponse="onResponse($event)"
         ></edit-item-category>
       </div>
       <div
@@ -141,17 +151,20 @@
         <util-table :util="item.util" :itemId="item.id"></util-table>
       </div>
     </div>
+    <message-toast :message="message"></message-toast>
   </div>
 </template>
 
 
 <script>
+import MessageToast from "../../shared/toasts/MessageToast.vue";
 import EditItemBasicInfo from "./EditItemBasicInfo.vue";
 import EditItemCategory from "./EditItemCategory.vue";
 import EditItemImageList from "./EditItemImageList.vue";
 import UtilTable from "./UtilTable.vue";
 import EditItemVariationList from "./variations/EditItemVariationList.vue";
 import EditItemWholesaleDiscountList from "./wholesales/EditItemWholesaleDiscountList.vue";
+import { Toast } from "bootstrap";
 
 export default {
   name: "edit-item",
@@ -163,6 +176,7 @@ export default {
     EditItemWholesaleDiscountList,
     UtilTable,
     EditItemImageList,
+    MessageToast,
   },
 
   props: {
@@ -174,18 +188,39 @@ export default {
     return {
       // Extracted basic info from item
       item_info: {
-        id: this.item.id,
-        name: this.item.name,
-        name_en: this.item.name_en,
-        desc: this.item.desc,
-        origin: this.item.origin,
-        origin_en: this.item.origin_en,
-        created_at: this.item.created_at,
-        updated_at: this.item.updated_at,
+        id: this.item.id ?? null,
+        name: this.item.name ?? "",
+        name_en: this.item.name_en ?? "",
+        desc: this.item.desc ?? "",
+        origin: this.item.origin ?? "",
+        origin_en: this.item.origin_en ?? "",
+        created_at: this.item.created_at ?? null,
+        updated_at: this.item.updated_at ?? null,
       },
+      message: "",
     };
   },
 
-  methods: {},
+  methods: {
+    onResponse(message) {
+      console.log(message);
+      this.message = message;
+
+      const option = {
+        delay: 3000,
+      };
+
+      var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+      var toastList = toastElList.map(function (toastEl) {
+        return new Toast(toastEl, option);
+      });
+
+      toastList[0].show();
+
+      // const toastRef = this.$refs.messageToast._self.$refs.messageToast;
+      // var toast = new Toast(toastRef);
+      // toast.show({ autohide: true, delay: 100 });
+    },
+  },
 };
 </script>
