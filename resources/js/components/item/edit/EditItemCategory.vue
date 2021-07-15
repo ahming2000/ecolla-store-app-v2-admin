@@ -75,15 +75,15 @@ export default {
           console.log(res);
           if (res.status === 200) {
             if(res.data.message !== "") {
-              this.$emit("onResponse", res.data.message);
+              this.$emit("onResponse", res.data.message, "success");
             } else {
-              this.$emit("onResponse", res.data.error);
+              this.$emit("onResponse", res.data.error, "error");
             }
           }
         })
         .catch((error) => {
           console.error(error);
-          this.$emit("onResponse", error.message);
+          this.$emit("onResponse", error.message, "error");
         });
     },
   },

@@ -97,7 +97,7 @@ li:hover {
       >
         <edit-item-basic-info
           :item_info="item_info"
-          @onResponse="onResponse($event)"
+          @onResponse="(...args) => onResponse(...args)"
         ></edit-item-basic-info>
       </div>
       <div
@@ -118,7 +118,7 @@ li:hover {
           :item_id="item.id"
           :allCategories="allCategories"
           :categories="item.categories"
-          @onResponse="onResponse($event)"
+          @onResponse="(...args) => onResponse(...args)"
         ></edit-item-category>
       </div>
       <div
@@ -151,7 +151,7 @@ li:hover {
         <util-table :util="item.util" :itemId="item.id"></util-table>
       </div>
     </div>
-    <message-toast :message="message"></message-toast>
+    <message-toast :message="messageData"></message-toast>
   </div>
 </template>
 
@@ -197,14 +197,17 @@ export default {
         created_at: this.item.created_at ?? null,
         updated_at: this.item.updated_at ?? null,
       },
-      message: "",
+      messageData: { message: "", type: "" },
     };
   },
 
   methods: {
-    onResponse(message) {
-      console.log(message);
-      this.message = message;
+    onResponse(...args) {
+      console.log(args);
+      this.messageData = {
+        message: args[0],
+        type: args[1],
+      };
 
       const option = {
         delay: 3000,
@@ -216,10 +219,6 @@ export default {
       });
 
       toastList[0].show();
-
-      // const toastRef = this.$refs.messageToast._self.$refs.messageToast;
-      // var toast = new Toast(toastRef);
-      // toast.show({ autohide: true, delay: 100 });
     },
   },
 };

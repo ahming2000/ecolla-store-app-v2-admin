@@ -2,23 +2,23 @@
   <div class="container">
     <div class="form-floating mb-3 w-100">
       <input
-        class="form-control"
+        :class="{ 'form-control': true, 'is-invalid': !this.itemName }"
         type="text"
         id="itemName"
         placeholder="商品名称"
         :value="itemName"
-        v-on:change="onChange($event, 'name')"
+        @change="onChange($event, 'name')"
       />
       <label class="label" for="itemName">商品名称</label>
+      <div class="invalid-feedback"><b>商品名称</b> 为必填选项</div>
     </div>
     <div class="form-floating mb-3 w-100">
       <input
         class="form-control"
-        type="text"
         id="itemEnName"
         placeholder="Item Name"
         :value="itemEnName"
-        v-on:change="onChange($event, 'enName')"
+        @change="onChange($event, 'enName')"
       />
       <label class="label" for="itemEnName">Item Name</label>
     </div>
@@ -27,11 +27,13 @@
         style="height: 200px"
         class="form-control"
         id="itemDescription"
-        placeholder="Item Description"
+        placeholder="商品描述 Item Description"
         :value="itemDescription"
-        v-on:change="onChange($event, 'description')"
+        @change="onChange($event, 'description')"
       />
-      <label class="label" for="itemDescription">Item Description</label>
+      <label class="label" for="itemDescription"
+        >商品描述 Item Description</label
+      >
     </div>
     <div class="row">
       <div class="col-6">
@@ -42,7 +44,7 @@
             id="itemOrigin"
             placeholder="出产地"
             :value="itemOrigin"
-            v-on:change="onChange($event, 'origin')"
+            @change="onChange($event, 'origin')"
           />
           <label class="label" for="itemOrigin">出产地</label>
         </div>
@@ -55,7 +57,7 @@
             id="itemEnOrigin"
             placeholder="Item Origin"
             :value="itemEnOrigin"
-            v-on:change="onChange($event, 'enOrigin')"
+            @change="onChange($event, 'enOrigin')"
           />
           <label class="label" for="itemEnOrigin">Item Origin</label>
         </div>
@@ -75,6 +77,7 @@
         class="btn btn-primary w-100"
         type="submit"
         @click.prevent="updateBasicInfo()"
+        :disabled="!isAllValid()"
       >
         保存
       </button>
@@ -111,6 +114,12 @@ export default {
   methods: {
     updateBasicInfo() {
       console.log("updateBasicInfo()");
+
+      if (!this.isAllValid()) {
+        this.$emit("onResponse", "对不起", "error");
+        return;
+      }
+
       const body = {
         item_info: {
           name: this.itemName,
@@ -118,22 +127,22 @@ export default {
           desc: this.itemDescription,
           origin: this.itemOrigin,
           origin_en: this.itemEnOrigin,
-        }
+        },
       };
       console.log(body);
       axios
         .patch(`/item/${this.itemId}/itemBasic`, body)
         .then((res) => {
           console.log(res);
-          if(res.data.message !== "") {
-              this.$emit("onResponse", res.data.message);
-            } else {
-              this.$emit("onResponse", res.data.error);
-            }
+          if (res.data.message !== "") {
+            this.$emit("onResponse", res.data.message, "success");
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
         })
         .catch((error) => {
-          onsole.error(error);
-          this.$emit("onResponse", error.message);
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
         });
     },
 
@@ -164,6 +173,10 @@ export default {
         default: {
         }
       }
+    },
+
+    isAllValid() {
+      return this.itemName;
     },
   },
 };

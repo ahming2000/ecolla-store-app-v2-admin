@@ -1382,13 +1382,23 @@ __webpack_require__.r(__webpack_exports__);
         created_at: (_this$item$created_at = this.item.created_at) !== null && _this$item$created_at !== void 0 ? _this$item$created_at : null,
         updated_at: (_this$item$updated_at = this.item.updated_at) !== null && _this$item$updated_at !== void 0 ? _this$item$updated_at : null
       },
-      message: ""
+      messageData: {
+        message: "",
+        type: ""
+      }
     };
   },
   methods: {
-    onResponse: function onResponse(message) {
-      console.log(message);
-      this.message = message;
+    onResponse: function onResponse() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      console.log(args);
+      this.messageData = {
+        message: args[0],
+        type: args[1]
+      };
       var option = {
         delay: 3000
       };
@@ -1396,9 +1406,7 @@ __webpack_require__.r(__webpack_exports__);
       var toastList = toastElList.map(function (toastEl) {
         return new bootstrap__WEBPACK_IMPORTED_MODULE_7__.Toast(toastEl, option);
       });
-      toastList[0].show(); // const toastRef = this.$refs.messageToast._self.$refs.messageToast;
-      // var toast = new Toast(toastRef);
-      // toast.show({ autohide: true, delay: 100 });
+      toastList[0].show();
     }
   }
 });
@@ -1416,6 +1424,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
 //
 //
 //
@@ -1528,6 +1539,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       console.log("updateBasicInfo()");
+
+      if (!this.isAllValid()) {
+        this.$emit("onResponse", "对不起", "error");
+        return;
+      }
+
       var body = {
         item_info: {
           name: this.itemName,
@@ -1542,14 +1559,14 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res);
 
         if (res.data.message !== "") {
-          _this.$emit("onResponse", res.data.message);
+          _this.$emit("onResponse", res.data.message, "success");
         } else {
-          _this.$emit("onResponse", res.data.error);
+          _this.$emit("onResponse", res.data.error, "error");
         }
       })["catch"](function (error) {
-        onsole.error(error);
+        console.error(error);
 
-        _this.$emit("onResponse", error.message);
+        _this.$emit("onResponse", error.message, "error");
       });
     },
     onChange: function onChange(event, name) {
@@ -1589,6 +1606,9 @@ __webpack_require__.r(__webpack_exports__);
         default:
           {}
       }
+    },
+    isAllValid: function isAllValid() {
+      return this.itemName;
     }
   }
 });
@@ -1682,15 +1702,15 @@ __webpack_require__.r(__webpack_exports__);
 
         if (res.status === 200) {
           if (res.data.message !== "") {
-            _this.$emit("onResponse", res.data.message);
+            _this.$emit("onResponse", res.data.message, "success");
           } else {
-            _this.$emit("onResponse", res.data.error);
+            _this.$emit("onResponse", res.data.error, "error");
           }
         }
       })["catch"](function (error) {
         console.error(error);
 
-        _this.$emit("onResponse", error.message);
+        _this.$emit("onResponse", error.message, "error");
       });
     }
   }
@@ -3228,23 +3248,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "message-toast",
   props: {
-    message: String,
-    type: String
+    message: Object
   },
   watch: {
     message: function message(val) {
-      this.messageData = val;
+      this.messageData = val.message;
+      this.typeData = val.type;
     }
   },
   data: function data() {
-    var _this$message;
+    var _this$message$message, _this$message, _this$message$type, _this$message2;
 
     return {
-      messageData: (_this$message = this.message) !== null && _this$message !== void 0 ? _this$message : ""
+      messageData: (_this$message$message = (_this$message = this.message) === null || _this$message === void 0 ? void 0 : _this$message.message) !== null && _this$message$message !== void 0 ? _this$message$message : "",
+      typeData: (_this$message$type = (_this$message2 = this.message) === null || _this$message2 === void 0 ? void 0 : _this$message2.type) !== null && _this$message$type !== void 0 ? _this$message$type : ""
     };
+  },
+  computed: {
+    headerBgClass: function headerBgClass() {
+      return {
+        'toast-header': true,
+        'text-light': true,
+        'bg-success': this.typeData === "success",
+        'bg-danger': this.typeData === "error"
+      };
+    },
+    bodyTextColorClass: function bodyTextColorClass() {
+      return {
+        'toast-body': true,
+        'text-center': true,
+        'text-wrap': true,
+        'fw-light': true,
+        'text-success': this.typeData === "success",
+        'text-danger': this.typeData === "error"
+      };
+    }
   },
   methods: {}
 });
@@ -6640,8 +6683,12 @@ var render = function() {
               _c("edit-item-basic-info", {
                 attrs: { item_info: _vm.item_info },
                 on: {
-                  onResponse: function($event) {
-                    return _vm.onResponse($event)
+                  onResponse: function() {
+                    var args = [],
+                      len = arguments.length
+                    while (len--) args[len] = arguments[len]
+
+                    return _vm.onResponse.apply(void 0, args)
                   }
                 }
               })
@@ -6683,8 +6730,12 @@ var render = function() {
                   categories: _vm.item.categories
                 },
                 on: {
-                  onResponse: function($event) {
-                    return _vm.onResponse($event)
+                  onResponse: function() {
+                    var args = [],
+                      len = arguments.length
+                    while (len--) args[len] = arguments[len]
+
+                    return _vm.onResponse.apply(void 0, args)
                   }
                 }
               })
@@ -6751,7 +6802,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("message-toast", { attrs: { message: _vm.message } })
+      _c("message-toast", { attrs: { message: _vm.messageData } })
     ],
     1
   )
@@ -6930,7 +6981,7 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "form-floating mb-3 w-100" }, [
       _c("input", {
-        staticClass: "form-control",
+        class: { "form-control": true, "is-invalid": !this.itemName },
         attrs: { type: "text", id: "itemName", placeholder: "商品名称" },
         domProps: { value: _vm.itemName },
         on: {
@@ -6942,13 +6993,15 @@ var render = function() {
       _vm._v(" "),
       _c("label", { staticClass: "label", attrs: { for: "itemName" } }, [
         _vm._v("商品名称")
-      ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0)
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-floating mb-3 w-100" }, [
       _c("input", {
         staticClass: "form-control",
-        attrs: { type: "text", id: "itemEnName", placeholder: "Item Name" },
+        attrs: { id: "itemEnName", placeholder: "Item Name" },
         domProps: { value: _vm.itemEnName },
         on: {
           change: function($event) {
@@ -6966,7 +7019,10 @@ var render = function() {
       _c("textarea", {
         staticClass: "form-control",
         staticStyle: { height: "200px" },
-        attrs: { id: "itemDescription", placeholder: "Item Description" },
+        attrs: {
+          id: "itemDescription",
+          placeholder: "商品描述 Item Description"
+        },
         domProps: { value: _vm.itemDescription },
         on: {
           change: function($event) {
@@ -6976,7 +7032,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("label", { staticClass: "label", attrs: { for: "itemDescription" } }, [
-        _vm._v("Item Description")
+        _vm._v("商品描述 Item Description")
       ])
     ]),
     _vm._v(" "),
@@ -7038,7 +7094,7 @@ var render = function() {
           "button",
           {
             staticClass: "btn btn-primary w-100",
-            attrs: { type: "submit" },
+            attrs: { type: "submit", disabled: !_vm.isAllValid() },
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -7052,7 +7108,17 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "invalid-feedback" }, [
+      _c("b", [_vm._v("商品名称")]),
+      _vm._v(" 为必填选项")
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -8665,46 +8731,39 @@ var render = function() {
         }
       },
       [
-        _vm._m(0),
+        _c("div", { class: _vm.headerBgClass }, [
+          _c("img", {
+            staticClass: "rounded me-2",
+            attrs: {
+              src:
+                "http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png",
+              alt: "...",
+              height: "25px",
+              width: "25px"
+            }
+          }),
+          _vm._v(" "),
+          _c("strong", { staticClass: "me-auto" }, [_vm._v("通知")]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close btn-close-white",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "toast-body" }, [
-          _vm._v(_vm._s(_vm.messageData) + "}.")
-        ])
+        _c("div", {
+          class: _vm.bodyTextColorClass,
+          domProps: { innerHTML: _vm._s(_vm.messageData) }
+        })
       ]
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "toast-header" }, [
-      _c("img", {
-        staticClass: "rounded me-2",
-        attrs: {
-          src: "http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png",
-          alt: "...",
-          height: "25px",
-          width: "25px"
-        }
-      }),
-      _vm._v(" "),
-      _c("strong", { staticClass: "me-auto" }, [_vm._v("通知")]),
-      _vm._v(" "),
-      _c("small", [_vm._v("11 mins ago")]),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "toast",
-          "aria-label": "Close"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
