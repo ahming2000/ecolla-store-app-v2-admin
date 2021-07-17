@@ -8115,7 +8115,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row justify-content-center w-100" }, [
-          _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "col-6 col-sm-5 col-md-3 col-lg-2" }, [
             _c(
               "button",
               {
@@ -8136,7 +8136,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "col-6 col-sm-5 col-md-3 col-lg-2" }, [
             _c(
               "button",
               {

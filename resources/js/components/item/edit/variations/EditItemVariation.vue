@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="row justify-content-center w-100">
-        <div class="col-6">
+        <div class="col-6 col-sm-5 col-md-3 col-lg-2">
           <button
             class="btn btn-primary w-100"
             type="submit"
@@ -47,7 +47,7 @@
             编辑
           </button>
         </div>
-        <div class="col-6">
+        <div class="col-6 col-sm-5 col-md-3 col-lg-2">
           <button
             class="btn btn-danger w-100"
             type="submit"
