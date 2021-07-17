@@ -160,7 +160,7 @@ li:hover {
 import MessageToast from "../../shared/toasts/MessageToast.vue";
 import EditItemBasicInfo from "./EditItemBasicInfo.vue";
 import EditItemCategory from "./EditItemCategory.vue";
-import EditItemImageList from "./EditItemImageList.vue";
+import EditItemImageList from "./images/EditItemImageList.vue";
 import UtilTable from "./UtilTable.vue";
 import EditItemVariationList from "./variations/EditItemVariationList.vue";
 import EditItemWholesaleDiscountList from "./wholesales/EditItemWholesaleDiscountList.vue";

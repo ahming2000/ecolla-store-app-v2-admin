@@ -156,7 +156,6 @@ input:checked + .slider:before {
                   style="height: 100px; width: 100px"
                 >
                   <button
-                    v-if="!variationImage"
                     class="
                       btn btn-outline-light btn-circle-40 btn-image
                       border-4
