@@ -11,10 +11,9 @@ class ImagesProcessController extends Controller
     {
         $mode = request('mode') ?? 'frame';
         try{
-            return (new ImageHandler())->getEncodeDataURL(request('image'), $mode);
+            return response()->json(['data' => (new ImageHandler())->getEncodeDataURL(request('image'), $mode)]);
         } catch (\Exception $exception){
-            session()->flash("error", "Image fail to process!");
-            return null;
+            return response()->json(['data' => '', 'error' => 'Fail to process image!']);
         }
     }
 }
