@@ -1,63 +1,67 @@
 <template>
-  <div class="container">
-    <div class="form-floating mb-3 w-100">
-      <input
-        class="form-control"
-        type="text"
-        id="itemName"
-        placeholder="商品名称"
-        :value="itemName"
-        v-on:change="onChange($event, 'name')"
-      />
-      <label class="label" for="itemName">商品名称</label>
-    </div>
-    <div class="form-floating mb-3 w-100">
-      <input
-        class="form-control"
-        type="text"
-        id="itemEnName"
-        placeholder="Item Name"
-        :value="itemEnName"
-        v-on:change="onChange($event, 'enName')"
-      />
-      <label class="label" for="itemEnName">Item Name</label>
-    </div>
-    <div class="form-floating mb-3 w-100">
-      <textarea
-        style="height: 200px"
-        class="form-control"
-        id="itemDescription"
-        placeholder="Item Description"
-        :value="itemDescription"
-        v-on:change="onChange($event, 'description')"
-      />
-      <label class="label" for="itemDescription">Item Description</label>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="form-floating mb-3 w-100">
-          <input
-            class="form-control"
-            type="text"
-            id="itemOrigin"
-            placeholder="出产地"
-            :value="itemOrigin"
-            v-on:change="onChange($event, 'origin')"
-          />
-          <label class="label" for="itemOrigin">出产地</label>
-        </div>
+  <div>
+    <div class="container" style="margin-bottom: 100px;">
+      <div class="form-floating mb-3 w-100">
+        <input
+          :class="{ 'form-control': true, 'is-invalid': !this.itemName }"
+          type="text"
+          id="itemName"
+          placeholder="商品名称"
+          :value="itemName"
+          @change="onChange($event, 'name')"
+        />
+        <label class="label" for="itemName">商品名称</label>
+        <div class="invalid-feedback"><b>商品名称</b> 为必填选项</div>
       </div>
-      <div class="col-6">
-        <div class="form-floating mb-3 w-100">
-          <input
-            class="form-control"
-            type="text"
-            id="itemEnOrigin"
-            placeholder="Item Origin"
-            :value="itemEnOrigin"
-            v-on:change="onChange($event, 'enOrigin')"
-          />
-          <label class="label" for="itemEnOrigin">Item Origin</label>
+      <div class="form-floating mb-3 w-100">
+        <input
+          class="form-control"
+          id="itemEnName"
+          placeholder="Item Name"
+          :value="itemEnName"
+          @change="onChange($event, 'enName')"
+        />
+        <label class="label" for="itemEnName">Item Name</label>
+      </div>
+      <div class="form-floating mb-3 w-100">
+        <textarea
+          style="height: 200px"
+          class="form-control"
+          id="itemDescription"
+          placeholder="商品描述 Item Description"
+          :value="itemDescription"
+          @change="onChange($event, 'description')"
+        />
+        <label class="label" for="itemDescription"
+          >商品描述 Item Description</label
+        >
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-floating mb-3 w-100">
+            <input
+              class="form-control"
+              type="text"
+              id="itemOrigin"
+              placeholder="出产地"
+              :value="itemOrigin"
+              @change="onChange($event, 'origin')"
+            />
+            <label class="label" for="itemOrigin">出产地</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating mb-3 w-100">
+            <input
+              class="form-control"
+              type="text"
+              id="itemEnOrigin"
+              placeholder="Item Origin"
+              :value="itemEnOrigin"
+              @change="onChange($event, 'enOrigin')"
+            />
+            <label class="label" for="itemEnOrigin">Item Origin</label>
+          </div>
         </div>
       </div>
     </div>
@@ -68,13 +72,15 @@
         align-items-center
         justify-content-center
         fixed-bottom
+        shadow-lg
       "
-      style="height: 100px; background-color: white"
+      style="height: 100px; background-color: white; z-index: 10"
     >
       <button
         class="btn btn-primary w-100"
         type="submit"
         @click.prevent="updateBasicInfo()"
+        :disabled="!isAllValid()"
       >
         保存
       </button>
@@ -111,6 +117,12 @@ export default {
   methods: {
     updateBasicInfo() {
       console.log("updateBasicInfo()");
+
+      if (!this.isAllValid()) {
+        this.$emit("onResponse", "对不起", "error");
+        return;
+      }
+
       const body = {
         item_info: {
           name: this.itemName,
@@ -118,18 +130,22 @@ export default {
           desc: this.itemDescription,
           origin: this.itemOrigin,
           origin_en: this.itemEnOrigin,
-        }
+        },
       };
       console.log(body);
       axios
         .patch(`/item/${this.itemId}/itemBasic`, body)
         .then((res) => {
           console.log(res);
-          // TODO Success Message
+          if (res.data.message !== "") {
+            this.$emit("onResponse", res.data.message, "success");
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
         })
         .catch((error) => {
           console.error(error);
-          // TODO Error Message
+          this.$emit("onResponse", error.message, "error");
         });
     },
 
@@ -160,6 +176,10 @@ export default {
         default: {
         }
       }
+    },
+
+    isAllValid() {
+      return this.itemName;
     },
   },
 };

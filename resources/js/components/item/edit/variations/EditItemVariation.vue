@@ -1,11 +1,11 @@
 <template>
   <li class="card my-2">
     <div class="card-body d-flex justify-content-center flex-wrap">
-      <div class="d-flex row mb-3">
+      <div class="d-flex row mb-3 w-100">
         <div class="col-4">
           <img
             v-if="variation.image !== null && variation.image !== undefined"
-            class="img-thumbnail img-fluid rounded mr-3"
+            class=" img-fluid rounded"
             :src="variation.image"
             height="200px"
             width="200px"
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="row justify-content-center w-100">
-        <div class="col-6">
+        <div class="col-6 col-sm-5 col-md-3 col-lg-2">
           <button
             class="btn btn-primary w-100"
             type="submit"
@@ -47,7 +47,7 @@
             编辑
           </button>
         </div>
-        <div class="col-6">
+        <div class="col-6 col-sm-5 col-md-3 col-lg-2">
           <button
             class="btn btn-danger w-100"
             type="submit"

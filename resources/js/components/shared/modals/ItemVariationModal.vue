@@ -111,7 +111,6 @@ input:checked + .slider:before {
                       img-fluid
                       border border-primary border-2
                       rounded
-                      mr-3
                     "
                     :src="variationImage"
                     height="100px"
@@ -156,7 +155,6 @@ input:checked + .slider:before {
                   style="height: 100px; width: 100px"
                 >
                   <button
-                    v-if="!variationImage"
                     class="
                       btn btn-outline-light btn-circle-40 btn-image
                       border-4

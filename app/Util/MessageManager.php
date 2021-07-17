@@ -9,8 +9,8 @@ use function PHPUnit\Framework\isEmpty;
 class MessageManager
 {
 
-    private array $errorMessages;
-    private array $infoMessages;
+    private array $errorMessages = [];
+    private array $infoMessages = [];
 
     public function pushError(string $errorMessage)
     {

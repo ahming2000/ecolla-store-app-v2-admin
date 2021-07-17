@@ -17,12 +17,12 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body bg-danger">
           <div class="row d-flex justify-content-center">
             <h5 class="fw-light text-center">图片预览</h5>
           </div>
           <div class="row">
-            <img :src="imageData" class="rounded mx-auto d-block" alt="..." />
+            <img :src="framedImage" class="rounded mx-auto d-block" alt="..." />
           </div>
         </div>
         <div class="modal-footer justify-content-center w-100">
@@ -58,18 +58,22 @@ export default {
   name: "upload-image-modal",
 
   props: {
-    image: String,
+    rawImage: File,
   },
 
   data() {
     return {
-      imageData: this.image ?? null,
+      rawImageData: this.rawImage ?? null,
+      framedImage: null,
+      croppedImage: null,
     };
   },
 
   watch: {
-    image: function (val) {
-      this.imageData = val;
+    rawImage: function (val) {
+      this.rawImageData = val;
+      this.framedImage = this.processImageFrame(val);
+      this.croppedImage = this.processImageCrop(val);
     },
   },
 
@@ -77,6 +81,20 @@ export default {
     confirmUpload() {
       this.$emit("onUpload", this.imageData);
       this.clearImageData();
+    },
+
+    processImageFrame(rawImage) {
+      const formData = new FormData();
+      formData.append("image", rawImage, rawImage.name);
+      formData.append("mode", "frame");
+      axios.post("/item/image/process", formData, {}).then((res) => {
+        console.log(res);
+        this.framedImage = res.data;
+      });
+    },
+
+    processImageCrop(rawImage) {
+      return null;
     },
 
     clearImageData() {

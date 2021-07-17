@@ -35,7 +35,9 @@ Vue.component('listing-switch', require('./components/item/index/ListingSwitch.v
 
 Vue.component('edit-item', require('./components/item/edit/EditItem.vue').default);
 Vue.component('edit-item-basic-info', require('./components/item/edit/EditItemBasicInfo.vue').default);
-Vue.component('edit-item-image-list', require('./components/item/edit/EditItemImageList.vue').default);
+Vue.component('edit-item-image-list', require('./components/item/edit/images/EditItemImageList.vue').default);
+Vue.component('edit-item-image', require('./components/item/edit/images/EditItemImage.vue').default);
+Vue.component('delete-item-image-modal', require('./components/item/edit/images/DeleteItemImageModal.vue').default);
 Vue.component('edit-item-category', require('./components/item/edit/EditItemCategory.vue').default);
 Vue.component('edit-item-variation-list', require('./components/item/edit/variations/EditItemVariationList.vue').default);
 Vue.component('edit-item-variation', require('./components/item/edit/variations/EditItemVariation.vue').default);
@@ -50,6 +52,7 @@ Vue.component('util-table', require('./components/item/edit/UtilTable.vue').defa
 Vue.component('edit-discount', require('./components/shared/components/EditDiscount.vue').default);
 Vue.component('item-variation-modal', require('./components/shared/modals/ItemVariationModal.vue').default);
 Vue.component('upload-image-modal', require('./components/shared/modals/UploadImageModal.vue').default);
+Vue.component('message-toast', require('./components/shared/toasts/MessageToast.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

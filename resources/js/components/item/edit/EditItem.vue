@@ -1,3 +1,9 @@
+<style scoped>
+li:hover {
+  cursor: pointer;
+}
+</style>
+
 <template>
   <div>
     <!-- Tab Panel -->
@@ -82,14 +88,17 @@
     </div>
 
     <!-- Content -->
-    <div class="tab-content" id="pills-tabContent">
+    <div class="tab-content position-relative" id="pills-tabContent">
       <div
         class="tab-pane fade show active"
         id="pills-basic-info"
         role="tabpanel"
         aria-labelledby="pills-basic-info-tab"
       >
-        <edit-item-basic-info :item_info="item_info"></edit-item-basic-info>
+        <edit-item-basic-info
+          :item_info="item_info"
+          @onResponse="(...args) => onResponse(...args)"
+        ></edit-item-basic-info>
       </div>
       <div
         class="tab-pane fade"
@@ -97,7 +106,10 @@
         role="tabpanel"
         aria-labelledby="pills-images-tab"
       >
-        <edit-item-image-list :images="item.images"></edit-item-image-list>
+        <edit-item-image-list
+          :images="item.images"
+          @onResponse="(...args) => onResponse(...args)"
+        ></edit-item-image-list>
       </div>
       <div
         class="tab-pane fade"
@@ -109,6 +121,7 @@
           :item_id="item.id"
           :allCategories="allCategories"
           :categories="item.categories"
+          @onResponse="(...args) => onResponse(...args)"
         ></edit-item-category>
       </div>
       <div
@@ -140,18 +153,26 @@
       >
         <util-table :util="item.util" :itemId="item.id"></util-table>
       </div>
+      <message-toast
+        aria-live="polite"
+        aria-atomic="true"
+        class="fixed-top start-50 translate-middle-x"
+        :message="messageData"
+      ></message-toast>
     </div>
   </div>
 </template>
 
 
 <script>
+import MessageToast from "../../shared/toasts/MessageToast.vue";
 import EditItemBasicInfo from "./EditItemBasicInfo.vue";
 import EditItemCategory from "./EditItemCategory.vue";
-import EditItemImageList from "./EditItemImageList.vue";
+import EditItemImageList from "./images/EditItemImageList.vue";
 import UtilTable from "./UtilTable.vue";
 import EditItemVariationList from "./variations/EditItemVariationList.vue";
 import EditItemWholesaleDiscountList from "./wholesales/EditItemWholesaleDiscountList.vue";
+import { Toast } from "bootstrap";
 
 export default {
   name: "edit-item",
@@ -163,6 +184,7 @@ export default {
     EditItemWholesaleDiscountList,
     UtilTable,
     EditItemImageList,
+    MessageToast,
   },
 
   props: {
@@ -174,18 +196,38 @@ export default {
     return {
       // Extracted basic info from item
       item_info: {
-        id: this.item.id,
-        name: this.item.name,
-        name_en: this.item.name_en,
-        desc: this.item.desc,
-        origin: this.item.origin,
-        origin_en: this.item.origin_en,
-        created_at: this.item.created_at,
-        updated_at: this.item.updated_at,
+        id: this.item.id ?? null,
+        name: this.item.name ?? "",
+        name_en: this.item.name_en ?? "",
+        desc: this.item.desc ?? "",
+        origin: this.item.origin ?? "",
+        origin_en: this.item.origin_en ?? "",
+        created_at: this.item.created_at ?? null,
+        updated_at: this.item.updated_at ?? null,
       },
+      messageData: { message: "", type: "" },
     };
   },
 
-  methods: {},
+  methods: {
+    onResponse(...args) {
+      console.log(args);
+      this.messageData = {
+        message: args[0],
+        type: args[1],
+      };
+
+      const option = {
+        delay: 3000,
+      };
+
+      var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+      var toastList = toastElList.map(function (toastEl) {
+        return new Toast(toastEl, option);
+      });
+
+      toastList[0].show();
+    },
+  },
 };
 </script>

@@ -23,7 +23,7 @@
 <body style="min-width: 100%;">
 
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow">
+    <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow" style="z-index: 10;">
         <div class="container">
 
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -88,7 +88,7 @@
         </div>
     </nav>
 
-    <main class="py-4">
+    <main class="py-4" style="margin-top: 100px;">
         @yield('content')
     </main>
 
