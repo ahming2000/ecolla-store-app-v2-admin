@@ -1,10 +1,7 @@
 <template>
   <div class="col">
     <div class="position-relative" v-if="itemImage">
-      <img
-        class="img-fluid rounded"
-        :src="itemImage"
-      />
+      <img class="img-fluid rounded" :src="itemImage" />
       <button
         class="
           btn btn-danger
@@ -19,6 +16,8 @@
         "
         style="height: 30px; width: 30px"
         type="submit"
+        data-bs-toggle="modal"
+        data-bs-target="#deleteItemImageModal"
         @click.prevent="onDelete()"
       >
         <i class="icofont icofont-close-line" style="font-size: 20px"></i>
@@ -49,7 +48,6 @@ export default {
 
   methods: {
     onDelete() {
-      console.log("delete");
       this.$emit("onDelete", this.image);
     },
   },

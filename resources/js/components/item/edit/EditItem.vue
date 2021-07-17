@@ -88,7 +88,7 @@ li:hover {
     </div>
 
     <!-- Content -->
-    <div class="tab-content" id="pills-tabContent">
+    <div class="tab-content position-relative" id="pills-tabContent">
       <div
         class="tab-pane fade show active"
         id="pills-basic-info"
@@ -106,7 +106,10 @@ li:hover {
         role="tabpanel"
         aria-labelledby="pills-images-tab"
       >
-        <edit-item-image-list :images="item.images"></edit-item-image-list>
+        <edit-item-image-list
+          :images="item.images"
+          @onResponse="(...args) => onResponse(...args)"
+        ></edit-item-image-list>
       </div>
       <div
         class="tab-pane fade"
@@ -150,8 +153,13 @@ li:hover {
       >
         <util-table :util="item.util" :itemId="item.id"></util-table>
       </div>
+      <message-toast
+        aria-live="polite"
+        aria-atomic="true"
+        class="fixed-top start-50 translate-middle-x"
+        :message="messageData"
+      ></message-toast>
     </div>
-    <message-toast :message="messageData"></message-toast>
   </div>
 </template>
 

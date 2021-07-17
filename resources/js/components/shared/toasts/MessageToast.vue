@@ -2,7 +2,7 @@
   <div style="z-index: 11">
     <div
       id="liveToast"
-      class="toast hide top-50 start-0 translate-middle-y"
+      class="toast hide"
       role="alert"
       aria-live="assertive"
       aria-atomic="true"

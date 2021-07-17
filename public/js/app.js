@@ -1344,6 +1344,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1424,6 +1432,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
 //
 //
 //
@@ -1667,6 +1678,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-category",
   props: {
@@ -1850,6 +1863,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "delete-image-modal",
+  props: {},
+  data: function data() {
+    return {};
+  },
+  watch: {
+    object: function object(val) {
+      this.objectData = val;
+    }
+  },
+  methods: {
+    onConfirmDelete: function onConfirmDelete() {
+      this.$emit("onConfirmDelete");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/EditItemImage.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/EditItemImage.vue?vue&type=script&lang=js& ***!
@@ -1861,7 +1961,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
 //
 //
 //
@@ -1909,7 +2008,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onDelete: function onDelete() {
-      console.log("delete");
       this.$emit("onDelete", this.image);
     }
   }
@@ -1928,7 +2026,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _EditItemImage_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditItemImage.vue */ "./resources/js/components/item/edit/images/EditItemImage.vue");
+/* harmony import */ var _DeleteItemImageModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteItemImageModal.vue */ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue");
+/* harmony import */ var _EditItemImage_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditItemImage.vue */ "./resources/js/components/item/edit/images/EditItemImage.vue");
+//
+//
+//
 //
 //
 //
@@ -1950,9 +2052,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    EditItemImage: _EditItemImage_vue__WEBPACK_IMPORTED_MODULE_0__.default
+    EditItemImage: _EditItemImage_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    DeleteItemImageModal: _DeleteItemImageModal_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
   name: "edit-item-image-list",
   props: {
@@ -1966,14 +2070,36 @@ __webpack_require__.r(__webpack_exports__);
       selectedImage: null
     };
   },
-  computed: {
-    classObject: function classObject() {
-      return {};
-    }
-  },
   methods: {
-    onDelete: function onDelete(image) {
+    openDeleteModal: function openDeleteModal(image) {
       this.selectedImage = image;
+    },
+    confirmDelete: function confirmDelete() {
+      var _this = this;
+
+      console.log("confirmDelete", this.selectedImage);
+      var body = {
+        action: "delete",
+        image: this.selectedImage.id
+      };
+      console.log(body);
+      axios.patch("/item/".concat(this.selectedImage.item_id, "/images"), body).then(function (res) {
+        console.log(res);
+
+        if (res.data.message !== "") {
+          _this.$emit("onResponse", res.data.message, "success");
+
+          _this.itemImages = _this.itemImages.filter(function (image) {
+            return image !== _this.selectedImage;
+          });
+        } else {
+          _this.$emit("onResponse", res.data.error, "error");
+        }
+      })["catch"](function (error) {
+        console.error(error);
+
+        _this.$emit("onResponse", error.message, "error");
+      });
     },
     onAdd: function onAdd() {
       console.log("add");
@@ -3427,6 +3553,7 @@ Vue.component('edit-item', __webpack_require__(/*! ./components/item/edit/EditIt
 Vue.component('edit-item-basic-info', __webpack_require__(/*! ./components/item/edit/EditItemBasicInfo.vue */ "./resources/js/components/item/edit/EditItemBasicInfo.vue").default);
 Vue.component('edit-item-image-list', __webpack_require__(/*! ./components/item/edit/images/EditItemImageList.vue */ "./resources/js/components/item/edit/images/EditItemImageList.vue").default);
 Vue.component('edit-item-image', __webpack_require__(/*! ./components/item/edit/images/EditItemImage.vue */ "./resources/js/components/item/edit/images/EditItemImage.vue").default);
+Vue.component('delete-item-image-modal', __webpack_require__(/*! ./components/item/edit/images/DeleteItemImageModal.vue */ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue").default);
 Vue.component('edit-item-category', __webpack_require__(/*! ./components/item/edit/EditItemCategory.vue */ "./resources/js/components/item/edit/EditItemCategory.vue").default);
 Vue.component('edit-item-variation-list', __webpack_require__(/*! ./components/item/edit/variations/EditItemVariationList.vue */ "./resources/js/components/item/edit/variations/EditItemVariationList.vue").default);
 Vue.component('edit-item-variation', __webpack_require__(/*! ./components/item/edit/variations/EditItemVariation.vue */ "./resources/js/components/item/edit/variations/EditItemVariation.vue").default);
@@ -4104,6 +4231,45 @@ component.options.__file = "resources/js/components/item/edit/UtilTableRow.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/item/edit/images/DeleteItemImageModal.vue ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _DeleteItemImageModal_vue_vue_type_template_id_11669a23___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteItemImageModal.vue?vue&type=template&id=11669a23& */ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=template&id=11669a23&");
+/* harmony import */ var _DeleteItemImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteItemImageModal.vue?vue&type=script&lang=js& */ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _DeleteItemImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _DeleteItemImageModal_vue_vue_type_template_id_11669a23___WEBPACK_IMPORTED_MODULE_0__.render,
+  _DeleteItemImageModal_vue_vue_type_template_id_11669a23___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/item/edit/images/DeleteItemImageModal.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/item/edit/images/EditItemImage.vue":
 /*!********************************************************************!*\
   !*** ./resources/js/components/item/edit/images/EditItemImage.vue ***!
@@ -4713,6 +4879,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteItemImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DeleteItemImageModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteItemImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/item/edit/images/EditItemImage.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************!*\
   !*** ./resources/js/components/item/edit/images/EditItemImage.vue?vue&type=script&lang=js& ***!
@@ -5111,6 +5293,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UtilTableRow_vue_vue_type_template_id_15a63de2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UtilTableRow_vue_vue_type_template_id_15a63de2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UtilTableRow.vue?vue&type=template&id=15a63de2&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/UtilTableRow.vue?vue&type=template&id=15a63de2&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=template&id=11669a23&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=template&id=11669a23& ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteItemImageModal_vue_vue_type_template_id_11669a23___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteItemImageModal_vue_vue_type_template_id_11669a23___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteItemImageModal_vue_vue_type_template_id_11669a23___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DeleteItemImageModal.vue?vue&type=template&id=11669a23& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=template&id=11669a23&");
 
 
 /***/ }),
@@ -6827,152 +7026,170 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "tab-content", attrs: { id: "pills-tabContent" } },
-        [
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane fade show active",
-              attrs: {
-                id: "pills-basic-info",
-                role: "tabpanel",
-                "aria-labelledby": "pills-basic-info-tab"
-              }
-            },
-            [
-              _c("edit-item-basic-info", {
-                attrs: { item_info: _vm.item_info },
-                on: {
-                  onResponse: function() {
-                    var args = [],
-                      len = arguments.length
-                    while (len--) args[len] = arguments[len]
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "tab-content position-relative",
+        attrs: { id: "pills-tabContent" }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane fade show active",
+            attrs: {
+              id: "pills-basic-info",
+              role: "tabpanel",
+              "aria-labelledby": "pills-basic-info-tab"
+            }
+          },
+          [
+            _c("edit-item-basic-info", {
+              attrs: { item_info: _vm.item_info },
+              on: {
+                onResponse: function() {
+                  var args = [],
+                    len = arguments.length
+                  while (len--) args[len] = arguments[len]
 
-                    return _vm.onResponse.apply(void 0, args)
-                  }
+                  return _vm.onResponse.apply(void 0, args)
                 }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane fade",
-              attrs: {
-                id: "pills-images",
-                role: "tabpanel",
-                "aria-labelledby": "pills-images-tab"
               }
-            },
-            [
-              _c("edit-item-image-list", { attrs: { images: _vm.item.images } })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane fade",
-              attrs: {
-                id: "pills-category",
-                role: "tabpanel",
-                "aria-labelledby": "pills-category-tab"
-              }
-            },
-            [
-              _c("edit-item-category", {
-                attrs: {
-                  item_id: _vm.item.id,
-                  allCategories: _vm.allCategories,
-                  categories: _vm.item.categories
-                },
-                on: {
-                  onResponse: function() {
-                    var args = [],
-                      len = arguments.length
-                    while (len--) args[len] = arguments[len]
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane fade",
+            attrs: {
+              id: "pills-images",
+              role: "tabpanel",
+              "aria-labelledby": "pills-images-tab"
+            }
+          },
+          [
+            _c("edit-item-image-list", {
+              attrs: { images: _vm.item.images },
+              on: {
+                onResponse: function() {
+                  var args = [],
+                    len = arguments.length
+                  while (len--) args[len] = arguments[len]
 
-                    return _vm.onResponse.apply(void 0, args)
-                  }
+                  return _vm.onResponse.apply(void 0, args)
                 }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane fade",
-              attrs: {
-                id: "pills-variation",
-                role: "tabpanel",
-                "aria-labelledby": "pills-variation-tab"
               }
-            },
-            [
-              _c("edit-item-variation-list", {
-                attrs: { variations: _vm.item.variations }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane fade",
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane fade",
+            attrs: {
+              id: "pills-category",
+              role: "tabpanel",
+              "aria-labelledby": "pills-category-tab"
+            }
+          },
+          [
+            _c("edit-item-category", {
               attrs: {
-                id: "pills-wholesale-discount",
-                role: "tabpanel",
-                "aria-labelledby": "pills-wholesale-discount-tab"
-              }
-            },
-            [
-              _c("edit-item-wholesale-discount-list", {
-                attrs: {
-                  wholesale_discounts: _vm.item.discounts,
-                  orignal_price: _vm.item.variations[0].price
+                item_id: _vm.item.id,
+                allCategories: _vm.allCategories,
+                categories: _vm.item.categories
+              },
+              on: {
+                onResponse: function() {
+                  var args = [],
+                    len = arguments.length
+                  while (len--) args[len] = arguments[len]
+
+                  return _vm.onResponse.apply(void 0, args)
                 }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane fade",
-              attrs: {
-                id: "pills-util",
-                role: "tabpanel",
-                "aria-labelledby": "pills-util-tab"
               }
-            },
-            [
-              _c("util-table", {
-                attrs: { util: _vm.item.util, itemId: _vm.item.id }
-              })
-            ],
-            1
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("message-toast", { attrs: { message: _vm.messageData } })
-    ],
-    1
-  )
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane fade",
+            attrs: {
+              id: "pills-variation",
+              role: "tabpanel",
+              "aria-labelledby": "pills-variation-tab"
+            }
+          },
+          [
+            _c("edit-item-variation-list", {
+              attrs: { variations: _vm.item.variations }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane fade",
+            attrs: {
+              id: "pills-wholesale-discount",
+              role: "tabpanel",
+              "aria-labelledby": "pills-wholesale-discount-tab"
+            }
+          },
+          [
+            _c("edit-item-wholesale-discount-list", {
+              attrs: {
+                wholesale_discounts: _vm.item.discounts,
+                orignal_price: _vm.item.variations[0].price
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane fade",
+            attrs: {
+              id: "pills-util",
+              role: "tabpanel",
+              "aria-labelledby": "pills-util-tab"
+            }
+          },
+          [
+            _c("util-table", {
+              attrs: { util: _vm.item.util, itemId: _vm.item.id }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("message-toast", {
+          staticClass: "fixed-top start-50 translate-middle-x",
+          attrs: {
+            "aria-live": "polite",
+            "aria-atomic": "true",
+            message: _vm.messageData
+          }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -7145,116 +7362,134 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "form-floating mb-3 w-100" }, [
-      _c("input", {
-        class: { "form-control": true, "is-invalid": !this.itemName },
-        attrs: { type: "text", id: "itemName", placeholder: "商品名称" },
-        domProps: { value: _vm.itemName },
-        on: {
-          change: function($event) {
-            return _vm.onChange($event, "name")
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { staticClass: "label", attrs: { for: "itemName" } }, [
-        _vm._v("商品名称")
-      ]),
-      _vm._v(" "),
-      _vm._m(0)
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-floating mb-3 w-100" }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { id: "itemEnName", placeholder: "Item Name" },
-        domProps: { value: _vm.itemEnName },
-        on: {
-          change: function($event) {
-            return _vm.onChange($event, "enName")
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { staticClass: "label", attrs: { for: "itemEnName" } }, [
-        _vm._v("Item Name")
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-floating mb-3 w-100" }, [
-      _c("textarea", {
-        staticClass: "form-control",
-        staticStyle: { height: "200px" },
-        attrs: {
-          id: "itemDescription",
-          placeholder: "商品描述 Item Description"
-        },
-        domProps: { value: _vm.itemDescription },
-        on: {
-          change: function($event) {
-            return _vm.onChange($event, "description")
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("label", { staticClass: "label", attrs: { for: "itemDescription" } }, [
-        _vm._v("商品描述 Item Description")
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-6" }, [
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "container", staticStyle: { "margin-bottom": "100px" } },
+      [
         _c("div", { staticClass: "form-floating mb-3 w-100" }, [
           _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "text", id: "itemOrigin", placeholder: "出产地" },
-            domProps: { value: _vm.itemOrigin },
+            class: { "form-control": true, "is-invalid": !this.itemName },
+            attrs: { type: "text", id: "itemName", placeholder: "商品名称" },
+            domProps: { value: _vm.itemName },
             on: {
               change: function($event) {
-                return _vm.onChange($event, "origin")
+                return _vm.onChange($event, "name")
               }
             }
           }),
           _vm._v(" "),
-          _c("label", { staticClass: "label", attrs: { for: "itemOrigin" } }, [
-            _vm._v("出产地")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
+          _c("label", { staticClass: "label", attrs: { for: "itemName" } }, [
+            _vm._v("商品名称")
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "form-floating mb-3 w-100" }, [
           _c("input", {
             staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "itemEnOrigin",
-              placeholder: "Item Origin"
-            },
-            domProps: { value: _vm.itemEnOrigin },
+            attrs: { id: "itemEnName", placeholder: "Item Name" },
+            domProps: { value: _vm.itemEnName },
             on: {
               change: function($event) {
-                return _vm.onChange($event, "enOrigin")
+                return _vm.onChange($event, "enName")
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { staticClass: "label", attrs: { for: "itemEnName" } }, [
+            _vm._v("Item Name")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-floating mb-3 w-100" }, [
+          _c("textarea", {
+            staticClass: "form-control",
+            staticStyle: { height: "200px" },
+            attrs: {
+              id: "itemDescription",
+              placeholder: "商品描述 Item Description"
+            },
+            domProps: { value: _vm.itemDescription },
+            on: {
+              change: function($event) {
+                return _vm.onChange($event, "description")
               }
             }
           }),
           _vm._v(" "),
           _c(
             "label",
-            { staticClass: "label", attrs: { for: "itemEnOrigin" } },
-            [_vm._v("Item Origin")]
+            { staticClass: "label", attrs: { for: "itemDescription" } },
+            [_vm._v("商品描述 Item Description")]
           )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-6" }, [
+            _c("div", { staticClass: "form-floating mb-3 w-100" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  id: "itemOrigin",
+                  placeholder: "出产地"
+                },
+                domProps: { value: _vm.itemOrigin },
+                on: {
+                  change: function($event) {
+                    return _vm.onChange($event, "origin")
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "label", attrs: { for: "itemOrigin" } },
+                [_vm._v("出产地")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-6" }, [
+            _c("div", { staticClass: "form-floating mb-3 w-100" }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  id: "itemEnOrigin",
+                  placeholder: "Item Origin"
+                },
+                domProps: { value: _vm.itemEnOrigin },
+                on: {
+                  change: function($event) {
+                    return _vm.onChange($event, "enOrigin")
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "label", attrs: { for: "itemEnOrigin" } },
+                [_vm._v("Item Origin")]
+              )
+            ])
+          ])
         ])
-      ])
-    ]),
+      ]
+    ),
     _vm._v(" "),
     _c(
       "div",
       {
         staticClass:
-          "\n      container\n      d-flex\n      align-items-center\n      justify-content-center\n      fixed-bottom\n    ",
-        staticStyle: { height: "100px", "background-color": "white" }
+          "\n      container\n      d-flex\n      align-items-center\n      justify-content-center\n      fixed-bottom\n      shadow-lg\n    ",
+        staticStyle: {
+          height: "100px",
+          "background-color": "white",
+          "z-index": "10"
+        }
       },
       [
         _c(
@@ -7308,10 +7543,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "container", staticStyle: { "margin-bottom": "100px" } },
       _vm._l(_vm.allCategories, function(category) {
         return _c("div", { key: category.id, staticClass: "form-check" }, [
           _c("input", {
@@ -7360,38 +7595,42 @@ var render = function() {
               staticClass: "form-check-label",
               attrs: { for: "category" + category.id }
             },
-            [_vm._v("\n      " + _vm._s(category.name) + "\n    ")]
+            [_vm._v("\n        " + _vm._s(category.name) + "\n      ")]
           )
         ])
       }),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "\n      container\n      d-flex\n      align-items-center\n      justify-content-center\n      fixed-bottom\n    ",
-          staticStyle: { height: "100px", "background-color": "white" }
-        },
-        [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary w-100",
-              attrs: { type: "submit" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.updateCategory()
-                }
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass:
+          "\n      container\n      d-flex\n      align-items-center\n      justify-content-center\n      fixed-bottom\n      shadow-lg\n    ",
+        staticStyle: {
+          height: "100px",
+          "background-color": "white",
+          "z-index": "10"
+        }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary w-100",
+            attrs: { type: "submit" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.updateCategory()
               }
-            },
-            [_vm._v("\n      保存\n    ")]
-          )
-        ]
-      )
-    ],
-    2
-  )
+            }
+          },
+          [_vm._v("\n      保存\n    ")]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -7541,6 +7780,129 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=template&id=11669a23&":
+/*!*************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/DeleteItemImageModal.vue?vue&type=template&id=11669a23& ***!
+  \*************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: "deleteItemImageModal",
+        tabindex: "-1",
+        "aria-labelledby": "deleteItemImageLabel",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "modal-footer justify-content-center w-100" },
+              [
+                _c("div", { staticClass: "row w-100" }, [
+                  _c("div", { staticClass: "col-6" }, [
+                    _c(
+                      "button",
+                      {
+                        class:
+                          "btn btn-outline-primary btn-md shadow-none w-100",
+                        attrs: { type: "button", "data-bs-dismiss": "modal" }
+                      },
+                      [_vm._v("\n              取消\n            ")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-6" }, [
+                    _c(
+                      "button",
+                      {
+                        class: "btn btn-danger btn-md w-100",
+                        attrs: { type: "submit", "data-bs-dismiss": "modal" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.onConfirmDelete()
+                          }
+                        }
+                      },
+                      [_vm._v("\n              确定删除\n            ")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "deleteItemImageLabel" } },
+        [_vm._v("\n          删除照片\n        ")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "col" }, [
+          _c("p", [_vm._v("确定删除？此动作无法挽回。")])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/EditItemImage.vue?vue&type=template&id=1614c0ca&":
 /*!******************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/item/edit/images/EditItemImage.vue?vue&type=template&id=1614c0ca& ***!
@@ -7571,7 +7933,11 @@ var render = function() {
               staticClass:
                 "\n        btn btn-danger\n        rounded-circle\n        position-absolute\n        top-0\n        start-100\n        translate-middle\n        d-flex\n        justify-content-center\n        align-items-center\n      ",
               staticStyle: { height: "30px", width: "30px" },
-              attrs: { type: "submit" },
+              attrs: {
+                type: "submit",
+                "data-bs-toggle": "modal",
+                "data-bs-target": "#deleteItemImageModal"
+              },
               on: {
                 click: function($event) {
                   $event.preventDefault()
@@ -7613,42 +7979,58 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c(
-      "div",
-      { staticClass: "row row-cols-2 g-4" },
-      [
-        _vm._l(_vm.itemImages, function(itemImage) {
-          return _c("edit-item-image", {
-            key: itemImage.id,
-            attrs: { image: itemImage },
-            on: {
-              onDelete: function($event) {
-                return _vm.onDelete($event)
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4"
+        },
+        [
+          _vm._l(_vm.itemImages, function(itemImage) {
+            return _c("edit-item-image", {
+              key: itemImage.id,
+              attrs: { image: itemImage },
+              on: {
+                onDelete: function($event) {
+                  return _vm.openDeleteModal($event)
+                }
               }
-            }
-          })
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "col" }, [
-          _c("img", {
-            staticClass: "img-fluid w-100 h-100",
-            attrs: {
-              src:
-                "http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
-            },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.onAdd()
+            })
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col" }, [
+            _c("img", {
+              staticClass: "img-fluid w-100 h-100",
+              attrs: {
+                src:
+                  "http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
+              },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.onAdd()
+                }
               }
-            }
-          })
-        ])
-      ],
-      2
-    )
-  ])
+            })
+          ])
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c("delete-item-image-modal", {
+        on: {
+          onConfirmDelete: function($event) {
+            return _vm.confirmDelete()
+          }
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -8977,7 +9359,7 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "toast hide top-50 start-0 translate-middle-y",
+        staticClass: "toast hide",
         attrs: {
           id: "liveToast",
           role: "alert",
