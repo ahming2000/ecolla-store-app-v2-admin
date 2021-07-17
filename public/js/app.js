@@ -1949,8 +1949,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2596,7 +2594,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue");
-//
 //
 //
 //
@@ -7634,21 +7631,19 @@ var render = function() {
         }),
         _vm._v(" "),
         _c("div", { staticClass: "col" }, [
-          _c("div", { staticClass: "position-relative" }, [
-            _c("img", {
-              staticClass: "img-fluid border-2 rounded",
-              attrs: {
-                src:
-                  "http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
-              },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.onAdd()
-                }
+          _c("img", {
+            staticClass: "img-fluid w-100 h-100",
+            attrs: {
+              src:
+                "http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
+            },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.onAdd()
               }
-            })
-          ])
+            }
+          })
         ])
       ],
       2
@@ -7683,11 +7678,11 @@ var render = function() {
       "div",
       { staticClass: "card-body d-flex justify-content-center flex-wrap" },
       [
-        _c("div", { staticClass: "d-flex row mb-3" }, [
+        _c("div", { staticClass: "d-flex row mb-3 w-100" }, [
           _c("div", { staticClass: "col-4" }, [
             _vm.variation.image !== null && _vm.variation.image !== undefined
               ? _c("img", {
-                  staticClass: "img-thumbnail img-fluid rounded mr-3",
+                  staticClass: " img-fluid rounded",
                   attrs: {
                     src: _vm.variation.image,
                     height: "200px",
@@ -8229,7 +8224,7 @@ var render = function() {
                             ? _c("div", { staticClass: "position-relative" }, [
                                 _c("img", {
                                   staticClass:
-                                    "\n                    img-fluid\n                    border border-primary border-2\n                    rounded\n                    mr-3\n                  ",
+                                    "\n                    img-fluid\n                    border border-primary border-2\n                    rounded\n                  ",
                                   attrs: {
                                     src: _vm.variationImage,
                                     height: "100px",

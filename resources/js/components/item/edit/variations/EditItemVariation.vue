@@ -1,11 +1,11 @@
 <template>
   <li class="card my-2">
     <div class="card-body d-flex justify-content-center flex-wrap">
-      <div class="d-flex row mb-3">
+      <div class="d-flex row mb-3 w-100">
         <div class="col-4">
           <img
             v-if="variation.image !== null && variation.image !== undefined"
-            class="img-thumbnail img-fluid rounded mr-3"
+            class=" img-fluid rounded"
             :src="variation.image"
             height="200px"
             width="200px"

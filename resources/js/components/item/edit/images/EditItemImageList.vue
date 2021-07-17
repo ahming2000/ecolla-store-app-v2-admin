@@ -8,13 +8,11 @@
         @onDelete="onDelete($event)"
       ></edit-item-image>
       <div class="col">
-        <div class="position-relative">
-          <img
-            class="img-fluid border-2 rounded"
-            src="http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
-            @click.prevent="onAdd()"
-          />
-        </div>
+        <img
+          class="img-fluid w-100 h-100"
+          src="http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
+          @click.prevent="onAdd()"
+        />
       </div>
     </div>
   </div>

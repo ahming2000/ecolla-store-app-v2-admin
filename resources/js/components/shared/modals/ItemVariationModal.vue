@@ -111,7 +111,6 @@ input:checked + .slider:before {
                       img-fluid
                       border border-primary border-2
                       rounded
-                      mr-3
                     "
                     :src="variationImage"
                     height="100px"
