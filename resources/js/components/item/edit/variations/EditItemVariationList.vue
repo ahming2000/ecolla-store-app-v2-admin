@@ -53,7 +53,7 @@
     ></button>
     <upload-image-modal
       v-on:onUpload="confirmUpload($event)"
-      :image="processedImage"
+      :rawImage="processedImage"
     ></upload-image-modal>
   </div>
 </template>

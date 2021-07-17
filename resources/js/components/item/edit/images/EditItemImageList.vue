@@ -8,22 +8,39 @@
         @onDelete="openDeleteModal($event)"
       ></edit-item-image>
       <div class="col">
+        <form @submit.prevent="onSubmit">
+          <input
+            class="d-none"
+            type="file"
+            name="image"
+            @change="onFileSelected($event)"
+            ref="fileInput"
+            accept="image/png, image/gif, image/jpeg, image/jpg"
+          />
+        </form>
         <img
           class="img-fluid w-100 h-100"
           src="http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
-          @click.prevent="onAdd()"
+          @click.prevent="$refs.fileInput.click()"
         />
       </div>
     </div>
+    <!-- Delete Item Image Modal -->
     <delete-item-image-modal
       @onConfirmDelete="confirmDelete()"
     ></delete-item-image-modal>
+    <!-- Upload Item Image Modal -->
+    <upload-image-modal
+      v-on:onUpload="confirmUpload($event)"
+      :rawImage="newImage"
+    ></upload-image-modal>
   </div>
 </template>
 
 <script>
 import DeleteItemImageModal from "./DeleteItemImageModal.vue";
 import EditItemImage from "./EditItemImage.vue";
+import { Modal } from "bootstrap";
 export default {
   components: { EditItemImage, DeleteItemImageModal },
   name: "edit-item-image-list",
@@ -36,6 +53,7 @@ export default {
     return {
       itemImages: this.images ?? [],
       selectedImage: null,
+      newImage: null,
     };
   },
 
@@ -71,8 +89,18 @@ export default {
         });
     },
 
-    onAdd() {
-      console.log("add");
+    onFileSelected(event) {
+      let newImage = event.target.files[0];
+      console.log(newImage);
+      this.newImage = newImage;
+      this.openUploadImageModal();
+    },
+
+    openUploadImageModal() {
+      const uploadImageModal = new Modal(
+        document.getElementById("uploadImageModal")
+      );
+      uploadImageModal.show();
     },
   },
 };

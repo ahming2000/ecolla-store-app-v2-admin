@@ -11,6 +11,6 @@ class ImagesProcessController extends Controller
     {
         $mode = request('mode') ?? 'frame';
         $dataURL = (new ImageHandler())->getEncodeDataURL(request('image'), $mode);
-        return response()->json(['processed' => $dataURL]);
+        return $dataURL;
     }
 }

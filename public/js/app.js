@@ -2028,6 +2028,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _DeleteItemImageModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteItemImageModal.vue */ "./resources/js/components/item/edit/images/DeleteItemImageModal.vue");
 /* harmony import */ var _EditItemImage_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditItemImage.vue */ "./resources/js/components/item/edit/images/EditItemImage.vue");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 //
 //
 //
@@ -2051,6 +2052,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2067,7 +2085,8 @@ __webpack_require__.r(__webpack_exports__);
 
     return {
       itemImages: (_this$images = this.images) !== null && _this$images !== void 0 ? _this$images : [],
-      selectedImage: null
+      selectedImage: null,
+      newImage: null
     };
   },
   methods: {
@@ -2101,8 +2120,15 @@ __webpack_require__.r(__webpack_exports__);
         _this.$emit("onResponse", error.message, "error");
       });
     },
-    onAdd: function onAdd() {
-      console.log("add");
+    onFileSelected: function onFileSelected(event) {
+      var newImage = event.target.files[0];
+      console.log(newImage);
+      this.newImage = newImage;
+      this.openUploadImageModal();
+    },
+    openUploadImageModal: function openUploadImageModal() {
+      var uploadImageModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById("uploadImageModal"));
+      uploadImageModal.show();
     }
   }
 });
@@ -3398,24 +3424,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "upload-image-modal",
   props: {
-    image: String
+    rawImage: File
   },
   data: function data() {
-    var _this$image;
+    var _this$rawImage;
 
     return {
-      imageData: (_this$image = this.image) !== null && _this$image !== void 0 ? _this$image : null
+      rawImageData: (_this$rawImage = this.rawImage) !== null && _this$rawImage !== void 0 ? _this$rawImage : null,
+      framedImage: null,
+      croppedImage: null
     };
   },
   watch: {
-    image: function image(val) {
-      this.imageData = val;
+    rawImage: function rawImage(val) {
+      this.rawImageData = val;
+      this.framedImage = this.processImageFrame(val);
+      this.croppedImage = this.processImageCrop(val);
     }
   },
   methods: {
     confirmUpload: function confirmUpload() {
       this.$emit("onUpload", this.imageData);
       this.clearImageData();
+    },
+    processImageFrame: function processImageFrame(rawImage) {
+      var _this = this;
+
+      var formData = new FormData();
+      formData.append("image", rawImage, rawImage.name);
+      formData.append("mode", "frame");
+      axios.post("/item/image/process", formData, {}).then(function (res) {
+        console.log(res);
+        _this.framedImage = res.data;
+      });
+    },
+    processImageCrop: function processImageCrop(rawImage) {
+      return null;
     },
     clearImageData: function clearImageData() {
       this.imageData = null;
@@ -8003,6 +8047,34 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("div", { staticClass: "col" }, [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.onSubmit.apply(null, arguments)
+                  }
+                }
+              },
+              [
+                _c("input", {
+                  ref: "fileInput",
+                  staticClass: "d-none",
+                  attrs: {
+                    type: "file",
+                    name: "image",
+                    accept: "image/png, image/gif, image/jpeg, image/jpg"
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.onFileSelected($event)
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
             _c("img", {
               staticClass: "img-fluid w-100 h-100",
               attrs: {
@@ -8012,7 +8084,7 @@ var render = function() {
               on: {
                 click: function($event) {
                   $event.preventDefault()
-                  return _vm.onAdd()
+                  return _vm.$refs.fileInput.click()
                 }
               }
             })
@@ -8025,6 +8097,15 @@ var render = function() {
         on: {
           onConfirmDelete: function($event) {
             return _vm.confirmDelete()
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("upload-image-modal", {
+        attrs: { rawImage: _vm.newImage },
+        on: {
+          onUpload: function($event) {
+            return _vm.confirmUpload($event)
           }
         }
       })
@@ -8260,7 +8341,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("upload-image-modal", {
-        attrs: { image: _vm.processedImage },
+        attrs: { rawImage: _vm.processedImage },
         on: {
           onUpload: function($event) {
             return _vm.confirmUpload($event)
@@ -9244,13 +9325,13 @@ var render = function() {
           _c("div", { staticClass: "modal-content" }, [
             _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
+            _c("div", { staticClass: "modal-body bg-danger" }, [
               _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("img", {
                   staticClass: "rounded mx-auto d-block",
-                  attrs: { src: _vm.imageData, alt: "..." }
+                  attrs: { src: _vm.framedImage, alt: "..." }
                 })
               ])
             ]),
