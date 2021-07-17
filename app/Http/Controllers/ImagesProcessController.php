@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 
 class ImagesProcessController extends Controller
 {
-    public function process(): ?string
+    public function process(): \Illuminate\Http\JsonResponse
     {
         $mode = request('mode') ?? 'frame';
         try{
-            return response()->json(['data' => (new ImageHandler())->getEncodeDataURL(request('image'), $mode)]);
+            return response()->json(['image' => (new ImageHandler())->getEncodeDataURL(request('image'), $mode)]);
         } catch (\Exception $exception){
-            return response()->json(['data' => '', 'error' => 'Fail to process image!']);
+            return response()->json(["image" => "", 'error' => 'Fail to process image!']);
         }
     }
 }
