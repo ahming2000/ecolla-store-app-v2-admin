@@ -348,7 +348,7 @@ class ItemsController extends Controller
     private function addVariation(Item $item, $data): bool
     {
         $variation = new Variation();
-        $variation->setRawAttributes($data['info']);
+        $variation->setRawAttributes($data);
         if (!$item->variations()->save($variation)) return false;
 
         if (!empty($data['discount'])) {

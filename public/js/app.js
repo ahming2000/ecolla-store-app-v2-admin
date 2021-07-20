@@ -2406,6 +2406,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_modals_ItemVariationModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../shared/modals/ItemVariationModal.vue */ "./resources/js/components/shared/modals/ItemVariationModal.vue");
 /* harmony import */ var _shared_modals_UploadImageModal_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../shared/modals/UploadImageModal.vue */ "./resources/js/components/shared/modals/UploadImageModal.vue");
 /* harmony import */ var _EditItemVariation_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditItemVariation.vue */ "./resources/js/components/item/edit/variations/EditItemVariation.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -2591,13 +2603,35 @@ __webpack_require__.r(__webpack_exports__);
       this.processedImage = rawImage;
       this.$refs.imagePreviewButton.click();
     },
-    saveAdd: function saveAdd(variation) {
+    saveAdd: function saveAdd(newVariation) {
+      var _this = this;
+
       console.log("saveAdd()");
-      console.log(variation); // TODO Save Added Variation
-      // TODO Update Variations
+      console.log(newVariation);
+      var body = {
+        action: "add",
+        variation: newVariation
+      };
+      console.log(body);
+      axios.patch("/item/".concat(this.itemId, "/variation"), body).then(function (res) {
+        console.log(res);
+
+        if (res.data.message !== "") {
+          _this.$emit("onResponse", res.data.message, "success");
+
+          _this.variationList = [].concat(_toConsumableArray(_this.variationList), [newVariation]);
+          _this.selectedVariation = null;
+        } else {
+          _this.$emit("onResponse", res.data.error, "error");
+        }
+      })["catch"](function (error) {
+        console.error(error);
+
+        _this.$emit("onResponse", error.message, "error");
+      });
     },
     saveEdit: function saveEdit(variation) {
-      var _this = this;
+      var _this2 = this;
 
       console.log("saveEdit()");
       this.selectedVariation = variation;
@@ -2610,27 +2644,27 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res);
 
         if (res.data.message !== "") {
-          _this.$emit("onResponse", res.data.message, "success");
+          _this2.$emit("onResponse", res.data.message, "success");
 
-          _this.variationList = _this.variationList.map(function (variation) {
-            if (variation.id == _this.selectedVariation.id) {
-              return _this.selectedVariation;
+          _this2.variationList = _this2.variationList.map(function (variation) {
+            if (variation.id == _this2.selectedVariation.id) {
+              return _this2.selectedVariation;
             } else {
               return variation;
             }
           });
-          _this.selectedVariation = null;
+          _this2.selectedVariation = null;
         } else {
-          _this.$emit("onResponse", res.data.error, "error");
+          _this2.$emit("onResponse", res.data.error, "error");
         }
       })["catch"](function (error) {
         console.error(error);
 
-        _this.$emit("onResponse", error.message, "error");
+        _this2.$emit("onResponse", error.message, "error");
       });
     },
     confirmDelete: function confirmDelete(variation) {
-      var _this2 = this;
+      var _this3 = this;
 
       console.log("confirmDelete()");
       this.selectedVariation = variation;
@@ -2643,19 +2677,19 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res);
 
         if (res.data.message !== "") {
-          _this2.$emit("onResponse", res.data.message, "success");
+          _this3.$emit("onResponse", res.data.message, "success");
 
-          _this2.variationList = _this2.variationList.filter(function (variation) {
-            return variation.id !== _this2.selectedVariation.id;
+          _this3.variationList = _this3.variationList.filter(function (variation) {
+            return variation.id !== _this3.selectedVariation.id;
           });
-          _this2.selectedVariation = null;
+          _this3.selectedVariation = null;
         } else {
-          _this2.$emit("onResponse", res.data.error, "error");
+          _this3.$emit("onResponse", res.data.error, "error");
         }
       })["catch"](function (error) {
         console.error(error);
 
-        _this2.$emit("onResponse", error.message, "error");
+        _this3.$emit("onResponse", error.message, "error");
       });
     },
     confirmUpload: function confirmUpload(image) {

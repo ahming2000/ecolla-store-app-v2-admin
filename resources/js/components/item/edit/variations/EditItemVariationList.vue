@@ -196,13 +196,32 @@ export default {
       this.$refs.imagePreviewButton.click();
     },
 
-    saveAdd(variation) {
+    saveAdd(newVariation) {
       console.log("saveAdd()");
 
-      console.log(variation);
+      console.log(newVariation);
 
-      // TODO Save Added Variation
-      // TODO Update Variations
+      const body = {
+        action: "add",
+        variation: newVariation,
+      };
+      console.log(body);
+      axios
+        .patch(`/item/${this.itemId}/variation`, body)
+        .then((res) => {
+          console.log(res);
+          if (res.data.message !== "") {
+            this.$emit("onResponse", res.data.message, "success");
+            this.variationList = [...this.variationList, newVariation];
+            this.selectedVariation = null;
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
+        });
     },
 
     saveEdit(variation) {
