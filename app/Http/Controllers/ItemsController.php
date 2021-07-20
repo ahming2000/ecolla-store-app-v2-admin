@@ -9,6 +9,7 @@ use App\Models\ItemUtil;
 use App\Models\SystemConfig;
 use App\Models\Variation;
 use App\Models\VariationDiscount;
+use App\Util\ImageHandler;
 use App\Util\MessageManager;
 use Exception;
 use Illuminate\Http\Request;
@@ -119,6 +120,16 @@ class ItemsController extends Controller
             ->where("items.id", "=", $item->id)
             ->first();
 
+        // Convert from binary image to base64 (New) or remain as url (Deprecated)
+        foreach ($item->images as $image){
+            $image['image'] = ImageHandler::convertToDataURL($image['image']);
+        }
+        foreach ($item->variations as $variation){
+            if ($variation['image'] != null){
+                $variation['image'] = ImageHandler::convertToDataURL($variation['image']);
+            }
+        }
+
         return view('item.edit2', compact('item', 'categories'));
     }
 
@@ -223,6 +234,7 @@ class ItemsController extends Controller
             case "images":
 
                 $data = request('image');
+                $action = request('action') ?? '';
 
                 switch ($action){
                     case 'add':
@@ -263,6 +275,7 @@ class ItemsController extends Controller
             case "variation":
 
                 $data = request('variation');
+                $action = request('action') ?? '';
 
                 switch ($action) {
 
@@ -333,11 +346,11 @@ class ItemsController extends Controller
             ->first();
     }
 
-    private function addItemImage(Item $item, $data): bool
+    private function addItemImage(Item $item, $data): ?bool
     {
         $itemImage = new ItemImage();
-        $itemImage->setAttribute('image', $data);
-        return $item->images()->save($itemImage);
+        $itemImage->setAttribute('image', ImageHandler::convertToBinary($data));
+        return $item->images()->save($itemImage) != false;
     }
 
     private function deleteItemImage($id):bool

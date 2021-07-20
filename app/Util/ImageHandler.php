@@ -14,6 +14,20 @@ class ImageHandler
         return $this->processImage($image->getPathName(), $mode, true);
     }
 
+    public static function convertToDataURL($binary): string
+    {
+        if ((substr($binary, 0, 4) == 'http')){ // Deprecated
+            return $binary;
+        } else {
+            return 'data:image/jpeg;base64,' . base64_encode($binary);
+        }
+    }
+
+    public static function convertToBinary($base64)
+    {
+        return base64_decode(str_replace('data:image/jpeg;base64,', '', $base64));
+    }
+
     private function processImage(string $path, string $mode = 'frame', bool $encodeDataURL = false): \Intervention\Image\Image
     {
         // $mode can be 'crop'(fit) or 'frame'(resizeCanvas)
