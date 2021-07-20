@@ -1,3 +1,36 @@
+<style lang="scss" scoped>
+.add-image {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative;
+  border-radius: 15px;
+  // box-shadow: 0 0 10px -2px hsla(0, 0%, 0%, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  i {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: hsla(172, 100%, 47%, 0.5);
+    font-size: 50px;
+    transition: all 0.3s ease;
+  }
+
+  &:hover,
+  &:active {
+    background-color: #00eece;
+    transition: all 0.3s ease;
+
+    i {
+      color: white;
+      transition: all 0.3s ease;
+    }
+  }
+}
+</style>
 <template>
   <div class="container">
     <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4">
@@ -18,11 +51,9 @@
             accept="image/png, image/gif, image/jpeg, image/jpg"
           />
         </form>
-        <img
-          class="img-fluid w-100 h-100"
-          src="http://management.ecolla.laravel:8081/img/alt/image-upload-alt.png"
-          @click.prevent="$refs.fileInput.click()"
-        />
+        <div class="add-image" @click.prevent="$refs.fileInput.click()">
+          <i class="icofont icofont-ui-add"></i>
+        </div>
       </div>
     </div>
     <!-- Delete Item Image Modal -->
@@ -47,7 +78,7 @@ export default {
   name: "edit-item-image-list",
 
   props: {
-    item_id: Number, 
+    item_id: Number,
     images: Array,
   },
 
@@ -102,7 +133,7 @@ export default {
 
     confirmUpload(newImageData) {
       console.log("confirmUpload()", newImageData);
-      
+
       const body = {
         action: "add",
         image: newImageData,
@@ -114,7 +145,7 @@ export default {
           console.log(res);
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
-            this.itemImages = [...this.itemImages, newImageData]
+            this.itemImages = [...this.itemImages, newImageData];
           } else {
             this.$emit("onResponse", res.data.error, "error");
           }

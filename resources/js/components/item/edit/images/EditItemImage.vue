@@ -1,7 +1,12 @@
+<style lang="scss" scoped>
+.img-rounded {
+  border-radius: 15px;
+}
+</style>
 <template>
   <div class="col">
     <div class="position-relative" v-if="itemImage">
-      <img class="img-fluid rounded" :src="itemImage" />
+      <img class="img-fluid img-rounded shadow" :src="itemImage" />
       <button
         class="
           btn btn-danger
@@ -13,6 +18,7 @@
           d-flex
           justify-content-center
           align-items-center
+          shadow
         "
         style="height: 30px; width: 30px"
         type="submit"
