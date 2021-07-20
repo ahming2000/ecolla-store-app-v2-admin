@@ -145,7 +145,7 @@ export default {
           console.log(res);
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
-            this.itemImages = [...this.itemImages, newImageData];
+            this.itemImages = [...this.itemImages, { image: newImageData }];
           } else {
             this.$emit("onResponse", res.data.error, "error");
           }

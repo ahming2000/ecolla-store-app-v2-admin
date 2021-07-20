@@ -38,7 +38,7 @@ input[type="radio"] {
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         i {
           opacity: 0;
           font-size: 30px;
@@ -212,9 +212,13 @@ export default {
       switch (this.selectedImage) {
         case "framedImage": {
           imageData = this.framedImage;
+          break;
         }
         case "croppedImage": {
           imageData = this.croppedImage;
+          break;
+        }
+        default: {
         }
       }
       this.$emit("onUpload", imageData);

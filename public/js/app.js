@@ -2265,7 +2265,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         if (res.data.message !== "") {
           _this2.$emit("onResponse", res.data.message, "success");
 
-          _this2.itemImages = [].concat(_toConsumableArray(_this2.itemImages), [newImageData]);
+          _this2.itemImages = [].concat(_toConsumableArray(_this2.itemImages), [{
+            image: newImageData
+          }]);
         } else {
           _this2.$emit("onResponse", res.data.error, "error");
         }
@@ -3853,12 +3855,17 @@ __webpack_require__.r(__webpack_exports__);
         case "framedImage":
           {
             imageData = this.framedImage;
+            break;
           }
 
         case "croppedImage":
           {
             imageData = this.croppedImage;
+            break;
           }
+
+        default:
+          {}
       }
 
       this.$emit("onUpload", imageData);
