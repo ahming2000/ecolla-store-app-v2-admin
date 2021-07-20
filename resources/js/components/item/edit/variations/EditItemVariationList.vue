@@ -1,11 +1,34 @@
-<style scoped>
-.btn-circle-60 {
-  width: 60px;
-  height: 60px;
-  padding: 0px 0px 0px 0px;
-  border-radius: 50px;
-  font-size: 18px;
-  text-align: center;
+<style lang="scss" scoped>
+.add-variation {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
+  padding-top: 50%; /* 2:1 Aspect Ratio */
+  position: relative;
+  border-radius: 15px;
+  // box-shadow: 0 0 10px -2px hsla(0, 0%, 0%, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  i {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: hsla(172, 100%, 47%, 0.5);
+    font-size: 50px;
+    transition: all 0.3s ease;
+  }
+
+  &:hover,
+  &:active {
+    background-color: #00eece;
+    transition: all 0.3s ease;
+
+    i {
+      color: white;
+      transition: all 0.3s ease;
+    }
+  }
 }
 </style>
 
@@ -20,16 +43,13 @@
         v-on:onDelete="openDeleteModal($event)"
       ></edit-item-variation>
 
-      <div class="d-flex justify-content-center mt-3">
-        <button
-          class="btn btn-outline-primary btn-circle-60 shadow-none"
-          type="submit"
-          data-bs-toggle="modal"
-          data-bs-target="#itemVariationModal"
-          @click.prevent="openAddModal()"
-        >
-          <i class="icofont icofont-ui-add icofont-2x"></i>
-        </button>
+      <div
+        class="add-variation"
+        @click.prevent="openAddModal()"
+        data-bs-toggle="modal"
+        data-bs-target="#itemVariationModal"
+      >
+        <i class="icofont icofont-ui-add"></i>
       </div>
     </div>
 

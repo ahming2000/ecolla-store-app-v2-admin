@@ -1,12 +1,36 @@
-<style scoped>
-.btn-circle-40 {
-  width: 40px;
-  height: 40px;
-  padding: 0px 0px 0px 0px;
-  border-radius: 50%;
-  font-size: 12px;
-  text-align: center;
+<style lang="scss" scoped>
+.add-image {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative;
+  border-radius: 15px;
+  // box-shadow: 0 0 10px -2px hsla(0, 0%, 0%, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  i {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: hsla(172, 100%, 47%, 0.5);
+    font-size: 25px;
+    transition: all 0.3s ease;
+  }
+
+  &:hover,
+  &:active {
+    background-color: #00eece;
+    transition: all 0.3s ease;
+
+    i {
+      color: white;
+      transition: all 0.3s ease;
+    }
+  }
 }
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;
@@ -91,7 +115,7 @@ input:checked + .slider:before {
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body bg-light">
           <!-- form content -->
           <div v-if="actionContentType === 'form'" class="container">
             <div class="row mb-3">
@@ -107,11 +131,7 @@ input:checked + .slider:before {
                 <!-- If image exists -->
                 <div class="position-relative" v-if="variationImage">
                   <img
-                    class="
-                      img-fluid
-                      border border-primary border-2
-                      rounded
-                    "
+                    class="img-fluid border border-primary border-2 rounded"
                     :src="variationImage"
                     height="100px"
                     width="100px"
@@ -141,33 +161,10 @@ input:checked + .slider:before {
                 <!-- If image doesn't exist -->
                 <div
                   v-else
-                  class="
-                    figure-img
-                    img-fluid
-                    border border-light border-2
-                    rounded
-                    mr-3
-                    bg-white
-                    d-flex
-                    justify-content-center
-                    align-items-center
-                  "
-                  style="height: 100px; width: 100px"
+                  class="add-image"
+                  @click.prevent="$refs.fileInput.click()"
                 >
-                  <button
-                    class="
-                      btn btn-outline-light btn-circle-40 btn-image
-                      border-4
-                      shadow-none
-                      d-flex
-                      justify-content-center
-                      align-items-center
-                    "
-                    type="submit"
-                    @click.prevent="$refs.fileInput.click()"
-                  >
-                    <i class="icofont icofont-ui-add"></i>
-                  </button>
+                  <i class="icofont icofont-ui-add"></i>
                 </div>
               </div>
               <div class="col-8">
