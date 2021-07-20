@@ -36,7 +36,7 @@
   <div>
     <div class="container">
       <edit-item-variation
-        v-for="variation in variations"
+        v-for="variation in variationList"
         v-bind:key="variation.id"
         :variation="variation"
         v-on:onEdit="openEditModal($event)"
@@ -88,11 +88,14 @@ export default {
   components: { EditItemVariation, ItemVariationModal, UploadImageModal },
 
   props: {
+    item_id: Number,
     variations: Array,
   },
 
   data() {
     return {
+      itemId: this.item_id ?? null,
+      variationList: this.variations ?? [],
       action: null,
       selectedVariation: null,
       selectedImage: null,
@@ -220,8 +223,29 @@ export default {
 
       console.log(this.selectedVariation);
 
-      // TODO Delete Variation
-      // TODO Update Variations
+      const body = {
+        action: "delete",
+        variation: this.selectedVariation,
+      };
+      console.log(body);
+      axios
+        .patch(`/item/${this.itemId}/variation`, body)
+        .then((res) => {
+          console.log(res);
+          if (res.data.message !== "") {
+            this.$emit("onResponse", res.data.message, "success");
+            this.variationList = this.variationList.filter(
+              (variation) => variation.id !== this.selectedVariation.id
+            );
+            this.selectedVariation = null;
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
+        });
     },
 
     confirmUpload(image) {

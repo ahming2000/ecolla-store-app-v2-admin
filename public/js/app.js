@@ -1353,6 +1353,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -1377,11 +1379,11 @@ __webpack_require__.r(__webpack_exports__);
     allCategories: Array
   },
   data: function data() {
-    var _this$item$id, _this$item$name, _this$item$name_en, _this$item$desc, _this$item$origin, _this$item$origin_en, _this$item$created_at, _this$item$updated_at;
+    var _this$item$id, _this$item$name, _this$item$name_en, _this$item$desc, _this$item$origin, _this$item$origin_en, _this$item$created_at, _this$item$updated_at, _this$item$variations, _this$item$variations2;
 
     return {
       // Extracted basic info from item
-      item_info: {
+      itemInfo: {
         id: (_this$item$id = this.item.id) !== null && _this$item$id !== void 0 ? _this$item$id : null,
         name: (_this$item$name = this.item.name) !== null && _this$item$name !== void 0 ? _this$item$name : "",
         name_en: (_this$item$name_en = this.item.name_en) !== null && _this$item$name_en !== void 0 ? _this$item$name_en : "",
@@ -1391,6 +1393,7 @@ __webpack_require__.r(__webpack_exports__);
         created_at: (_this$item$created_at = this.item.created_at) !== null && _this$item$created_at !== void 0 ? _this$item$created_at : null,
         updated_at: (_this$item$updated_at = this.item.updated_at) !== null && _this$item$updated_at !== void 0 ? _this$item$updated_at : null
       },
+      firstVariationPrice: (_this$item$variations = (_this$item$variations2 = this.item.variations[0]) === null || _this$item$variations2 === void 0 ? void 0 : _this$item$variations2.price) !== null && _this$item$variations !== void 0 ? _this$item$variations : null,
       messageData: {
         message: "",
         type: ""
@@ -2494,10 +2497,15 @@ __webpack_require__.r(__webpack_exports__);
     UploadImageModal: _shared_modals_UploadImageModal_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
   props: {
+    item_id: Number,
     variations: Array
   },
   data: function data() {
+    var _this$item_id, _this$variations;
+
     return {
+      itemId: (_this$item_id = this.item_id) !== null && _this$item_id !== void 0 ? _this$item_id : null,
+      variationList: (_this$variations = this.variations) !== null && _this$variations !== void 0 ? _this$variations : [],
       action: null,
       selectedVariation: null,
       selectedImage: null,
@@ -2595,10 +2603,34 @@ __webpack_require__.r(__webpack_exports__);
       // TODO Update Variations
     },
     confirmDelete: function confirmDelete(variation) {
+      var _this = this;
+
       console.log("confirmDelete()");
       this.selectedVariation = variation;
-      console.log(this.selectedVariation); // TODO Delete Variation
-      // TODO Update Variations
+      console.log(this.selectedVariation);
+      var body = {
+        action: "delete",
+        variation: this.selectedVariation
+      };
+      console.log(body);
+      axios.patch("/item/".concat(this.itemId, "/variation"), body).then(function (res) {
+        console.log(res);
+
+        if (res.data.message !== "") {
+          _this.$emit("onResponse", res.data.message, "success");
+
+          _this.variationList = _this.variationList.filter(function (variation) {
+            return variation.id !== _this.selectedVariation.id;
+          });
+          _this.selectedVariation = null;
+        } else {
+          _this.$emit("onResponse", res.data.error, "error");
+        }
+      })["catch"](function (error) {
+        console.error(error);
+
+        _this.$emit("onResponse", error.message, "error");
+      });
     },
     confirmUpload: function confirmUpload(image) {
       console.log("confirmUpload()", image); // TODO Upload Image
@@ -2675,7 +2707,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   name: "edit-item-wholesale-discount-list",
   props: {
-    orignal_price: Number,
+    original_price: Number,
     wholesale_discounts: Array
   },
   data: function data() {
@@ -3367,23 +3399,34 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     onPrimaryPressed: function onPrimaryPressed() {
       console.log("onPrimaryPressed()");
+      var variationData = {
+        id: this.variationId,
+        name: this.variationName,
+        name_en: this.variationEnName,
+        barcode: this.variationBarcode,
+        price: this.variationPrice,
+        stock: this.variationStock,
+        weight: this.variationWeight,
+        discount: null // TODO dynamic
+
+      };
 
       switch (this.action.value) {
         case "add":
           {
-            this.$emit("onSaveAdd", this.variationData);
+            this.$emit("onSaveAdd", variationData);
             break;
           }
 
         case "edit":
           {
-            this.$emit("onSaveEdit", this.variationData);
+            this.$emit("onSaveEdit", variationData);
             break;
           }
 
         case "delete":
           {
-            this.$emit("onConfirmDelete", this.variationData);
+            this.$emit("onConfirmDelete", variationData);
             break;
           }
       }
@@ -7777,7 +7820,7 @@ var render = function() {
           },
           [
             _c("edit-item-basic-info", {
-              attrs: { item_info: _vm.item_info },
+              attrs: { item_info: _vm.itemInfo },
               on: {
                 onResponse: function() {
                   var args = [],
@@ -7862,7 +7905,16 @@ var render = function() {
           },
           [
             _c("edit-item-variation-list", {
-              attrs: { variations: _vm.item.variations }
+              attrs: { item_id: _vm.item.id, variations: _vm.item.variations },
+              on: {
+                onResponse: function() {
+                  var args = [],
+                    len = arguments.length
+                  while (len--) args[len] = arguments[len]
+
+                  return _vm.onResponse.apply(void 0, args)
+                }
+              }
             })
           ],
           1
@@ -7882,7 +7934,7 @@ var render = function() {
             _c("edit-item-wholesale-discount-list", {
               attrs: {
                 wholesale_discounts: _vm.item.discounts,
-                orignal_price: _vm.item.variations[0].price
+                original_price: _vm.firstVariationPrice
               }
             })
           ],
@@ -8965,7 +9017,7 @@ var render = function() {
         "div",
         { staticClass: "container" },
         [
-          _vm._l(_vm.variations, function(variation) {
+          _vm._l(_vm.variationList, function(variation) {
             return _c("edit-item-variation", {
               key: variation.id,
               attrs: { variation: variation },

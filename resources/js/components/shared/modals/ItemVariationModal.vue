@@ -449,17 +449,27 @@ export default {
   methods: {
     onPrimaryPressed() {
       console.log("onPrimaryPressed()");
+      const variationData = {
+        id: this.variationId,
+        name: this.variationName,
+        name_en: this.variationEnName,
+        barcode: this.variationBarcode,
+        price: this.variationPrice,
+        stock: this.variationStock,
+        weight: this.variationWeight,
+        discount: null, // TODO dynamic
+      };
       switch (this.action.value) {
         case "add": {
-          this.$emit("onSaveAdd", this.variationData);
+          this.$emit("onSaveAdd", variationData);
           break;
         }
         case "edit": {
-          this.$emit("onSaveEdit", this.variationData);
+          this.$emit("onSaveEdit", variationData);
           break;
         }
         case "delete": {
-          this.$emit("onConfirmDelete", this.variationData);
+          this.$emit("onConfirmDelete", variationData);
           break;
         }
       }

@@ -296,7 +296,7 @@ class ItemsController extends Controller
 
                     case "delete":
 
-                        if ($this->deleteVariation($item, $data['info']['id'])) {
+                        if ($this->deleteVariation($item, $data['id'])) {
                             $msgMgr->pushInfo("规格删除成功！");
                         } else {
                             $msgMgr->pushError("删除规格失败！请联系技术人员！");

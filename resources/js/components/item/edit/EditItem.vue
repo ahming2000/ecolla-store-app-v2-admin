@@ -96,7 +96,7 @@ li:hover {
         aria-labelledby="pills-basic-info-tab"
       >
         <edit-item-basic-info
-          :item_info="item_info"
+          :item_info="itemInfo"
           @onResponse="(...args) => onResponse(...args)"
         ></edit-item-basic-info>
       </div>
@@ -132,7 +132,9 @@ li:hover {
         aria-labelledby="pills-variation-tab"
       >
         <edit-item-variation-list
+          :item_id="item.id"
           :variations="item.variations"
+          @onResponse="(...args) => onResponse(...args)"
         ></edit-item-variation-list>
       </div>
       <div
@@ -143,7 +145,7 @@ li:hover {
       >
         <edit-item-wholesale-discount-list
           :wholesale_discounts="item.discounts"
-          :orignal_price="item.variations[0].price"
+          :original_price="firstVariationPrice"
         ></edit-item-wholesale-discount-list>
       </div>
       <div
@@ -196,7 +198,7 @@ export default {
   data() {
     return {
       // Extracted basic info from item
-      item_info: {
+      itemInfo: {
         id: this.item.id ?? null,
         name: this.item.name ?? "",
         name_en: this.item.name_en ?? "",
@@ -206,6 +208,7 @@ export default {
         created_at: this.item.created_at ?? null,
         updated_at: this.item.updated_at ?? null,
       },
+      firstVariationPrice: this.item.variations[0]?.price ?? null,
       messageData: { message: "", type: "" },
     };
   },

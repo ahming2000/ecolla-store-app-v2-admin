@@ -16,7 +16,7 @@ export default {
   name: "edit-item-wholesale-discount-list",
 
   props: {
-    orignal_price: Number,
+    original_price: Number,
     wholesale_discounts: Array,
   },
 
