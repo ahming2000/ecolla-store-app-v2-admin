@@ -1,8 +1,67 @@
+<style lang="scss" scoped>
+input[type="checkbox"] {
+  display: none;
+
+  + label {
+    background-color: hsl(46, 100%, 50%);
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 3px;
+    padding-right: 10px;
+    color: white;
+    position: relative;
+    width: 75%;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+
+    span {
+      position: absolute;
+      left: 0%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 2px solid hsl(46, 100%, 50%);
+      border-radius: 50%;
+      padding: 5px;
+      width: 40px;
+      height: 40px;
+      vertical-align: middle;
+      text-align: center;
+      transition: all 0.3s ease;
+
+      i {
+        font-size: 18px;
+        color: #969696;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+    }
+
+    p {
+      text-align: end;
+      margin: auto;
+    }
+  }
+
+  &:checked + label {
+    background-color: hsl(103, 100%, 36%);
+    transition: all 0.3s ease;
+    span {
+      border: 2px solid hsl(46, 100%, 50%);
+      transition: all 0.3s ease;
+      i {
+        opacity: 1;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}
+</style>
 <template>
   <div>
     <div class="container" style="margin-bottom: 100px">
       <div
-        class="form-check"
+        class="form-check d-flex justify-content-center"
         v-for="category in allCategories"
         v-bind:key="category.id"
       >
@@ -15,7 +74,10 @@
         />
 
         <label class="form-check-label" :for="`category${category.id}`">
-          {{ category.name }}
+          <span>
+            <i class="icofont icofont-book-mark"></i>
+          </span>
+          <p>{{ category.name }}</p>
         </label>
       </div>
     </div>
