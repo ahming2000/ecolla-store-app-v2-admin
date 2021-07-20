@@ -451,13 +451,14 @@ export default {
       console.log("onPrimaryPressed()");
       const variationData = {
         id: this.variationId,
+        image: this.variationImage,
         name: this.variationName,
         name_en: this.variationEnName,
         barcode: this.variationBarcode,
         price: this.variationPrice,
         stock: this.variationStock,
         weight: this.variationWeight,
-        discount: null, // TODO dynamic
+        // discount: this.variationDiscount,
       };
       switch (this.action.value) {
         case "add": {

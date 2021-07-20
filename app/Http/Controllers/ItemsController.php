@@ -362,9 +362,9 @@ class ItemsController extends Controller
 
     private function updateVariation($data): bool
     {
-        $variation = Variation::find($data['info']['id']);
+        $variation = Variation::find($data['id']);
 
-        if (!$variation->update($data['info'])) return false;
+        if (!$variation->update($data)) return false;
 
         if (!empty($data['discount'])) {
             if (!$variation->discount()->update($data['discount'])) return false;

@@ -2597,19 +2597,12 @@ __webpack_require__.r(__webpack_exports__);
       // TODO Update Variations
     },
     saveEdit: function saveEdit(variation) {
-      console.log("saveEdit()");
-      this.selectedVariation = variation;
-      console.log(this.selectedVariation); // TODO Save Edited Variation
-      // TODO Update Variations
-    },
-    confirmDelete: function confirmDelete(variation) {
       var _this = this;
 
-      console.log("confirmDelete()");
+      console.log("saveEdit()");
       this.selectedVariation = variation;
-      console.log(this.selectedVariation);
       var body = {
-        action: "delete",
+        action: "update",
         variation: this.selectedVariation
       };
       console.log(body);
@@ -2619,8 +2612,12 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.message !== "") {
           _this.$emit("onResponse", res.data.message, "success");
 
-          _this.variationList = _this.variationList.filter(function (variation) {
-            return variation.id !== _this.selectedVariation.id;
+          _this.variationList = _this.variationList.map(function (variation) {
+            if (variation.id == _this.selectedVariation.id) {
+              return _this.selectedVariation;
+            } else {
+              return variation;
+            }
           });
           _this.selectedVariation = null;
         } else {
@@ -2630,6 +2627,35 @@ __webpack_require__.r(__webpack_exports__);
         console.error(error);
 
         _this.$emit("onResponse", error.message, "error");
+      });
+    },
+    confirmDelete: function confirmDelete(variation) {
+      var _this2 = this;
+
+      console.log("confirmDelete()");
+      this.selectedVariation = variation;
+      var body = {
+        action: "delete",
+        variation: this.selectedVariation
+      };
+      console.log(body);
+      axios.patch("/item/".concat(this.itemId, "/variation"), body).then(function (res) {
+        console.log(res);
+
+        if (res.data.message !== "") {
+          _this2.$emit("onResponse", res.data.message, "success");
+
+          _this2.variationList = _this2.variationList.filter(function (variation) {
+            return variation.id !== _this2.selectedVariation.id;
+          });
+          _this2.selectedVariation = null;
+        } else {
+          _this2.$emit("onResponse", res.data.error, "error");
+        }
+      })["catch"](function (error) {
+        console.error(error);
+
+        _this2.$emit("onResponse", error.message, "error");
       });
     },
     confirmUpload: function confirmUpload(image) {
@@ -3401,13 +3427,13 @@ __webpack_require__.r(__webpack_exports__);
       console.log("onPrimaryPressed()");
       var variationData = {
         id: this.variationId,
+        image: this.variationImage,
         name: this.variationName,
         name_en: this.variationEnName,
         barcode: this.variationBarcode,
         price: this.variationPrice,
         stock: this.variationStock,
-        weight: this.variationWeight,
-        discount: null // TODO dynamic
+        weight: this.variationWeight // discount: this.variationDiscount,
 
       };
 

@@ -207,21 +207,40 @@ export default {
 
     saveEdit(variation) {
       console.log("saveEdit()");
-
       this.selectedVariation = variation;
 
-      console.log(this.selectedVariation);
-
-      // TODO Save Edited Variation
-      // TODO Update Variations
+      const body = {
+        action: "update",
+        variation: this.selectedVariation,
+      };
+      console.log(body);
+      axios
+        .patch(`/item/${this.itemId}/variation`, body)
+        .then((res) => {
+          console.log(res);
+          if (res.data.message !== "") {
+            this.$emit("onResponse", res.data.message, "success");
+            this.variationList = this.variationList.map((variation) => {
+              if (variation.id == this.selectedVariation.id) {
+                return this.selectedVariation;
+              } else {
+                return variation;
+              }
+            });
+            this.selectedVariation = null;
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
+        });
     },
 
     confirmDelete(variation) {
       console.log("confirmDelete()");
-
       this.selectedVariation = variation;
-
-      console.log(this.selectedVariation);
 
       const body = {
         action: "delete",
