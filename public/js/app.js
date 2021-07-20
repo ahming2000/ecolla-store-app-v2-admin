@@ -3543,6 +3543,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "upload-image-modal",
   props: {
@@ -3857,7 +3905,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "input[type=radio][data-v-a7c5aa06] {\n  display: none;\n}\ninput[type=radio] + label[data-v-a7c5aa06] {\n  color: #6f3bff;\n  font-family: Arial, sans-serif;\n  font-size: 14px;\n}\ninput[type=radio] + label span[data-v-a7c5aa06] {\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  border-radius: 50%;\n  border: 2px solid #6f3bff;\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);\n  background-color: #ffffff;\n  background-repeat: no-repeat;\n  background-position: center;\n}\ninput[type=radio] + label span i[data-v-a7c5aa06] {\n  opacity: 0;\n  font-size: 30px;\n  transition: all 0.3s ease;\n}\ninput[type=radio]:checked + label span i[data-v-a7c5aa06] {\n  opacity: 1;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "input[type=radio][data-v-a7c5aa06] {\n  display: none;\n}\ninput[type=radio] + label[data-v-a7c5aa06] {\n  padding: 0;\n  display: flex;\n  justify-content: center;\n  color: #6f3bff;\n}\ninput[type=radio] + label div[data-v-a7c5aa06] {\n  position: relative;\n  height: 250px;\n  width: 250px;\n}\ninput[type=radio] + label div img[data-v-a7c5aa06] {\n  height: 250px;\n  width: 250px;\n  background: #6f3bff;\n  border: 2px solid #6f3bff;\n  border-radius: 10px;\n  box-shadow: 0px 0px 5px -2px rgba(161, 170, 166, 0.5);\n}\ninput[type=radio] + label div span[data-v-a7c5aa06] {\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  border-radius: 50%;\n  border: 2px solid #6f3bff;\n  box-shadow: 0 0px 3px 0 rgba(0, 0, 0, 0.33);\n  background-color: #ffffff;\n  position: absolute;\n  top: 0%;\n  left: 100%;\n  transform: translate(-50%, -50%);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\ninput[type=radio] + label div span i[data-v-a7c5aa06] {\n  opacity: 0;\n  font-size: 30px;\n  transition: all 0.3s ease;\n}\ninput[type=radio]:checked + label img[data-v-a7c5aa06] {\n  box-shadow: 0px 0px 10px #6f3bff;\n}\ninput[type=radio]:checked + label span[data-v-a7c5aa06] {\n  border: 5px solid #6f3bff;\n}\ninput[type=radio]:checked + label span i[data-v-a7c5aa06] {\n  opacity: 1;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9573,73 +9621,103 @@ var render = function() {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              _c("div", { staticClass: "row m-5 position-relative" }, [
-                _c("img", {
-                  staticClass: "rounded border border-primary border-3 p-0",
-                  attrs: { src: _vm.framedImage, alt: "Framed Image" }
-                }),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selectedImage,
-                      expression: "selectedImage"
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "\n            row\n            mx-2\n            my-5\n            d-flex\n            align-items-center\n            justify-content-center\n          "
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedImage,
+                        expression: "selectedImage"
+                      }
+                    ],
+                    attrs: {
+                      id: "framedImage",
+                      name: "processedImages",
+                      type: "radio",
+                      value: "framedImage"
+                    },
+                    domProps: {
+                      checked: _vm._q(_vm.selectedImage, "framedImage")
+                    },
+                    on: {
+                      change: function($event) {
+                        _vm.selectedImage = "framedImage"
+                      }
                     }
-                  ],
-                  attrs: {
-                    id: "framedImage",
-                    name: "processedImages",
-                    type: "radio",
-                    value: "framedImage"
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.selectedImage, "framedImage")
-                  },
-                  on: {
-                    change: function($event) {
-                      _vm.selectedImage = "framedImage"
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._m(1)
-              ]),
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "framedImage" } }, [
+                    _c("div", [
+                      _c("img", {
+                        attrs: {
+                          src: _vm.framedImage,
+                          alt: "Framed Image",
+                          height: "250px",
+                          width: "250px"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(1)
+                    ])
+                  ])
+                ]
+              ),
               _vm._v(" "),
-              _c("div", { staticClass: "row m-5 position-relative" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selectedImage,
-                      expression: "selectedImage"
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "\n            row\n            mx-2\n            my-5\n            d-flex\n            align-items-center\n            justify-content-center\n          "
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedImage,
+                        expression: "selectedImage"
+                      }
+                    ],
+                    attrs: {
+                      id: "croppedImage",
+                      name: "processedImages",
+                      type: "radio",
+                      value: "croppedImage"
+                    },
+                    domProps: {
+                      checked: _vm._q(_vm.selectedImage, "croppedImage")
+                    },
+                    on: {
+                      change: function($event) {
+                        _vm.selectedImage = "croppedImage"
+                      }
                     }
-                  ],
-                  attrs: {
-                    id: "croppedImage",
-                    name: "processedImages",
-                    type: "radio",
-                    value: "croppedImage"
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.selectedImage, "croppedImage")
-                  },
-                  on: {
-                    change: function($event) {
-                      _vm.selectedImage = "croppedImage"
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "rounded border border-primary border-3 p-0",
-                  attrs: { src: _vm.croppedImage, alt: "Cropped Image" }
-                })
-              ])
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "croppedImage" } }, [
+                    _c("div", [
+                      _c("img", {
+                        attrs: {
+                          src: _vm.croppedImage,
+                          alt: "Cropped Image",
+                          height: "250px",
+                          width: "250px"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(2)
+                    ])
+                  ])
+                ]
+              )
             ]),
             _vm._v(" "),
             _c(
@@ -9700,41 +9778,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      {
-        staticClass:
-          "position-absolute top-0 start-100 translate-middle w-auto",
-        attrs: { for: "framedImage" }
-      },
-      [
-        _c(
-          "span",
-          { staticClass: "d-flex align-items-center justify-content-center" },
-          [_c("i", { staticClass: "icofont icofont-check" })]
-        )
-      ]
-    )
+    return _c("span", [_c("i", { staticClass: "icofont icofont-check" })])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      {
-        staticClass:
-          "position-absolute top-0 start-100 translate-middle w-auto",
-        attrs: { for: "croppedImage" }
-      },
-      [
-        _c(
-          "span",
-          { staticClass: "d-flex align-items-center justify-content-center" },
-          [_c("i", { staticClass: "icofont icofont-check" })]
-        )
-      ]
-    )
+    return _c("span", [_c("i", { staticClass: "icofont icofont-check" })])
   },
   function() {
     var _vm = this

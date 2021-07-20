@@ -3,27 +3,57 @@ input[type="radio"] {
   display: none;
 
   + label {
+    padding: 0;
+    display: flex;
+    justify-content: center;
     color: #6f3bff;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
 
-    span {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      border-radius: 50%;
-      border: 2px solid #6f3bff;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-      background-color: #ffffff;
-      background-repeat: no-repeat;
-      background-position: center;
+    div {
+      position: relative;
+      height: 250px;
+      width: 250px;
 
-      i {
-        opacity: 0;
-        font-size: 30px;
-        transition: all 0.3s ease;
+      img {
+        height: 250px;
+        width: 250px;
+        background: #6f3bff;
+        border: 2px solid #6f3bff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 5px -2px hsla(150, 5%, 65%, 0.5);
+      }
+
+      span {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid #6f3bff;
+        box-shadow: 0 0px 3px 0 rgba(0, 0, 0, 0.33);
+        background-color: #ffffff;
+
+        position: absolute;
+        top: 0%;
+        left: 100%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        i {
+          opacity: 0;
+          font-size: 30px;
+          transition: all 0.3s ease;
+        }
       }
     }
+  }
+
+  &:checked + label img {
+    box-shadow: 0px 0px 10px #6f3bff;
+  }
+
+  &:checked + label span {
+    border: 5px solid #6f3bff;
   }
 
   &:checked + label span i {
@@ -53,12 +83,16 @@ input[type="radio"] {
           ></button>
         </div>
         <div class="modal-body">
-          <div class="row m-5 position-relative">
-            <img
-              :src="framedImage"
-              class="rounded border border-primary border-3 p-0"
-              alt="Framed Image"
-            />
+          <div
+            class="
+              row
+              mx-2
+              my-5
+              d-flex
+              align-items-center
+              justify-content-center
+            "
+          >
             <input
               id="framedImage"
               name="processedImages"
@@ -66,16 +100,30 @@ input[type="radio"] {
               value="framedImage"
               v-model="selectedImage"
             />
-            <label
-              class="position-absolute top-0 start-100 translate-middle w-auto"
-              for="framedImage"
-            >
-              <span class="d-flex align-items-center justify-content-center">
-                <i class="icofont icofont-check"></i>
-              </span>
+            <label for="framedImage">
+              <div>
+                <img
+                  :src="framedImage"
+                  alt="Framed Image"
+                  height="250px"
+                  width="250px"
+                />
+                <span>
+                  <i class="icofont icofont-check"></i>
+                </span>
+              </div>
             </label>
           </div>
-          <div class="row m-5 position-relative">
+          <div
+            class="
+              row
+              mx-2
+              my-5
+              d-flex
+              align-items-center
+              justify-content-center
+            "
+          >
             <input
               id="croppedImage"
               name="processedImages"
@@ -83,19 +131,19 @@ input[type="radio"] {
               value="croppedImage"
               v-model="selectedImage"
             />
-            <label
-              class="position-absolute top-0 start-100 translate-middle w-auto"
-              for="croppedImage"
-            >
-              <span class="d-flex align-items-center justify-content-center">
-                <i class="icofont icofont-check"></i>
-              </span>
+            <label for="croppedImage">
+              <div>
+                <img
+                  :src="croppedImage"
+                  alt="Cropped Image"
+                  height="250px"
+                  width="250px"
+                />
+                <span>
+                  <i class="icofont icofont-check"></i>
+                </span>
+              </div>
             </label>
-            <img
-              :src="croppedImage"
-              class="rounded border border-primary border-3 p-0"
-              alt="Cropped Image"
-            />
           </div>
         </div>
         <div class="modal-footer justify-content-center w-100">
