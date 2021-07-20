@@ -56,6 +56,10 @@ input[type="checkbox"] {
     }
   }
 }
+
+.no-rounded {
+  border-radius: 0px;
+}
 </style>
 <template>
   <div>
@@ -81,25 +85,23 @@ input[type="checkbox"] {
         </label>
       </div>
     </div>
-    <div
+    <button
       class="
+        btn btn-primary
         container
         d-flex
         align-items-center
         justify-content-center
         fixed-bottom
         shadow-lg
+        no-rounded
+        min-vw-100
       "
-      style="height: 100px; background-color: white; z-index: 10"
+      @click.prevent="updateCategory()"
+      style="height: 80px; z-index: 10"
     >
-      <button
-        class="btn btn-primary w-100"
-        type="submit"
-        @click.prevent="updateCategory()"
-      >
-        保存
-      </button>
-    </div>
+      <p class="text-center fw-bolder text-white m-0">保存</p>
+    </button>
   </div>
 </template>
 

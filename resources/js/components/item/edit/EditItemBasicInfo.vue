@@ -1,6 +1,11 @@
+<style lang="scss" scoped>
+.no-rounded {
+  border-radius: 0px;
+}
+</style>
 <template>
   <div>
-    <div class="container" style="margin-bottom: 100px;">
+    <div class="container" style="margin-bottom: 100px">
       <div class="form-floating mb-3 w-100">
         <input
           :class="{ 'form-control': true, 'is-invalid': !this.itemName }"
@@ -65,26 +70,24 @@
         </div>
       </div>
     </div>
-    <div
+    <button
       class="
+        btn btn-primary
         container
         d-flex
         align-items-center
         justify-content-center
         fixed-bottom
         shadow-lg
+        no-rounded
+        min-vw-100
       "
-      style="height: 100px; background-color: white; z-index: 10"
+      @click.prevent="updateBasicInfo()"
+      :disabled="!isAllValid()"
+      style="height: 80px; z-index: 10"
     >
-      <button
-        class="btn btn-primary w-100"
-        type="submit"
-        @click.prevent="updateBasicInfo()"
-        :disabled="!isAllValid()"
-      >
-        保存
-      </button>
-    </div>
+      <p class="text-center fw-bolder text-white m-0">保存</p>
+    </button>
   </div>
 </template>
 
