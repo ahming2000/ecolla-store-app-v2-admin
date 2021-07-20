@@ -7891,7 +7891,7 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("message-toast", {
-          staticClass: "fixed-top start-50 translate-middle-x",
+          staticClass: "fixed-top start-50 translate-middle-x min-vw-100",
           attrs: {
             "aria-live": "polite",
             "aria-atomic": "true",
@@ -10209,7 +10209,7 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "toast hide",
+        staticClass: "toast hide w-100",
         attrs: {
           id: "liveToast",
           role: "alert",
