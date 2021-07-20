@@ -107,6 +107,7 @@ li:hover {
         aria-labelledby="pills-images-tab"
       >
         <edit-item-image-list
+          :item_id="item.id"
           :images="item.images"
           @onResponse="(...args) => onResponse(...args)"
         ></edit-item-image-list>

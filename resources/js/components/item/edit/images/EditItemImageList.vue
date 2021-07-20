@@ -33,6 +33,7 @@
     <upload-image-modal
       v-on:onUpload="confirmUpload($event)"
       :rawImage="newImage"
+      @onResponse="(...args) => onResponse(...args)"
     ></upload-image-modal>
   </div>
 </template>
@@ -46,11 +47,13 @@ export default {
   name: "edit-item-image-list",
 
   props: {
+    item_id: Number, 
     images: Array,
   },
 
   data() {
     return {
+      itemId: this.item_id ?? null,
       itemImages: this.images ?? [],
       selectedImage: null,
       newImage: null,
@@ -71,7 +74,7 @@ export default {
       };
       console.log(body);
       axios
-        .patch(`/item/${this.selectedImage.item_id}/images`, body)
+        .patch(`/item/${this.itemId}/images`, body)
         .then((res) => {
           console.log(res);
           if (res.data.message !== "") {
@@ -94,6 +97,32 @@ export default {
       console.log(newImage);
       this.newImage = newImage;
       this.openUploadImageModal();
+      event.target.value = "";
+    },
+
+    confirmUpload(newImageData) {
+      console.log("confirmUpload()", newImageData);
+      
+      const body = {
+        action: "add",
+        image: newImageData,
+      };
+      console.log(body);
+      axios
+        .patch(`/item/${this.itemId}/images`, body)
+        .then((res) => {
+          console.log(res);
+          if (res.data.message !== "") {
+            this.$emit("onResponse", res.data.message, "success");
+            this.itemImages = [...this.itemImages, newImageData]
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
+        });
     },
 
     openUploadImageModal() {
@@ -101,6 +130,10 @@ export default {
         document.getElementById("uploadImageModal")
       );
       uploadImageModal.show();
+    },
+
+    onResponse(...args) {
+      this.$emit("onResponse", ...args);
     },
   },
 };

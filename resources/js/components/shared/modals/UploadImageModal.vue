@@ -1,3 +1,36 @@
+<style lang="scss" scoped>
+input[type="radio"] {
+  display: none;
+
+  + label {
+    color: #6f3bff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+
+    span {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #6f3bff;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+      background-color: #ffffff;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      i {
+        opacity: 0;
+        font-size: 30px;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+
+  &:checked + label span i {
+    opacity: 1;
+  }
+}
+</style>
 <template>
   <div
     class="modal fade"
@@ -9,7 +42,9 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="uploadImageLabel">确定上传此照片？</h5>
+          <h5 class="modal-title" id="uploadImageLabel">
+            请选择照片的缩放方式
+          </h5>
           <button
             type="button"
             class="btn-close"
@@ -17,12 +52,50 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body bg-danger">
-          <div class="row d-flex justify-content-center">
-            <h5 class="fw-light text-center">图片预览</h5>
+        <div class="modal-body">
+          <div class="row m-5 position-relative">
+            <img
+              :src="framedImage"
+              class="rounded border border-primary border-3 p-0"
+              alt="Framed Image"
+            />
+            <input
+              id="framedImage"
+              name="processedImages"
+              type="radio"
+              value="framedImage"
+              v-model="selectedImage"
+            />
+            <label
+              class="position-absolute top-0 start-100 translate-middle w-auto"
+              for="framedImage"
+            >
+              <span class="d-flex align-items-center justify-content-center">
+                <i class="icofont icofont-check"></i>
+              </span>
+            </label>
           </div>
-          <div class="row">
-            <img :src="framedImage" class="rounded mx-auto d-block" alt="..." />
+          <div class="row m-5 position-relative">
+            <input
+              id="croppedImage"
+              name="processedImages"
+              type="radio"
+              value="croppedImage"
+              v-model="selectedImage"
+            />
+            <label
+              class="position-absolute top-0 start-100 translate-middle w-auto"
+              for="croppedImage"
+            >
+              <span class="d-flex align-items-center justify-content-center">
+                <i class="icofont icofont-check"></i>
+              </span>
+            </label>
+            <img
+              :src="croppedImage"
+              class="rounded border border-primary border-3 p-0"
+              alt="Cropped Image"
+            />
           </div>
         </div>
         <div class="modal-footer justify-content-center w-100">
@@ -66,39 +139,82 @@ export default {
       rawImageData: this.rawImage ?? null,
       framedImage: null,
       croppedImage: null,
+      selectedImage: "framedImage",
     };
   },
 
   watch: {
     rawImage: function (val) {
       this.rawImageData = val;
-      this.framedImage = this.processImageFrame(val);
-      this.croppedImage = this.processImageCrop(val);
+      this.framedImage = null;
+      this.croppedImage = null;
+      this.processImageFrame(val);
+      this.processImageCrop(val);
+      /**
+       * no idea why "checked" in DOM doesn't work as expected,
+       * use this instead
+       */
+      document.getElementById("framedImage").checked = true;
     },
   },
 
   methods: {
     confirmUpload() {
-      this.$emit("onUpload", this.imageData);
-      this.clearImageData();
+      let imageData;
+      switch (this.selectedImage) {
+        case "framedImage": {
+          imageData = this.framedImage;
+        }
+        case "croppedImage": {
+          imageData = this.croppedImage;
+        }
+      }
+      this.$emit("onUpload", imageData);
+      this.clearRawImageData();
     },
 
     processImageFrame(rawImage) {
       const formData = new FormData();
       formData.append("image", rawImage, rawImage.name);
       formData.append("mode", "frame");
-      axios.post("/item/image/process", formData, {}).then((res) => {
-        console.log(res);
-        this.framedImage = res.data;
-      });
+      axios
+        .post("/item/image/process", formData, {})
+        .then((res) => {
+          console.log(res);
+          if (res.data.image !== "") {
+            this.framedImage = res.data.image;
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
+        });
     },
 
     processImageCrop(rawImage) {
-      return null;
+      const formData = new FormData();
+      formData.append("image", rawImage, rawImage.name);
+      formData.append("mode", "crop");
+      axios
+        .post("/item/image/process", formData, {})
+        .then((res) => {
+          console.log(res);
+          if (res.data.image !== "") {
+            this.croppedImage = res.data.image;
+          } else {
+            this.$emit("onResponse", res.data.error, "error");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
+        });
     },
 
-    clearImageData() {
-      this.imageData = null;
+    clearRawImageData() {
+      this.rawImageData = null;
     },
   },
 };
