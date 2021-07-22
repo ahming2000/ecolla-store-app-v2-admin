@@ -245,6 +245,14 @@ class ItemsController extends Controller
                             $msgMgr->pushError("保存商品照片失败！请联系技术人员！");
                         }
 
+                        return response()->json([
+                            "message" => $msgMgr->getAllInfos('string'),
+                            "error" => $msgMgr->getAllErrors('string'),
+                            "item_image_id" => DB::table('item_images')
+                                ->where('item_id', '=', $item->id)->orderByDesc('created_at')
+                                ->first('id')->id
+                        ]);
+
                         break;
 
                     case 'delete':
