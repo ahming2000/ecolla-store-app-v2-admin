@@ -95,303 +95,317 @@ input:checked + .slider:before {
 }
 </style>
 <template>
-  <div
-    class="modal fade"
-    id="itemVariationModal"
-    tabindex="-1"
-    aria-labelledby="itemVariationLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="itemVariationLabel">
-            {{ actionName }}规格
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body bg-light">
-          <!-- form content -->
-          <div v-if="actionContentType === 'form'" class="container">
-            <div class="row mb-3">
-              <div
-                class="col-4 d-flex justify-content-center align-items-center"
-              >
-                <input
-                  class="d-none"
-                  type="file"
-                  name="image"
-                  @change="onFileSelected($event)"
-                  ref="fileInput"
-                  accept="image/png, image/gif, image/jpeg, image/jpg"
-                />
-                <!-- If image exists -->
-                <div class="position-relative" v-if="variationImage">
-                  <img
-                    class="img-fluid border border-primary border-2 rounded"
-                    :src="variationImage"
-                    height="100px"
-                    width="100px"
+  <div>
+    <div
+      class="modal fade"
+      id="itemVariationModal"
+      tabindex="-1"
+      aria-labelledby="itemVariationLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="itemVariationLabel">
+              {{ actionName }}规格
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body bg-light">
+            <!-- form content -->
+            <div v-if="actionContentType === 'form'" class="container">
+              <div class="row mb-3">
+                <div
+                  class="col-4 d-flex justify-content-center align-items-center"
+                >
+                  <input
+                    class="d-none"
+                    type="file"
+                    name="image"
+                    @change="onFileSelected($event)"
+                    ref="fileInput"
+                    accept="image/png, image/gif, image/jpeg, image/jpg"
                   />
-                  <button
-                    class="
-                      btn btn-primary
-                      rounded-circle
-                      position-absolute
-                      top-100
-                      start-100
-                      translate-middle
-                      d-flex
-                      justify-content-center
-                      align-items-center
-                    "
-                    style="height: 30px; width: 30px"
-                    type="submit"
+                  <!-- If image exists -->
+                  <div class="position-relative" v-if="variationImage">
+                    <img
+                      class="img-fluid border border-primary border-2 rounded"
+                      :src="variationImage"
+                      height="100px"
+                      width="100px"
+                    />
+                    <button
+                      class="
+                        btn btn-primary
+                        rounded-circle
+                        position-absolute
+                        top-100
+                        start-100
+                        translate-middle
+                        d-flex
+                        justify-content-center
+                        align-items-center
+                      "
+                      style="height: 30px; width: 30px"
+                      type="submit"
+                      @click.prevent="$refs.fileInput.click()"
+                    >
+                      <i
+                        class="icofont icofont-ui-edit"
+                        style="font-size: 10px"
+                      ></i>
+                    </button>
+                  </div>
+                  <!-- If image doesn't exist -->
+                  <div
+                    v-else
+                    class="add-image"
                     @click.prevent="$refs.fileInput.click()"
                   >
-                    <i
-                      class="icofont icofont-ui-edit"
-                      style="font-size: 10px"
-                    ></i>
-                  </button>
+                    <i class="icofont icofont-ui-add"></i>
+                  </div>
                 </div>
-                <!-- If image doesn't exist -->
-                <div
-                  v-else
-                  class="add-image"
-                  @click.prevent="$refs.fileInput.click()"
-                >
-                  <i class="icofont icofont-ui-add"></i>
-                </div>
-              </div>
-              <div class="col-8">
-                <div class="form-floating mb-3">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="variationName"
-                    placeholder="规格"
-                    :value="variationName"
-                    v-on:change="onChange($event, 'name')"
-                  />
-                  <label for="variationName">规格</label>
-                </div>
-                <div class="form-floating">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="variationEnName"
-                    placeholder="Variation"
-                    :value="variationEnName"
-                    v-on:change="onChange($event, 'enName')"
-                  />
-                  <label for="variationEnName">Variation</label>
-                </div>
-              </div>
-            </div>
-            <div class="form-floating mb-3 w-100">
-              <input
-                class="form-control"
-                type="text"
-                id="variationBarcode"
-                placeholder="货号"
-                :value="variationBarcode"
-                v-on:change="onChange($event, 'barcode')"
-              />
-              <label class="label" for="variationBarcode">货号</label>
-            </div>
-            <div class="row mb-3">
-              <div class="col-6">
-                <div class="form-group w-100">
-                  <label class="label" for="variationPrice">原价</label>
-                  <div class="input-group">
-                    <span class="input-group-text" id="currencyUnit">RM</span>
+                <div class="col-8">
+                  <div class="form-floating mb-3">
                     <input
-                      type="number"
                       class="form-control"
-                      id="variationPrice"
-                      min="0.00"
-                      step="0.10"
-                      :value="variationPrice.toFixed(2)"
-                      v-on:change="onChange($event, 'price')"
+                      type="text"
+                      id="variationName"
+                      placeholder="规格"
+                      :value="variationName"
+                      v-on:change="onChange($event, 'name')"
                     />
+                    <label for="variationName">规格</label>
+                  </div>
+                  <div class="form-floating">
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="variationEnName"
+                      placeholder="Variation"
+                      :value="variationEnName"
+                      v-on:change="onChange($event, 'enName')"
+                    />
+                    <label for="variationEnName">Variation</label>
                   </div>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="form-group w-100">
-                  <label class="label" for="variationStock">库存</label>
-                  <input
-                    class="form-control"
-                    type="number"
-                    id="variationStock"
-                    min="0"
-                    step="1"
-                    :value="variationStock"
-                    v-on:change="onChange($event, 'stock')"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="form-group mb-3 w-100">
-              <label class="label" for="variationWeight">重量</label>
-              <div class="input-group">
+              <div class="form-floating mb-3 w-100">
                 <input
-                  type="number"
                   class="form-control"
-                  id="variationWeight"
-                  min="0.01"
-                  step="0.01"
-                  :value="variationWeight.toFixed(2)"
-                  v-on:change="onChange($event, 'weight')"
+                  type="text"
+                  id="variationBarcode"
+                  placeholder="货号"
+                  :value="variationBarcode"
+                  v-on:change="onChange($event, 'barcode')"
                 />
-                <span class="input-group-text" id="weightUnit">kg</span>
+                <label class="label" for="variationBarcode">货号</label>
               </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-8 d-flex align-items-center">
-                <p class="m-0 font-weight-bold">折扣</p>
-              </div>
-              <div class="col-4 d-flex align-items-center justify-content-end">
-                <label class="switch m-0">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    id="variationDiscountToggle"
-                    v-model="isVariationDiscountEnabled"
-                  />
-                  <span class="slider round"></span>
-                </label>
-              </div>
-            </div>
-            <div v-if="isVariationDiscountEnabled">
-              <div class="row mb-3">
-                <edit-discount
-                  :original_price="variationPrice"
-                  :rate="0.3"
-                  v-on:onRateChange="onRateChange($event)"
-                ></edit-discount>
-              </div>
-              <!-- discount date range picker -->
               <div class="row mb-3">
                 <div class="col-6">
-                  <div class="form-group">
-                    <label class="label" for="discountStartDate"
-                      >折扣开始日期</label
-                    >
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="discountStartDate"
-                      :value="variationDiscountStart"
-                      v-on:change="onChange($event, 'discountStart')"
-                    />
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div v-if="isDurationLimited" class="row mb-3">
-                    <div class="form-group">
-                      <label class="label" for="discountEndDate"
-                        >折扣结束日期</label
-                      >
+                  <div class="form-group w-100">
+                    <label class="label" for="variationPrice">原价</label>
+                    <div class="input-group">
+                      <span class="input-group-text" id="currencyUnit">RM</span>
                       <input
-                        type="date"
+                        type="number"
                         class="form-control"
-                        id="discountEndDate"
-                        :value="variationDiscountEnd"
-                        v-on:change="onChange($event, 'discountEnd')"
+                        id="variationPrice"
+                        min="0.00"
+                        step="0.10"
+                        :value="variationPrice.toFixed(2)"
+                        v-on:change="onChange($event, 'price')"
                       />
                     </div>
                   </div>
                 </div>
+                <div class="col-6">
+                  <div class="form-group w-100">
+                    <label class="label" for="variationStock">库存</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      id="variationStock"
+                      min="0"
+                      step="1"
+                      :value="variationStock"
+                      v-on:change="onChange($event, 'stock')"
+                    />
+                  </div>
+                </div>
               </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="discountDuration"
-                  :value="true"
-                  v-model="isDurationLimited"
-                  id="limitedDuration"
-                />
-                <label class="form-check-label" for="limitedDuration">
-                  有期限
-                </label>
+              <div class="form-group mb-3 w-100">
+                <label class="label" for="variationWeight">重量</label>
+                <div class="input-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="variationWeight"
+                    min="0.01"
+                    step="0.01"
+                    :value="variationWeight.toFixed(2)"
+                    v-on:change="onChange($event, 'weight')"
+                  />
+                  <span class="input-group-text" id="weightUnit">kg</span>
+                </div>
               </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  id="unlimitedDuration"
-                  name="discountDuration"
-                  :value="false"
-                  v-model="isDurationLimited"
-                  checked
-                />
-                <label class="form-check-label" for="unlimitedDuration">
-                  无期限
-                </label>
+              <div class="row mb-3">
+                <div class="col-8 d-flex align-items-center">
+                  <p class="m-0 font-weight-bold">折扣</p>
+                </div>
+                <div
+                  class="col-4 d-flex align-items-center justify-content-end"
+                >
+                  <label class="switch m-0">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="variationDiscountToggle"
+                      v-model="isVariationDiscountEnabled"
+                    />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+              <div v-if="isVariationDiscountEnabled">
+                <div class="row mb-3">
+                  <edit-discount
+                    :original_price="variationPrice"
+                    :rate="0.3"
+                    v-on:onRateChange="onRateChange($event)"
+                  ></edit-discount>
+                </div>
+                <!-- discount date range picker -->
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label class="label" for="discountStartDate"
+                        >折扣开始日期</label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="discountStartDate"
+                        :value="variationDiscountStart"
+                        v-on:change="onChange($event, 'discountStart')"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div v-if="isDurationLimited" class="row mb-3">
+                      <div class="form-group">
+                        <label class="label" for="discountEndDate"
+                          >折扣结束日期</label
+                        >
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="discountEndDate"
+                          :value="variationDiscountEnd"
+                          v-on:change="onChange($event, 'discountEnd')"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="discountDuration"
+                    :value="true"
+                    v-model="isDurationLimited"
+                    id="limitedDuration"
+                  />
+                  <label class="form-check-label" for="limitedDuration">
+                    有期限
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="unlimitedDuration"
+                    name="discountDuration"
+                    :value="false"
+                    v-model="isDurationLimited"
+                    checked
+                  />
+                  <label class="form-check-label" for="unlimitedDuration">
+                    无期限
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- confirmation content -->
-          <div
-            v-else-if="actionContentType === 'confirmation'"
-            class="container"
-          >
-            <div class="col">
-              <p>确定删除此规格？此动作无法挽回。</p>
-              <div class="col flex-column d-inline-flex justify-content-center">
-                <p
-                  id="variationName"
-                  class="m-0 p-0 h5 d-inline-flex"
-                  v-text="variationName"
-                ></p>
-                <p
-                  id="variationEnName"
-                  class="m-0 p-0 text-muted d-inline-flex"
-                  v-text="variationEnName"
-                ></p>
+            <!-- confirmation content -->
+            <div
+              v-else-if="actionContentType === 'confirmation'"
+              class="container"
+            >
+              <div class="col">
+                <p>确定删除此规格？此动作无法挽回。</p>
+                <div
+                  class="col flex-column d-inline-flex justify-content-center"
+                >
+                  <p
+                    id="variationName"
+                    class="m-0 p-0 h5 d-inline-flex"
+                    v-text="variationName"
+                  ></p>
+                  <p
+                    id="variationEnName"
+                    class="m-0 p-0 text-muted d-inline-flex"
+                    v-text="variationEnName"
+                  ></p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer justify-content-center w-100">
-          <div class="row w-100">
-            <div class="col-6">
-              <button
-                type="button"
-                :class="`btn ${actionButtonCancelClass} btn-md shadow-none w-100`"
-                data-bs-dismiss="modal"
-              >
-                {{ actionButtonCancelName }}
-              </button>
-            </div>
-            <div class="col-6">
-              <button
-                type="submit"
-                :class="`btn ${actionButtonConfirmClass} btn-md w-100`"
-                data-bs-dismiss="modal"
-                @click.prevent="onPrimaryPressed()"
-              >
-                {{ actionButtonConfirmName }}
-              </button>
+          <div class="modal-footer justify-content-center w-100">
+            <div class="row w-100">
+              <div class="col-6">
+                <button
+                  type="button"
+                  :class="`btn ${actionButtonCancelClass} btn-md shadow-none w-100`"
+                  data-bs-dismiss="modal"
+                >
+                  {{ actionButtonCancelName }}
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  type="submit"
+                  :class="`btn ${actionButtonConfirmClass} btn-md w-100`"
+                  data-bs-dismiss="modal"
+                  @click.prevent="onPrimaryPressed()"
+                >
+                  {{ actionButtonConfirmName }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- Upload Image Modal -->
+    <upload-image-modal
+      type="itemVariation"
+      :rawImage="newImage"
+      @onUpload="confirmUpload($event)"
+      @onResponse="(...args) => onResponse(...args)"
+    ></upload-image-modal>
   </div>
 </template>
 
 <script>
 import EditDiscount from "../components/EditDiscount.vue";
+import { Modal } from "bootstrap";
 
 export default {
   components: { EditDiscount },
@@ -435,6 +449,8 @@ export default {
       variationDiscountEnd: this.variation?.discount?.end ?? null,
       isVariationDiscountEnabled: this.variation?.discount ?? false,
       isDurationLimited: this.variation?.discount?.end ?? false,
+
+      newImage: null,
     };
   },
 
@@ -480,7 +496,23 @@ export default {
     },
 
     onFileSelected(event) {
-      this.$emit("onFileSelected", event);
+      let newImage = event.target.files[0];
+      console.log(newImage);
+      this.newImage = newImage;
+      this.openUploadImageModal();
+      event.target.value = "";
+    },
+
+    openUploadImageModal() {
+      const uploadImageModal = new Modal(
+        document.getElementById("itemVariationUploadImageModal")
+      );
+      uploadImageModal.show();
+    },
+
+    confirmUpload(newImageData) {
+      console.log("confirmUpload()", newImageData);
+      this.variationImage = newImageData;
     },
 
     onChange(event, name) {
@@ -590,6 +622,10 @@ export default {
       this.actionButtonConfirmClass = null;
       this.actionButtonCancelName = null;
       this.actionButtonCancelClass = null;
+    },
+
+    onResponse(...args) {
+      this.$emit("onResponse", ...args);
     },
   },
 };

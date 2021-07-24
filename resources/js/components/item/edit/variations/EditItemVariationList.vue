@@ -57,19 +57,12 @@
     <item-variation-modal
       :action="action"
       :variation="selectedVariation"
-      @onFileSelected="onFileSelected($event)"
       @onSaveAdd="saveAdd($event)"
       @onSaveEdit="saveEdit($event)"
       @onConfirmDelete="confirmDelete($event)"
+      @onResponse="(...args) => onResponse(...args)"
     ></item-variation-modal>
 
-    <!-- Upload Image Modal -->
-    <upload-image-modal
-      type="itemVariation"
-      :rawImage="newImage"
-      @onUpload="confirmUpload($event)"
-      @onResponse="(...args) => onResponse(...args)"
-    ></upload-image-modal>
   </div>
 </template>
 
@@ -77,7 +70,6 @@
 import ItemVariationModal from "../../../shared/modals/ItemVariationModal.vue";
 import UploadImageModal from "../../../shared/modals/UploadImageModal.vue";
 import EditItemVariation from "./EditItemVariation.vue";
-import { Modal } from "bootstrap";
 
 export default {
   name: "edit-item-variation-list",
@@ -95,7 +87,6 @@ export default {
       variationList: this.variations ?? [],
       action: null,
       selectedVariation: null,
-      newImage: null,
     };
   },
 
@@ -181,47 +172,6 @@ export default {
       console.log(this.action, this.selectedVariation);
     },
 
-    onFileSelected(event) {
-      let newImage = event.target.files[0];
-      console.log(newImage);
-      this.newImage = newImage;
-      this.openUploadImageModal();
-      event.target.value = "";
-    },
-
-    openUploadImageModal() {
-      const uploadImageModal = new Modal(
-        document.getElementById("itemVariationUploadImageModal")
-      );
-      uploadImageModal.show();
-    },
-
-    confirmUpload(newImageData) {
-      console.log("confirmUpload()", newImageData);
-
-      const body = {
-        action: "add",
-        image: newImageData,
-      };
-      console.log(body);
-      // TODO
-      // axios
-      //   .patch(`/item/${this.itemId}/images`, body)
-      //   .then((res) => {
-      //     console.log(res);
-      //     if (res.data.message !== "") {
-      //       this.$emit("onResponse", res.data.message, "success");
-      //       this.itemImages = [...this.itemImages, { image: newImageData }];
-      //     } else {
-      //       this.$emit("onResponse", res.data.error, "error");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //     this.$emit("onResponse", error.message, "error");
-      //   });
-    },
-
     saveAdd(newVariation) {
       console.log("saveAdd()");
 
@@ -238,6 +188,7 @@ export default {
           console.log(res);
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
+            newVariation.id = res.data.variation_id;
             this.variationList = [...this.variationList, newVariation];
             this.selectedVariation = null;
           } else {
@@ -311,6 +262,10 @@ export default {
           this.$emit("onResponse", error.message, "error");
         });
     },
+
+    onResponse(...args) {
+      this.$emit("onResponse", ...args);
+    }
   },
 };
 </script>
