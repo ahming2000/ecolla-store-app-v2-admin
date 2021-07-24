@@ -299,6 +299,14 @@ class ItemsController extends Controller
                             }
                         }
 
+                        return response()->json([
+                            "message" => $msgMgr->getAllInfos('string'),
+                            "error" => $msgMgr->getAllErrors('string'),
+                            "variation_id" => DB::table('variations')
+                                ->where('barcode', '=', $data['barcode'])
+                                ->first('id')->id
+                        ]);
+
                         break;
 
                     case "update":
@@ -368,6 +376,12 @@ class ItemsController extends Controller
 
     private function addVariation(Item $item, $data): bool
     {
+
+//        $itemImage = new ItemImage();
+//        $itemImage->setAttribute('image', ImageHandler::convertToBinary($data));
+//        return $item->images()->save($itemImage) != false;
+
+
         $variation = new Variation();
         $variation->setRawAttributes($data);
         if (!$item->variations()->save($variation)) return false;
