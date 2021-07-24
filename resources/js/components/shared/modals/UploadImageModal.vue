@@ -20,6 +20,10 @@ input[type="radio"] {
         border: 2px solid #6f3bff;
         border-radius: 10px;
         box-shadow: 0px 0px 5px -2px hsla(150, 5%, 65%, 0.5);
+
+        &:hover {
+          cursor: pointer;
+        }
       }
 
       span {
@@ -64,15 +68,15 @@ input[type="radio"] {
 <template>
   <div
     class="modal fade"
-    id="uploadImageModal"
+    :id="type + 'UploadImageModal'"
     tabindex="-1"
-    aria-labelledby="uploadImageLabel"
+    :aria-labelledby="type + 'UploadImageLabel'"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="uploadImageLabel">
+          <h5 class="modal-title" :id="type + 'UploadImageLabel'">
             请选择照片的缩放方式
           </h5>
           <button
@@ -94,13 +98,13 @@ input[type="radio"] {
             "
           >
             <input
-              id="framedImage"
-              name="processedImages"
+              :id="type + 'FramedImage'"
+              :name="type + 'ProcessedImages'"
               type="radio"
               value="framedImage"
               v-model="selectedImage"
             />
-            <label for="framedImage">
+            <label :for="type + 'FramedImage'">
               <div>
                 <img
                   :src="framedImage"
@@ -125,13 +129,13 @@ input[type="radio"] {
             "
           >
             <input
-              id="croppedImage"
-              name="processedImages"
+              :id="type + 'CroppedImage'"
+              :name="type + 'ProcessedImages'"
               type="radio"
               value="croppedImage"
               v-model="selectedImage"
             />
-            <label for="croppedImage">
+            <label :for="type + 'CroppedImage'">
               <div>
                 <img
                   :src="croppedImage"
@@ -179,7 +183,16 @@ export default {
   name: "upload-image-modal",
 
   props: {
+    type: String,
     rawImage: File,
+  },
+
+  mounted() {
+    /**
+     * no idea why "checked" in DOM doesn't work as expected,
+     * use this instead
+     */
+    document.getElementById(this.type + "FramedImage").checked = true;
   },
 
   data() {
@@ -198,11 +211,6 @@ export default {
       this.croppedImage = null;
       this.processImageFrame(val);
       this.processImageCrop(val);
-      /**
-       * no idea why "checked" in DOM doesn't work as expected,
-       * use this instead
-       */
-      document.getElementById("framedImage").checked = true;
     },
   },
 

@@ -39,8 +39,8 @@
         v-for="variation in variationList"
         v-bind:key="variation.id"
         :variation="variation"
-        v-on:onEdit="openEditModal($event)"
-        v-on:onDelete="openDeleteModal($event)"
+        @onEdit="openEditModal($event)"
+        @onDelete="openDeleteModal($event)"
       ></edit-item-variation>
 
       <div
@@ -57,23 +57,18 @@
     <item-variation-modal
       :action="action"
       :variation="selectedVariation"
-      v-on:onImageSelect="onImageSelect($event)"
-      v-on:onSaveAdd="saveAdd($event)"
-      v-on:onSaveEdit="saveEdit($event)"
-      v-on:onConfirmDelete="confirmDelete($event)"
+      @onFileSelected="onFileSelected($event)"
+      @onSaveAdd="saveAdd($event)"
+      @onSaveEdit="saveEdit($event)"
+      @onConfirmDelete="confirmDelete($event)"
     ></item-variation-modal>
 
     <!-- Upload Image Modal -->
-    <button
-      class="d-none"
-      type="submit"
-      data-bs-toggle="modal"
-      data-bs-target="#uploadImageModal"
-      ref="imagePreviewButton"
-    ></button>
     <upload-image-modal
-      v-on:onUpload="confirmUpload($event)"
-      :rawImage="processedImage"
+      type="itemVariation"
+      :rawImage="newImage"
+      @onUpload="confirmUpload($event)"
+      @onResponse="(...args) => onResponse(...args)"
     ></upload-image-modal>
   </div>
 </template>
@@ -82,6 +77,8 @@
 import ItemVariationModal from "../../../shared/modals/ItemVariationModal.vue";
 import UploadImageModal from "../../../shared/modals/UploadImageModal.vue";
 import EditItemVariation from "./EditItemVariation.vue";
+import { Modal } from "bootstrap";
+
 export default {
   name: "edit-item-variation-list",
 
@@ -98,8 +95,7 @@ export default {
       variationList: this.variations ?? [],
       action: null,
       selectedVariation: null,
-      selectedImage: null,
-      processedImage: null,
+      newImage: null,
     };
   },
 
@@ -185,15 +181,45 @@ export default {
       console.log(this.action, this.selectedVariation);
     },
 
-    onImageSelect(rawImage) {
-      this.selectedImage = rawImage;
-      this.processImage(this.selectedImage);
+    onFileSelected(event) {
+      let newImage = event.target.files[0];
+      console.log(newImage);
+      this.newImage = newImage;
+      this.openUploadImageModal();
+      event.target.value = "";
     },
 
-    processImage(rawImage) {
-      // TODO Call BE to process raw image and return processed image
-      this.processedImage = rawImage;
-      this.$refs.imagePreviewButton.click();
+    openUploadImageModal() {
+      const uploadImageModal = new Modal(
+        document.getElementById("itemVariationUploadImageModal")
+      );
+      uploadImageModal.show();
+    },
+
+    confirmUpload(newImageData) {
+      console.log("confirmUpload()", newImageData);
+
+      const body = {
+        action: "add",
+        image: newImageData,
+      };
+      console.log(body);
+      // TODO
+      // axios
+      //   .patch(`/item/${this.itemId}/images`, body)
+      //   .then((res) => {
+      //     console.log(res);
+      //     if (res.data.message !== "") {
+      //       this.$emit("onResponse", res.data.message, "success");
+      //       this.itemImages = [...this.itemImages, { image: newImageData }];
+      //     } else {
+      //       this.$emit("onResponse", res.data.error, "error");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //     this.$emit("onResponse", error.message, "error");
+      //   });
     },
 
     saveAdd(newVariation) {
@@ -284,12 +310,6 @@ export default {
           console.error(error);
           this.$emit("onResponse", error.message, "error");
         });
-    },
-
-    confirmUpload(image) {
-      console.log("confirmUpload()", image);
-      // TODO Upload Image
-      // TODO Update Variation Image
     },
   },
 };

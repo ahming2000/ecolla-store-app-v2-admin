@@ -125,8 +125,10 @@ input:checked + .slider:before {
                 <input
                   class="d-none"
                   type="file"
+                  name="image"
                   @change="onFileSelected($event)"
                   ref="fileInput"
+                  accept="image/png, image/gif, image/jpeg, image/jpg"
                 />
                 <!-- If image exists -->
                 <div class="position-relative" v-if="variationImage">
@@ -390,6 +392,7 @@ input:checked + .slider:before {
 
 <script>
 import EditDiscount from "../components/EditDiscount.vue";
+
 export default {
   components: { EditDiscount },
 
@@ -477,18 +480,7 @@ export default {
     },
 
     onFileSelected(event) {
-      let newImage = event.target.files[0];
-      let reader = new FileReader();
-      reader.readAsDataURL(newImage);
-      reader.onload = (e) => {
-        let rawImage = e.target.result;
-        this.$emit("onImageSelect", rawImage);
-      };
-    },
-
-    uploadImage() {
-      console.log("uploadImage()");
-      // TODO add image
+      this.$emit("onFileSelected", event);
     },
 
     onChange(event, name) {

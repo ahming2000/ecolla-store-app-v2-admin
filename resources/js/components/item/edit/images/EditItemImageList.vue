@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+<style lang="scss">
 .add-image {
   background-color: rgba(255, 255, 255, 0.5);
   width: 100%;
@@ -41,16 +41,14 @@
         @onDelete="openDeleteModal($event)"
       ></edit-item-image>
       <div class="col">
-        <form @submit.prevent="onSubmit">
-          <input
-            class="d-none"
-            type="file"
-            name="image"
-            @change="onFileSelected($event)"
-            ref="fileInput"
-            accept="image/png, image/gif, image/jpeg, image/jpg"
-          />
-        </form>
+        <input
+          class="d-none"
+          type="file"
+          name="image"
+          @change="onFileSelected($event)"
+          ref="fileInput"
+          accept="image/png, image/gif, image/jpeg, image/jpg"
+        />
         <div class="add-image" @click.prevent="$refs.fileInput.click()">
           <i class="icofont icofont-ui-add"></i>
         </div>
@@ -62,8 +60,9 @@
     ></delete-item-image-modal>
     <!-- Upload Item Image Modal -->
     <upload-image-modal
-      v-on:onUpload="confirmUpload($event)"
+      type="itemBasic"
       :rawImage="newImage"
+      @onUpload="confirmUpload($event)"
       @onResponse="(...args) => onResponse(...args)"
     ></upload-image-modal>
   </div>
@@ -145,7 +144,13 @@ export default {
           console.log(res);
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
-            this.itemImages = [...this.itemImages, { image: newImageData }];
+            this.itemImages = [
+              ...this.itemImages,
+              {
+                id: res.data.item_image_id,
+                image: newImageData,
+              },
+            ];
           } else {
             this.$emit("onResponse", res.data.error, "error");
           }
@@ -158,7 +163,7 @@ export default {
 
     openUploadImageModal() {
       const uploadImageModal = new Modal(
-        document.getElementById("uploadImageModal")
+        document.getElementById("itemBasicUploadImageModal")
       );
       uploadImageModal.show();
     },
