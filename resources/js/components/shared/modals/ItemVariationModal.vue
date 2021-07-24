@@ -178,7 +178,7 @@ input:checked + .slider:before {
                       id="variationName"
                       placeholder="规格"
                       :value="variationName"
-                      v-on:change="onChange($event, 'name')"
+                      @change="onChange($event, 'name')"
                     />
                     <label for="variationName">规格</label>
                   </div>
@@ -189,7 +189,7 @@ input:checked + .slider:before {
                       id="variationEnName"
                       placeholder="Variation"
                       :value="variationEnName"
-                      v-on:change="onChange($event, 'enName')"
+                      @change="onChange($event, 'enName')"
                     />
                     <label for="variationEnName">Variation</label>
                   </div>
@@ -202,7 +202,7 @@ input:checked + .slider:before {
                   id="variationBarcode"
                   placeholder="货号"
                   :value="variationBarcode"
-                  v-on:change="onChange($event, 'barcode')"
+                  @change="onChange($event, 'barcode')"
                 />
                 <label class="label" for="variationBarcode">货号</label>
               </div>
@@ -219,7 +219,7 @@ input:checked + .slider:before {
                         min="0.00"
                         step="0.10"
                         :value="variationPrice.toFixed(2)"
-                        v-on:change="onChange($event, 'price')"
+                        @change="onChange($event, 'price')"
                       />
                     </div>
                   </div>
@@ -234,7 +234,7 @@ input:checked + .slider:before {
                       min="0"
                       step="1"
                       :value="variationStock"
-                      v-on:change="onChange($event, 'stock')"
+                      @change="onChange($event, 'stock')"
                     />
                   </div>
                 </div>
@@ -249,7 +249,7 @@ input:checked + .slider:before {
                     min="0.01"
                     step="0.01"
                     :value="variationWeight.toFixed(2)"
-                    v-on:change="onChange($event, 'weight')"
+                    @change="onChange($event, 'weight')"
                   />
                   <span class="input-group-text" id="weightUnit">kg</span>
                 </div>
@@ -277,7 +277,7 @@ input:checked + .slider:before {
                   <edit-discount
                     :original_price="variationPrice"
                     :rate="0.3"
-                    v-on:onRateChange="onRateChange($event)"
+                    @onRateChange="onRateChange($event)"
                   ></edit-discount>
                 </div>
                 <!-- discount date range picker -->
@@ -292,7 +292,7 @@ input:checked + .slider:before {
                         class="form-control"
                         id="discountStartDate"
                         :value="variationDiscountStart"
-                        v-on:change="onChange($event, 'discountStart')"
+                        @change="onChange($event, 'discountStart')"
                       />
                     </div>
                   </div>
@@ -307,7 +307,7 @@ input:checked + .slider:before {
                           class="form-control"
                           id="discountEndDate"
                           :value="variationDiscountEnd"
-                          v-on:change="onChange($event, 'discountEnd')"
+                          @change="onChange($event, 'discountEnd')"
                         />
                       </div>
                     </div>
@@ -468,6 +468,7 @@ export default {
   methods: {
     onPrimaryPressed() {
       console.log("onPrimaryPressed()");
+      
       const variationData = {
         id: this.variationId,
         image: this.variationImage,
@@ -477,7 +478,11 @@ export default {
         price: this.variationPrice,
         stock: this.variationStock,
         weight: this.variationWeight,
-        // discount: this.variationDiscount,
+        discount: {
+          rate: this.variationDiscountRate,
+          start: this.variationDiscountStart,
+          end: this.variationDiscountEnd,
+        }
       };
       switch (this.action.value) {
         case "add": {
