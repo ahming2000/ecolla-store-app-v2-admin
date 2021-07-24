@@ -376,11 +376,7 @@ class ItemsController extends Controller
 
     private function addVariation(Item $item, $data): bool
     {
-
-//        $itemImage = new ItemImage();
-//        $itemImage->setAttribute('image', ImageHandler::convertToBinary($data));
-//        return $item->images()->save($itemImage) != false;
-
+        $data['image'] = ImageHandler::convertToBinary($data['image']);
 
         $variation = new Variation();
         $variation->setRawAttributes($data);
@@ -397,6 +393,8 @@ class ItemsController extends Controller
 
     private function updateVariation($data): bool
     {
+        $data['image'] = ImageHandler::convertToBinary($data['image']);
+
         $variation = Variation::find($data['id']);
 
         if (!$variation->update($data)) return false;
