@@ -271,7 +271,7 @@ export default {
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
             this.variationList = this.variationList.filter(
-              (variation) => variation.info.id !== this.selectedVariation.id
+              (variation) => variation.id !== this.selectedVariation.info.id
             );
             this.selectedVariation = null;
           } else {

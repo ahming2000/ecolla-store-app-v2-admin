@@ -2369,17 +2369,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-variation",
   props: {
     variation: Object
   },
   data: function data() {
-    return {};
+    var _this$variation$disco;
+
+    return {
+      variationDiscountedPrice: (1 - ((_this$variation$disco = this.variation.discount) === null || _this$variation$disco === void 0 ? void 0 : _this$variation$disco.rate)) * this.variation.price
+    };
+  },
+  watch: {
+    variation: function variation(val) {
+      var _val$discount;
+
+      this.variationDiscountedPrice = (1 - ((_val$discount = val.discount) === null || _val$discount === void 0 ? void 0 : _val$discount.rate)) * val.price;
+    }
   },
   computed: {
-    classObject: function classObject() {
-      return {};
+    originalPriceClass: {
+      get: function get() {
+        return this.variation.discount !== null ? "bg-warning text-decoration-line-through" : "bg-success";
+      }
     }
   },
   methods: {
@@ -2681,7 +2700,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           _this3.$emit("onResponse", res.data.message, "success");
 
           _this3.variationList = _this3.variationList.filter(function (variation) {
-            return variation.info.id !== _this3.selectedVariation.id;
+            return variation.id !== _this3.selectedVariation.info.id;
           });
           _this3.selectedVariation = null;
         } else {
@@ -3014,6 +3033,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+//
+//
 //
 //
 //
@@ -8986,9 +9007,11 @@ var render = function() {
       [
         _c("div", { staticClass: "d-flex row mb-3 w-100" }, [
           _c("div", { staticClass: "col-4" }, [
-            _vm.variation.image !== null && _vm.variation.image !== undefined
+            _vm.variation.image !== null &&
+            _vm.variation.image !== undefined &&
+            _vm.variation.image !== ""
               ? _c("img", {
-                  staticClass: " img-fluid rounded",
+                  staticClass: "img-fluid rounded",
                   attrs: {
                     src: _vm.variation.image,
                     height: "200px",
@@ -9014,8 +9037,10 @@ var render = function() {
             _c(
               "span",
               {
-                staticClass:
-                  "badge rounded-pill bg-success shadow-none p-2 mr-3"
+                class:
+                  "badge rounded-pill " +
+                  _vm.originalPriceClass +
+                  " shadow-none p-2 mr-3"
               },
               [
                 _vm._v(
@@ -9032,7 +9057,13 @@ var render = function() {
                   {
                     staticClass: "badge rounded-pill bg-success shadow-none p-2"
                   },
-                  [_vm._v("\n          RM ???\n        ")]
+                  [
+                    _vm._v(
+                      "\n          RM " +
+                        _vm._s(_vm.variationDiscountedPrice.toFixed(2)) +
+                        "\n        "
+                    )
+                  ]
                 )
               : _vm._e()
           ])
@@ -9854,7 +9885,7 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _c("div", { staticClass: "row mb-3" }, [
-                                _c("div", { staticClass: "col-6" }, [
+                                _c("div", { staticClass: "col-12 mb-3" }, [
                                   _c("div", { staticClass: "form-group" }, [
                                     _c(
                                       "label",
@@ -9886,7 +9917,7 @@ var render = function() {
                                   ])
                                 ]),
                                 _vm._v(" "),
-                                _c("div", { staticClass: "col-6" }, [
+                                _c("div", { staticClass: "col-12" }, [
                                   _vm.isDurationLimited
                                     ? _c("div", { staticClass: "row mb-3" }, [
                                         _c(
@@ -9929,90 +9960,95 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "form-check" }, [
-                                _c("input", {
-                                  directives: [
+                              _c("div", { staticClass: "row container" }, [
+                                _c("div", { staticClass: "form-check col-6" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.isDurationLimited,
+                                        expression: "isDurationLimited"
+                                      }
+                                    ],
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      name: "discountDuration",
+                                      id: "limitedDuration"
+                                    },
+                                    domProps: {
+                                      value: true,
+                                      checked: _vm._q(
+                                        _vm.isDurationLimited,
+                                        true
+                                      )
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        _vm.isDurationLimited = true
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "label",
                                     {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.isDurationLimited,
-                                      expression: "isDurationLimited"
-                                    }
-                                  ],
-                                  staticClass: "form-check-input",
-                                  attrs: {
-                                    type: "radio",
-                                    name: "discountDuration",
-                                    id: "limitedDuration"
-                                  },
-                                  domProps: {
-                                    value: true,
-                                    checked: _vm._q(_vm.isDurationLimited, true)
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.isDurationLimited = true
-                                    }
-                                  }
-                                }),
+                                      staticClass: "form-check-label",
+                                      attrs: { for: "limitedDuration" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    有期限\n                  "
+                                      )
+                                    ]
+                                  )
+                                ]),
                                 _vm._v(" "),
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "form-check-label",
-                                    attrs: { for: "limitedDuration" }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                  有期限\n                "
-                                    )
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "form-check" }, [
-                                _c("input", {
-                                  directives: [
+                                _c("div", { staticClass: "form-check col-6" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.isDurationLimited,
+                                        expression: "isDurationLimited"
+                                      }
+                                    ],
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      id: "unlimitedDuration",
+                                      name: "discountDuration",
+                                      checked: ""
+                                    },
+                                    domProps: {
+                                      value: false,
+                                      checked: _vm._q(
+                                        _vm.isDurationLimited,
+                                        false
+                                      )
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        _vm.isDurationLimited = false
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "label",
                                     {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.isDurationLimited,
-                                      expression: "isDurationLimited"
-                                    }
-                                  ],
-                                  staticClass: "form-check-input",
-                                  attrs: {
-                                    type: "radio",
-                                    id: "unlimitedDuration",
-                                    name: "discountDuration",
-                                    checked: ""
-                                  },
-                                  domProps: {
-                                    value: false,
-                                    checked: _vm._q(
-                                      _vm.isDurationLimited,
-                                      false
-                                    )
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      _vm.isDurationLimited = false
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "form-check-label",
-                                    attrs: { for: "unlimitedDuration" }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                  无期限\n                "
-                                    )
-                                  ]
-                                )
+                                      staticClass: "form-check-label",
+                                      attrs: { for: "unlimitedDuration" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                    无期限\n                  "
+                                      )
+                                    ]
+                                  )
+                                ])
                               ])
                             ])
                           : _vm._e()

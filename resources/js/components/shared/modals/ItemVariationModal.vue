@@ -282,7 +282,7 @@ input:checked + .slider:before {
                 </div>
                 <!-- discount date range picker -->
                 <div class="row mb-3">
-                  <div class="col-6">
+                  <div class="col-12 mb-3">
                     <div class="form-group">
                       <label class="label" for="discountStartDate"
                         >折扣开始日期</label
@@ -296,7 +296,7 @@ input:checked + .slider:before {
                       />
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-12">
                     <div v-if="isDurationLimited" class="row mb-3">
                       <div class="form-group">
                         <label class="label" for="discountEndDate"
@@ -313,32 +313,34 @@ input:checked + .slider:before {
                     </div>
                   </div>
                 </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="discountDuration"
-                    :value="true"
-                    v-model="isDurationLimited"
-                    id="limitedDuration"
-                  />
-                  <label class="form-check-label" for="limitedDuration">
-                    有期限
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    id="unlimitedDuration"
-                    name="discountDuration"
-                    :value="false"
-                    v-model="isDurationLimited"
-                    checked
-                  />
-                  <label class="form-check-label" for="unlimitedDuration">
-                    无期限
-                  </label>
+                <div class="row container">
+                  <div class="form-check col-6">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="discountDuration"
+                      :value="true"
+                      v-model="isDurationLimited"
+                      id="limitedDuration"
+                    />
+                    <label class="form-check-label" for="limitedDuration">
+                      有期限
+                    </label>
+                  </div>
+                  <div class="form-check col-6">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      id="unlimitedDuration"
+                      name="discountDuration"
+                      :value="false"
+                      v-model="isDurationLimited"
+                      checked
+                    />
+                    <label class="form-check-label" for="unlimitedDuration">
+                      无期限
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>

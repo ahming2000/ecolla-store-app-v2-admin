@@ -4,8 +4,12 @@
       <div class="d-flex row mb-3 w-100">
         <div class="col-4">
           <img
-            v-if="variation.image !== null && variation.image !== undefined"
-            class=" img-fluid rounded"
+            v-if="
+              variation.image !== null &&
+              variation.image !== undefined &&
+              variation.image !== ''
+            "
+            class="img-fluid rounded"
             :src="variation.image"
             height="200px"
             width="200px"
@@ -23,7 +27,9 @@
           <h5>{{ variation.name }}</h5>
           <p>{{ variation.name_en }}</p>
           <!-- Original Price -->
-          <span class="badge rounded-pill bg-success shadow-none p-2 mr-3">
+          <span
+            :class="`badge rounded-pill ${originalPriceClass} shadow-none p-2 mr-3`"
+          >
             RM {{ variation.price.toFixed(2) }}
           </span>
           <!-- Discounted Price -->
@@ -31,7 +37,7 @@
             v-if="variation.discount"
             class="badge rounded-pill bg-success shadow-none p-2"
           >
-            RM ???
+            RM {{ variationDiscountedPrice.toFixed(2) }}
           </span>
         </div>
       </div>
@@ -72,12 +78,25 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      variationDiscountedPrice:
+        (1 - this.variation.discount?.rate) * this.variation.price,
+    };
+  },
+
+  watch: {
+    variation: function (val) {
+      this.variationDiscountedPrice = (1 - val.discount?.rate) * val.price;
+    },
   },
 
   computed: {
-    classObject() {
-      return {};
+    originalPriceClass: {
+      get: function () {
+        return this.variation.discount !== null
+          ? "bg-warning text-decoration-line-through"
+          : "bg-success";
+      },
     },
   },
 
