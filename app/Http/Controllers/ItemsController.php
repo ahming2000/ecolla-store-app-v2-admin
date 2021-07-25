@@ -12,6 +12,7 @@ use App\Models\VariationDiscount;
 use App\Util\ImageHandler;
 use App\Util\MessageManager;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
@@ -129,6 +130,15 @@ class ItemsController extends Controller
         foreach ($item->variations as $variation) {
             if ($variation['image'] != null) {
                 $variation['image'] = ImageHandler::convertToDataURL($variation['image']);
+            }
+        }
+
+        foreach($item->variations as $v){
+            if($v->discount == null){
+                $v['discount'] = null;
+            } else {
+                $v['discount'] = DB::table('variation_discounts')
+                    ->where('variation_id', '=', $v->id)->first();
             }
         }
 
@@ -403,8 +413,15 @@ class ItemsController extends Controller
         if (!$variation->update($data['info'])) return false;
 
         if (!empty($data['discount'])) {
-            // dd($data['discount']);
-            $variation->discount()->update($data['discount']);
+
+            if ($data['discount'] == null){
+                $discount = new VariationDiscount();
+                $discount->setRawAttributes($data['discount']);
+                if (!$variation->discount()->save($discount)) return false;
+            } else {
+                if (!$variation->discount()->update($data['discount'])) return false;
+            }
+
         }
 
         return true;
