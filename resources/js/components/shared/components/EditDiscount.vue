@@ -21,7 +21,7 @@
             class="form-control"
             id="discountPrice"
             :value="discountPrice.toFixed(2)"
-            v-on:change="onChange($event, 'discountPrice')"
+            @change="onChange($event, 'discountPrice')"
           />
           <span class="input-group-text" id="openBracket">(</span>
           <input
@@ -32,7 +32,7 @@
             max="100"
             step="1"
             :value="discountRatePercentage.toFixed(2)"
-            v-on:change="onChange($event, 'discountRatePercentage')"
+            @change="onChange($event, 'discountRatePercentage')"
           />
           <span class="input-group-text" id="percentage">%)</span>
         </div>
@@ -48,7 +48,7 @@
           class="form-control"
           id="discountedPrice"
           :value="discountedPrice.toFixed(2)"
-          v-on:change="onChange($event, 'discountedPrice')"
+          @change="onChange($event, 'discountedPrice')"
         />
       </div>
     </div>
@@ -84,16 +84,17 @@ export default {
     },
     discountRate: function (val) {
       this.fetchDiscountData(val, this.originalPrice);
+      this.$emit("onRateChange", val);
     },
   },
 
   computed: {
     discountRateRange: {
       get: function () {
-        return !this.discountRate ? 0 : this.discountRate;
+        return !this.discountRate ? 0 : Number(this.discountRate);
       },
       set: function (val) {
-        this.discountRate = val;
+        this.discountRate = Number(val);
       },
     },
   },
@@ -140,10 +141,6 @@ export default {
         default: {
         }
       }
-    },
-
-    onRateChange(val) {
-      this.$emit("onRateChange", val);
     },
   },
 };
