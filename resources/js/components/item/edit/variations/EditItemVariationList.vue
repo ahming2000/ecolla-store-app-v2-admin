@@ -188,8 +188,18 @@ export default {
           console.log(res);
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
-            newVariation.id = res.data.variation_id;
-            this.variationList = [...this.variationList, newVariation];
+            const addedVariation = {
+              id: res.data.variation_id,
+              name: newVariation.info.name,
+              name_en: newVariation.info.name_en,
+              barcode: newVariation.info.barcode,
+              price: newVariation.info.price,
+              stock: newVariation.info.stock,
+              weight: newVariation.info.weight,
+              image: newVariation.info.image,
+              discount: newVariation.discount,
+            }
+            this.variationList = [...this.variationList, addedVariation];
             this.selectedVariation = null;
           } else {
             this.$emit("onResponse", res.data.error, "error");
@@ -216,9 +226,20 @@ export default {
           console.log(res);
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
+            const editedVariation = {
+              id: this.selectedVariation.info.id,
+              name: this.selectedVariation.info.name,
+              name_en: this.selectedVariation.info.name_en,
+              barcode: this.selectedVariation.info.barcode,
+              price: this.selectedVariation.info.price,
+              stock: this.selectedVariation.info.stock,
+              weight: this.selectedVariation.info.weight,
+              image: this.selectedVariation.info.image,
+              discount: this.selectedVariation.discount,
+            }
             this.variationList = this.variationList.map((variation) => {
-              if (variation.id == this.selectedVariation.id) {
-                return this.selectedVariation;
+              if (variation.id === editedVariation.id) {
+                return editedVariation;
               } else {
                 return variation;
               }
@@ -250,7 +271,7 @@ export default {
           if (res.data.message !== "") {
             this.$emit("onResponse", res.data.message, "success");
             this.variationList = this.variationList.filter(
-              (variation) => variation.id !== this.selectedVariation.id
+              (variation) => variation.info.id !== this.selectedVariation.id
             );
             this.selectedVariation = null;
           } else {

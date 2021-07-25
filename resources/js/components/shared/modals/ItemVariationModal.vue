@@ -276,7 +276,7 @@ input:checked + .slider:before {
                 <div class="row mb-3">
                   <edit-discount
                     :original_price="variationPrice"
-                    :rate="0.3"
+                    :rate="variationDiscountRate"
                     @onRateChange="onRateChange($event)"
                   ></edit-discount>
                 </div>
@@ -468,21 +468,30 @@ export default {
   methods: {
     onPrimaryPressed() {
       console.log("onPrimaryPressed()");
-      
-      const variationData = {
-        id: this.variationId,
-        image: this.variationImage,
-        name: this.variationName,
-        name_en: this.variationEnName,
-        barcode: this.variationBarcode,
-        price: this.variationPrice,
-        stock: this.variationStock,
-        weight: this.variationWeight,
-        discount: {
+
+      let discount;
+      if (this.isVariationDiscountEnabled) {
+        discount = {
           rate: this.variationDiscountRate,
           start: this.variationDiscountStart,
           end: this.variationDiscountEnd,
-        }
+        };
+      } else {
+        discount = null;
+      }
+
+      const variationData = {
+        info: {
+          id: this.variationId,
+          name: this.variationName,
+          name_en: this.variationEnName,
+          barcode: this.variationBarcode,
+          price: this.variationPrice,
+          stock: this.variationStock,
+          weight: this.variationWeight,
+          image: this.variationImage,
+        },
+        discount: discount,
       };
       switch (this.action.value) {
         case "add": {

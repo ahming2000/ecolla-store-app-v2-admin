@@ -2598,8 +2598,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         if (res.data.message !== "") {
           _this.$emit("onResponse", res.data.message, "success");
 
-          newVariation.id = res.data.variation_id;
-          _this.variationList = [].concat(_toConsumableArray(_this.variationList), [newVariation]);
+          var addedVariation = {
+            id: res.data.variation_id,
+            name: newVariation.info.name,
+            name_en: newVariation.info.name_en,
+            barcode: newVariation.info.barcode,
+            price: newVariation.info.price,
+            stock: newVariation.info.stock,
+            weight: newVariation.info.weight,
+            image: newVariation.info.image,
+            discount: newVariation.discount
+          };
+          _this.variationList = [].concat(_toConsumableArray(_this.variationList), [addedVariation]);
           _this.selectedVariation = null;
         } else {
           _this.$emit("onResponse", res.data.error, "error");
@@ -2626,9 +2636,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         if (res.data.message !== "") {
           _this2.$emit("onResponse", res.data.message, "success");
 
+          var editedVariation = {
+            id: _this2.selectedVariation.info.id,
+            name: _this2.selectedVariation.info.name,
+            name_en: _this2.selectedVariation.info.name_en,
+            barcode: _this2.selectedVariation.info.barcode,
+            price: _this2.selectedVariation.info.price,
+            stock: _this2.selectedVariation.info.stock,
+            weight: _this2.selectedVariation.info.weight,
+            image: _this2.selectedVariation.info.image,
+            discount: _this2.selectedVariation.discount
+          };
           _this2.variationList = _this2.variationList.map(function (variation) {
-            if (variation.id == _this2.selectedVariation.id) {
-              return _this2.selectedVariation;
+            if (variation.id === editedVariation.id) {
+              return editedVariation;
             } else {
               return variation;
             }
@@ -2660,7 +2681,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           _this3.$emit("onResponse", res.data.message, "success");
 
           _this3.variationList = _this3.variationList.filter(function (variation) {
-            return variation.id !== _this3.selectedVariation.id;
+            return variation.info.id !== _this3.selectedVariation.id;
           });
           _this3.selectedVariation = null;
         } else {
@@ -3458,20 +3479,30 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     onPrimaryPressed: function onPrimaryPressed() {
       console.log("onPrimaryPressed()");
-      var variationData = {
-        id: this.variationId,
-        image: this.variationImage,
-        name: this.variationName,
-        name_en: this.variationEnName,
-        barcode: this.variationBarcode,
-        price: this.variationPrice,
-        stock: this.variationStock,
-        weight: this.variationWeight,
-        discount: {
+      var discount;
+
+      if (this.isVariationDiscountEnabled) {
+        discount = {
           rate: this.variationDiscountRate,
           start: this.variationDiscountStart,
           end: this.variationDiscountEnd
-        }
+        };
+      } else {
+        discount = null;
+      }
+
+      var variationData = {
+        info: {
+          id: this.variationId,
+          name: this.variationName,
+          name_en: this.variationEnName,
+          barcode: this.variationBarcode,
+          price: this.variationPrice,
+          stock: this.variationStock,
+          weight: this.variationWeight,
+          image: this.variationImage
+        },
+        discount: discount
       };
 
       switch (this.action.value) {
@@ -9810,7 +9841,7 @@ var render = function() {
                                   _c("edit-discount", {
                                     attrs: {
                                       original_price: _vm.variationPrice,
-                                      rate: 0.3
+                                      rate: _vm.variationDiscountRate
                                     },
                                     on: {
                                       onRateChange: function($event) {

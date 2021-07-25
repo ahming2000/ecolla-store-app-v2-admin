@@ -63,12 +63,14 @@ class ItemsController extends Controller
         $categories = Category::all();
 
         // Set pagination links parameter
-        $items->withPath('/item' . $this->generateParameter(
+        $items->withPath(
+            '/item' . $this->generateParameter(
                 [
                     'paginate' => $paginate,
                     'search' => $search,
                     'category' => $category,
-                ])
+                ]
+            )
         );
 
         // Generate parameter for filtering (search, category, paginate)
@@ -121,11 +123,11 @@ class ItemsController extends Controller
             ->first();
 
         // Convert from binary image to base64 (New) or remain as url (Deprecated)
-        foreach ($item->images as $image){
+        foreach ($item->images as $image) {
             $image['image'] = ImageHandler::convertToDataURL($image['image']);
         }
-        foreach ($item->variations as $variation){
-            if ($variation['image'] != null){
+        foreach ($item->variations as $variation) {
+            if ($variation['image'] != null) {
                 $variation['image'] = ImageHandler::convertToDataURL($variation['image']);
             }
         }
@@ -236,10 +238,10 @@ class ItemsController extends Controller
                 $data = request('image');
                 $action = request('action') ?? '';
 
-                switch ($action){
+                switch ($action) {
                     case 'add':
 
-                        if($this->addItemImage($item, $data)){
+                        if ($this->addItemImage($item, $data)) {
                             $msgMgr->pushInfo("商品照片保存成功！");
                         } else {
                             $msgMgr->pushError("保存商品照片失败！请联系技术人员！");
@@ -257,7 +259,7 @@ class ItemsController extends Controller
 
                     case 'delete':
 
-                        if($this->deleteItemImage($data)){
+                        if ($this->deleteItemImage($data)) {
                             $msgMgr->pushInfo("商品照片删除成功！");
                         } else {
                             $msgMgr->pushError("删除商品照片失败！请联系技术人员！");
@@ -289,8 +291,8 @@ class ItemsController extends Controller
 
                     case "add":
 
-                        if($this->variationBarcodeIsDuplicated($data['barcode'], $item->id)){
-                            $msgMgr->pushError("货号 " . $data['barcode'] . " 已存在！");
+                        if ($this->variationBarcodeIsDuplicated($data['info']['barcode'], $item->id)) {
+                            $msgMgr->pushError("货号 " . $data['info']['barcode'] . " 已存在！");
                         } else {
                             if ($this->addVariation($item, $data)) {
                                 $msgMgr->pushInfo("添加规格成功！");
@@ -303,7 +305,7 @@ class ItemsController extends Controller
                             "message" => $msgMgr->getAllInfos('string'),
                             "error" => $msgMgr->getAllErrors('string'),
                             "variation_id" => DB::table('variations')
-                                ->where('barcode', '=', $data['barcode'])
+                                ->where('barcode', '=', $data['info']['barcode'])
                                 ->first('id')->id
                         ]);
 
@@ -311,8 +313,8 @@ class ItemsController extends Controller
 
                     case "update":
 
-                        if($this->variationBarcodeIsDuplicated($data['barcode'], $item->id)){
-                            $msgMgr->pushError("货号 " . $data['barcode'] . " 已存在！");
+                        if ($this->variationBarcodeIsDuplicated($data['info']['barcode'], $item->id)) {
+                            $msgMgr->pushError("货号 " . $data['info']['barcode'] . " 已存在！");
                         } else {
                             if ($this->updateVariation($data)) {
                                 $msgMgr->pushInfo("规格保存成功！");
@@ -325,7 +327,7 @@ class ItemsController extends Controller
 
                     case "delete":
 
-                        if ($this->deleteVariation($item, $data['id'])) {
+                        if ($this->deleteVariation($item, $data['info']['id'])) {
                             $msgMgr->pushInfo("规格删除成功！");
                         } else {
                             $msgMgr->pushError("删除规格失败！请联系技术人员！");
@@ -345,7 +347,7 @@ class ItemsController extends Controller
             default:
         }
 
-        if($this->canList($item->id, true)){
+        if ($this->canList($item->id, true)) {
             $msgMgr->pushInfo("商品已自动上架！");
         } else {
             $msgMgr->pushInfo("商品未上架！");
@@ -369,17 +371,17 @@ class ItemsController extends Controller
         return $item->images()->save($itemImage) != false;
     }
 
-    private function deleteItemImage($id):bool
+    private function deleteItemImage($id): bool
     {
         return ItemImage::find($id)->delete();
     }
 
     private function addVariation(Item $item, $data): bool
     {
-        $data['image'] = ImageHandler::convertToBinary($data['image']);
+        $data['info']['image'] = ImageHandler::convertToBinary($data['info']['image']);
 
         $variation = new Variation();
-        $variation->setRawAttributes($data);
+        $variation->setRawAttributes($data['info']);
         if (!$item->variations()->save($variation)) return false;
 
         if (!empty($data['discount'])) {
@@ -393,14 +395,16 @@ class ItemsController extends Controller
 
     private function updateVariation($data): bool
     {
-        $data['image'] = ImageHandler::convertToBinary($data['image']);
 
-        $variation = Variation::find($data['id']);
+        $data['info']['image'] = ImageHandler::convertToBinary($data['info']['image']);
 
-        if (!$variation->update($data)) return false;
+        $variation = Variation::find($data['info']['id']);
+
+        if (!$variation->update($data['info'])) return false;
 
         if (!empty($data['discount'])) {
-            if (!$variation->discount()->update($data['discount'])) return false;
+            // dd($data['discount']);
+            $variation->discount()->update($data['discount']);
         }
 
         return true;
@@ -452,5 +456,4 @@ class ItemsController extends Controller
             $item->categories()->detach($tr);
         }
     }
-
 }
