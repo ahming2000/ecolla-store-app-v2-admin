@@ -412,9 +412,15 @@ class ItemsController extends Controller
 
         if (!$variation->update($data['info'])) return false;
 
-        if (!empty($data['discount'])) {
+        if (empty($data['discount'])) {
 
-            if ($data['discount'] == null){
+            if ($variation->discount != null){
+                $variation->discount()->delete();
+            }
+
+        } else {
+
+            if ($variation->discount == null){
                 $discount = new VariationDiscount();
                 $discount->setRawAttributes($data['discount']);
                 if (!$variation->discount()->save($discount)) return false;
