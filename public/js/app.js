@@ -2918,16 +2918,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     discountRate: function discountRate(val) {
       this.fetchDiscountData(val, this.originalPrice);
-      this.$emit("onRateChange", val);
     }
   },
   computed: {
     discountRateRange: {
       get: function get() {
-        return !this.discountRate ? 0 : Number(this.discountRate);
+        return !this.discountRate ? 0 : this.discountRate;
       },
       set: function set(val) {
-        this.discountRate = Number(val);
+        this.discountRate = val;
       }
     }
   },
@@ -2974,6 +2973,9 @@ __webpack_require__.r(__webpack_exports__);
         default:
           {}
       }
+    },
+    onRateChange: function onRateChange(val) {
+      this.$emit("onRateChange", val);
     }
   }
 });
@@ -3466,12 +3468,8 @@ __webpack_require__.r(__webpack_exports__);
         barcode: this.variationBarcode,
         price: this.variationPrice,
         stock: this.variationStock,
-        weight: this.variationWeight,
-        discount: {
-          rate: this.variationDiscountRate,
-          start: this.variationDiscountStart,
-          end: this.variationDiscountEnd
-        }
+        weight: this.variationWeight // discount: this.variationDiscount,
+
       };
 
       switch (this.action.value) {
