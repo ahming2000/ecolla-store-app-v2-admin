@@ -125,11 +125,11 @@ class ItemsController extends Controller
 
         // Convert from binary image to base64 (New) or remain as url (Deprecated)
         foreach ($item->images as $image) {
-            $image['image'] = ImageHandler::convertToDataURL($image['image']);
+            $image['image'] = (new ImageHandler())->convertToDataURL($image['image']);
         }
         foreach ($item->variations as $variation) {
             if ($variation['image'] != null) {
-                $variation['image'] = ImageHandler::convertToDataURL($variation['image']);
+                $variation['image'] = (new ImageHandler())->convertToDataURL($variation['image']);
             }
         }
 
@@ -377,7 +377,7 @@ class ItemsController extends Controller
     private function addItemImage(Item $item, $data): ?bool
     {
         $itemImage = new ItemImage();
-        $itemImage->setAttribute('image', ImageHandler::convertToBinary($data));
+        $itemImage->setAttribute('image', (new ImageHandler())->convertToBinary($data));
         return $item->images()->save($itemImage) != false;
     }
 
@@ -388,7 +388,7 @@ class ItemsController extends Controller
 
     private function addVariation(Item $item, $data): bool
     {
-        $data['info']['image'] = ImageHandler::convertToBinary($data['info']['image']);
+        $data['info']['image'] = (new ImageHandler())->convertToBinary($data['info']['image']);
 
         $variation = new Variation();
         $variation->setRawAttributes($data['info']);
@@ -406,7 +406,7 @@ class ItemsController extends Controller
     private function updateVariation($data): bool
     {
 
-        $data['info']['image'] = ImageHandler::convertToBinary($data['info']['image']);
+        $data['info']['image'] = (new ImageHandler())->convertToBinary($data['info']['image']);
 
         $variation = Variation::find($data['info']['id']);
 
