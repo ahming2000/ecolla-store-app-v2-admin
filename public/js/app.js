@@ -2932,6 +2932,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-discount",
   props: {
@@ -2988,31 +2989,62 @@ __webpack_require__.r(__webpack_exports__);
     },
     onChange: function onChange(event, name) {
       var newValue = event.target.value.trim();
+      var limitedValue;
 
       switch (name) {
         case "discountPrice":
           {
-            this.discountPrice = Number(newValue);
-            this.discountRate = newValue / this.originalPrice;
+            limitedValue = this.discountedLimit(Number(newValue));
+            this.discountPrice = limitedValue;
+            this.discountRate = limitedValue / this.originalPrice;
             break;
           }
 
         case "discountRatePercentage":
           {
-            this.discountRatePercentage = Number(newValue);
-            this.discountRate = newValue / 100;
+            limitedValue = this.percentageLimit(Number(newValue));
+            this.discountRatePercentage = limitedValue;
+            this.discountRate = limitedValue / 100;
             break;
           }
 
         case "discountedPrice":
           {
-            this.discountedPrice = Number(newValue);
-            this.discountRate = (this.originalPrice - newValue) / this.originalPrice;
+            limitedValue = this.discountedLimit(Number(newValue));
+            this.discountedPrice = limitedValue;
+            this.discountRate = (this.originalPrice - limitedValue) / this.originalPrice;
             break;
           }
 
         default:
           {}
+      }
+
+      event.target.value = limitedValue.toFixed(2);
+    },
+    percentageLimit: function percentageLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else if (value > 100) {
+        return 100;
+      } else {
+        return value;
+      }
+    },
+    discountLimit: function discountLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else {
+        return value;
+      }
+    },
+    discountedLimit: function discountedLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else if (value > this.originalPrice) {
+        return this.originalPrice;
+      } else {
+        return value;
       }
     }
   }
@@ -3033,6 +3065,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3461,7 +3515,7 @@ __webpack_require__.r(__webpack_exports__);
    * so I have to use this way to workaround >:(
    */
   data: function data() {
-    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$variation$id, _this$variation, _this$variation$image, _this$variation2, _this$variation$name, _this$variation3, _this$variation$name_, _this$variation4, _this$variation$barco, _this$variation5, _this$variation$price, _this$variation6, _this$variation$stock, _this$variation7, _this$variation$weigh, _this$variation8, _this$variation$disco, _this$variation9, _this$variation$disco2, _this$variation10, _this$variation10$dis, _this$variation$disco3, _this$variation11, _this$variation11$dis, _this$variation$disco4, _this$variation12, _this$variation12$dis, _this$variation$disco5, _this$variation13, _this$variation$disco6, _this$variation14, _this$variation14$dis;
+    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$variation$id, _this$variation, _this$variation$image, _this$variation2, _this$variation$name, _this$variation3, _this$variation$name_, _this$variation4, _this$variation$barco, _this$variation5, _this$variation$price, _this$variation6, _this$variation$stock, _this$variation7, _this$variation$weigh, _this$variation8, _this$variation$disco, _this$variation9, _this$variation$disco2, _this$variation10, _this$variation10$dis, _this$variation11, _this$variation11$dis, _this$variation12, _this$variation12$dis, _this$variation13, _this$variation$disco3, _this$variation14, _this$variation14$dis;
 
     return {
       actionName: (_this$action$name = (_this$action = this.action) === null || _this$action === void 0 ? void 0 : _this$action.name) !== null && _this$action$name !== void 0 ? _this$action$name : null,
@@ -3480,10 +3534,10 @@ __webpack_require__.r(__webpack_exports__);
       variationWeight: (_this$variation$weigh = (_this$variation8 = this.variation) === null || _this$variation8 === void 0 ? void 0 : _this$variation8.weight) !== null && _this$variation$weigh !== void 0 ? _this$variation$weigh : 0,
       variationDiscount: (_this$variation$disco = (_this$variation9 = this.variation) === null || _this$variation9 === void 0 ? void 0 : _this$variation9.discount) !== null && _this$variation$disco !== void 0 ? _this$variation$disco : null,
       variationDiscountRate: (_this$variation$disco2 = (_this$variation10 = this.variation) === null || _this$variation10 === void 0 ? void 0 : (_this$variation10$dis = _this$variation10.discount) === null || _this$variation10$dis === void 0 ? void 0 : _this$variation10$dis.rate) !== null && _this$variation$disco2 !== void 0 ? _this$variation$disco2 : 0,
-      variationDiscountStart: (_this$variation$disco3 = (_this$variation11 = this.variation) === null || _this$variation11 === void 0 ? void 0 : (_this$variation11$dis = _this$variation11.discount) === null || _this$variation11$dis === void 0 ? void 0 : _this$variation11$dis.start) !== null && _this$variation$disco3 !== void 0 ? _this$variation$disco3 : this.getToday(),
-      variationDiscountEnd: (_this$variation$disco4 = (_this$variation12 = this.variation) === null || _this$variation12 === void 0 ? void 0 : (_this$variation12$dis = _this$variation12.discount) === null || _this$variation12$dis === void 0 ? void 0 : _this$variation12$dis.end) !== null && _this$variation$disco4 !== void 0 ? _this$variation$disco4 : null,
-      isVariationDiscountEnabled: (_this$variation$disco5 = (_this$variation13 = this.variation) === null || _this$variation13 === void 0 ? void 0 : _this$variation13.discount) !== null && _this$variation$disco5 !== void 0 ? _this$variation$disco5 : false,
-      isDurationLimited: (_this$variation$disco6 = (_this$variation14 = this.variation) === null || _this$variation14 === void 0 ? void 0 : (_this$variation14$dis = _this$variation14.discount) === null || _this$variation14$dis === void 0 ? void 0 : _this$variation14$dis.end) !== null && _this$variation$disco6 !== void 0 ? _this$variation$disco6 : false,
+      variationDiscountStart: (_this$variation11 = this.variation) !== null && _this$variation11 !== void 0 && (_this$variation11$dis = _this$variation11.discount) !== null && _this$variation11$dis !== void 0 && _this$variation11$dis.start ? this.stringToDate(this.variation.discount.start) : this.getToday(),
+      variationDiscountEnd: (_this$variation12 = this.variation) !== null && _this$variation12 !== void 0 && (_this$variation12$dis = _this$variation12.discount) !== null && _this$variation12$dis !== void 0 && _this$variation12$dis.end ? this.stringToDate(this.variation.discount.end) : null,
+      isVariationDiscountEnabled: (_this$variation13 = this.variation) !== null && _this$variation13 !== void 0 && _this$variation13.discount ? true : false,
+      isDurationLimited: (_this$variation$disco3 = (_this$variation14 = this.variation) === null || _this$variation14 === void 0 ? void 0 : (_this$variation14$dis = _this$variation14.discount) === null || _this$variation14$dis === void 0 ? void 0 : _this$variation14$dis.end) !== null && _this$variation$disco3 !== void 0 ? _this$variation$disco3 : false,
       newImage: null
     };
   },
@@ -3495,6 +3549,9 @@ __webpack_require__.r(__webpack_exports__);
     action: function action(val) {
       this.clearActionData();
       this.fetchActionData(val);
+    },
+    isDurationLimited: function isDurationLimited(val) {
+      this.variationDiscountEnd = val ? this.getNextDay(this.variationDiscountStart) : null;
     }
   },
   methods: {
@@ -3505,8 +3562,8 @@ __webpack_require__.r(__webpack_exports__);
       if (this.isVariationDiscountEnabled) {
         discount = {
           rate: this.variationDiscountRate,
-          start: this.variationDiscountStart,
-          end: this.variationDiscountEnd
+          start: this.dateToString(this.variationDiscountStart),
+          end: this.dateToString(this.variationDiscountEnd)
         };
       } else {
         discount = null;
@@ -3563,6 +3620,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     onChange: function onChange(event, name) {
       var newValue = event.target.value.trim();
+      var limitedValue;
 
       switch (name) {
         case "name":
@@ -3585,31 +3643,38 @@ __webpack_require__.r(__webpack_exports__);
 
         case "price":
           {
-            this.variationPrice = Number(newValue);
+            limitedValue = this.variationPriceLimit(Number(newValue));
+            this.variationPrice = limitedValue;
+            event.target.value = limitedValue.toFixed(2);
             break;
           }
 
         case "stock":
           {
-            this.variationStock = Number(newValue);
+            limitedValue = this.stockLimit(Number(newValue));
+            this.variationStock = limitedValue;
+            event.target.value = limitedValue.toFixed(0);
             break;
           }
 
         case "weight":
           {
-            this.variationWeight = Number(newValue);
+            limitedValue = this.weightLimit(Number(newValue));
+            this.variationWeight = limitedValue;
+            event.target.value = limitedValue.toFixed(3);
             break;
           }
 
         case "discountStart":
           {
-            this.variationDiscountStart = newValue;
+            this.variationDiscountStart = this.stringToDate(newValue);
             break;
           }
 
         case "discountEnd":
           {
-            this.variationDiscountEnd = newValue;
+            console.log(newValue);
+            this.variationDiscountEnd = this.stringToDate(newValue);
             break;
           }
 
@@ -3617,16 +3682,64 @@ __webpack_require__.r(__webpack_exports__);
           {}
       }
     },
+    isDuplicate: function isDuplicate(prop) {
+      // TODO Check duplicate value from BE
+      return false;
+    },
+    variationPriceLimit: function variationPriceLimit(value) {
+      if (value <= 0) {
+        return 0.01;
+      } else {
+        return value;
+      }
+    },
+    stockLimit: function stockLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else {
+        return value;
+      }
+    },
+    weightLimit: function weightLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else {
+        return value;
+      }
+    },
     onRateChange: function onRateChange(newRate) {
       this.variationDiscountRate = newRate;
     },
     getToday: function getToday() {
-      var today = new Date();
-      var date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-      return date;
+      return new Date();
+    },
+    getNextDay: function getNextDay(date) {
+      var nextDay = new Date(date);
+      nextDay.setDate(date.getDate() + 1);
+      console.log("getNextDay()::nextDay:", nextDay);
+      return nextDay;
+    },
+    dateToString: function dateToString(date) {
+      console.log("dateToString()::date:", date);
+      console.log("dateToString()::string:", date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0"));
+      return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+    },
+    stringToDate: function stringToDate(string) {
+      console.log("stringToDate()::string:", string); // If string contains time (00:00:00), removes time
+
+      if (string.includes(" ")) {
+        string = string.split(" ")[0];
+      }
+
+      var subStrings = string.split("-");
+      var year = subStrings[0];
+      var month = subStrings[1] - 1;
+      var day = subStrings[2];
+      console.log("stringToDate()::date:", new Date(year, month, day));
+      return new Date(year, month, day);
     },
     fetchVariationData: function fetchVariationData(val) {
-      var _val$id, _val$image, _val$name, _val$name_en, _val$barcode, _val$price, _val$stock, _val$weight, _val$discount, _val$discount$rate, _val$discount2, _val$discount$start, _val$discount3, _val$discount$end, _val$discount4, _val$discount5, _val$discount$end2, _val$discount6;
+      var _val$id, _val$image, _val$name, _val$name_en, _val$barcode, _val$price, _val$stock, _val$weight, _val$discount, _val$discount$rate, _val$discount2, _val$discount3, _val$discount4, _val$discount$end, _val$discount5;
 
       this.variationId = (_val$id = val === null || val === void 0 ? void 0 : val.id) !== null && _val$id !== void 0 ? _val$id : null;
       this.variationImage = (_val$image = val === null || val === void 0 ? void 0 : val.image) !== null && _val$image !== void 0 ? _val$image : null;
@@ -3638,10 +3751,10 @@ __webpack_require__.r(__webpack_exports__);
       this.variationWeight = (_val$weight = val === null || val === void 0 ? void 0 : val.weight) !== null && _val$weight !== void 0 ? _val$weight : 0;
       this.variationDiscount = (_val$discount = val === null || val === void 0 ? void 0 : val.discount) !== null && _val$discount !== void 0 ? _val$discount : null;
       this.variationDiscountRate = (_val$discount$rate = val === null || val === void 0 ? void 0 : (_val$discount2 = val.discount) === null || _val$discount2 === void 0 ? void 0 : _val$discount2.rate) !== null && _val$discount$rate !== void 0 ? _val$discount$rate : 0;
-      this.variationDiscountStart = (_val$discount$start = val === null || val === void 0 ? void 0 : (_val$discount3 = val.discount) === null || _val$discount3 === void 0 ? void 0 : _val$discount3.start) !== null && _val$discount$start !== void 0 ? _val$discount$start : this.getToday();
-      this.variationDiscountEnd = (_val$discount$end = val === null || val === void 0 ? void 0 : (_val$discount4 = val.discount) === null || _val$discount4 === void 0 ? void 0 : _val$discount4.end) !== null && _val$discount$end !== void 0 ? _val$discount$end : null;
-      this.isVariationDiscountEnabled = (_val$discount5 = val === null || val === void 0 ? void 0 : val.discount) !== null && _val$discount5 !== void 0 ? _val$discount5 : false;
-      this.isDurationLimited = (_val$discount$end2 = val === null || val === void 0 ? void 0 : (_val$discount6 = val.discount) === null || _val$discount6 === void 0 ? void 0 : _val$discount6.end) !== null && _val$discount$end2 !== void 0 ? _val$discount$end2 : false;
+      this.variationDiscountStart = val !== null && val !== void 0 && (_val$discount3 = val.discount) !== null && _val$discount3 !== void 0 && _val$discount3.start ? this.stringToDate(val.discount.start) : this.getToday();
+      this.variationDiscountEnd = val !== null && val !== void 0 && (_val$discount4 = val.discount) !== null && _val$discount4 !== void 0 && _val$discount4.end ? this.stringToDate(val.discount.end) : null;
+      this.isVariationDiscountEnabled = val !== null && val !== void 0 && val.discount ? true : false;
+      this.isDurationLimited = (_val$discount$end = val === null || val === void 0 ? void 0 : (_val$discount5 = val.discount) === null || _val$discount5 === void 0 ? void 0 : _val$discount5.end) !== null && _val$discount$end !== void 0 ? _val$discount$end : false;
     },
     fetchActionData: function fetchActionData(val) {
       var _val$name2, _val$contentType, _val$button$confirm$n, _val$button$confirm$c, _val$button$cancel$na, _val$button$cancel$cl;
@@ -3664,7 +3777,7 @@ __webpack_require__.r(__webpack_exports__);
       this.variationWeight = 0;
       this.variationDiscount = null;
       this.variationDiscountRate = 0;
-      this.variationDiscountStart = null;
+      this.variationDiscountStart = this.getToday();
       this.variationDiscountEnd = null;
       this.isVariationDiscountEnabled = false;
       this.isDurationLimited = false;
@@ -3676,6 +3789,9 @@ __webpack_require__.r(__webpack_exports__);
       this.actionButtonConfirmClass = null;
       this.actionButtonCancelName = null;
       this.actionButtonCancelClass = null;
+    },
+    isAllValid: function isAllValid() {
+      return this.variationName && this.variationEnName && this.variationBarcode && !this.isDuplicate(this.variationBarcode);
     },
     onResponse: function onResponse() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -9391,6 +9507,10 @@ var render = function() {
             }
           }),
           _vm._v(" "),
+          _c("div", { staticClass: "invalid-feedback" }, [
+            _vm._v("必须 RM0.00 或以上")
+          ]),
+          _vm._v(" "),
           _c(
             "span",
             { staticClass: "input-group-text", attrs: { id: "openBracket" } },
@@ -9401,7 +9521,7 @@ var render = function() {
             staticClass: "form-control",
             attrs: {
               type: "number",
-              id: "discountRate",
+              id: "discountRatePercentage",
               min: "0",
               max: "100",
               step: "1"
@@ -9613,7 +9733,10 @@ var render = function() {
                           _c("div", { staticClass: "col-8" }, [
                             _c("div", { staticClass: "form-floating mb-3" }, [
                               _c("input", {
-                                staticClass: "form-control",
+                                class: {
+                                  "form-control": true,
+                                  "is-invalid": !this.variationName
+                                },
                                 attrs: {
                                   type: "text",
                                   id: "variationName",
@@ -9629,12 +9752,17 @@ var render = function() {
                               _vm._v(" "),
                               _c("label", { attrs: { for: "variationName" } }, [
                                 _vm._v("规格")
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(0)
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-floating" }, [
                               _c("input", {
-                                staticClass: "form-control",
+                                class: {
+                                  "form-control": true,
+                                  "is-invalid": !this.variationEnName
+                                },
                                 attrs: {
                                   type: "text",
                                   id: "variationEnName",
@@ -9652,14 +9780,19 @@ var render = function() {
                                 "label",
                                 { attrs: { for: "variationEnName" } },
                                 [_vm._v("Variation")]
-                              )
+                              ),
+                              _vm._v(" "),
+                              _vm._m(1)
                             ])
                           ])
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-floating mb-3 w-100" }, [
                           _c("input", {
-                            staticClass: "form-control",
+                            class: {
+                              "form-control": true,
+                              "is-invalid": !this.variationBarcode
+                            },
                             attrs: {
                               type: "text",
                               id: "variationBarcode",
@@ -9680,7 +9813,9 @@ var render = function() {
                               attrs: { for: "variationBarcode" }
                             },
                             [_vm._v("货号")]
-                          )
+                          ),
+                          _vm._v(" "),
+                          _vm._m(2)
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row mb-3" }, [
@@ -9745,7 +9880,9 @@ var render = function() {
                                   min: "0",
                                   step: "1"
                                 },
-                                domProps: { value: _vm.variationStock },
+                                domProps: {
+                                  value: _vm.variationStock.toFixed(0)
+                                },
                                 on: {
                                   change: function($event) {
                                     return _vm.onChange($event, "stock")
@@ -9776,7 +9913,7 @@ var render = function() {
                                 step: "0.01"
                               },
                               domProps: {
-                                value: _vm.variationWeight.toFixed(2)
+                                value: _vm.variationWeight.toFixed(3)
                               },
                               on: {
                                 change: function($event) {
@@ -9797,7 +9934,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row mb-3" }, [
-                          _vm._m(0),
+                          _vm._m(3),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -9900,10 +10037,18 @@ var render = function() {
                                       staticClass: "form-control",
                                       attrs: {
                                         type: "date",
-                                        id: "discountStartDate"
+                                        id: "discountStartDate",
+                                        min: _vm.dateToString(_vm.getToday()),
+                                        max: _vm.variationDiscountEnd
+                                          ? _vm.dateToString(
+                                              _vm.variationDiscountEnd
+                                            )
+                                          : ""
                                       },
                                       domProps: {
-                                        value: _vm.variationDiscountStart
+                                        value: _vm.dateToString(
+                                          _vm.variationDiscountStart
+                                        )
                                       },
                                       on: {
                                         change: function($event) {
@@ -9939,10 +10084,15 @@ var render = function() {
                                               staticClass: "form-control",
                                               attrs: {
                                                 type: "date",
-                                                id: "discountEndDate"
+                                                id: "discountEndDate",
+                                                min: _vm.dateToString(
+                                                  _vm.variationDiscountStart
+                                                )
                                               },
                                               domProps: {
-                                                value: _vm.variationDiscountEnd
+                                                value: _vm.dateToString(
+                                                  _vm.variationDiscountEnd
+                                                )
                                               },
                                               on: {
                                                 change: function($event) {
@@ -10125,7 +10275,8 @@ var render = function() {
                               " btn-md w-100",
                             attrs: {
                               type: "submit",
-                              "data-bs-dismiss": "modal"
+                              "data-bs-dismiss": "modal",
+                              disabled: !_vm.isAllValid()
                             },
                             on: {
                               click: function($event) {
@@ -10172,6 +10323,33 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "invalid-feedback" }, [
+      _c("b", [_vm._v("规格")]),
+      _vm._v(" 为必填选项")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "invalid-feedback" }, [
+      _c("b", [_vm._v("Variation")]),
+      _vm._v(" 为必填选项\n                  ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "invalid-feedback" }, [
+      _c("b", [_vm._v("货号")]),
+      _vm._v(" 为必填选项")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -23,11 +23,12 @@
             :value="discountPrice.toFixed(2)"
             @change="onChange($event, 'discountPrice')"
           />
+          <div class="invalid-feedback">必须 RM0.00 或以上</div>
           <span class="input-group-text" id="openBracket">(</span>
           <input
             type="number"
             class="form-control"
-            id="discountRate"
+            id="discountRatePercentage"
             min="0"
             max="100"
             step="1"
@@ -120,26 +121,58 @@ export default {
 
     onChange(event, name) {
       let newValue = event.target.value.trim();
-
+      let limitedValue;
       switch (name) {
         case "discountPrice": {
-          this.discountPrice = Number(newValue);
-          this.discountRate = newValue / this.originalPrice;
+          limitedValue = this.discountedLimit(Number(newValue));
+          this.discountPrice = limitedValue;
+          this.discountRate = limitedValue / this.originalPrice;
           break;
         }
         case "discountRatePercentage": {
-          this.discountRatePercentage = Number(newValue);
-          this.discountRate = newValue / 100;
+          limitedValue = this.percentageLimit(Number(newValue));
+          this.discountRatePercentage = limitedValue;
+          this.discountRate = limitedValue / 100;
           break;
         }
         case "discountedPrice": {
-          this.discountedPrice = Number(newValue);
+          limitedValue = this.discountedLimit(Number(newValue));
+          this.discountedPrice = limitedValue;
           this.discountRate =
-            (this.originalPrice - newValue) / this.originalPrice;
+            (this.originalPrice - limitedValue) / this.originalPrice;
           break;
         }
         default: {
         }
+      }
+      event.target.value = limitedValue.toFixed(2);
+    },
+
+    percentageLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else if (value > 100) {
+        return 100;
+      } else {
+        return value;
+      }
+    },
+
+    discountLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else {
+        return value;
+      }
+    },
+
+    discountedLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else if (value > this.originalPrice) {
+        return this.originalPrice;
+      } else {
+        return value;
       }
     },
   },

@@ -173,7 +173,10 @@ input:checked + .slider:before {
                 <div class="col-8">
                   <div class="form-floating mb-3">
                     <input
-                      class="form-control"
+                      :class="{
+                        'form-control': true,
+                        'is-invalid': !this.variationName,
+                      }"
                       type="text"
                       id="variationName"
                       placeholder="规格"
@@ -181,10 +184,14 @@ input:checked + .slider:before {
                       @change="onChange($event, 'name')"
                     />
                     <label for="variationName">规格</label>
+                    <div class="invalid-feedback"><b>规格</b> 为必填选项</div>
                   </div>
                   <div class="form-floating">
                     <input
-                      class="form-control"
+                      :class="{
+                        'form-control': true,
+                        'is-invalid': !this.variationEnName,
+                      }"
                       type="text"
                       id="variationEnName"
                       placeholder="Variation"
@@ -192,12 +199,18 @@ input:checked + .slider:before {
                       @change="onChange($event, 'enName')"
                     />
                     <label for="variationEnName">Variation</label>
+                    <div class="invalid-feedback">
+                      <b>Variation</b> 为必填选项
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="form-floating mb-3 w-100">
                 <input
-                  class="form-control"
+                  :class="{
+                    'form-control': true,
+                    'is-invalid': !this.variationBarcode,
+                  }"
                   type="text"
                   id="variationBarcode"
                   placeholder="货号"
@@ -205,6 +218,7 @@ input:checked + .slider:before {
                   @change="onChange($event, 'barcode')"
                 />
                 <label class="label" for="variationBarcode">货号</label>
+                <div class="invalid-feedback"><b>货号</b> 为必填选项</div>
               </div>
               <div class="row mb-3">
                 <div class="col-6">
@@ -233,7 +247,7 @@ input:checked + .slider:before {
                       id="variationStock"
                       min="0"
                       step="1"
-                      :value="variationStock"
+                      :value="variationStock.toFixed(0)"
                       @change="onChange($event, 'stock')"
                     />
                   </div>
@@ -248,7 +262,7 @@ input:checked + .slider:before {
                     id="variationWeight"
                     min="0.01"
                     step="0.01"
-                    :value="variationWeight.toFixed(2)"
+                    :value="variationWeight.toFixed(3)"
                     @change="onChange($event, 'weight')"
                   />
                   <span class="input-group-text" id="weightUnit">kg</span>
@@ -291,7 +305,13 @@ input:checked + .slider:before {
                         type="date"
                         class="form-control"
                         id="discountStartDate"
-                        :value="variationDiscountStart"
+                        :value="dateToString(variationDiscountStart)"
+                        :min="dateToString(getToday())"
+                        :max="
+                          variationDiscountEnd
+                            ? dateToString(variationDiscountEnd)
+                            : ''
+                        "
                         @change="onChange($event, 'discountStart')"
                       />
                     </div>
@@ -306,7 +326,8 @@ input:checked + .slider:before {
                           type="date"
                           class="form-control"
                           id="discountEndDate"
-                          :value="variationDiscountEnd"
+                          :value="dateToString(variationDiscountEnd)"
+                          :min="dateToString(variationDiscountStart)"
                           @change="onChange($event, 'discountEnd')"
                         />
                       </div>
@@ -385,6 +406,7 @@ input:checked + .slider:before {
                   type="submit"
                   :class="`btn ${actionButtonConfirmClass} btn-md w-100`"
                   data-bs-dismiss="modal"
+                  :disabled="!isAllValid()"
                   @click.prevent="onPrimaryPressed()"
                 >
                   {{ actionButtonConfirmName }}
@@ -446,10 +468,13 @@ export default {
       variationWeight: this.variation?.weight ?? 0,
       variationDiscount: this.variation?.discount ?? null,
       variationDiscountRate: this.variation?.discount?.rate ?? 0,
-      variationDiscountStart:
-        this.variation?.discount?.start ?? this.getToday(),
-      variationDiscountEnd: this.variation?.discount?.end ?? null,
-      isVariationDiscountEnabled: this.variation?.discount ?? false,
+      variationDiscountStart: this.variation?.discount?.start
+        ? this.stringToDate(this.variation.discount.start)
+        : this.getToday(),
+      variationDiscountEnd: this.variation?.discount?.end
+        ? this.stringToDate(this.variation.discount.end)
+        : null,
+      isVariationDiscountEnabled: this.variation?.discount ? true : false,
       isDurationLimited: this.variation?.discount?.end ?? false,
 
       newImage: null,
@@ -465,6 +490,11 @@ export default {
       this.clearActionData();
       this.fetchActionData(val);
     },
+    isDurationLimited: function (val) {
+      this.variationDiscountEnd = val
+        ? this.getNextDay(this.variationDiscountStart)
+        : null;
+    },
   },
 
   methods: {
@@ -475,8 +505,8 @@ export default {
       if (this.isVariationDiscountEnabled) {
         discount = {
           rate: this.variationDiscountRate,
-          start: this.variationDiscountStart,
-          end: this.variationDiscountEnd,
+          start: this.dateToString(this.variationDiscountStart),
+          end: this.dateToString(this.variationDiscountEnd),
         };
       } else {
         discount = null;
@@ -533,6 +563,7 @@ export default {
 
     onChange(event, name) {
       let newValue = event.target.value.trim();
+      let limitedValue;
 
       switch (name) {
         case "name": {
@@ -548,27 +579,63 @@ export default {
           break;
         }
         case "price": {
-          this.variationPrice = Number(newValue);
+          limitedValue = this.variationPriceLimit(Number(newValue));
+          this.variationPrice = limitedValue;
+          event.target.value = limitedValue.toFixed(2);
           break;
         }
         case "stock": {
-          this.variationStock = Number(newValue);
+          limitedValue = this.stockLimit(Number(newValue));
+          this.variationStock = limitedValue;
+          event.target.value = limitedValue.toFixed(0);
           break;
         }
         case "weight": {
-          this.variationWeight = Number(newValue);
+          limitedValue = this.weightLimit(Number(newValue));
+          this.variationWeight = limitedValue;
+          event.target.value = limitedValue.toFixed(3);
           break;
         }
         case "discountStart": {
-          this.variationDiscountStart = newValue;
+          this.variationDiscountStart = this.stringToDate(newValue);
           break;
         }
         case "discountEnd": {
-          this.variationDiscountEnd = newValue;
+          console.log(newValue);
+          this.variationDiscountEnd = this.stringToDate(newValue);
           break;
         }
         default: {
         }
+      }
+    },
+
+    isDuplicate(prop) {
+      // TODO Check duplicate value from BE
+      return false;
+    },
+
+    variationPriceLimit(value) {
+      if (value <= 0) {
+        return 0.01;
+      } else {
+        return value;
+      }
+    },
+
+    stockLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else {
+        return value;
+      }
+    },
+
+    weightLimit(value) {
+      if (value < 0) {
+        return 0;
+      } else {
+        return value;
       }
     },
 
@@ -577,15 +644,49 @@ export default {
     },
 
     getToday() {
-      const today = new Date();
-      const date =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
+      return new Date();
+    },
 
-      return date;
+    getNextDay(date) {
+      const nextDay = new Date(date);
+      nextDay.setDate(date.getDate() + 1);
+      console.log("getNextDay()::nextDay:", nextDay);
+      return nextDay;
+    },
+
+    dateToString(date) {
+      console.log("dateToString()::date:", date);
+      console.log(
+        "dateToString()::string:",
+        date.getFullYear() +
+          "-" +
+          String(date.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(date.getDate()).padStart(2, "0")
+      );
+      return (
+        date.getFullYear() +
+        "-" +
+        String(date.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(date.getDate()).padStart(2, "0")
+      );
+    },
+
+    stringToDate(string) {
+      console.log("stringToDate()::string:", string);
+      // If string contains time (00:00:00), removes time
+      if (string.includes(" ")) {
+        string = string.split(" ")[0];
+      }
+
+      const subStrings = string.split("-");
+      const year = subStrings[0];
+      const month = subStrings[1] - 1;
+      const day = subStrings[2];
+
+      console.log("stringToDate()::date:", new Date(year, month, day));
+      return new Date(year, month, day);
     },
 
     fetchVariationData(val) {
@@ -599,9 +700,13 @@ export default {
       this.variationWeight = val?.weight ?? 0;
       this.variationDiscount = val?.discount ?? null;
       this.variationDiscountRate = val?.discount?.rate ?? 0;
-      this.variationDiscountStart = val?.discount?.start ?? this.getToday();
-      this.variationDiscountEnd = val?.discount?.end ?? null;
-      this.isVariationDiscountEnabled = val?.discount ?? false;
+      this.variationDiscountStart = val?.discount?.start
+        ? this.stringToDate(val.discount.start)
+        : this.getToday();
+      this.variationDiscountEnd = val?.discount?.end
+        ? this.stringToDate(val.discount.end)
+        : null;
+      this.isVariationDiscountEnabled = val?.discount ? true : false;
       this.isDurationLimited = val?.discount?.end ?? false;
     },
 
@@ -625,7 +730,7 @@ export default {
       this.variationWeight = 0;
       this.variationDiscount = null;
       this.variationDiscountRate = 0;
-      this.variationDiscountStart = null;
+      this.variationDiscountStart = this.getToday();
       this.variationDiscountEnd = null;
       this.isVariationDiscountEnabled = false;
       this.isDurationLimited = false;
@@ -638,6 +743,15 @@ export default {
       this.actionButtonConfirmClass = null;
       this.actionButtonCancelName = null;
       this.actionButtonCancelClass = null;
+    },
+
+    isAllValid() {
+      return (
+        this.variationName &&
+        this.variationEnName &&
+        this.variationBarcode &&
+        !this.isDuplicate(this.variationBarcode)
+      );
     },
 
     onResponse(...args) {
