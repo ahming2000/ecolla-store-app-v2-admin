@@ -301,12 +301,6 @@ class ItemsController extends Controller
 
                     case "add":
 
-//                        if ($this->variationBarcodeIsDuplicated($data['info']['barcode'], $item->id)) {
-//                            $msgMgr->pushError("货号 " . $data['info']['barcode'] . " 已存在！");
-//                        } else {
-
-//                        }
-
                         if ($this->addVariation($item, $data)) {
                             $resMgr->addMessage("添加规格成功！");
                         } else {
@@ -323,12 +317,6 @@ class ItemsController extends Controller
                         break;
 
                     case "update":
-
-//                        if ($this->variationBarcodeIsDuplicated($data['info']['barcode'], $item->id)) {
-//                            $msgMgr->pushError("货号 " . $data['info']['barcode'] . " 已存在！");
-//                        } else {
-//
-//                        }
 
                         if ($this->updateVariation($data)) {
                             $resMgr->addMessage("规格保存成功！");
@@ -443,28 +431,6 @@ class ItemsController extends Controller
     private function deleteVariation(Item $item, $id): bool
     {
         return $item->variations()->find($id)->delete();
-    }
-
-    private function itemNameIsDuplicated($id, $name): bool
-    {
-        $id = DB::table('items')
-            ->select('id')
-            ->where('name', '=', $name)
-            ->where('id', '!=', $id)
-            ->first();
-
-        return $id != null;
-    }
-
-    private function variationBarcodeIsDuplicated($barcode, $item_id): bool
-    {
-        $result = DB::table('variations')
-            ->select('id')
-            ->where('barcode', '=', $barcode)
-            ->where('item_id', '!=', $item_id)
-            ->get();
-
-        return !empty($result->toArray());
     }
 
     private function processCategories(Item $item, array $old, array $new)
