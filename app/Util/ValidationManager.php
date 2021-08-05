@@ -27,10 +27,31 @@ class ValidationManager
         }
     }
 
-    public function validateUnique(string $table, string $column, string $curVal, string $newVal, string $errorMessage = "该资料已存在数据库！")
+    public function validateUniqueBarcode(string $itemId, string $barcode)
     {
-        $isNotUnique = DB::table($table)->select($column)->where($column, '!=', $curVal)->where($column, '=', $newVal)->first() == null;
-        if ($isNotUnique) $this->errors[$column] = $errorMessage;
+        // Check other item's variation barcode
+        $result = DB::table('variations')
+            ->select('id')
+            ->where('barcode', '=', $barcode)
+            ->where('item_id', '!=', $itemId)
+            ->get(); // Validate success -> Result not found
+
+        if (!empty($result->toArray())){
+            $selected = $result->toArray()[0]->id;
+            $this->errors['barcode'] = "货号 $barcode 已重复在其他商品里！<a href='/item/$selected/edit'>点击</a>进行跳转。";
+            return;
+        }
+
+        // Check current item's variation barcode
+        $result = DB::table('variations')
+            ->select('id')
+            ->where('barcode', '=', $barcode)
+            ->where('item_id', '=', $itemId)
+            ->get(); // Validate success -> Result not found
+
+        if (!empty($result->toArray())){
+            $this->errors['barcode'] = "货号 $barcode 已重复！";
+        }
     }
 
     public function hasError(): bool

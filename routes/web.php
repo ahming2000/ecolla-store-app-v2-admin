@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SystemUpdateController;
+use App\Http\Controllers\ValidatorsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -52,6 +53,10 @@ Route::prefix('/item')->group(function () {
     Route::post('/{item}/list', [ItemsController::class, 'list']);
 
     Route::post('/{item}/util/reset/{attr}', [ItemsController::class, 'resetUtil']);
+});
+
+Route::prefix('/validate')->group(function() {
+    Route::post('/item/variation/{attribute}', [ValidatorsController::class, 'validateVariation']);
 });
 
 Route::prefix('/order')->group(function () {
