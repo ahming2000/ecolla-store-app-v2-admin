@@ -312,6 +312,8 @@ class ItemsController extends Controller
                             ->first()
                             ->toArray();
 
+                        $data_new['image'] = (new ImageHandler())->convertToDataURL($data_new['image']);
+
                         $resMgr->setData($data_new);
 
                         break;
