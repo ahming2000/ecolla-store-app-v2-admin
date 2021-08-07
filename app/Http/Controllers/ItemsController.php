@@ -10,11 +10,13 @@ use App\Models\SystemConfig;
 use App\Models\Variation;
 use App\Models\VariationDiscount;
 use App\Util\ImageHandler;
-use App\Util\MessageManager;
+use App\Util\JsonResponseManager;
+use App\Util\ValidationManager;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 
 class ItemsController extends Controller
@@ -225,21 +227,16 @@ class ItemsController extends Controller
     {
         $action = request('action') ?? "";
 
-        $msgMgr = new MessageManager();
+        $resMgr = new JsonResponseManager();
 
         switch ($type) {
 
             case "itemBasic":
 
                 $data = request('item_info');
-
-                if ($this->itemNameIsDuplicated($item->id, $data['name'])) {
-                    $id = $this->getItem($data['name'], 'id')->id;
-                    $msgMgr->pushError("此商品名称已被使用！请到<a href=\"/item/$id/edit\">点击此处</a>添加规格！");
-                } else {
-                    $item->update($data);
-                    $msgMgr->pushInfo("基本资料保存成功！");
-                }
+                $item->update($data);
+                $resMgr->addMessage("基本资料保存成功！");
+                $resMgr->setData($data);
 
                 break;
 
@@ -252,27 +249,27 @@ class ItemsController extends Controller
                     case 'add':
 
                         if ($this->addItemImage($item, $data)) {
-                            $msgMgr->pushInfo("商品照片保存成功！");
+                            $resMgr->addMessage("商品照片保存成功！");
                         } else {
-                            $msgMgr->pushError("保存商品照片失败！请联系技术人员！");
+                            $resMgr->addMessage("保存商品照片失败！请联系技术人员！", false);
                         }
 
-                        return response()->json([
-                            "message" => $msgMgr->getAllInfos('string'),
-                            "error" => $msgMgr->getAllErrors('string'),
-                            "item_image_id" => DB::table('item_images')
-                                ->where('item_id', '=', $item->id)->orderByDesc('created_at')
-                                ->first('id')->id
-                        ]);
+                        $data_new = DB::table('item_images')
+                            ->where('item_id', '=', $item->id)
+                            ->orderByDesc('created_at')
+                            ->first('id')
+                            ->id;
+
+                        $resMgr->setData(['id' => $data_new]);
 
                         break;
 
                     case 'delete':
 
                         if ($this->deleteItemImage($data)) {
-                            $msgMgr->pushInfo("商品照片删除成功！");
+                            $resMgr->addMessage("商品照片删除成功！");
                         } else {
-                            $msgMgr->pushError("删除商品照片失败！请联系技术人员！");
+                            $resMgr->addMessage("删除商品照片失败！请联系技术人员！", false);
                         }
 
                         break;
@@ -288,7 +285,10 @@ class ItemsController extends Controller
                 $new = request('categories');
 
                 $this->processCategories($item, $old, $new);
-                $msgMgr->pushInfo("商品分类保存成功！");
+                $resMgr->addMessage("商品分类保存成功！");
+
+                $data_new = Category::all()->whereIn('id', $new)->toArray();
+                $resMgr->setData($data_new);
 
                 break;
 
@@ -301,46 +301,39 @@ class ItemsController extends Controller
 
                     case "add":
 
-                        if ($this->variationBarcodeIsDuplicated($data['info']['barcode'], $item->id)) {
-                            $msgMgr->pushError("货号 " . $data['info']['barcode'] . " 已存在！");
+                        if ($this->addVariation($item, $data)) {
+                            $resMgr->addMessage("添加规格成功！");
                         } else {
-                            if ($this->addVariation($item, $data)) {
-                                $msgMgr->pushInfo("添加规格成功！");
-                            } else {
-                                $msgMgr->pushError("添加规格失败！请联系技术人员！");
-                            }
+                            $resMgr->addMessage("添加规格失败！请联系技术人员！", false);
                         }
 
-                        return response()->json([
-                            "message" => $msgMgr->getAllInfos('string'),
-                            "error" => $msgMgr->getAllErrors('string'),
-                            "variation_id" => DB::table('variations')
-                                ->where('barcode', '=', $data['info']['barcode'])
-                                ->first('id')->id
-                        ]);
+                        $data_new = Variation::all()
+                            ->where('barcode', '=', $data['info']['barcode'])
+                            ->first()
+                            ->toArray();
+
+                        $resMgr->setData($data_new);
 
                         break;
 
                     case "update":
 
-                        if ($this->variationBarcodeIsDuplicated($data['info']['barcode'], $item->id)) {
-                            $msgMgr->pushError("货号 " . $data['info']['barcode'] . " 已存在！");
+                        if ($this->updateVariation($data)) {
+                            $resMgr->addMessage("规格保存成功！");
                         } else {
-                            if ($this->updateVariation($data)) {
-                                $msgMgr->pushInfo("规格保存成功！");
-                            } else {
-                                $msgMgr->pushError("更新规格失败！请联系技术人员！");
-                            }
+                            $resMgr->addMessage("更新规格失败！请联系技术人员！", false);
                         }
+
+                        $resMgr->setData($data);
 
                         break;
 
                     case "delete":
 
                         if ($this->deleteVariation($item, $data['info']['id'])) {
-                            $msgMgr->pushInfo("规格删除成功！");
+                            $resMgr->addMessage("规格删除成功！");
                         } else {
-                            $msgMgr->pushError("删除规格失败！请联系技术人员！");
+                            $resMgr->addMessage("删除规格失败！请联系技术人员！", false);
                         }
 
                         break;
@@ -352,18 +345,20 @@ class ItemsController extends Controller
 
             case "wholesale":
 
+                $resMgr->addMessage("This feature is under maintenance!");
+
                 break;
 
             default:
         }
 
         if ($this->canList($item->id, true)) {
-            $msgMgr->pushInfo("商品已自动上架！");
+            $resMgr->addMessage("商品已自动上架！");
         } else {
-            $msgMgr->pushInfo("商品未上架！");
+            $resMgr->addMessage("商品未上架！");
         }
 
-        return response()->json(["message" => $msgMgr->getAllInfos('string'), "error" => $msgMgr->getAllErrors('string')]);
+        return $resMgr->getJsonResponse();
     }
 
     private function getItem(string $name, string $select = '*')
@@ -436,28 +431,6 @@ class ItemsController extends Controller
     private function deleteVariation(Item $item, $id): bool
     {
         return $item->variations()->find($id)->delete();
-    }
-
-    private function itemNameIsDuplicated($id, $name): bool
-    {
-        $id = DB::table('items')
-            ->select('id')
-            ->where('name', '=', $name)
-            ->where('id', '!=', $id)
-            ->first();
-
-        return $id != null;
-    }
-
-    private function variationBarcodeIsDuplicated($barcode, $item_id): bool
-    {
-        $result = DB::table('variations')
-            ->select('id')
-            ->where('barcode', '=', $barcode)
-            ->where('item_id', '!=', $item_id)
-            ->get();
-
-        return !empty($result->toArray());
     }
 
     private function processCategories(Item $item, array $old, array $new)
