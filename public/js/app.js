@@ -1576,10 +1576,10 @@ __webpack_require__.r(__webpack_exports__);
       axios.patch("/item/".concat(this.itemId, "/itemBasic"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this.$emit("onResponse", res.data.messages, "success");
         } else {
-          _this.$emit("onResponse", res.data.error, "error");
+          _this.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -1784,11 +1784,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.patch("/item/".concat(this.itemId, "/category"), body).then(function (res) {
         console.log(res);
 
-        if (res.status === 200) {
+        if (res.data.ok) {
           if (res.data.message !== "") {
-            _this.$emit("onResponse", res.data.message, "success");
+            _this.$emit("onResponse", res.data.messages, "success");
           } else {
-            _this.$emit("onResponse", res.data.error, "error");
+            _this.$emit("onResponse", res.data.messages, "error");
           }
         }
       })["catch"](function (error) {
@@ -2227,14 +2227,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.patch("/item/".concat(this.itemId, "/images"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this.$emit("onResponse", res.data.messages, "success");
 
           _this.itemImages = _this.itemImages.filter(function (image) {
             return image !== _this.selectedImage;
           });
         } else {
-          _this.$emit("onResponse", res.data.error, "error");
+          _this.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -2261,15 +2261,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.patch("/item/".concat(this.itemId, "/images"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this2.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this2.$emit("onResponse", res.data.messages, "success");
 
           _this2.itemImages = [].concat(_toConsumableArray(_this2.itemImages), [{
-            id: res.data.item_image_id,
+            id: res.data.data.id,
             image: newImageData
           }]);
         } else {
-          _this2.$emit("onResponse", res.data.error, "error");
+          _this2.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
