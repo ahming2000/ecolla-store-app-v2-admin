@@ -1355,6 +1355,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1379,7 +1382,7 @@ __webpack_require__.r(__webpack_exports__);
     allCategories: Array
   },
   data: function data() {
-    var _this$item$id, _this$item$name, _this$item$name_en, _this$item$desc, _this$item$origin, _this$item$origin_en, _this$item$created_at, _this$item$updated_at, _this$item$variations, _this$item$variations2;
+    var _this$item$id, _this$item$name, _this$item$name_en, _this$item$desc, _this$item$origin, _this$item$origin_en, _this$item$created_at, _this$item$updated_at, _this$item$variations, _this$item$variations2, _this$item$variations3;
 
     return {
       // Extracted basic info from item
@@ -1393,12 +1396,24 @@ __webpack_require__.r(__webpack_exports__);
         created_at: (_this$item$created_at = this.item.created_at) !== null && _this$item$created_at !== void 0 ? _this$item$created_at : null,
         updated_at: (_this$item$updated_at = this.item.updated_at) !== null && _this$item$updated_at !== void 0 ? _this$item$updated_at : null
       },
-      firstVariationPrice: (_this$item$variations = (_this$item$variations2 = this.item.variations[0]) === null || _this$item$variations2 === void 0 ? void 0 : _this$item$variations2.price) !== null && _this$item$variations !== void 0 ? _this$item$variations : null,
+      variations: (_this$item$variations = this.item.variations) !== null && _this$item$variations !== void 0 ? _this$item$variations : [],
+      isWholesaleDiscountAllowed: false,
+      firstVariationPrice: (_this$item$variations2 = (_this$item$variations3 = this.item.variations[0]) === null || _this$item$variations3 === void 0 ? void 0 : _this$item$variations3.price) !== null && _this$item$variations2 !== void 0 ? _this$item$variations2 : null,
       messageData: {
         message: "",
         type: ""
       }
     };
+  },
+  created: function created() {
+    this.checkWholesaleDiscountAllowed(this.variations);
+    console.log("this.isWholesaleDiscountAllowed", this.isWholesaleDiscountAllowed);
+  },
+  watch: {
+    variations: function variations(val) {
+      this.checkWholesaleDiscountAllowed(val);
+      console.log("this.isWholesaleDiscountAllowed", this.isWholesaleDiscountAllowed);
+    }
   },
   methods: {
     onResponse: function onResponse() {
@@ -1419,6 +1434,20 @@ __webpack_require__.r(__webpack_exports__);
         return new bootstrap__WEBPACK_IMPORTED_MODULE_7__.Toast(toastEl, option);
       });
       toastList[0].show();
+    },
+    onVariationsUpdated: function onVariationsUpdated(variations) {
+      this.variations = variations;
+    },
+    checkWholesaleDiscountAllowed: function checkWholesaleDiscountAllowed(variations) {
+      var variationPrices = variations.map(function (variation) {
+        return variation.price;
+      });
+
+      var isPriceEqual = function isPriceEqual(currentPrice) {
+        return currentPrice === variationPrices[0];
+      };
+
+      this.isWholesaleDiscountAllowed = variationPrices.every(isPriceEqual);
     }
   }
 });
@@ -2507,7 +2536,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
 
 
 
@@ -2631,6 +2659,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           };
           _this.variationList = [].concat(_toConsumableArray(_this.variationList), [addedVariation]);
           _this.selectedVariation = null;
+
+          _this.$emit("onVariationsUpdated", _this.variationList);
         } else {
           _this.$emit("onResponse", res.data.messages, "error");
         }
@@ -2675,6 +2705,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             }
           });
           _this2.selectedVariation = null;
+
+          _this2.$emit("onVariationsUpdated", _this2.variationList);
         } else {
           _this2.$emit("onResponse", res.data.messages, "error");
         }
@@ -2704,6 +2736,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             return variation.id !== _this3.selectedVariation.info.id;
           });
           _this3.selectedVariation = null;
+
+          _this3.$emit("onVariationsUpdated", _this3.variationList);
         } else {
           _this3.$emit("onResponse", res.data.messages, "error");
         }
@@ -2784,6 +2818,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2791,11 +2833,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   name: "edit-item-wholesale-discount-list",
   props: {
+    is_wholesale_discount_allowed: Boolean,
     original_price: Number,
     wholesale_discounts: Array
   },
   data: function data() {
-    return {};
+    var _this$originalPrice, _this$wholesale_disco;
+
+    return {
+      isWholesaleDiscountAllowed: this.is_wholesale_discount_allowed,
+      originalPrice: (_this$originalPrice = this.originalPrice) !== null && _this$originalPrice !== void 0 ? _this$originalPrice : null,
+      wholesaleDiscounts: (_this$wholesale_disco = this.wholesale_discounts) !== null && _this$wholesale_disco !== void 0 ? _this$wholesale_disco : []
+    };
   },
   computed: {
     classObject: function classObject() {
@@ -8205,7 +8254,7 @@ var render = function() {
           },
           [
             _c("edit-item-variation-list", {
-              attrs: { item_id: _vm.item.id, variations: _vm.item.variations },
+              attrs: { item_id: _vm.item.id, variations: _vm.variations },
               on: {
                 onResponse: function() {
                   var args = [],
@@ -8213,6 +8262,9 @@ var render = function() {
                   while (len--) args[len] = arguments[len]
 
                   return _vm.onResponse.apply(void 0, args)
+                },
+                onVariationsUpdated: function($event) {
+                  return _vm.onVariationsUpdated($event)
                 }
               }
             })
@@ -8233,6 +8285,7 @@ var render = function() {
           [
             _c("edit-item-wholesale-discount-list", {
               attrs: {
+                is_wholesale_discount_allowed: _vm.isWholesaleDiscountAllowed,
                 wholesale_discounts: _vm.item.discounts,
                 original_price: _vm.firstVariationPrice
               }
@@ -8381,9 +8434,10 @@ var staticRenderFns = [
               _c(
                 "a",
                 {
-                  staticClass: "nav-link d-inline-block",
+                  staticClass: "nav-link",
                   attrs: {
                     id: "pills-wholesale-discount-tab",
+                    "data-bs-toggle": "pill",
                     "data-bs-target": "#pills-wholesale-discount",
                     role: "tab",
                     "aria-controls": "pills-wholesale-discount",
@@ -9429,22 +9483,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    _vm._l(_vm.wholesale_discounts, function(wholesale_discount) {
-      return _c("edit-item-wholesale-discount", {
-        key: wholesale_discount.id,
-        attrs: {
-          wholesale_discount: wholesale_discount,
-          original_price: _vm.original_price
-        }
-      })
-    }),
-    1
-  )
+  return _c("div", { staticClass: "container" }, [
+    _vm.isWholesaleDiscountAllowed
+      ? _c(
+          "div",
+          _vm._l(_vm.wholesaleDiscounts, function(wholesaleDiscount) {
+            return _c("edit-item-wholesale-discount", {
+              key: wholesaleDiscount.id,
+              attrs: {
+                wholesale_discount: wholesaleDiscount,
+                original_price: _vm.originalPrice
+              }
+            })
+          }),
+          1
+        )
+      : _c(
+          "div",
+          {
+            staticClass:
+              "d-flex align-items-center justify-content-center text-center"
+          },
+          [_vm._m(0)]
+        )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "py-5" }, [
+      _c("i", {
+        staticClass: "icofont icofont-close-circled icofont-10x text-secondary",
+        staticStyle: { "font-size": "120px" }
+      }),
+      _vm._v(" "),
+      _c("p", { staticClass: "fs-5 text-secondary" }, [
+        _vm._v("此商品无法使用批发功能")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
