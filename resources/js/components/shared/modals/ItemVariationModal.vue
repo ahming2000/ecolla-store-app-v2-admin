@@ -309,7 +309,7 @@ input:checked + .slider:before {
                         :min="dateToString(getToday())"
                         :max="
                           variationDiscountEnd
-                            ? dateToString(variationDiscountEnd)
+                            ? dateToString(getPreviousDay(variationDiscountEnd))
                             : ''
                         "
                         @change="onChange($event, 'discountStart')"
@@ -327,7 +327,7 @@ input:checked + .slider:before {
                           class="form-control"
                           id="discountEndDate"
                           :value="dateToString(variationDiscountEnd)"
-                          :min="dateToString(variationDiscountStart)"
+                          :min="dateToString(getNextDay(variationDiscountStart))"
                           @change="onChange($event, 'discountEnd')"
                         />
                       </div>
@@ -645,6 +645,13 @@ export default {
 
     getToday() {
       return new Date();
+    },
+
+    getPreviousDay(date) {
+      const previousDay = new Date(date);
+      previousDay.setDate(date.getDate() - 1);
+      console.log("getPreviousDay()::previousDay:", previousDay);
+      return previousDay;
     },
 
     getNextDay(date) {

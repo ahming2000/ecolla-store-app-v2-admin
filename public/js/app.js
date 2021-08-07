@@ -3713,6 +3713,12 @@ __webpack_require__.r(__webpack_exports__);
     getToday: function getToday() {
       return new Date();
     },
+    getPreviousDay: function getPreviousDay(date) {
+      var previousDay = new Date(date);
+      previousDay.setDate(date.getDate() - 1);
+      console.log("getPreviousDay()::previousDay:", previousDay);
+      return previousDay;
+    },
     getNextDay: function getNextDay(date) {
       var nextDay = new Date(date);
       nextDay.setDate(date.getDate() + 1);
@@ -10041,7 +10047,9 @@ var render = function() {
                                         min: _vm.dateToString(_vm.getToday()),
                                         max: _vm.variationDiscountEnd
                                           ? _vm.dateToString(
-                                              _vm.variationDiscountEnd
+                                              _vm.getPreviousDay(
+                                                _vm.variationDiscountEnd
+                                              )
                                             )
                                           : ""
                                       },
@@ -10086,7 +10094,9 @@ var render = function() {
                                                 type: "date",
                                                 id: "discountEndDate",
                                                 min: _vm.dateToString(
-                                                  _vm.variationDiscountStart
+                                                  _vm.getNextDay(
+                                                    _vm.variationDiscountStart
+                                                  )
                                                 )
                                               },
                                               domProps: {
