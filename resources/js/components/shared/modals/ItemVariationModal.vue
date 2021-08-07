@@ -474,7 +474,7 @@ export default {
         ? this.stringToDate(this.variation.discount.end)
         : null,
       isVariationDiscountEnabled: this.variation?.discount ? true : false,
-      isDurationLimited: this.variation?.discount?.end ?? false,
+      isDurationLimited: (this.variation?.discount?.end === null) ? false : true,
 
       newImage: null,
     };
@@ -712,7 +712,7 @@ export default {
     dateToString(date) {
       console.log("dateToString()::date:", date);
       if (date === null) {
-        return null;
+        return this.dateToString(this.getNextDay(this.getToday()));
       }
       console.log(
         "dateToString()::string:",
@@ -765,7 +765,7 @@ export default {
         ? this.stringToDate(val.discount.end)
         : null;
       this.isVariationDiscountEnabled = val?.discount ? true : false;
-      this.isDurationLimited = val?.discount?.end ?? false;
+      this.isDurationLimited = (val?.discount?.end === null) ? false : true;
     },
 
     fetchActionData(val) {

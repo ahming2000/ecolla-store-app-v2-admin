@@ -3513,7 +3513,7 @@ __webpack_require__.r(__webpack_exports__);
    * so I have to use this way to workaround >:(
    */
   data: function data() {
-    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$item_id, _this$variation$id, _this$variation, _this$variation$image, _this$variation2, _this$variation$name, _this$variation3, _this$variation$name_, _this$variation4, _this$variation$barco, _this$variation5, _this$variation$price, _this$variation6, _this$variation$stock, _this$variation7, _this$variation$weigh, _this$variation8, _this$variation$disco, _this$variation9, _this$variation$disco2, _this$variation10, _this$variation10$dis, _this$variation11, _this$variation11$dis, _this$variation12, _this$variation12$dis, _this$variation13, _this$variation$disco3, _this$variation14, _this$variation14$dis;
+    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$item_id, _this$variation$id, _this$variation, _this$variation$image, _this$variation2, _this$variation$name, _this$variation3, _this$variation$name_, _this$variation4, _this$variation$barco, _this$variation5, _this$variation$price, _this$variation6, _this$variation$stock, _this$variation7, _this$variation$weigh, _this$variation8, _this$variation$disco, _this$variation9, _this$variation$disco2, _this$variation10, _this$variation10$dis, _this$variation11, _this$variation11$dis, _this$variation12, _this$variation12$dis, _this$variation13, _this$variation14, _this$variation14$dis;
 
     return {
       actionName: (_this$action$name = (_this$action = this.action) === null || _this$action === void 0 ? void 0 : _this$action.name) !== null && _this$action$name !== void 0 ? _this$action$name : null,
@@ -3537,7 +3537,7 @@ __webpack_require__.r(__webpack_exports__);
       variationDiscountStart: (_this$variation11 = this.variation) !== null && _this$variation11 !== void 0 && (_this$variation11$dis = _this$variation11.discount) !== null && _this$variation11$dis !== void 0 && _this$variation11$dis.start ? this.stringToDate(this.variation.discount.start) : this.getToday(),
       variationDiscountEnd: (_this$variation12 = this.variation) !== null && _this$variation12 !== void 0 && (_this$variation12$dis = _this$variation12.discount) !== null && _this$variation12$dis !== void 0 && _this$variation12$dis.end ? this.stringToDate(this.variation.discount.end) : null,
       isVariationDiscountEnabled: (_this$variation13 = this.variation) !== null && _this$variation13 !== void 0 && _this$variation13.discount ? true : false,
-      isDurationLimited: (_this$variation$disco3 = (_this$variation14 = this.variation) === null || _this$variation14 === void 0 ? void 0 : (_this$variation14$dis = _this$variation14.discount) === null || _this$variation14$dis === void 0 ? void 0 : _this$variation14$dis.end) !== null && _this$variation$disco3 !== void 0 ? _this$variation$disco3 : false,
+      isDurationLimited: ((_this$variation14 = this.variation) === null || _this$variation14 === void 0 ? void 0 : (_this$variation14$dis = _this$variation14.discount) === null || _this$variation14$dis === void 0 ? void 0 : _this$variation14$dis.end) === null ? false : true,
       newImage: null
     };
   },
@@ -3770,7 +3770,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log("dateToString()::date:", date);
 
       if (date === null) {
-        return null;
+        return this.dateToString(this.getNextDay(this.getToday()));
       }
 
       console.log("dateToString()::string:", (date === null || date === void 0 ? void 0 : date.getFullYear()) + "-" + String((date === null || date === void 0 ? void 0 : date.getMonth()) + 1).padStart(2, "0") + "-" + String(date === null || date === void 0 ? void 0 : date.getDate()).padStart(2, "0"));
@@ -3791,7 +3791,7 @@ __webpack_require__.r(__webpack_exports__);
       return new Date(year, month, day);
     },
     fetchVariationData: function fetchVariationData(val) {
-      var _val$id, _val$image, _val$name, _val$name_en, _val$barcode, _val$price, _val$stock, _val$weight, _val$discount, _val$discount$rate, _val$discount2, _val$discount3, _val$discount4, _val$discount$end, _val$discount5;
+      var _val$id, _val$image, _val$name, _val$name_en, _val$barcode, _val$price, _val$stock, _val$weight, _val$discount, _val$discount$rate, _val$discount2, _val$discount3, _val$discount4, _val$discount5;
 
       this.variationId = (_val$id = val === null || val === void 0 ? void 0 : val.id) !== null && _val$id !== void 0 ? _val$id : null;
       this.variationImage = (_val$image = val === null || val === void 0 ? void 0 : val.image) !== null && _val$image !== void 0 ? _val$image : null;
@@ -3806,7 +3806,7 @@ __webpack_require__.r(__webpack_exports__);
       this.variationDiscountStart = val !== null && val !== void 0 && (_val$discount3 = val.discount) !== null && _val$discount3 !== void 0 && _val$discount3.start ? this.stringToDate(val.discount.start) : this.getToday();
       this.variationDiscountEnd = val !== null && val !== void 0 && (_val$discount4 = val.discount) !== null && _val$discount4 !== void 0 && _val$discount4.end ? this.stringToDate(val.discount.end) : null;
       this.isVariationDiscountEnabled = val !== null && val !== void 0 && val.discount ? true : false;
-      this.isDurationLimited = (_val$discount$end = val === null || val === void 0 ? void 0 : (_val$discount5 = val.discount) === null || _val$discount5 === void 0 ? void 0 : _val$discount5.end) !== null && _val$discount$end !== void 0 ? _val$discount$end : false;
+      this.isDurationLimited = (val === null || val === void 0 ? void 0 : (_val$discount5 = val.discount) === null || _val$discount5 === void 0 ? void 0 : _val$discount5.end) === null ? false : true;
     },
     fetchActionData: function fetchActionData(val) {
       var _val$name2, _val$contentType, _val$button$confirm$n, _val$button$confirm$c, _val$button$cancel$na, _val$button$cancel$cl;
