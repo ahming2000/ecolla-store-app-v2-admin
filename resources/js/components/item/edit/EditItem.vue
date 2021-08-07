@@ -61,7 +61,7 @@ li:hover {
             >规格资讯</a
           >
         </li>
-        <li class="nav-item" role="presentation">
+        <!-- <li class="nav-item" role="presentation">
           <a
             class="nav-link d-inline-block"
             id="pills-wholesale-discount-tab"
@@ -71,7 +71,7 @@ li:hover {
             aria-selected="false"
             >批发折扣管理</a
           >
-        </li>
+        </li> -->
         <li class="nav-item" role="presentation">
           <a
             class="nav-link"

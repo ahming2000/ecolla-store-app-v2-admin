@@ -3544,6 +3544,7 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     variation: function variation(val) {
       this.clearVariationData();
+      this.clearAllErrorMessages();
       this.fetchVariationData(val);
     },
     action: function action(val) {
@@ -3628,9 +3629,9 @@ __webpack_require__.r(__webpack_exports__);
             this.variationName = newValue;
 
             if (!this.variationName) {
-              document.getElementById("variationName").classList.add(["is-invalid"]);
+              this.displayErrorMessage("variationName", true);
             } else {
-              document.getElementById("variationName").classList.remove(["is-invalid"]);
+              this.displayErrorMessage("variationName", false);
             }
 
             break;
@@ -3641,9 +3642,9 @@ __webpack_require__.r(__webpack_exports__);
             this.variationEnName = newValue;
 
             if (!this.variationEnName) {
-              document.getElementById("variationEnName").classList.add(["is-invalid"]);
+              this.displayErrorMessage("variationEnName", true);
             } else {
-              document.getElementById("variationEnName").classList.remove(["is-invalid"]);
+              this.displayErrorMessage("variationEnName", false);
             }
 
             break;
@@ -3655,7 +3656,7 @@ __webpack_require__.r(__webpack_exports__);
 
             if (!this.variationBarcode) {
               this.variationBarcodeError = "<b>货号</b> 为必填选项";
-              document.getElementById("variationBarcode").classList.add(["is-invalid"]);
+              this.displayErrorMessage("variationBarcode", true);
             } else {
               this.checkBarcodeDuplicated();
             }
@@ -3715,10 +3716,12 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res);
 
         if (!res.data.ok) {
-          document.getElementById("variationBarcode").classList.add(["is-invalid"]);
+          _this.displayErrorMessage("variationBarcode", true);
+
           _this.variationBarcodeError = res.data.errors.barcode;
         } else {
-          document.getElementById("variationBarcode").classList.remove(["is-invalid"]);
+          _this.displayErrorMessage("variationBarcode", false);
+
           _this.variationBarcodeError = "";
         }
       })["catch"](function (error) {
@@ -3841,6 +3844,26 @@ __webpack_require__.r(__webpack_exports__);
       this.actionButtonConfirmClass = null;
       this.actionButtonCancelName = null;
       this.actionButtonCancelClass = null;
+    },
+    clearAllErrorMessages: function clearAllErrorMessages() {
+      this.displayErrorMessage("variationName", false);
+      this.displayErrorMessage("variationEnName", false);
+      this.displayErrorMessage("variationBarcode", false);
+      this.variationBarcodeError = "";
+    },
+    displayErrorMessage: function displayErrorMessage(elementId, show) {
+      var element = document.getElementById(elementId);
+      console.log(elementId, element);
+
+      if (show) {
+        if (!(element !== null && element !== void 0 && element.classList.contains("is-invalid"))) {
+          element === null || element === void 0 ? void 0 : element.classList.add(["is-invalid"]);
+        }
+      } else {
+        if (element !== null && element !== void 0 && element.classList.contains("is-invalid")) {
+          element === null || element === void 0 ? void 0 : element.classList.remove(["is-invalid"]);
+        }
+      }
     },
     isAllValid: function isAllValid() {
       return this.variationName && this.variationEnName && this.variationBarcode && this.variationBarcodeError === "";
@@ -8370,27 +8393,6 @@ var staticRenderFns = [
                   }
                 },
                 [_vm._v("规格资讯")]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item", attrs: { role: "presentation" } },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link d-inline-block",
-                  attrs: {
-                    id: "pills-wholesale-discount-tab",
-                    "data-bs-target": "#pills-wholesale-discount",
-                    role: "tab",
-                    "aria-controls": "pills-wholesale-discount",
-                    "aria-selected": "false"
-                  }
-                },
-                [_vm._v("批发折扣管理")]
               )
             ]
           ),
