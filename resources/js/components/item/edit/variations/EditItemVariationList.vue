@@ -55,8 +55,9 @@
 
     <!-- Add/Edit/Delete Modal -->
     <item-variation-modal
-      :action="action"
+      :item_id="itemId"
       :variation="selectedVariation"
+      :action="action"
       @onSaveAdd="saveAdd($event)"
       @onSaveEdit="saveEdit($event)"
       @onConfirmDelete="confirmDelete($event)"
@@ -186,8 +187,8 @@ export default {
         .patch(`/item/${this.itemId}/variation`, body)
         .then((res) => {
           console.log(res);
-          if (res.data.message !== "") {
-            this.$emit("onResponse", res.data.message, "success");
+          if (res.data.ok) {
+            this.$emit("onResponse", res.data.messages, "success");
             const addedVariation = {
               id: res.data.variation_id,
               name: newVariation.info.name,
@@ -202,7 +203,7 @@ export default {
             this.variationList = [...this.variationList, addedVariation];
             this.selectedVariation = null;
           } else {
-            this.$emit("onResponse", res.data.error, "error");
+            this.$emit("onResponse", res.data.messages, "error");
           }
         })
         .catch((error) => {
@@ -224,8 +225,8 @@ export default {
         .patch(`/item/${this.itemId}/variation`, body)
         .then((res) => {
           console.log(res);
-          if (res.data.message !== "") {
-            this.$emit("onResponse", res.data.message, "success");
+          if (res.data.ok) {
+            this.$emit("onResponse", res.data.messages, "success");
             const editedVariation = {
               id: this.selectedVariation.info.id,
               name: this.selectedVariation.info.name,
@@ -246,7 +247,7 @@ export default {
             });
             this.selectedVariation = null;
           } else {
-            this.$emit("onResponse", res.data.error, "error");
+            this.$emit("onResponse", res.data.messages, "error");
           }
         })
         .catch((error) => {
@@ -268,14 +269,14 @@ export default {
         .patch(`/item/${this.itemId}/variation`, body)
         .then((res) => {
           console.log(res);
-          if (res.data.message !== "") {
-            this.$emit("onResponse", res.data.message, "success");
+          if (res.data.ok) {
+            this.$emit("onResponse", res.data.messages, "success");
             this.variationList = this.variationList.filter(
               (variation) => variation.id !== this.selectedVariation.info.id
             );
             this.selectedVariation = null;
           } else {
-            this.$emit("onResponse", res.data.error, "error");
+            this.$emit("onResponse", res.data.messages, "error");
           }
         })
         .catch((error) => {

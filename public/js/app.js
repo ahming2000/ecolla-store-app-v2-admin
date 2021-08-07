@@ -2507,6 +2507,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 
 
@@ -2614,8 +2615,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.patch("/item/".concat(this.itemId, "/variation"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this.$emit("onResponse", res.data.messages, "success");
 
           var addedVariation = {
             id: res.data.variation_id,
@@ -2631,7 +2632,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           _this.variationList = [].concat(_toConsumableArray(_this.variationList), [addedVariation]);
           _this.selectedVariation = null;
         } else {
-          _this.$emit("onResponse", res.data.error, "error");
+          _this.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -2652,8 +2653,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.patch("/item/".concat(this.itemId, "/variation"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this2.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this2.$emit("onResponse", res.data.messages, "success");
 
           var editedVariation = {
             id: _this2.selectedVariation.info.id,
@@ -2675,7 +2676,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           });
           _this2.selectedVariation = null;
         } else {
-          _this2.$emit("onResponse", res.data.error, "error");
+          _this2.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -2696,15 +2697,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.patch("/item/".concat(this.itemId, "/variation"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this3.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this3.$emit("onResponse", res.data.messages, "success");
 
           _this3.variationList = _this3.variationList.filter(function (variation) {
             return variation.id !== _this3.selectedVariation.info.id;
           });
           _this3.selectedVariation = null;
         } else {
-          _this3.$emit("onResponse", res.data.error, "error");
+          _this3.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -3490,10 +3491,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3502,6 +3499,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   name: "item-variation-modal",
   props: {
+    item_id: Number,
     variation: Object,
     action: Object
   },
@@ -3515,7 +3513,7 @@ __webpack_require__.r(__webpack_exports__);
    * so I have to use this way to workaround >:(
    */
   data: function data() {
-    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$variation$id, _this$variation, _this$variation$image, _this$variation2, _this$variation$name, _this$variation3, _this$variation$name_, _this$variation4, _this$variation$barco, _this$variation5, _this$variation$price, _this$variation6, _this$variation$stock, _this$variation7, _this$variation$weigh, _this$variation8, _this$variation$disco, _this$variation9, _this$variation$disco2, _this$variation10, _this$variation10$dis, _this$variation11, _this$variation11$dis, _this$variation12, _this$variation12$dis, _this$variation13, _this$variation$disco3, _this$variation14, _this$variation14$dis;
+    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$item_id, _this$variation$id, _this$variation, _this$variation$image, _this$variation2, _this$variation$name, _this$variation3, _this$variation$name_, _this$variation4, _this$variation$barco, _this$variation5, _this$variation$price, _this$variation6, _this$variation$stock, _this$variation7, _this$variation$weigh, _this$variation8, _this$variation$disco, _this$variation9, _this$variation$disco2, _this$variation10, _this$variation10$dis, _this$variation11, _this$variation11$dis, _this$variation12, _this$variation12$dis, _this$variation13, _this$variation$disco3, _this$variation14, _this$variation14$dis;
 
     return {
       actionName: (_this$action$name = (_this$action = this.action) === null || _this$action === void 0 ? void 0 : _this$action.name) !== null && _this$action$name !== void 0 ? _this$action$name : null,
@@ -3524,11 +3522,13 @@ __webpack_require__.r(__webpack_exports__);
       actionButtonConfirmClass: (_this$action$button$c2 = (_this$action4 = this.action) === null || _this$action4 === void 0 ? void 0 : _this$action4.button.confirm["class"]) !== null && _this$action$button$c2 !== void 0 ? _this$action$button$c2 : null,
       actionButtonCancelName: (_this$action$button$c3 = (_this$action5 = this.action) === null || _this$action5 === void 0 ? void 0 : _this$action5.button.cancel.name) !== null && _this$action$button$c3 !== void 0 ? _this$action$button$c3 : null,
       actionButtonCancelClass: (_this$action$button$c4 = (_this$action6 = this.action) === null || _this$action6 === void 0 ? void 0 : _this$action6.button.cancel["class"]) !== null && _this$action$button$c4 !== void 0 ? _this$action$button$c4 : null,
+      itemId: (_this$item_id = this.item_id) !== null && _this$item_id !== void 0 ? _this$item_id : null,
       variationId: (_this$variation$id = (_this$variation = this.variation) === null || _this$variation === void 0 ? void 0 : _this$variation.id) !== null && _this$variation$id !== void 0 ? _this$variation$id : null,
       variationImage: (_this$variation$image = (_this$variation2 = this.variation) === null || _this$variation2 === void 0 ? void 0 : _this$variation2.image) !== null && _this$variation$image !== void 0 ? _this$variation$image : null,
       variationName: (_this$variation$name = (_this$variation3 = this.variation) === null || _this$variation3 === void 0 ? void 0 : _this$variation3.name) !== null && _this$variation$name !== void 0 ? _this$variation$name : null,
       variationEnName: (_this$variation$name_ = (_this$variation4 = this.variation) === null || _this$variation4 === void 0 ? void 0 : _this$variation4.name_en) !== null && _this$variation$name_ !== void 0 ? _this$variation$name_ : null,
       variationBarcode: (_this$variation$barco = (_this$variation5 = this.variation) === null || _this$variation5 === void 0 ? void 0 : _this$variation5.barcode) !== null && _this$variation$barco !== void 0 ? _this$variation$barco : null,
+      variationBarcodeError: "",
       variationPrice: (_this$variation$price = (_this$variation6 = this.variation) === null || _this$variation6 === void 0 ? void 0 : _this$variation6.price) !== null && _this$variation$price !== void 0 ? _this$variation$price : 0,
       variationStock: (_this$variation$stock = (_this$variation7 = this.variation) === null || _this$variation7 === void 0 ? void 0 : _this$variation7.stock) !== null && _this$variation$stock !== void 0 ? _this$variation$stock : 0,
       variationWeight: (_this$variation$weigh = (_this$variation8 = this.variation) === null || _this$variation8 === void 0 ? void 0 : _this$variation8.weight) !== null && _this$variation$weigh !== void 0 ? _this$variation$weigh : 0,
@@ -3626,18 +3626,40 @@ __webpack_require__.r(__webpack_exports__);
         case "name":
           {
             this.variationName = newValue;
+
+            if (!this.variationName) {
+              document.getElementById("variationName").classList.add(["is-invalid"]);
+            } else {
+              document.getElementById("variationName").classList.remove(["is-invalid"]);
+            }
+
             break;
           }
 
         case "enName":
           {
             this.variationEnName = newValue;
+
+            if (!this.variationEnName) {
+              document.getElementById("variationEnName").classList.add(["is-invalid"]);
+            } else {
+              document.getElementById("variationEnName").classList.remove(["is-invalid"]);
+            }
+
             break;
           }
 
         case "barcode":
           {
             this.variationBarcode = newValue;
+
+            if (!this.variationBarcode) {
+              this.variationBarcodeError = "<b>货号</b> 为必填选项";
+              document.getElementById("variationBarcode").classList.add(["is-invalid"]);
+            } else {
+              this.checkBarcodeDuplicated();
+            }
+
             break;
           }
 
@@ -3682,9 +3704,28 @@ __webpack_require__.r(__webpack_exports__);
           {}
       }
     },
-    isDuplicate: function isDuplicate(prop) {
-      // TODO Check duplicate value from BE
-      return false;
+    checkBarcodeDuplicated: function checkBarcodeDuplicated() {
+      var _this = this;
+
+      var body = {
+        item_id: this.itemId,
+        barcode: this.variationBarcode
+      };
+      axios.post("/validate/item/variation/barcode", body).then(function (res) {
+        console.log(res);
+
+        if (!res.data.ok) {
+          document.getElementById("variationBarcode").classList.add(["is-invalid"]);
+          _this.variationBarcodeError = res.data.errors.barcode;
+        } else {
+          document.getElementById("variationBarcode").classList.remove(["is-invalid"]);
+          _this.variationBarcodeError = "";
+        }
+      })["catch"](function (error) {
+        console.error(error);
+
+        _this.$emit("onResponse", error.message, "error");
+      });
     },
     variationPriceLimit: function variationPriceLimit(value) {
       if (value <= 0) {
@@ -3727,8 +3768,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     dateToString: function dateToString(date) {
       console.log("dateToString()::date:", date);
-      console.log("dateToString()::string:", date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0"));
-      return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+
+      if (date === null) {
+        return null;
+      }
+
+      console.log("dateToString()::string:", (date === null || date === void 0 ? void 0 : date.getFullYear()) + "-" + String((date === null || date === void 0 ? void 0 : date.getMonth()) + 1).padStart(2, "0") + "-" + String(date === null || date === void 0 ? void 0 : date.getDate()).padStart(2, "0"));
+      return (date === null || date === void 0 ? void 0 : date.getFullYear()) + "-" + String((date === null || date === void 0 ? void 0 : date.getMonth()) + 1).padStart(2, "0") + "-" + String(date === null || date === void 0 ? void 0 : date.getDate()).padStart(2, "0");
     },
     stringToDate: function stringToDate(string) {
       console.log("stringToDate()::string:", string); // If string contains time (00:00:00), removes time
@@ -3797,7 +3843,7 @@ __webpack_require__.r(__webpack_exports__);
       this.actionButtonCancelClass = null;
     },
     isAllValid: function isAllValid() {
-      return this.variationName && this.variationEnName && this.variationBarcode && !this.isDuplicate(this.variationBarcode);
+      return this.variationName && this.variationEnName && this.variationBarcode && this.variationBarcodeError === "";
     },
     onResponse: function onResponse() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -9305,7 +9351,11 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("item-variation-modal", {
-        attrs: { action: _vm.action, variation: _vm.selectedVariation },
+        attrs: {
+          item_id: _vm.itemId,
+          variation: _vm.selectedVariation,
+          action: _vm.action
+        },
         on: {
           onSaveAdd: function($event) {
             return _vm.saveAdd($event)
@@ -9739,10 +9789,7 @@ var render = function() {
                           _c("div", { staticClass: "col-8" }, [
                             _c("div", { staticClass: "form-floating mb-3" }, [
                               _c("input", {
-                                class: {
-                                  "form-control": true,
-                                  "is-invalid": !this.variationName
-                                },
+                                staticClass: "form-control",
                                 attrs: {
                                   type: "text",
                                   id: "variationName",
@@ -9765,10 +9812,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "form-floating" }, [
                               _c("input", {
-                                class: {
-                                  "form-control": true,
-                                  "is-invalid": !this.variationEnName
-                                },
+                                staticClass: "form-control",
                                 attrs: {
                                   type: "text",
                                   id: "variationEnName",
@@ -9795,10 +9839,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "form-floating mb-3 w-100" }, [
                           _c("input", {
-                            class: {
-                              "form-control": true,
-                              "is-invalid": !this.variationBarcode
-                            },
+                            staticClass: "form-control",
                             attrs: {
                               type: "text",
                               id: "variationBarcode",
@@ -9821,7 +9862,12 @@ var render = function() {
                             [_vm._v("货号")]
                           ),
                           _vm._v(" "),
-                          _vm._m(2)
+                          _c("div", {
+                            staticClass: "invalid-feedback",
+                            domProps: {
+                              innerHTML: _vm._s(_vm.variationBarcodeError)
+                            }
+                          })
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row mb-3" }, [
@@ -9940,7 +9986,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row mb-3" }, [
-                          _vm._m(3),
+                          _vm._m(2),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -10349,15 +10395,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "invalid-feedback" }, [
       _c("b", [_vm._v("Variation")]),
       _vm._v(" 为必填选项\n                  ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "invalid-feedback" }, [
-      _c("b", [_vm._v("货号")]),
-      _vm._v(" 为必填选项")
     ])
   },
   function() {

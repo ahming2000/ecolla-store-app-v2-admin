@@ -173,10 +173,7 @@ input:checked + .slider:before {
                 <div class="col-8">
                   <div class="form-floating mb-3">
                     <input
-                      :class="{
-                        'form-control': true,
-                        'is-invalid': !this.variationName,
-                      }"
+                      class="form-control"
                       type="text"
                       id="variationName"
                       placeholder="规格"
@@ -188,10 +185,7 @@ input:checked + .slider:before {
                   </div>
                   <div class="form-floating">
                     <input
-                      :class="{
-                        'form-control': true,
-                        'is-invalid': !this.variationEnName,
-                      }"
+                      class="form-control"
                       type="text"
                       id="variationEnName"
                       placeholder="Variation"
@@ -207,10 +201,7 @@ input:checked + .slider:before {
               </div>
               <div class="form-floating mb-3 w-100">
                 <input
-                  :class="{
-                    'form-control': true,
-                    'is-invalid': !this.variationBarcode,
-                  }"
+                  class="form-control"
                   type="text"
                   id="variationBarcode"
                   placeholder="货号"
@@ -218,7 +209,10 @@ input:checked + .slider:before {
                   @change="onChange($event, 'barcode')"
                 />
                 <label class="label" for="variationBarcode">货号</label>
-                <div class="invalid-feedback"><b>货号</b> 为必填选项</div>
+                <div
+                  class="invalid-feedback"
+                  v-html="variationBarcodeError"
+                ></div>
               </div>
               <div class="row mb-3">
                 <div class="col-6">
@@ -327,7 +321,9 @@ input:checked + .slider:before {
                           class="form-control"
                           id="discountEndDate"
                           :value="dateToString(variationDiscountEnd)"
-                          :min="dateToString(getNextDay(variationDiscountStart))"
+                          :min="
+                            dateToString(getNextDay(variationDiscountStart))
+                          "
                           @change="onChange($event, 'discountEnd')"
                         />
                       </div>
@@ -437,6 +433,7 @@ export default {
   name: "item-variation-modal",
 
   props: {
+    item_id: Number,
     variation: Object,
     action: Object,
   },
@@ -458,11 +455,13 @@ export default {
       actionButtonCancelName: this.action?.button.cancel.name ?? null,
       actionButtonCancelClass: this.action?.button.cancel.class ?? null,
 
+      itemId: this.item_id ?? null,
       variationId: this.variation?.id ?? null,
       variationImage: this.variation?.image ?? null,
       variationName: this.variation?.name ?? null,
       variationEnName: this.variation?.name_en ?? null,
       variationBarcode: this.variation?.barcode ?? null,
+      variationBarcodeError: "",
       variationPrice: this.variation?.price ?? 0,
       variationStock: this.variation?.stock ?? 0,
       variationWeight: this.variation?.weight ?? 0,
@@ -568,14 +567,40 @@ export default {
       switch (name) {
         case "name": {
           this.variationName = newValue;
+          if (!this.variationName) {
+            document
+              .getElementById("variationName")
+              .classList.add(["is-invalid"]);
+          } else {
+            document
+              .getElementById("variationName")
+              .classList.remove(["is-invalid"]);
+          }
           break;
         }
         case "enName": {
           this.variationEnName = newValue;
+          if (!this.variationEnName) {
+            document
+              .getElementById("variationEnName")
+              .classList.add(["is-invalid"]);
+          } else {
+            document
+              .getElementById("variationEnName")
+              .classList.remove(["is-invalid"]);
+          }
           break;
         }
         case "barcode": {
           this.variationBarcode = newValue;
+          if (!this.variationBarcode) {
+            this.variationBarcodeError = "<b>货号</b> 为必填选项";
+            document
+              .getElementById("variationBarcode")
+              .classList.add(["is-invalid"]);
+          } else {
+            this.checkBarcodeDuplicated();
+          }
           break;
         }
         case "price": {
@@ -610,9 +635,32 @@ export default {
       }
     },
 
-    isDuplicate(prop) {
-      // TODO Check duplicate value from BE
-      return false;
+    checkBarcodeDuplicated() {
+      const body = {
+        item_id: this.itemId,
+        barcode: this.variationBarcode,
+      };
+
+      axios
+        .post(`/validate/item/variation/barcode`, body)
+        .then((res) => {
+          console.log(res);
+          if (!res.data.ok) {
+            document
+              .getElementById("variationBarcode")
+              .classList.add(["is-invalid"]);
+            this.variationBarcodeError = res.data.errors.barcode;
+          } else {
+            document
+              .getElementById("variationBarcode")
+              .classList.remove(["is-invalid"]);
+            this.variationBarcodeError = "";
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("onResponse", error.message, "error");
+        });
     },
 
     variationPriceLimit(value) {
@@ -663,20 +711,23 @@ export default {
 
     dateToString(date) {
       console.log("dateToString()::date:", date);
+      if (date === null) {
+        return null;
+      }
       console.log(
         "dateToString()::string:",
-        date.getFullYear() +
+        date?.getFullYear() +
           "-" +
-          String(date.getMonth() + 1).padStart(2, "0") +
+          String(date?.getMonth() + 1).padStart(2, "0") +
           "-" +
-          String(date.getDate()).padStart(2, "0")
+          String(date?.getDate()).padStart(2, "0")
       );
       return (
-        date.getFullYear() +
+        date?.getFullYear() +
         "-" +
-        String(date.getMonth() + 1).padStart(2, "0") +
+        String(date?.getMonth() + 1).padStart(2, "0") +
         "-" +
-        String(date.getDate()).padStart(2, "0")
+        String(date?.getDate()).padStart(2, "0")
       );
     },
 
@@ -757,7 +808,7 @@ export default {
         this.variationName &&
         this.variationEnName &&
         this.variationBarcode &&
-        !this.isDuplicate(this.variationBarcode)
+        this.variationBarcodeError === ""
       );
     },
 
