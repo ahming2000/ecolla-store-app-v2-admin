@@ -2619,14 +2619,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           _this.$emit("onResponse", res.data.messages, "success");
 
           var addedVariation = {
-            id: res.data.variation_id,
-            name: newVariation.info.name,
-            name_en: newVariation.info.name_en,
-            barcode: newVariation.info.barcode,
-            price: newVariation.info.price,
-            stock: newVariation.info.stock,
-            weight: newVariation.info.weight,
-            image: newVariation.info.image,
+            id: res.data.data.id,
+            name: res.data.data.name,
+            name_en: res.data.data.name_en,
+            barcode: res.data.data.barcode,
+            price: res.data.data.price,
+            stock: res.data.data.stock,
+            weight: res.data.data.weight,
+            image: res.data.data.image,
             discount: newVariation.discount
           };
           _this.variationList = [].concat(_toConsumableArray(_this.variationList), [addedVariation]);
