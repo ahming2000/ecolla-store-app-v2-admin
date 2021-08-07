@@ -146,6 +146,7 @@ li:hover {
         aria-labelledby="pills-wholesale-discount-tab"
       >
         <edit-item-wholesale-discount-list
+          :item_id="item.id"
           :is_wholesale_discount_allowed="isWholesaleDiscountAllowed"
           :wholesale_discounts="item.discounts"
           :original_price="firstVariationPrice"
@@ -220,13 +221,19 @@ export default {
 
   created() {
     this.checkWholesaleDiscountAllowed(this.variations);
-    console.log("this.isWholesaleDiscountAllowed", this.isWholesaleDiscountAllowed);
+    console.log(
+      "this.isWholesaleDiscountAllowed",
+      this.isWholesaleDiscountAllowed
+    );
   },
 
   watch: {
     variations: function (val) {
       this.checkWholesaleDiscountAllowed(val);
-      console.log("this.isWholesaleDiscountAllowed", this.isWholesaleDiscountAllowed);
+      console.log(
+        "this.isWholesaleDiscountAllowed",
+        this.isWholesaleDiscountAllowed
+      );
     },
   },
 

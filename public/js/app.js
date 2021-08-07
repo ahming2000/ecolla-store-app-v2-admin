@@ -1358,6 +1358,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2830,6 +2831,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-wholesale-discount",
   props: {
@@ -2837,7 +2848,7 @@ __webpack_require__.r(__webpack_exports__);
     wholesale_discount: Object
   },
   data: function data() {
-    var _this$original_price, _this$wholesale_disco, _this$wholesale_disco2, _this$wholesale_disco3, _this$wholesale_disco4, _this$wholesale_disco5, _this$wholesale_disco6, _this$wholesale_disco7, _this$wholesale_disco8, _this$wholesale_disco9, _this$wholesale_disco10, _this$wholesale_disco11;
+    var _this$original_price, _this$wholesale_disco, _this$wholesale_disco2, _this$wholesale_disco3, _this$wholesale_disco4, _this$wholesale_disco5, _this$wholesale_disco6, _this$wholesale_disco7, _this$wholesale_disco8, _this$wholesale_disco9, _this$wholesale_disco10, _this$wholesale_disco11, _this$wholesale_disco12, _this$wholesale_disco13, _this$wholesale_disco14, _this$wholesale_disco15;
 
     return {
       originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
@@ -2846,14 +2857,16 @@ __webpack_require__.r(__webpack_exports__);
       wholesaleDiscountRate: (_this$wholesale_disco4 = (_this$wholesale_disco5 = this.wholesale_discount) === null || _this$wholesale_disco5 === void 0 ? void 0 : _this$wholesale_disco5.rate) !== null && _this$wholesale_disco4 !== void 0 ? _this$wholesale_disco4 : 0,
       wholesaleDiscountMin: (_this$wholesale_disco6 = (_this$wholesale_disco7 = this.wholesale_discount) === null || _this$wholesale_disco7 === void 0 ? void 0 : _this$wholesale_disco7.min) !== null && _this$wholesale_disco6 !== void 0 ? _this$wholesale_disco6 : null,
       wholesaleDiscountMax: (_this$wholesale_disco8 = (_this$wholesale_disco9 = this.wholesale_discount) === null || _this$wholesale_disco9 === void 0 ? void 0 : _this$wholesale_disco9.max) !== null && _this$wholesale_disco8 !== void 0 ? _this$wholesale_disco8 : null,
-      wholesaleDiscountStep: (_this$wholesale_disco10 = (_this$wholesale_disco11 = this.wholesale_discount) === null || _this$wholesale_disco11 === void 0 ? void 0 : _this$wholesale_disco11.step) !== null && _this$wholesale_disco10 !== void 0 ? _this$wholesale_disco10 : 0
+      wholesaleDiscountStep: (_this$wholesale_disco10 = (_this$wholesale_disco11 = this.wholesale_discount) === null || _this$wholesale_disco11 === void 0 ? void 0 : _this$wholesale_disco11.step) !== null && _this$wholesale_disco10 !== void 0 ? _this$wholesale_disco10 : 0,
+      wholesaleDiscountPreviousMax: (_this$wholesale_disco12 = (_this$wholesale_disco13 = this.wholesale_discount) === null || _this$wholesale_disco13 === void 0 ? void 0 : _this$wholesale_disco13.previousMax) !== null && _this$wholesale_disco12 !== void 0 ? _this$wholesale_disco12 : null,
+      wholesaleDiscountNextMin: (_this$wholesale_disco14 = (_this$wholesale_disco15 = this.wholesale_discount) === null || _this$wholesale_disco15 === void 0 ? void 0 : _this$wholesale_disco15.nextMin) !== null && _this$wholesale_disco14 !== void 0 ? _this$wholesale_disco14 : null
     };
   },
   watch: {
     wholesale_discount: function wholesale_discount(val) {
-      var _this$wholesale_disco12;
+      var _this$wholesale_disco16;
 
-      this.wholesaleDiscountedPrice = (1 - ((_this$wholesale_disco12 = this.wholesale_discount) === null || _this$wholesale_disco12 === void 0 ? void 0 : _this$wholesale_disco12.rate)) * this.original_price;
+      this.wholesaleDiscountedPrice = (1 - ((_this$wholesale_disco16 = this.wholesale_discount) === null || _this$wholesale_disco16 === void 0 ? void 0 : _this$wholesale_disco16.rate)) * this.original_price;
     }
   },
   computed: {
@@ -2886,7 +2899,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditItemWholesaleDiscount.vue */ "./resources/js/components/item/edit/wholesales/EditItemWholesaleDiscount.vue");
+/* harmony import */ var _shared_modals_WholesaleDiscountModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../shared/modals/WholesaleDiscountModal.vue */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue");
+/* harmony import */ var _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditItemWholesaleDiscount.vue */ "./resources/js/components/item/edit/wholesales/EditItemWholesaleDiscount.vue");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2919,6 +2940,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 var fakeWholesaleDiscounts = [{
   id: 1,
@@ -2941,10 +2973,12 @@ var fakeWholesaleDiscounts = [{
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    EditItemWholesaleDiscount: _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_0__.default
+    EditItemWholesaleDiscount: _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    WholesaleDiscountModal: _shared_modals_WholesaleDiscountModal_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
   name: "edit-item-wholesale-discount-list",
   props: {
+    item_id: Number,
     is_wholesale_discount_allowed: Boolean,
     original_price: Number,
     wholesale_discounts: Array
@@ -2953,10 +2987,12 @@ var fakeWholesaleDiscounts = [{
     var _this$original_price, _this$wholesale_disco;
 
     return {
+      itemId: this.item_id,
       isWholesaleDiscountAllowed: this.is_wholesale_discount_allowed,
       originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
       // TODO remove mock data
-      wholesaleDiscounts: !this.wholesale_discounts || ((_this$wholesale_disco = this.wholesale_discounts) === null || _this$wholesale_disco === void 0 ? void 0 : _this$wholesale_disco.length) === 0 ? fakeWholesaleDiscounts : this.wholesale_discounts,
+      wholesaleDiscounts: !this.wholesale_discounts || ((_this$wholesale_disco = this.wholesale_discounts) === null || _this$wholesale_disco === void 0 ? void 0 : _this$wholesale_disco.length) === 0 ? this.getModifiedWholesaleDiscounts(fakeWholesaleDiscounts) : this.getModifiedWholesaleDiscounts(this.wholesale_discounts),
+      action: null,
       selectedWholesaleDiscount: null
     };
   },
@@ -2966,13 +3002,98 @@ var fakeWholesaleDiscounts = [{
     }
   },
   methods: {
-    saveAdd: function saveAdd(newWholesaleDiscount) {},
+    getModifiedWholesaleDiscounts: function getModifiedWholesaleDiscounts(wholesaleDiscounts) {
+      return wholesaleDiscounts.map(function (wholesaleDiscount, index) {
+        var isFirstElement = wholesaleDiscount === wholesaleDiscounts[0];
+        var isLastElement = wholesaleDiscount === wholesaleDiscounts[wholesaleDiscounts.length - 1];
+        var previousMax = !isFirstElement ? wholesaleDiscounts[index - 1].max : null;
+        var nextMin = !isLastElement ? wholesaleDiscounts[index + 1].min : null;
+        return _objectSpread(_objectSpread({}, wholesaleDiscount), {}, {
+          previousMax: previousMax,
+          nextMin: nextMin
+        });
+      });
+    },
+    saveAdd: function saveAdd(newWholesaleDiscount) {// TODO
+    },
     saveEdit: function saveEdit(wholesaleDiscount) {
       this.selectedWholesaleDiscount = wholesaleDiscount;
     },
-    onEdit: function onEdit(wholesaleDiscount) {},
-    onDelete: function onDelete(wholesaleDiscount) {
+    onAdd: function onAdd() {
+      console.log("openAddModal()");
+      this.action = {
+        name: "添加",
+        enName: "Add",
+        value: "add",
+        contentType: "form",
+        button: {
+          confirm: {
+            name: "添加",
+            enName: "Add",
+            "class": "btn-primary"
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            "class": "btn-outline-danger"
+          }
+        }
+      };
+      this.selectedWholesaleDiscount = null;
+      console.log(this.action, this.selectedWholesaleDiscount);
+      this.openModal();
+    },
+    onEdit: function onEdit(wholesaleDiscount) {
+      console.log("openEditModal()");
+      this.action = {
+        name: "编辑",
+        enName: "Edit",
+        value: "edit",
+        contentType: "form",
+        button: {
+          confirm: {
+            name: "保存",
+            enName: "Save",
+            "class": "btn-primary"
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            "class": "btn-outline-danger"
+          }
+        }
+      };
       this.selectedWholesaleDiscount = wholesaleDiscount;
+      console.log(this.action, this.selectedWholesaleDiscount);
+      this.openModal();
+    },
+    onDelete: function onDelete(wholesaleDiscount) {
+      console.log("openDeleteModal()");
+      this.action = {
+        name: "删除",
+        enName: "Delete",
+        value: "delete",
+        contentType: "confirmation",
+        button: {
+          confirm: {
+            name: "删除",
+            enName: "Delete",
+            "class": "btn-danger"
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            "class": "btn-outline-primary"
+          }
+        }
+      };
+      this.selectedWholesaleDiscount = wholesaleDiscount;
+      console.log(this.action, this.selectedWholesaleDiscount);
+      this.openModal();
+    },
+    openModal: function openModal() {
+      var wholesaleDiscountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById("wholesaleDiscountModal"));
+      wholesaleDiscountModal.show();
     },
     confirmDelete: function confirmDelete(wholesaleDiscount) {
       this.selectedWholesaleDiscount = wholesaleDiscount;
@@ -4334,6 +4455,283 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    EditDiscount: _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  name: "wholesale-discount-modal",
+  props: {
+    item_id: Number,
+    action: Object,
+    original_price: Number,
+    wholesale_discount: Object
+  },
+  data: function data() {
+    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$original_price, _this$wholesale_disco, _this$wholesale_disco2, _this$wholesale_disco3, _this$wholesale_disco4, _this$wholesale_disco5, _this$wholesale_disco6, _this$wholesale_disco7, _this$wholesale_disco8, _this$wholesale_disco9, _this$wholesale_disco10, _this$wholesale_disco11, _this$wholesale_disco12, _this$wholesale_disco13, _this$wholesale_disco14;
+
+    return {
+      actionName: (_this$action$name = (_this$action = this.action) === null || _this$action === void 0 ? void 0 : _this$action.name) !== null && _this$action$name !== void 0 ? _this$action$name : null,
+      actionContentType: (_this$action$contentT = (_this$action2 = this.action) === null || _this$action2 === void 0 ? void 0 : _this$action2.contentType) !== null && _this$action$contentT !== void 0 ? _this$action$contentT : null,
+      actionButtonConfirmName: (_this$action$button$c = (_this$action3 = this.action) === null || _this$action3 === void 0 ? void 0 : _this$action3.button.confirm.name) !== null && _this$action$button$c !== void 0 ? _this$action$button$c : null,
+      actionButtonConfirmClass: (_this$action$button$c2 = (_this$action4 = this.action) === null || _this$action4 === void 0 ? void 0 : _this$action4.button.confirm["class"]) !== null && _this$action$button$c2 !== void 0 ? _this$action$button$c2 : null,
+      actionButtonCancelName: (_this$action$button$c3 = (_this$action5 = this.action) === null || _this$action5 === void 0 ? void 0 : _this$action5.button.cancel.name) !== null && _this$action$button$c3 !== void 0 ? _this$action$button$c3 : null,
+      actionButtonCancelClass: (_this$action$button$c4 = (_this$action6 = this.action) === null || _this$action6 === void 0 ? void 0 : _this$action6.button.cancel["class"]) !== null && _this$action$button$c4 !== void 0 ? _this$action$button$c4 : null,
+      originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
+      wholesaleDiscountId: (_this$wholesale_disco = (_this$wholesale_disco2 = this.wholesale_discount) === null || _this$wholesale_disco2 === void 0 ? void 0 : _this$wholesale_disco2.id) !== null && _this$wholesale_disco !== void 0 ? _this$wholesale_disco : null,
+      wholesaleDiscountRate: (_this$wholesale_disco3 = (_this$wholesale_disco4 = this.wholesale_discount) === null || _this$wholesale_disco4 === void 0 ? void 0 : _this$wholesale_disco4.rate) !== null && _this$wholesale_disco3 !== void 0 ? _this$wholesale_disco3 : 0,
+      wholesaleDiscountMin: (_this$wholesale_disco5 = (_this$wholesale_disco6 = this.wholesale_discount) === null || _this$wholesale_disco6 === void 0 ? void 0 : _this$wholesale_disco6.min) !== null && _this$wholesale_disco5 !== void 0 ? _this$wholesale_disco5 : null,
+      wholesaleDiscountMax: (_this$wholesale_disco7 = (_this$wholesale_disco8 = this.wholesale_discount) === null || _this$wholesale_disco8 === void 0 ? void 0 : _this$wholesale_disco8.max) !== null && _this$wholesale_disco7 !== void 0 ? _this$wholesale_disco7 : null,
+      wholesaleDiscountStep: (_this$wholesale_disco9 = (_this$wholesale_disco10 = this.wholesale_discount) === null || _this$wholesale_disco10 === void 0 ? void 0 : _this$wholesale_disco10.step) !== null && _this$wholesale_disco9 !== void 0 ? _this$wholesale_disco9 : 0,
+      wholesaleDiscountPreviousMax: (_this$wholesale_disco11 = (_this$wholesale_disco12 = this.wholesale_discount) === null || _this$wholesale_disco12 === void 0 ? void 0 : _this$wholesale_disco12.previousMax) !== null && _this$wholesale_disco11 !== void 0 ? _this$wholesale_disco11 : null,
+      wholesaleDiscountNextMin: (_this$wholesale_disco13 = (_this$wholesale_disco14 = this.wholesale_discount) === null || _this$wholesale_disco14 === void 0 ? void 0 : _this$wholesale_disco14.nextMin) !== null && _this$wholesale_disco13 !== void 0 ? _this$wholesale_disco13 : null
+    };
+  },
+  watch: {
+    wholesale_discount: function wholesale_discount(val) {
+      this.clearWholesaleDiscountData();
+      this.fetchWholesaleDiscountData(val);
+    },
+    action: function action(val) {
+      this.clearActionData();
+      this.fetchActionData(val);
+    }
+  },
+  methods: {
+    onPrimaryPressed: function onPrimaryPressed() {
+      console.log("onPrimaryPressed()");
+      var wholesaleDiscountData = {};
+
+      switch (this.action.value) {
+        case "add":
+          {
+            this.$emit("onSaveAdd", wholesaleDiscountData);
+            break;
+          }
+
+        case "edit":
+          {
+            this.$emit("onSaveEdit", wholesaleDiscountData);
+            break;
+          }
+
+        case "delete":
+          {
+            this.$emit("onConfirmDelete", wholesaleDiscountData);
+            break;
+          }
+      }
+    },
+    onChange: function onChange(event, name) {
+      var newValue = event.target.value.trim();
+      var limitedValue;
+
+      switch (name) {
+        case "min":
+          {
+            limitedValue = this.minLimit(Number(newValue));
+            this.wholesaleDiscountMin = limitedValue;
+            event.target.value = limitedValue;
+            break;
+          }
+
+        case "max":
+          {
+            limitedValue = this.maxLimit(Number(newValue));
+            this.wholesaleDiscountMax = limitedValue;
+            event.target.value = limitedValue;
+            break;
+          }
+
+        default:
+          {}
+      }
+    },
+    onRateChange: function onRateChange(newRate) {
+      this.variationDiscountRate = newRate;
+    },
+    minLimit: function minLimit(value) {
+      return value;
+    },
+    maxLimit: function maxLimit(value) {
+      return value;
+    },
+    fetchWholesaleDiscountData: function fetchWholesaleDiscountData(val) {
+      var _val$id, _val$rate, _val$min, _val$max, _val$step;
+
+      this.wholesaleDiscountId = (_val$id = val === null || val === void 0 ? void 0 : val.id) !== null && _val$id !== void 0 ? _val$id : null;
+      this.wholesaleDiscountRate = (_val$rate = val === null || val === void 0 ? void 0 : val.rate) !== null && _val$rate !== void 0 ? _val$rate : 0;
+      this.wholesaleDiscountMin = (_val$min = val === null || val === void 0 ? void 0 : val.min) !== null && _val$min !== void 0 ? _val$min : null;
+      this.wholesaleDiscountMax = (_val$max = val === null || val === void 0 ? void 0 : val.max) !== null && _val$max !== void 0 ? _val$max : null;
+      this.wholesaleDiscountStep = (_val$step = val === null || val === void 0 ? void 0 : val.step) !== null && _val$step !== void 0 ? _val$step : 0;
+    },
+    fetchActionData: function fetchActionData(val) {
+      var _val$name, _val$contentType, _val$button$confirm$n, _val$button$confirm$c, _val$button$cancel$na, _val$button$cancel$cl, _this$wholesale_disco15, _this$wholesale_disco16, _this$wholesale_disco17, _this$wholesale_disco18;
+
+      this.actionName = (_val$name = val === null || val === void 0 ? void 0 : val.name) !== null && _val$name !== void 0 ? _val$name : null;
+      this.actionContentType = (_val$contentType = val === null || val === void 0 ? void 0 : val.contentType) !== null && _val$contentType !== void 0 ? _val$contentType : null;
+      this.actionButtonConfirmName = (_val$button$confirm$n = val === null || val === void 0 ? void 0 : val.button.confirm.name) !== null && _val$button$confirm$n !== void 0 ? _val$button$confirm$n : null;
+      this.actionButtonConfirmClass = (_val$button$confirm$c = val === null || val === void 0 ? void 0 : val.button.confirm["class"]) !== null && _val$button$confirm$c !== void 0 ? _val$button$confirm$c : null;
+      this.actionButtonCancelName = (_val$button$cancel$na = val === null || val === void 0 ? void 0 : val.button.cancel.name) !== null && _val$button$cancel$na !== void 0 ? _val$button$cancel$na : null;
+      this.actionButtonCancelClass = (_val$button$cancel$cl = val === null || val === void 0 ? void 0 : val.button.cancel["class"]) !== null && _val$button$cancel$cl !== void 0 ? _val$button$cancel$cl : null;
+      this.wholesaleDiscountPreviousMax = (_this$wholesale_disco15 = (_this$wholesale_disco16 = this.wholesale_discount) === null || _this$wholesale_disco16 === void 0 ? void 0 : _this$wholesale_disco16.previousMax) !== null && _this$wholesale_disco15 !== void 0 ? _this$wholesale_disco15 : null;
+      this.wholesaleDiscountNextMin = (_this$wholesale_disco17 = (_this$wholesale_disco18 = this.wholesale_discount) === null || _this$wholesale_disco18 === void 0 ? void 0 : _this$wholesale_disco18.nextMin) !== null && _this$wholesale_disco17 !== void 0 ? _this$wholesale_disco17 : null;
+    },
+    clearWholesaleDiscountData: function clearWholesaleDiscountData() {
+      this.wholesaleDiscountId = null;
+      this.wholesaleDiscountRate = 0;
+      this.wholesaleDiscountMin = null;
+      this.wholesaleDiscountMax = null;
+      this.wholesaleDiscountStep = 0;
+      this.wholesaleDiscountPreviousMax = null;
+      this.wholesaleDiscountNextMin = null;
+    },
+    clearActionData: function clearActionData() {
+      this.actionName = null;
+      this.actionContentType = null;
+      this.actionButtonConfirmName = null;
+      this.actionButtonConfirmClass = null;
+      this.actionButtonCancelName = null;
+      this.actionButtonCancelClass = null;
+    },
+    isAllValid: function isAllValid() {
+      return this.variationName && this.variationEnName && this.variationBarcode && this.variationBarcodeError === "";
+    },
+    onResponse: function onResponse() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      this.$emit.apply(this, ["onResponse"].concat(args));
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/toasts/MessageToast.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/toasts/MessageToast.vue?vue&type=script&lang=js& ***!
@@ -4475,6 +4873,7 @@ Vue.component('util-table', __webpack_require__(/*! ./components/item/edit/UtilT
 
 Vue.component('edit-discount', __webpack_require__(/*! ./components/shared/components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue").default);
 Vue.component('item-variation-modal', __webpack_require__(/*! ./components/shared/modals/ItemVariationModal.vue */ "./resources/js/components/shared/modals/ItemVariationModal.vue").default);
+Vue.component('wholesale-discount-modal', __webpack_require__(/*! ./components/shared/modals/WholesaleDiscountModal.vue */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue").default);
 Vue.component('upload-image-modal', __webpack_require__(/*! ./components/shared/modals/UploadImageModal.vue */ "./resources/js/components/shared/modals/UploadImageModal.vue").default);
 Vue.component('message-toast', __webpack_require__(/*! ./components/shared/toasts/MessageToast.vue */ "./resources/js/components/shared/toasts/MessageToast.vue").default);
 /**
@@ -5853,6 +6252,45 @@ component.options.__file = "resources/js/components/shared/modals/UploadImageMod
 
 /***/ }),
 
+/***/ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/shared/modals/WholesaleDiscountModal.vue ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&");
+/* harmony import */ var _WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WholesaleDiscountModal.vue?vue&type=script&lang=js& */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.render,
+  _WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/shared/modals/WholesaleDiscountModal.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/shared/toasts/MessageToast.vue":
 /*!****************************************************************!*\
   !*** ./resources/js/components/shared/toasts/MessageToast.vue ***!
@@ -6241,6 +6679,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UploadImageModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/UploadImageModal.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./WholesaleDiscountModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -6734,6 +7188,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadImageModal_vue_vue_type_template_id_a7c5aa06_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadImageModal_vue_vue_type_template_id_a7c5aa06_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UploadImageModal.vue?vue&type=template&id=a7c5aa06&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/UploadImageModal.vue?vue&type=template&id=a7c5aa06&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& ***!
+  \*********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&");
 
 
 /***/ }),
@@ -8418,6 +8889,7 @@ var render = function() {
           [
             _c("edit-item-wholesale-discount-list", {
               attrs: {
+                item_id: _vm.item.id,
                 is_wholesale_discount_allowed: _vm.isWholesaleDiscountAllowed,
                 wholesale_discounts: _vm.item.discounts,
                 original_price: _vm.firstVariationPrice
@@ -9599,14 +10071,26 @@ var render = function() {
                 _c("div", { staticClass: "col-2 col-md-3" }),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
-                  _vm._v(_vm._s(_vm.wholesaleDiscountMin))
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.wholesaleDiscountMin) +
+                      "\n              "
+                  )
                 ]),
                 _vm._v(" "),
                 _vm._m(0),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
-                  _vm._v(_vm._s(_vm.wholesaleDiscountMax))
-                ])
+                _vm.wholesaleDiscountMax
+                  ? _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(_vm.wholesaleDiscountMax) +
+                          "\n              "
+                      )
+                    ])
+                  : _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
+                      _c("i", { staticClass: "icofont icofont-infinite" })
+                    ])
               ])
             ]),
             _vm._v(" "),
@@ -9728,40 +10212,71 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "container" }, [
-      _vm.isWholesaleDiscountAllowed
-        ? _c(
-            "div",
-            _vm._l(_vm.wholesaleDiscounts, function(wholesaleDiscount) {
-              return _c("edit-item-wholesale-discount", {
-                key: wholesaleDiscount.id,
-                attrs: {
-                  wholesale_discount: wholesaleDiscount,
-                  original_price: _vm.originalPrice
-                },
-                on: {
-                  onEdit: function($event) {
-                    return _vm.onEdit($event)
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "container" }, [
+        _vm.isWholesaleDiscountAllowed
+          ? _c(
+              "div",
+              _vm._l(_vm.wholesaleDiscounts, function(wholesaleDiscount) {
+                return _c("edit-item-wholesale-discount", {
+                  key: wholesaleDiscount.id,
+                  attrs: {
+                    wholesale_discount: wholesaleDiscount,
+                    original_price: _vm.originalPrice
                   },
-                  onDelete: function($event) {
-                    return _vm.onDelete($event)
+                  on: {
+                    onEdit: function($event) {
+                      return _vm.onEdit($event)
+                    },
+                    onDelete: function($event) {
+                      return _vm.onDelete($event)
+                    }
                   }
-                }
-              })
-            }),
-            1
-          )
-        : _c(
-            "div",
-            {
-              staticClass:
-                "d-flex align-items-center justify-content-center text-center"
-            },
-            [_vm._m(0)]
-          )
-    ])
-  ])
+                })
+              }),
+              1
+            )
+          : _c(
+              "div",
+              {
+                staticClass:
+                  "d-flex align-items-center justify-content-center text-center"
+              },
+              [_vm._m(0)]
+            )
+      ]),
+      _vm._v(" "),
+      _c("wholesale-discount-modal", {
+        attrs: {
+          item_id: _vm.itemId,
+          original_price: _vm.originalPrice,
+          wholesale_discount: _vm.selectedWholesaleDiscount,
+          action: _vm.action
+        },
+        on: {
+          onSaveAdd: function($event) {
+            return _vm.saveAdd($event)
+          },
+          onSaveEdit: function($event) {
+            return _vm.saveEdit($event)
+          },
+          onConfirmDelete: function($event) {
+            return _vm.confirmDelete($event)
+          },
+          onResponse: function() {
+            var args = [],
+              len = arguments.length
+            while (len--) args[len] = arguments[len]
+
+            return _vm.onResponse.apply(void 0, args)
+          }
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -10961,6 +11476,246 @@ var staticRenderFns = [
         },
         [_vm._v("\n              取消\n            ")]
       )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "wholesaleDiscountModal",
+          tabindex: "-1",
+          "aria-labelledby": "wholesaleDiscountLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "wholesaleDiscountLabel" }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.actionName) +
+                        "批发折扣\n          "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("button", {
+                  staticClass: "btn-close",
+                  attrs: {
+                    type: "button",
+                    "data-bs-dismiss": "modal",
+                    "aria-label": "Close"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body bg-light" }, [
+                _vm.actionContentType === "form"
+                  ? _c("div", { staticClass: "container" }, [
+                      _c("div", { staticClass: "row mb-3" }, [
+                        _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "form-group w-100" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "label",
+                                attrs: { for: "wholesaleDiscountMin" }
+                              },
+                              [_vm._v("批发的开始数量")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "number",
+                                id: "wholesaleDiscountMin",
+                                min: _vm.wholesaleDiscountPreviousMax
+                                  ? _vm.wholesaleDiscountPreviousMax + 1
+                                  : 0,
+                                max: _vm.wholesaleDiscountMax - 1,
+                                step: "1"
+                              },
+                              domProps: { value: _vm.wholesaleDiscountMin },
+                              on: {
+                                change: function($event) {
+                                  return _vm.onChange($event, "min")
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "form-group w-100" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "label",
+                                attrs: { for: "wholesaleDiscountMax" }
+                              },
+                              [_vm._v("批发的结束数量")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "number",
+                                id: "wholesaleDiscountMax",
+                                min: _vm.wholesaleDiscountMin + 1,
+                                max: _vm.wholesaleDiscountNextMin
+                                  ? _vm.wholesaleDiscountNextMin - 1
+                                  : null,
+                                step: "1"
+                              },
+                              domProps: { value: _vm.wholesaleDiscountMax },
+                              on: {
+                                change: function($event) {
+                                  return _vm.onChange($event, "max")
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row mb-3" }, [
+                        _vm._v("RM " + _vm._s(_vm.originalPrice.toFixed(2)))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row mb-3" },
+                        [
+                          _c("edit-discount", {
+                            attrs: {
+                              original_price: _vm.originalPrice,
+                              rate: _vm.wholesaleDiscountRate
+                            },
+                            on: {
+                              onRateChange: function($event) {
+                                return _vm.onRateChange($event)
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ])
+                  : _vm.actionContentType === "confirmation"
+                  ? _c("div", { staticClass: "container" }, [_vm._m(0)])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-footer justify-content-center w-100" },
+                [
+                  _c("div", { staticClass: "row w-100" }, [
+                    _c("div", { staticClass: "col-6" }, [
+                      _c(
+                        "button",
+                        {
+                          class:
+                            "btn " +
+                            _vm.actionButtonCancelClass +
+                            " btn-md shadow-none w-100",
+                          attrs: { type: "button", "data-bs-dismiss": "modal" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(_vm.actionButtonCancelName) +
+                              "\n              "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-6" }, [
+                      _c(
+                        "button",
+                        {
+                          class:
+                            "btn " +
+                            _vm.actionButtonConfirmClass +
+                            " btn-md w-100",
+                          attrs: {
+                            type: "submit",
+                            "data-bs-dismiss": "modal",
+                            disabled: !_vm.isAllValid()
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.onPrimaryPressed()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(_vm.actionButtonConfirmName) +
+                              "\n              "
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("p", [_vm._v("确定删除此批发折扣？此动作无法挽回。")])
     ])
   }
 ]

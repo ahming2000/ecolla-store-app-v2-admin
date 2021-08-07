@@ -7,11 +7,21 @@
             <div class="col-6">
               <div class="row flex-nowrap">
                 <div class="col-2 col-md-3"></div>
-                <div class="col-2 col-md-3 text-nowrap">{{ wholesaleDiscountMin }}</div>
+                <div class="col-2 col-md-3 text-nowrap">
+                  {{ wholesaleDiscountMin }}
+                </div>
                 <div class="col-2 col-md-3">
                   <span><i class="icofont icofont-caret-right"></i></span>
                 </div>
-                <div class="col-2 col-md-3 text-nowrap">{{ wholesaleDiscountMax }}</div>
+                <div
+                  v-if="wholesaleDiscountMax"
+                  class="col-2 col-md-3 text-nowrap"
+                >
+                  {{ wholesaleDiscountMax }}
+                </div>
+                <div v-else class="col-2 col-md-3 text-nowrap">
+                  <i class="icofont icofont-infinite"></i>
+                </div>
               </div>
             </div>
             <div class="col-6 d-flex align-items-center justify-content-start">
@@ -78,6 +88,8 @@ export default {
       wholesaleDiscountMin: this.wholesale_discount?.min ?? null,
       wholesaleDiscountMax: this.wholesale_discount?.max ?? null,
       wholesaleDiscountStep: this.wholesale_discount?.step ?? 0,
+      wholesaleDiscountPreviousMax: this.wholesale_discount?.previousMax ?? null,
+      wholesaleDiscountNextMin: this.wholesale_discount?.nextMin ?? null,
     };
   },
 

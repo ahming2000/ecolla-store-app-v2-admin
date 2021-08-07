@@ -26,12 +26,23 @@
     </div>
 
     <!-- Add/Edit/Delete Modal -->
-    <!-- TODO -->
+    <wholesale-discount-modal
+      :item_id="itemId"
+      :original_price="originalPrice"
+      :wholesale_discount="selectedWholesaleDiscount"
+      :action="action"
+      @onSaveAdd="saveAdd($event)"
+      @onSaveEdit="saveEdit($event)"
+      @onConfirmDelete="confirmDelete($event)"
+      @onResponse="(...args) => onResponse(...args)"
+    ></wholesale-discount-modal>
   </div>
 </template>
 
 <script>
+import WholesaleDiscountModal from "../../../shared/modals/WholesaleDiscountModal.vue";
 import EditItemWholesaleDiscount from "./EditItemWholesaleDiscount.vue";
+import { Modal } from "bootstrap";
 
 const fakeWholesaleDiscounts = [
   {
@@ -58,10 +69,15 @@ const fakeWholesaleDiscounts = [
 ];
 
 export default {
-  components: { EditItemWholesaleDiscount },
+  components: {
+    EditItemWholesaleDiscount,
+    WholesaleDiscountModal,
+  },
+
   name: "edit-item-wholesale-discount-list",
 
   props: {
+    item_id: Number,
     is_wholesale_discount_allowed: Boolean,
     original_price: Number,
     wholesale_discounts: Array,
@@ -69,11 +85,16 @@ export default {
 
   data() {
     return {
+      itemId: this.item_id,
       isWholesaleDiscountAllowed: this.is_wholesale_discount_allowed,
       originalPrice: this.original_price ?? null,
       // TODO remove mock data
-      wholesaleDiscounts: (!this.wholesale_discounts || this.wholesale_discounts?.length === 0) ? fakeWholesaleDiscounts : this.wholesale_discounts,
+      wholesaleDiscounts:
+        !this.wholesale_discounts || this.wholesale_discounts?.length === 0
+          ? this.getModifiedWholesaleDiscounts(fakeWholesaleDiscounts)
+          : this.getModifiedWholesaleDiscounts(this.wholesale_discounts),
 
+      action: null,
       selectedWholesaleDiscount: null,
     };
   },
@@ -85,16 +106,119 @@ export default {
   },
 
   methods: {
-    saveAdd(newWholesaleDiscount) {},
+    getModifiedWholesaleDiscounts(wholesaleDiscounts) {
+      return wholesaleDiscounts.map((wholesaleDiscount, index) => {
+        const isFirstElement = wholesaleDiscount === wholesaleDiscounts[0];
+        const isLastElement =
+          wholesaleDiscount ===
+          wholesaleDiscounts[wholesaleDiscounts.length - 1];
+
+        const previousMax = !isFirstElement
+          ? wholesaleDiscounts[index - 1].max
+          : null;
+        const nextMin = !isLastElement
+          ? wholesaleDiscounts[index + 1].min
+          : null;
+
+        return {
+          ...wholesaleDiscount,
+          previousMax,
+          nextMin,
+        };
+      });
+    },
+
+    saveAdd(newWholesaleDiscount) {
+      // TODO
+    },
 
     saveEdit(wholesaleDiscount) {
       this.selectedWholesaleDiscount = wholesaleDiscount;
     },
 
-    onEdit(wholesaleDiscount) {},
+    onAdd() {
+      console.log("openAddModal()");
+
+      this.action = {
+        name: "添加",
+        enName: "Add",
+        value: "add",
+        contentType: "form",
+        button: {
+          confirm: {
+            name: "添加",
+            enName: "Add",
+            class: "btn-primary",
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            class: "btn-outline-danger",
+          },
+        },
+      };
+      this.selectedWholesaleDiscount = null;
+      console.log(this.action, this.selectedWholesaleDiscount);
+      this.openModal();
+    },
+
+    onEdit(wholesaleDiscount) {
+      console.log("openEditModal()");
+
+      this.action = {
+        name: "编辑",
+        enName: "Edit",
+        value: "edit",
+        contentType: "form",
+        button: {
+          confirm: {
+            name: "保存",
+            enName: "Save",
+            class: "btn-primary",
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            class: "btn-outline-danger",
+          },
+        },
+      };
+      this.selectedWholesaleDiscount = wholesaleDiscount;
+      console.log(this.action, this.selectedWholesaleDiscount);
+      this.openModal();
+    },
 
     onDelete(wholesaleDiscount) {
+      console.log("openDeleteModal()");
+
+      this.action = {
+        name: "删除",
+        enName: "Delete",
+        value: "delete",
+        contentType: "confirmation",
+        button: {
+          confirm: {
+            name: "删除",
+            enName: "Delete",
+            class: "btn-danger",
+          },
+          cancel: {
+            name: "取消",
+            enName: "Cancel",
+            class: "btn-outline-primary",
+          },
+        },
+      };
       this.selectedWholesaleDiscount = wholesaleDiscount;
+      console.log(this.action, this.selectedWholesaleDiscount);
+      this.openModal();
+    },
+
+    openModal() {
+      const wholesaleDiscountModal = new Modal(
+        document.getElementById("wholesaleDiscountModal")
+      );
+      wholesaleDiscountModal.show();
     },
 
     confirmDelete(wholesaleDiscount) {
