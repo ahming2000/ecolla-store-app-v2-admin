@@ -2776,6 +2776,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-wholesale-discount",
   props: {
@@ -2783,14 +2837,40 @@ __webpack_require__.r(__webpack_exports__);
     wholesale_discount: Object
   },
   data: function data() {
-    return {};
+    var _this$original_price, _this$wholesale_disco, _this$wholesale_disco2, _this$wholesale_disco3, _this$wholesale_disco4, _this$wholesale_disco5, _this$wholesale_disco6, _this$wholesale_disco7, _this$wholesale_disco8, _this$wholesale_disco9, _this$wholesale_disco10, _this$wholesale_disco11;
+
+    return {
+      originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
+      wholesaleDiscountedPrice: (1 - ((_this$wholesale_disco = this.wholesale_discount) === null || _this$wholesale_disco === void 0 ? void 0 : _this$wholesale_disco.rate)) * this.original_price,
+      wholesaleDiscountId: (_this$wholesale_disco2 = (_this$wholesale_disco3 = this.wholesale_discount) === null || _this$wholesale_disco3 === void 0 ? void 0 : _this$wholesale_disco3.id) !== null && _this$wholesale_disco2 !== void 0 ? _this$wholesale_disco2 : null,
+      wholesaleDiscountRate: (_this$wholesale_disco4 = (_this$wholesale_disco5 = this.wholesale_discount) === null || _this$wholesale_disco5 === void 0 ? void 0 : _this$wholesale_disco5.rate) !== null && _this$wholesale_disco4 !== void 0 ? _this$wholesale_disco4 : 0,
+      wholesaleDiscountMin: (_this$wholesale_disco6 = (_this$wholesale_disco7 = this.wholesale_discount) === null || _this$wholesale_disco7 === void 0 ? void 0 : _this$wholesale_disco7.min) !== null && _this$wholesale_disco6 !== void 0 ? _this$wholesale_disco6 : null,
+      wholesaleDiscountMax: (_this$wholesale_disco8 = (_this$wholesale_disco9 = this.wholesale_discount) === null || _this$wholesale_disco9 === void 0 ? void 0 : _this$wholesale_disco9.max) !== null && _this$wholesale_disco8 !== void 0 ? _this$wholesale_disco8 : null,
+      wholesaleDiscountStep: (_this$wholesale_disco10 = (_this$wholesale_disco11 = this.wholesale_discount) === null || _this$wholesale_disco11 === void 0 ? void 0 : _this$wholesale_disco11.step) !== null && _this$wholesale_disco10 !== void 0 ? _this$wholesale_disco10 : 0
+    };
   },
-  computed: {
-    classObject: function classObject() {
-      return {};
+  watch: {
+    wholesale_discount: function wholesale_discount(val) {
+      var _this$wholesale_disco12;
+
+      this.wholesaleDiscountedPrice = (1 - ((_this$wholesale_disco12 = this.wholesale_discount) === null || _this$wholesale_disco12 === void 0 ? void 0 : _this$wholesale_disco12.rate)) * this.original_price;
     }
   },
-  methods: {}
+  computed: {
+    originalPriceClass: {
+      get: function get() {
+        return this.wholesaleDiscountRate !== null ? "bg-warning text-decoration-line-through" : "bg-success";
+      }
+    }
+  },
+  methods: {
+    onEdit: function onEdit() {
+      this.$emit("onEdit", this.wholesale_discount);
+    },
+    onDelete: function onDelete() {
+      this.$emit("onDelete", this.wholesale_discount);
+    }
+  }
 });
 
 /***/ }),
@@ -2826,7 +2906,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
+var fakeWholesaleDiscounts = [{
+  id: 1,
+  rate: 0.2,
+  min: 10,
+  max: 19,
+  step: 10
+}, {
+  id: 2,
+  rate: 0.3,
+  min: 20,
+  max: 29,
+  step: 10
+}, {
+  id: 3,
+  rate: 0.4,
+  min: 30,
+  max: null,
+  step: 10
+}];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     EditItemWholesaleDiscount: _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_0__.default
@@ -2838,20 +2950,41 @@ __webpack_require__.r(__webpack_exports__);
     wholesale_discounts: Array
   },
   data: function data() {
-    var _this$originalPrice, _this$wholesale_disco;
+    var _this$original_price, _this$wholesale_disco;
 
     return {
       isWholesaleDiscountAllowed: this.is_wholesale_discount_allowed,
-      originalPrice: (_this$originalPrice = this.originalPrice) !== null && _this$originalPrice !== void 0 ? _this$originalPrice : null,
-      wholesaleDiscounts: (_this$wholesale_disco = this.wholesale_discounts) !== null && _this$wholesale_disco !== void 0 ? _this$wholesale_disco : []
+      originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
+      // TODO remove mock data
+      wholesaleDiscounts: !this.wholesale_discounts || ((_this$wholesale_disco = this.wholesale_discounts) === null || _this$wholesale_disco === void 0 ? void 0 : _this$wholesale_disco.length) === 0 ? fakeWholesaleDiscounts : this.wholesale_discounts,
+      selectedWholesaleDiscount: null
     };
   },
-  computed: {
-    classObject: function classObject() {
-      return {};
+  watch: {
+    is_wholesale_discount_allowed: function is_wholesale_discount_allowed(val) {
+      this.isWholesaleDiscountAllowed = val;
     }
   },
-  methods: {}
+  methods: {
+    saveAdd: function saveAdd(newWholesaleDiscount) {},
+    saveEdit: function saveEdit(wholesaleDiscount) {
+      this.selectedWholesaleDiscount = wholesaleDiscount;
+    },
+    onEdit: function onEdit(wholesaleDiscount) {},
+    onDelete: function onDelete(wholesaleDiscount) {
+      this.selectedWholesaleDiscount = wholesaleDiscount;
+    },
+    confirmDelete: function confirmDelete(wholesaleDiscount) {
+      this.selectedWholesaleDiscount = wholesaleDiscount;
+    },
+    onResponse: function onResponse() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      this.$emit.apply(this, ["onResponse"].concat(args));
+    }
+  }
 });
 
 /***/ }),
@@ -9241,7 +9374,7 @@ var render = function() {
                   }
                 })
               : _c("img", {
-                  staticClass: "img-thumbnail img-fluid rounded mr-3",
+                  staticClass: "img-thumbnail img-fluid rounded me-3",
                   attrs: {
                     src:
                       "http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png",
@@ -9262,7 +9395,7 @@ var render = function() {
                 class:
                   "badge rounded-pill " +
                   _vm.originalPriceClass +
-                  " shadow-none p-2 mr-3"
+                  " shadow-none p-2 me-3"
               },
               [
                 _vm._v(
@@ -9456,11 +9589,123 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _vm._v("\n  " + _vm._s(_vm.wholesale_discount.id) + "\n")
+  return _c("li", { staticClass: "card my-2" }, [
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "row g-3 d-flex align-items-center" }, [
+        _c("div", { staticClass: "col-12 col-sm-12 col-md-6" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-6" }, [
+              _c("div", { staticClass: "row flex-nowrap" }, [
+                _c("div", { staticClass: "col-2 col-md-3" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
+                  _vm._v(_vm._s(_vm.wholesaleDiscountMin))
+                ]),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
+                  _vm._v(_vm._s(_vm.wholesaleDiscountMax))
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "col-6 d-flex align-items-center justify-content-start"
+              },
+              [
+                _c(
+                  "span",
+                  {
+                    class:
+                      "badge rounded-pill " +
+                      _vm.originalPriceClass +
+                      " shadow-none p-2 me-2"
+                  },
+                  [
+                    _vm._v(
+                      "\n              RM " +
+                        _vm._s(_vm.originalPrice.toFixed(2)) +
+                        "\n            "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.wholesaleDiscountRate !== null
+                  ? _c(
+                      "span",
+                      {
+                        staticClass:
+                          "badge rounded-pill bg-success shadow-none p-2"
+                      },
+                      [
+                        _vm._v(
+                          "\n              RM " +
+                            _vm._s(_vm.wholesaleDiscountedPrice.toFixed(2)) +
+                            "\n            "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 col-sm-12 col-md-6" }, [
+          _c("div", { staticClass: "row justify-content-center" }, [
+            _c("div", { staticClass: "col-6 col-sm-5 col-md-4 col-lg-3" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary w-100",
+                  attrs: { type: "submit" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.onEdit()
+                    }
+                  }
+                },
+                [_vm._v("\n              编辑\n            ")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-6 col-sm-5 col-md-4 col-lg-3" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger w-100",
+                  attrs: { type: "submit" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.onDelete()
+                    }
+                  }
+                },
+                [_vm._v("\n              删除\n            ")]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-2 col-md-3" }, [
+      _c("span", [_c("i", { staticClass: "icofont icofont-caret-right" })])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -9483,29 +9728,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _vm.isWholesaleDiscountAllowed
-      ? _c(
-          "div",
-          _vm._l(_vm.wholesaleDiscounts, function(wholesaleDiscount) {
-            return _c("edit-item-wholesale-discount", {
-              key: wholesaleDiscount.id,
-              attrs: {
-                wholesale_discount: wholesaleDiscount,
-                original_price: _vm.originalPrice
-              }
-            })
-          }),
-          1
-        )
-      : _c(
-          "div",
-          {
-            staticClass:
-              "d-flex align-items-center justify-content-center text-center"
-          },
-          [_vm._m(0)]
-        )
+  return _c("div", [
+    _c("div", { staticClass: "container" }, [
+      _vm.isWholesaleDiscountAllowed
+        ? _c(
+            "div",
+            _vm._l(_vm.wholesaleDiscounts, function(wholesaleDiscount) {
+              return _c("edit-item-wholesale-discount", {
+                key: wholesaleDiscount.id,
+                attrs: {
+                  wholesale_discount: wholesaleDiscount,
+                  original_price: _vm.originalPrice
+                },
+                on: {
+                  onEdit: function($event) {
+                    return _vm.onEdit($event)
+                  },
+                  onDelete: function($event) {
+                    return _vm.onDelete($event)
+                  }
+                }
+              })
+            }),
+            1
+          )
+        : _c(
+            "div",
+            {
+              staticClass:
+                "d-flex align-items-center justify-content-center text-center"
+            },
+            [_vm._m(0)]
+          )
+    ])
   ])
 }
 var staticRenderFns = [

@@ -17,7 +17,7 @@
           <!-- TODO Image Placeholder -->
           <img
             v-else
-            class="img-thumbnail img-fluid rounded mr-3"
+            class="img-thumbnail img-fluid rounded me-3"
             src="http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png"
             height="200px"
             width="200px"
@@ -28,7 +28,7 @@
           <p>{{ variation.name_en }}</p>
           <!-- Original Price -->
           <span
-            :class="`badge rounded-pill ${originalPriceClass} shadow-none p-2 mr-3`"
+            :class="`badge rounded-pill ${originalPriceClass} shadow-none p-2 me-3`"
           >
             RM {{ variation.price.toFixed(2) }}
           </span>
