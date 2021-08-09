@@ -31,9 +31,13 @@
                     >
                     <input
                       type="number"
-                      class="form-control"
+                      class="form-control text-end"
                       id="wholesaleDiscountMin"
-                      :min="wholesaleDiscountPreviousMax ? wholesaleDiscountPreviousMax + 1 : 0"
+                      :min="
+                        wholesaleDiscountPreviousMax
+                          ? wholesaleDiscountPreviousMax + 1
+                          : 0
+                      "
                       :max="wholesaleDiscountMax - 1"
                       step="1"
                       :value="wholesaleDiscountMin"
@@ -48,10 +52,14 @@
                     >
                     <input
                       type="number"
-                      class="form-control"
+                      class="form-control text-end"
                       id="wholesaleDiscountMax"
                       :min="wholesaleDiscountMin + 1"
-                      :max="wholesaleDiscountNextMin ? wholesaleDiscountNextMin - 1 : null"
+                      :max="
+                        wholesaleDiscountNextMin
+                          ? wholesaleDiscountNextMin - 1
+                          : null
+                      "
                       step="1"
                       :value="wholesaleDiscountMax"
                       @change="onChange($event, 'max')"
@@ -59,7 +67,10 @@
                   </div>
                 </div>
               </div>
-              <div class="row mb-3">RM {{ originalPrice.toFixed(2) }}</div>
+              <div class="row mb-3">
+                <p class="text-primary m-0">原价</p>
+                <p class="text-primary fw-bold m-0">RM {{ originalPrice.toFixed(2) }}</p>
+              </div>
               <div class="row mb-3">
                 <edit-discount
                   :original_price="originalPrice"

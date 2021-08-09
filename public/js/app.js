@@ -4578,6 +4578,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -10424,7 +10435,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("input", {
-            staticClass: "form-control",
+            staticClass: "form-control text-end",
             attrs: {
               type: "number",
               id: "discountRatePercentage",
@@ -10449,20 +10460,28 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group mb-3 w-100" }, [
-      _c("label", { staticClass: "label", attrs: { for: "discountedPrice" } }, [
-        _vm._v("折扣后的价钱")
-      ]),
+    _c("div", { staticClass: "form-group mb-3 w-100 " }, [
+      _c(
+        "label",
+        {
+          staticClass: "label text-primary",
+          attrs: { for: "discountedPrice" }
+        },
+        [_vm._v("折扣后的价钱")]
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "input-group" }, [
         _c(
           "span",
-          { staticClass: "input-group-text", attrs: { id: "currencyUnit" } },
+          {
+            staticClass: "input-group-text text-primary fw-bold",
+            attrs: { id: "currencyUnit" }
+          },
           [_vm._v("RM")]
         ),
         _vm._v(" "),
         _c("input", {
-          staticClass: "form-control",
+          staticClass: "form-control text-primary fw-bold",
           attrs: { type: "number", id: "discountedPrice" },
           domProps: { value: _vm.discountedPrice.toFixed(2) },
           on: {
@@ -10726,7 +10745,7 @@ var render = function() {
                               _c(
                                 "label",
                                 {
-                                  staticClass: "label",
+                                  staticClass: "label text-primary",
                                   attrs: { for: "variationPrice" }
                                 },
                                 [_vm._v("原价")]
@@ -10736,14 +10755,16 @@ var render = function() {
                                 _c(
                                   "span",
                                   {
-                                    staticClass: "input-group-text",
+                                    staticClass:
+                                      "input-group-text text-primary fw-bold",
                                     attrs: { id: "currencyUnit" }
                                   },
                                   [_vm._v("RM")]
                                 ),
                                 _vm._v(" "),
                                 _c("input", {
-                                  staticClass: "form-control",
+                                  staticClass:
+                                    "form-control text-primary fw-bold",
                                   attrs: {
                                     type: "number",
                                     id: "variationPrice",
@@ -10775,7 +10796,7 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _c("input", {
-                                staticClass: "form-control",
+                                staticClass: "form-control text-end",
                                 attrs: {
                                   type: "number",
                                   id: "variationStock",
@@ -10807,7 +10828,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "input-group" }, [
                             _c("input", {
-                              staticClass: "form-control",
+                              staticClass: "form-control text-end",
                               attrs: {
                                 type: "number",
                                 id: "variationWeight",
@@ -10936,7 +10957,7 @@ var render = function() {
                                     ),
                                     _vm._v(" "),
                                     _c("input", {
-                                      staticClass: "form-control",
+                                      staticClass: "form-control text-center",
                                       attrs: {
                                         type: "date",
                                         id: "discountStartDate",
@@ -10985,7 +11006,8 @@ var render = function() {
                                             ),
                                             _vm._v(" "),
                                             _c("input", {
-                                              staticClass: "form-control",
+                                              staticClass:
+                                                "form-control text-center",
                                               attrs: {
                                                 type: "date",
                                                 id: "discountEndDate",
@@ -11564,7 +11586,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("input", {
-                              staticClass: "form-control",
+                              staticClass: "form-control text-end",
                               attrs: {
                                 type: "number",
                                 id: "wholesaleDiscountMin",
@@ -11596,7 +11618,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("input", {
-                              staticClass: "form-control",
+                              staticClass: "form-control text-end",
                               attrs: {
                                 type: "number",
                                 id: "wholesaleDiscountMax",
@@ -11618,7 +11640,13 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "row mb-3" }, [
-                        _vm._v("RM " + _vm._s(_vm.originalPrice.toFixed(2)))
+                        _c("p", { staticClass: "text-primary m-0" }, [
+                          _vm._v("原价")
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "text-primary fw-bold m-0" }, [
+                          _vm._v("RM " + _vm._s(_vm.originalPrice.toFixed(2)))
+                        ])
                       ]),
                       _vm._v(" "),
                       _c(
