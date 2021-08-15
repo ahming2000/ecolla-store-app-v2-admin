@@ -149,7 +149,7 @@
 
         </div>
 
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             {{ $items->links() }}
         </div>
     </main>
