@@ -7,22 +7,21 @@
     aria-labelledby="addAccountModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="addAccountModalLabel">添加员工账户</h5>
           <button
             type="button"
-            class="close"
+            class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
           >
-            <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body bg-light">
           <form>
-            <div class="form-group md-form">
+            <div class="form-floating mb-3">
               <input
                 type="email"
                 class="form-control"
@@ -31,8 +30,11 @@
                 placeholder="新员工邮箱"
                 v-model="email"
               />
+              <label class="label" for="addAccountNewEmailControl"
+                >新员工邮箱</label
+              >
             </div>
-            <div class="form-group md-form">
+            <div class="form-floating mb-3">
               <input
                 type="text"
                 class="form-control"
@@ -41,8 +43,11 @@
                 placeholder="新员工姓名"
                 v-model="name"
               />
+              <label class="label" for="addAccountNewFullNameControl"
+                >新员工姓名</label
+              >
             </div>
-            <div class="form-group md-form">
+            <div class="form-floating mb-3">
               <input
                 type="password"
                 class="form-control"
@@ -51,8 +56,11 @@
                 placeholder="新员工密码"
                 v-model="password"
               />
+              <label class="label" for="addAccountNewPasswordControl"
+                >新员工密码</label
+              >
             </div>
-            <div class="form-group md-form">
+            <div class="form-floating mb-3">
               <input
                 type="password"
                 class="form-control"
@@ -61,6 +69,9 @@
                 placeholder="新员工密码（重填确认）"
                 v-model="passwordConfirmation"
               />
+              <label class="label" for="addAccountConfirmPasswordControl"
+                >新员工密码（重填确认）</label
+              >
             </div>
             <div class="form-group">
               <label>权限</label>
@@ -211,7 +222,7 @@ export default {
         .filter((permission) => permission.checkedByDefault)
         .map((permission) => permission.columnName);
 
-      console.log('getPermissionsCheckedByDefault()', checkedPermissionsArray);
+      console.log("getPermissionsCheckedByDefault()", checkedPermissionsArray);
 
       return checkedPermissionsArray;
     },

@@ -8,18 +8,16 @@
     aria-labelledby="deleteAccountModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="deleteAccountModalLabel">删除员工账户</h5>
           <button
             type="button"
-            class="close"
+            class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+          ></button>
         </div>
         <div class="modal-body">
           <div class="col">
@@ -70,8 +68,8 @@ export default {
 
   data() {
     return {
-      email: '',
-      name: '',
+      email: "",
+      name: "",
     };
   },
 
@@ -88,7 +86,7 @@ export default {
 
   methods: {
     deleteUser() {
-      this.$emit('deleteUser', this.user);
+      this.$emit("deleteUser", this.user);
     },
   },
 };
