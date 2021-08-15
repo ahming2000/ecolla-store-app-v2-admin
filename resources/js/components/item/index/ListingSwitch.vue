@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="form-control form-switch" @click="listItem">
-            <input type="checkbox" class="form-check-input" :checked="checkBoxValue">
+        <div class="form-control form-switch" @click="listItem" style="border: 0;">
+            <input type="checkbox" class="form-check-input" :checked="checkBoxValue" style="pointer-events:none">
             <label class="form-check-label"></label>
         </div>
     </div>
