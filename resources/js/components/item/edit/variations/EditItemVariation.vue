@@ -14,7 +14,6 @@
             height="200px"
             width="200px"
           />
-          <!-- TODO Image Placeholder -->
           <img
             v-else
             class="img-thumbnail img-fluid rounded mr-3"
