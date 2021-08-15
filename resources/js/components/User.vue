@@ -1,24 +1,33 @@
 <template>
   <li class="card my-2">
     <div class="card-body d-flex justify-content-center flex-wrap">
-      <div class="col-12 col-lg-8 d-flex align-items-center my-2">
+      <div class="col-md-8 d-flex align-items-center my-2">
         <div class="flex-column">
-          <div class="d-flex align-items-center">
+          <div class="row d-flex align-items-center">
             <h4 class="card-title m-0">{{ user.name }}</h4>
             <span
               v-if="user.status == 'disabled'"
-              class="badge rounded-pill bg-warning text-white ms-2"
+              class="
+                badge
+                rounded-pill
+                bg-warning
+                shadow-none
+                text-dark
+                ml-2
+                px-2
+                h-75
+              "
               >未激活</span
             >
           </div>
           <div class="row">
-            <p class="card-subtitle text-secondary m-0">{{ user.email }}</p>
+            <p class="card-subtitle m-0">{{ user.email }}</p>
           </div>
         </div>
       </div>
       <div
         class="
-          col-12 col-lg-4
+          flex-column
           d-flex
           align-items-center
           justify-content-center
@@ -30,7 +39,7 @@
             <button
               type="submit"
               class="
-                btn btn-primary btn-md
+                btn btn-secondary btn-md
                 d-flex
                 justify-content-center
                 align-items-center
@@ -47,7 +56,7 @@
           <div class="col-4 d-flex">
             <button
               class="
-                btn
+                btn btn-md
                 d-flex
                 justify-content-center
                 align-items-center
