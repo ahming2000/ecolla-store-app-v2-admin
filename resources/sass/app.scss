@@ -1,12 +1,20 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+
 // Variables
 @import 'variables';
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~@icon/icofont/icofont.css";
 @import "~selectize/dist/css/selectize.css";
+
 // Default fonts and background color
 body {
     font-family: "Roboto", sans-serif;
     background: #EEEEEE;
+}
+
+/* Remove anchor style */
+.no-anchor-style, .no-anchor-style:hover, .no-anchor-style:focus, .no-anchor-style:active {
+    text-decoration: none;
+    color: inherit;
 }
