@@ -23,7 +23,11 @@ class ImageHandler
                 return $binary;
             }
         } else {
-            return 'data:image/jpeg;base64,' . base64_encode($binary);
+            if ($binary != null){
+                return 'data:image/jpeg;base64,' . base64_encode($binary);
+            } else {
+                return "";
+            }
         }
     }
 
