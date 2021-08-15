@@ -187,6 +187,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "add-user",
   props: {
@@ -220,7 +231,7 @@ __webpack_require__.r(__webpack_exports__);
       }).map(function (permission) {
         return permission.columnName;
       });
-      console.log('getPermissionsCheckedByDefault()', checkedPermissionsArray);
+      console.log("getPermissionsCheckedByDefault()", checkedPermissionsArray);
       return checkedPermissionsArray;
     },
     addUser: function addUser() {
@@ -777,15 +788,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -6625,471 +6627,531 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c("form", [
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.email,
-                      expression: "email"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "email",
-                    id: "addAccountNewEmailControl",
-                    name: "email",
-                    placeholder: "新员工邮箱"
-                  },
-                  domProps: { value: _vm.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+      _c(
+        "div",
+        {
+          staticClass:
+            "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body bg-light" }, [
+              _c("form", [
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.email,
+                        expression: "email"
                       }
-                      _vm.email = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.name,
-                      expression: "name"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "addAccountNewFullNameControl",
-                    name: "name",
-                    placeholder: "新员工姓名"
-                  },
-                  domProps: { value: _vm.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "email",
+                      id: "addAccountNewEmailControl",
+                      name: "email",
+                      placeholder: "新员工邮箱"
+                    },
+                    domProps: { value: _vm.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.email = $event.target.value
                       }
-                      _vm.name = $event.target.value
                     }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.password,
-                      expression: "password"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "password",
-                    id: "addAccountNewPasswordControl",
-                    name: "password",
-                    placeholder: "新员工密码"
-                  },
-                  domProps: { value: _vm.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.password = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.passwordConfirmation,
-                      expression: "passwordConfirmation"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "password",
-                    id: "addAccountConfirmPasswordControl",
-                    name: "password_confirmation",
-                    placeholder: "新员工密码（重填确认）"
-                  },
-                  domProps: { value: _vm.passwordConfirmation },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.passwordConfirmation = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  _c("label", [_vm._v("权限")]),
+                  }),
                   _vm._v(" "),
-                  _vm._l(_vm.permissions, function(group) {
-                    return _c(
-                      "div",
-                      { key: group.groupName, staticClass: "mb-3" },
-                      [
-                        _vm._l(group.permissions, function(permission, index) {
-                          return _c(
-                            "ul",
-                            {
-                              key: permission.columnName,
-                              staticClass: "list-group"
-                            },
-                            [
-                              _c(
-                                "li",
-                                {
-                                  staticClass: "list-group-item",
-                                  class: { "ml-3": index > 0 }
-                                },
-                                [
-                                  _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "col-8 d-flex align-items-center"
-                                      },
-                                      [
-                                        _c("p", { staticClass: "m-0" }, [
-                                          _vm._v(
-                                            _vm._s(permission.cnDisplayName)
-                                          )
-                                        ])
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
-                                      },
-                                      [
-                                        _c(
-                                          "label",
-                                          { staticClass: "switch m-0" },
-                                          [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.checkedPermissions,
-                                                  expression:
-                                                    "checkedPermissions"
-                                                }
-                                              ],
-                                              staticClass: "form-control",
-                                              attrs: {
-                                                type: "checkbox",
-                                                id:
-                                                  "addAccount" +
-                                                  permission.elementId,
-                                                name: permission.columnName
-                                              },
-                                              domProps: {
-                                                value: permission.columnName,
-                                                checked: Array.isArray(
-                                                  _vm.checkedPermissions
-                                                )
-                                                  ? _vm._i(
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountNewEmailControl" }
+                    },
+                    [_vm._v("新员工邮箱")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.name,
+                        expression: "name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      id: "addAccountNewFullNameControl",
+                      name: "name",
+                      placeholder: "新员工姓名"
+                    },
+                    domProps: { value: _vm.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.name = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountNewFullNameControl" }
+                    },
+                    [_vm._v("新员工姓名")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.password,
+                        expression: "password"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "password",
+                      id: "addAccountNewPasswordControl",
+                      name: "password",
+                      placeholder: "新员工密码"
+                    },
+                    domProps: { value: _vm.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.password = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountNewPasswordControl" }
+                    },
+                    [_vm._v("新员工密码")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.passwordConfirmation,
+                        expression: "passwordConfirmation"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "password",
+                      id: "addAccountConfirmPasswordControl",
+                      name: "password_confirmation",
+                      placeholder: "新员工密码（重填确认）"
+                    },
+                    domProps: { value: _vm.passwordConfirmation },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.passwordConfirmation = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountConfirmPasswordControl" }
+                    },
+                    [_vm._v("新员工密码（重填确认）")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", [_vm._v("权限")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.permissions, function(group) {
+                      return _c(
+                        "div",
+                        { key: group.groupName, staticClass: "mb-3" },
+                        [
+                          _vm._l(group.permissions, function(
+                            permission,
+                            index
+                          ) {
+                            return _c(
+                              "ul",
+                              {
+                                key: permission.columnName,
+                                staticClass: "list-group"
+                              },
+                              [
+                                _c(
+                                  "li",
+                                  {
+                                    staticClass: "list-group-item",
+                                    class: { "ml-3": index > 0 }
+                                  },
+                                  [
+                                    _c("div", { staticClass: "row" }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "col-8 d-flex align-items-center"
+                                        },
+                                        [
+                                          _c("p", { staticClass: "m-0" }, [
+                                            _vm._v(
+                                              _vm._s(permission.cnDisplayName)
+                                            )
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { staticClass: "switch m-0" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
                                                       _vm.checkedPermissions,
-                                                      permission.columnName
-                                                    ) > -1
-                                                  : _vm.checkedPermissions
-                                              },
-                                              on: {
-                                                change: [
-                                                  function($event) {
-                                                    var $$a =
-                                                        _vm.checkedPermissions,
-                                                      $$el = $event.target,
-                                                      $$c = $$el.checked
-                                                        ? true
-                                                        : false
-                                                    if (Array.isArray($$a)) {
-                                                      var $$v =
-                                                          permission.columnName,
-                                                        $$i = _vm._i($$a, $$v)
-                                                      if ($$el.checked) {
-                                                        $$i < 0 &&
-                                                          (_vm.checkedPermissions = $$a.concat(
-                                                            [$$v]
-                                                          ))
-                                                      } else {
-                                                        $$i > -1 &&
-                                                          (_vm.checkedPermissions = $$a
-                                                            .slice(0, $$i)
-                                                            .concat(
-                                                              $$a.slice($$i + 1)
-                                                            ))
-                                                      }
-                                                    } else {
-                                                      _vm.checkedPermissions = $$c
-                                                    }
-                                                  },
-                                                  function($event) {
-                                                    return _vm.onPermissionChange(
-                                                      $event,
-                                                      group
-                                                    )
+                                                    expression:
+                                                      "checkedPermissions"
                                                   }
-                                                ]
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("span", {
-                                              staticClass: "slider round"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ])
-                                ]
-                              )
-                            ]
-                          )
-                        }),
-                        _vm._v(" "),
-                        group.subGroups.length > 0
-                          ? _c(
-                              "div",
-                              { staticClass: "ml-3" },
-                              _vm._l(group.subGroups, function(subGroup) {
-                                return _c(
-                                  "div",
-                                  { key: subGroup.groupName },
-                                  _vm._l(subGroup.permissions, function(
-                                    permission,
-                                    index
-                                  ) {
-                                    return _c(
-                                      "ul",
-                                      {
-                                        key: permission.columnName,
-                                        staticClass: "list-group"
-                                      },
-                                      [
-                                        _c(
-                                          "li",
-                                          {
-                                            staticClass: "list-group-item",
-                                            class: { "ml-3": index > 0 }
-                                          },
-                                          [
-                                            _c("div", { staticClass: "row" }, [
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "checkbox",
+                                                  id:
+                                                    "addAccount" +
+                                                    permission.elementId,
+                                                  name: permission.columnName
+                                                },
+                                                domProps: {
+                                                  value: permission.columnName,
+                                                  checked: Array.isArray(
+                                                    _vm.checkedPermissions
+                                                  )
+                                                    ? _vm._i(
+                                                        _vm.checkedPermissions,
+                                                        permission.columnName
+                                                      ) > -1
+                                                    : _vm.checkedPermissions
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      var $$a =
+                                                          _vm.checkedPermissions,
+                                                        $$el = $event.target,
+                                                        $$c = $$el.checked
+                                                          ? true
+                                                          : false
+                                                      if (Array.isArray($$a)) {
+                                                        var $$v =
+                                                            permission.columnName,
+                                                          $$i = _vm._i($$a, $$v)
+                                                        if ($$el.checked) {
+                                                          $$i < 0 &&
+                                                            (_vm.checkedPermissions = $$a.concat(
+                                                              [$$v]
+                                                            ))
+                                                        } else {
+                                                          $$i > -1 &&
+                                                            (_vm.checkedPermissions = $$a
+                                                              .slice(0, $$i)
+                                                              .concat(
+                                                                $$a.slice(
+                                                                  $$i + 1
+                                                                )
+                                                              ))
+                                                        }
+                                                      } else {
+                                                        _vm.checkedPermissions = $$c
+                                                      }
+                                                    },
+                                                    function($event) {
+                                                      return _vm.onPermissionChange(
+                                                        $event,
+                                                        group
+                                                      )
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass: "slider round"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          group.subGroups.length > 0
+                            ? _c(
+                                "div",
+                                { staticClass: "ml-3" },
+                                _vm._l(group.subGroups, function(subGroup) {
+                                  return _c(
+                                    "div",
+                                    { key: subGroup.groupName },
+                                    _vm._l(subGroup.permissions, function(
+                                      permission,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "ul",
+                                        {
+                                          key: permission.columnName,
+                                          staticClass: "list-group"
+                                        },
+                                        [
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "list-group-item",
+                                              class: { "ml-3": index > 0 }
+                                            },
+                                            [
                                               _c(
                                                 "div",
-                                                {
-                                                  staticClass:
-                                                    "col-8 d-flex align-items-center"
-                                                },
+                                                { staticClass: "row" },
                                                 [
                                                   _c(
-                                                    "p",
-                                                    { staticClass: "m-0" },
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "col-8 d-flex align-items-center"
+                                                    },
                                                     [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          permission.cnDisplayName
-                                                        )
+                                                      _c(
+                                                        "p",
+                                                        { staticClass: "m-0" },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              permission.cnDisplayName
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "\n                            col-4\n                            d-flex\n                            align-items-center\n                            justify-content-end\n                          "
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "label",
+                                                        {
+                                                          staticClass:
+                                                            "switch m-0"
+                                                        },
+                                                        [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  _vm.checkedPermissions,
+                                                                expression:
+                                                                  "checkedPermissions"
+                                                              }
+                                                            ],
+                                                            staticClass:
+                                                              "form-control",
+                                                            attrs: {
+                                                              type: "checkbox",
+                                                              id:
+                                                                "addAccount" +
+                                                                permission.elementId,
+                                                              name:
+                                                                permission.columnName
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                permission.columnName,
+                                                              checked: Array.isArray(
+                                                                _vm.checkedPermissions
+                                                              )
+                                                                ? _vm._i(
+                                                                    _vm.checkedPermissions,
+                                                                    permission.columnName
+                                                                  ) > -1
+                                                                : _vm.checkedPermissions
+                                                            },
+                                                            on: {
+                                                              change: [
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  var $$a =
+                                                                      _vm.checkedPermissions,
+                                                                    $$el =
+                                                                      $event.target,
+                                                                    $$c = $$el.checked
+                                                                      ? true
+                                                                      : false
+                                                                  if (
+                                                                    Array.isArray(
+                                                                      $$a
+                                                                    )
+                                                                  ) {
+                                                                    var $$v =
+                                                                        permission.columnName,
+                                                                      $$i = _vm._i(
+                                                                        $$a,
+                                                                        $$v
+                                                                      )
+                                                                    if (
+                                                                      $$el.checked
+                                                                    ) {
+                                                                      $$i < 0 &&
+                                                                        (_vm.checkedPermissions = $$a.concat(
+                                                                          [$$v]
+                                                                        ))
+                                                                    } else {
+                                                                      $$i >
+                                                                        -1 &&
+                                                                        (_vm.checkedPermissions = $$a
+                                                                          .slice(
+                                                                            0,
+                                                                            $$i
+                                                                          )
+                                                                          .concat(
+                                                                            $$a.slice(
+                                                                              $$i +
+                                                                                1
+                                                                            )
+                                                                          ))
+                                                                    }
+                                                                  } else {
+                                                                    _vm.checkedPermissions = $$c
+                                                                  }
+                                                                },
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.onPermissionChange(
+                                                                    $event,
+                                                                    subGroup
+                                                                  )
+                                                                }
+                                                              ]
+                                                            }
+                                                          }),
+                                                          _vm._v(" "),
+                                                          _c("span", {
+                                                            staticClass:
+                                                              "slider round"
+                                                          })
+                                                        ]
                                                       )
                                                     ]
                                                   )
                                                 ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "\n                            col-4\n                            d-flex\n                            align-items-center\n                            justify-content-end\n                          "
-                                                },
-                                                [
-                                                  _c(
-                                                    "label",
-                                                    {
-                                                      staticClass: "switch m-0"
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.checkedPermissions,
-                                                            expression:
-                                                              "checkedPermissions"
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control",
-                                                        attrs: {
-                                                          type: "checkbox",
-                                                          id:
-                                                            "addAccount" +
-                                                            permission.elementId,
-                                                          name:
-                                                            permission.columnName
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            permission.columnName,
-                                                          checked: Array.isArray(
-                                                            _vm.checkedPermissions
-                                                          )
-                                                            ? _vm._i(
-                                                                _vm.checkedPermissions,
-                                                                permission.columnName
-                                                              ) > -1
-                                                            : _vm.checkedPermissions
-                                                        },
-                                                        on: {
-                                                          change: [
-                                                            function($event) {
-                                                              var $$a =
-                                                                  _vm.checkedPermissions,
-                                                                $$el =
-                                                                  $event.target,
-                                                                $$c = $$el.checked
-                                                                  ? true
-                                                                  : false
-                                                              if (
-                                                                Array.isArray(
-                                                                  $$a
-                                                                )
-                                                              ) {
-                                                                var $$v =
-                                                                    permission.columnName,
-                                                                  $$i = _vm._i(
-                                                                    $$a,
-                                                                    $$v
-                                                                  )
-                                                                if (
-                                                                  $$el.checked
-                                                                ) {
-                                                                  $$i < 0 &&
-                                                                    (_vm.checkedPermissions = $$a.concat(
-                                                                      [$$v]
-                                                                    ))
-                                                                } else {
-                                                                  $$i > -1 &&
-                                                                    (_vm.checkedPermissions = $$a
-                                                                      .slice(
-                                                                        0,
-                                                                        $$i
-                                                                      )
-                                                                      .concat(
-                                                                        $$a.slice(
-                                                                          $$i +
-                                                                            1
-                                                                        )
-                                                                      ))
-                                                                }
-                                                              } else {
-                                                                _vm.checkedPermissions = $$c
-                                                              }
-                                                            },
-                                                            function($event) {
-                                                              return _vm.onPermissionChange(
-                                                                $event,
-                                                                subGroup
-                                                              )
-                                                            }
-                                                          ]
-                                                        }
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("span", {
-                                                        staticClass:
-                                                          "slider round"
-                                                      })
-                                                    ]
-                                                  )
-                                                ]
                                               )
-                                            ])
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  }),
-                                  0
-                                )
-                              }),
-                              0
-                            )
-                          : _vm._e()
-                      ],
-                      2
-                    )
-                  })
-                ],
-                2
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                }),
+                                0
+                              )
+                            : _vm._e()
+                        ],
+                        2
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-danger btn-md shadow-none",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" }
+                },
+                [_vm._v("\n          取消\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-md",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.addUser()
+                    }
+                  }
+                },
+                [_vm._v("\n          添加\n        ")]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-outline-danger btn-md shadow-none",
-                attrs: { type: "button", "data-bs-dismiss": "modal" }
-              },
-              [_vm._v("\n          取消\n        ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary btn-md",
-                attrs: { type: "button", "data-bs-dismiss": "modal" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.addUser()
-                  }
-                }
-              },
-              [_vm._v("\n          添加\n        ")]
-            )
           ])
-        ])
-      ])
+        ]
+      )
     ]
   )
 }
@@ -7105,18 +7167,14 @@ var staticRenderFns = [
         [_vm._v("添加员工账户")]
       ),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
     ])
   }
 ]
@@ -7888,38 +7946,42 @@ var render = function() {
       "div",
       { staticClass: "card-body d-flex justify-content-center flex-wrap" },
       [
-        _c("div", { staticClass: "col-md-8 d-flex align-items-center my-2" }, [
-          _c("div", { staticClass: "flex-column" }, [
-            _c("div", { staticClass: "row d-flex align-items-center" }, [
-              _c("h4", { staticClass: "card-title m-0" }, [
-                _vm._v(_vm._s(_vm.user.name))
+        _c(
+          "div",
+          { staticClass: "col-12 col-lg-8 d-flex align-items-center my-2" },
+          [
+            _c("div", { staticClass: "flex-column" }, [
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("h4", { staticClass: "card-title m-0" }, [
+                  _vm._v(_vm._s(_vm.user.name))
+                ]),
+                _vm._v(" "),
+                _vm.user.status == "disabled"
+                  ? _c(
+                      "span",
+                      {
+                        staticClass:
+                          "badge rounded-pill bg-warning text-white ms-2"
+                      },
+                      [_vm._v("未激活")]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.user.status == "disabled"
-                ? _c(
-                    "span",
-                    {
-                      staticClass:
-                        "\n              badge\n              rounded-pill\n              bg-warning\n              shadow-none\n              text-dark\n              ml-2\n              px-2\n              h-75\n            "
-                    },
-                    [_vm._v("未激活")]
-                  )
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("p", { staticClass: "card-subtitle m-0" }, [
-                _vm._v(_vm._s(_vm.user.email))
+              _c("div", { staticClass: "row" }, [
+                _c("p", { staticClass: "card-subtitle text-secondary m-0" }, [
+                  _vm._v(_vm._s(_vm.user.email))
+                ])
               ])
             ])
-          ])
-        ]),
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
           {
             staticClass:
-              "\n        flex-column\n        d-flex\n        align-items-center\n        justify-content-center\n        my-2\n      "
+              "\n        col-12 col-lg-4\n        d-flex\n        align-items-center\n        justify-content-center\n        my-2\n      "
           },
           [
             _c("div", { staticClass: "row" }, [
@@ -7928,7 +7990,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "\n              btn btn-secondary btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
+                      "\n              btn btn-primary btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     attrs: {
                       type: "submit",
                       "data-bs-toggle": "modal",
@@ -7955,7 +8017,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "\n              btn btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
+                      "\n              btn\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     class: _vm.classObject,
                     on: {
                       click: function($event) {
