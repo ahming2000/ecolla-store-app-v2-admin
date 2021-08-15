@@ -7,179 +7,184 @@
     aria-labelledby="editAccountModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editAccountModalLabel">编辑员工账户</h5>
           <button
             type="button"
-            class="close"
+            class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+          ></button>
         </div>
-        <form>
-          <div class="modal-body">
-            <div class="form-group md-form">
-              <input
-                type="email"
-                class="form-control"
-                id="editAccountEmailControl"
-                name="email"
-                v-model="email"
-                readonly
-                placeholder="员工邮箱"
-              />
-            </div>
-            <div class="form-group md-form">
-              <input
-                type="text"
-                class="form-control"
-                id="editAccountFullNameControl"
-                name="name"
-                v-model="name"
-                placeholder="员工姓名"
-              />
-              <span class="invalid-feedback" role="alert">
-                <strong></strong>
-              </span>
-            </div>
-            <div class="form-group md-form">
-              <input
-                type="password"
-                class="form-control"
-                id="editAccountPasswordControl"
-                name="password"
-                placeholder="员工密码"
-                v-model="password"
-              />
-              <span class="invalid-feedback" role="alert">
-                <strong></strong>
-              </span>
-            </div>
-            <div class="form-group md-form">
-              <input
-                type="password"
-                class="form-control"
-                id="editAccountConfirmPasswordControl"
-                name="password_confirmation"
-                placeholder="员工密码（重填确认）"
-                v-model="passwordConfirmation"
-              />
-              <span class="invalid-feedback" role="alert">
-                <strong></strong>
-              </span>
-            </div>
+        <div class="modal-body bg-light">
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="editAccountEmailControl"
+              name="email"
+              v-model="email"
+              readonly
+              placeholder="员工邮箱"
+            />
+            <label class="label" for="editAccountNewEmailControl"
+              >员工邮箱</label
+            >
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="editAccountFullNameControl"
+              name="name"
+              v-model="name"
+              placeholder="员工姓名"
+            />
+            <label class="label" for="editAccountNewFullNameControl"
+              >员工姓名</label
+            >
+            <span class="invalid-feedback" role="alert">
+              <strong></strong>
+            </span>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="editAccountPasswordControl"
+              name="password"
+              placeholder="员工密码"
+              v-model="password"
+            />
+            <label class="label" for="aeditAccountNewPasswordControl"
+              >员工密码</label
+            >
+            <span class="invalid-feedback" role="alert">
+              <strong></strong>
+            </span>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="editAccountConfirmPasswordControl"
+              name="password_confirmation"
+              placeholder="员工密码（重填确认）"
+              v-model="passwordConfirmation"
+            />
+            <label class="label" for="editAccountConfirmPasswordControl"
+              >员工密码（重填确认）</label
+            >
+            <span class="invalid-feedback" role="alert">
+              <strong></strong>
+            </span>
+          </div>
 
-            <div class="form-group">
-              <label>权限</label>
-              <div
-                class="mb-3"
-                v-for="group in permissions"
-                :key="group.groupName"
+          <div class="form-group">
+            <label>权限</label>
+            <div
+              class="mb-3"
+              v-for="group in permissions"
+              :key="group.groupName"
+            >
+              <ul
+                class="list-group"
+                v-for="(permission, index) in group.permissions"
+                :key="permission.columnName"
               >
-                <ul
-                  class="list-group"
-                  v-for="(permission, index) in group.permissions"
-                  :key="permission.columnName"
-                >
-                  <li class="list-group-item" :class="{ 'ml-3': index > 0 }">
-                    <div class="row">
-                      <div class="col-8 d-flex align-items-center">
-                        <p class="m-0">{{ permission.cnDisplayName }}</p>
-                      </div>
-                      <div
-                        class="
-                          col-4
-                          d-flex
-                          align-items-center
-                          justify-content-end
-                        "
-                      >
-                        <label class="switch m-0">
-                          <input
-                            type="checkbox"
-                            class="form-control"
-                            :id="`editAccount${permission.elementId}`"
-                            :name="permission.columnName"
-                            :value="permission.columnName"
-                            v-model="checkedPermissions"
-                            @change="onPermissionChange($event, group)"
-                          />
-                          <span class="slider round"></span>
-                        </label>
-                      </div>
+                <li class="list-group-item" :class="{ 'ml-3': index > 0 }">
+                  <div class="row">
+                    <div class="col-8 d-flex align-items-center">
+                      <p class="m-0">{{ permission.cnDisplayName }}</p>
                     </div>
-                  </li>
-                </ul>
-                <!-- subGroup -->
-                <div v-if="group.subGroups.length > 0" class="ml-3">
-                  <div
-                    v-for="subGroup in group.subGroups"
-                    :key="subGroup.groupName"
-                  >
-                    <ul
-                      class="list-group"
-                      v-for="(permission, index) in subGroup.permissions"
-                      :key="permission.columnName"
+                    <div
+                      class="
+                        col-4
+                        d-flex
+                        align-items-center
+                        justify-content-end
+                      "
                     >
-                      <li
-                        class="list-group-item"
-                        :class="{ 'ml-3': index > 0 }"
-                      >
-                        <div class="row">
-                          <div class="col-8 d-flex align-items-center">
-                            <p class="m-0">{{ permission.cnDisplayName }}</p>
-                          </div>
-                          <div
-                            class="
-                              col-4
-                              d-flex
-                              align-items-center
-                              justify-content-end
-                            "
-                          >
-                            <label class="switch m-0">
-                              <input
-                                type="checkbox"
-                                class="form-control"
-                                :id="`editAccount${permission.elementId}`"
-                                :name="permission.columnName"
-                                :value="permission.columnName"
-                                v-model="checkedPermissions"
-                                @change="onPermissionChange($event, subGroup)"
-                              />
-                              <span class="slider round"></span>
-                            </label>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
+                      <label class="switch m-0">
+                        <input
+                          type="checkbox"
+                          class="form-control"
+                          :id="`editAccount${permission.elementId}`"
+                          :name="permission.columnName"
+                          :value="permission.columnName"
+                          v-model="checkedPermissions"
+                          @change="onPermissionChange($event, group)"
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
                   </div>
+                </li>
+              </ul>
+              <!-- subGroup -->
+              <div v-if="group.subGroups.length > 0" class="ml-3">
+                <div
+                  v-for="subGroup in group.subGroups"
+                  :key="subGroup.groupName"
+                >
+                  <ul
+                    class="list-group"
+                    v-for="(permission, index) in subGroup.permissions"
+                    :key="permission.columnName"
+                  >
+                    <li class="list-group-item" :class="{ 'ml-3': index > 0 }">
+                      <div class="row">
+                        <div class="col-8 d-flex align-items-center">
+                          <p class="m-0">{{ permission.cnDisplayName }}</p>
+                        </div>
+                        <div
+                          class="
+                            col-4
+                            d-flex
+                            align-items-center
+                            justify-content-end
+                          "
+                        >
+                          <label class="switch m-0">
+                            <input
+                              type="checkbox"
+                              class="form-control"
+                              :id="`editAccount${permission.elementId}`"
+                              :name="permission.columnName"
+                              :value="permission.columnName"
+                              v-model="checkedPermissions"
+                              @change="onPermissionChange($event, subGroup)"
+                            />
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-outline-danger btn-md shadow-none"
-              data-bs-dismiss="modal"
-            >
-              取消
-            </button>
-            <button
-              type="submit"
-              class="btn btn-primary btn-md"
-              data-bs-dismiss="modal"
-              @click.prevent="editUser()"
-            >
-              更新
-            </button>
-          </div>
-        </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-md shadow-none"
+            data-bs-dismiss="modal"
+          >
+            取消
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary btn-md"
+            data-bs-dismiss="modal"
+            @click.prevent="editUser()"
+          >
+            更新
+          </button>
+        </div>
       </div>
     </div>
   </div>

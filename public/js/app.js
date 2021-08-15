@@ -395,8 +395,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "delete-user",
   props: {
@@ -404,8 +402,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      email: '',
-      name: ''
+      email: "",
+      name: ""
     };
   },
   mounted: function mounted() {
@@ -419,7 +417,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteUser: function deleteUser() {
-      this.$emit('deleteUser', this.user);
+      this.$emit("deleteUser", this.user);
     }
   }
 });
@@ -437,6 +435,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7213,64 +7216,71 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c("div", { staticClass: "col" }, [
-              _c("p", [_vm._v("确定删除此员工账户？此动作无法挽回。")]),
+      _c(
+        "div",
+        {
+          staticClass:
+            "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "col" }, [
+                _c("p", [_vm._v("确定删除此员工账户？此动作无法挽回。")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col flex-column d-inline-flex justify-content-center"
+                  },
+                  [
+                    _c("p", {
+                      staticClass: "m-0 p-0 h5 d-inline-flex",
+                      attrs: { id: "deleteAccountFullNameDisplay" },
+                      domProps: { textContent: _vm._s(_vm.name) }
+                    }),
+                    _vm._v(" "),
+                    _c("p", {
+                      staticClass: "m-0 p-0 text-muted d-inline-flex",
+                      attrs: { id: "deleteAccountEmailDisplay" },
+                      domProps: { textContent: _vm._s(_vm.email) }
+                    })
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-primary btn-md shadow-none",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" }
+                },
+                [_vm._v("\n          取消\n        ")]
+              ),
               _vm._v(" "),
               _c(
-                "div",
+                "button",
                 {
-                  staticClass:
-                    "col flex-column d-inline-flex justify-content-center"
+                  staticClass: "btn btn-danger btn-md",
+                  attrs: { type: "submit", "data-bs-dismiss": "modal" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteUser()
+                    }
+                  }
                 },
-                [
-                  _c("p", {
-                    staticClass: "m-0 p-0 h5 d-inline-flex",
-                    attrs: { id: "deleteAccountFullNameDisplay" },
-                    domProps: { textContent: _vm._s(_vm.name) }
-                  }),
-                  _vm._v(" "),
-                  _c("p", {
-                    staticClass: "m-0 p-0 text-muted d-inline-flex",
-                    attrs: { id: "deleteAccountEmailDisplay" },
-                    domProps: { textContent: _vm._s(_vm.email) }
-                  })
-                ]
+                [_vm._v("\n          确定删除\n        ")]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-outline-primary btn-md shadow-none",
-                attrs: { type: "button", "data-bs-dismiss": "modal" }
-              },
-              [_vm._v("\n          取消\n        ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger btn-md",
-                attrs: { type: "submit", "data-bs-dismiss": "modal" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.deleteUser()
-                  }
-                }
-              },
-              [_vm._v("\n          确定删除\n        ")]
-            )
           ])
-        ])
-      ])
+        ]
+      )
     ]
   )
 }
@@ -7289,18 +7299,14 @@ var staticRenderFns = [
         [_vm._v("删除员工账户")]
       ),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
     ])
   }
 ]
@@ -7339,13 +7345,18 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("form", [
-            _c("div", { staticClass: "modal-body" }, [
-              _c("div", { staticClass: "form-group md-form" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body bg-light" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -7372,10 +7383,19 @@ var render = function() {
                       _vm.email = $event.target.value
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "editAccountNewEmailControl" }
+                  },
+                  [_vm._v("员工邮箱")]
+                )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -7403,10 +7423,19 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "editAccountNewFullNameControl" }
+                  },
+                  [_vm._v("员工姓名")]
+                ),
+                _vm._v(" "),
                 _vm._m(1)
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -7434,10 +7463,19 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "aeditAccountNewPasswordControl" }
+                  },
+                  [_vm._v("员工密码")]
+                ),
+                _vm._v(" "),
                 _vm._m(2)
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -7464,6 +7502,15 @@ var render = function() {
                     }
                   }
                 }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "editAccountConfirmPasswordControl" }
+                  },
+                  [_vm._v("员工密码（重填确认）")]
+                ),
                 _vm._v(" "),
                 _vm._m(3)
               ]),
@@ -7514,7 +7561,7 @@ var render = function() {
                                       "div",
                                       {
                                         staticClass:
-                                          "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
+                                          "\n                      col-4\n                      d-flex\n                      align-items-center\n                      justify-content-end\n                    "
                                       },
                                       [
                                         _c(
@@ -7656,7 +7703,7 @@ var render = function() {
                                                 "div",
                                                 {
                                                   staticClass:
-                                                    "\n                            col-4\n                            d-flex\n                            align-items-center\n                            justify-content-end\n                          "
+                                                    "\n                          col-4\n                          d-flex\n                          align-items-center\n                          justify-content-end\n                        "
                                                 },
                                                 [
                                                   _c(
@@ -7790,7 +7837,7 @@ var render = function() {
                   staticClass: "btn btn-outline-danger btn-md shadow-none",
                   attrs: { type: "button", "data-bs-dismiss": "modal" }
                 },
-                [_vm._v("\n            取消\n          ")]
+                [_vm._v("\n          取消\n        ")]
               ),
               _vm._v(" "),
               _c(
@@ -7805,12 +7852,12 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n            更新\n          ")]
+                [_vm._v("\n          更新\n        ")]
               )
             ])
           ])
-        ])
-      ])
+        ]
+      )
     ]
   )
 }
@@ -7826,18 +7873,14 @@ var staticRenderFns = [
         [_vm._v("编辑员工账户")]
       ),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
     ])
   },
   function() {
