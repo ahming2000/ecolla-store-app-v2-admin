@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\ChangingLog\ChangingLogController;
+use App\Http\Controllers\ImagesProcessController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SystemUpdateController;
+use App\Http\Controllers\ValidatorsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -34,15 +36,27 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
 
 Route::prefix('/item')->group(function () {
-    Route::get('/', [ItemsController::class, 'index'])->name('item.index')->middleware('access:item_view');
-    Route::get('/create', [ItemsController::class, 'create'])->name('item.create')->middleware('access:item_create');
-    Route::get('/{item}', [ItemsController::class, 'show'])->name('item.show')->middleware('access:item_view');
-    Route::get('/{item}/edit', [ItemsController::class, 'edit'])->name('item.edit')->middleware('access:item_update');
-    Route::post('/', [ItemsController::class, 'store'])->name('item.store');
-    Route::patch('/{item}', [ItemsController::class, 'update'])->name('item.update');
-    Route::delete('/{item}', [ItemsController::class, 'destroy'])->name('item.destroy');
-    Route::post('/{item}/list', [ItemsController::class, 'list'])->name('item.list');
-    Route::post('/{item}/util/reset/{attr}', [ItemsController::class, 'resetUtil'])->name('item.resetUtil');
+    Route::get('/', [ItemsController::class, 'index'])->middleware('access:item_view');
+    Route::get('/create', [ItemsController::class, 'create'])->middleware('access:item_create');
+    Route::get('/{item}', [ItemsController::class, 'show'])->middleware('access:item_view');
+    Route::get('/{item}/edit', [ItemsController::class, 'edit'])->middleware('access:item_update');
+
+    Route::post('/', [ItemsController::class, 'add']);
+
+    Route::post('/image/process', [ImagesProcessController::class, 'process']);
+    Route::patch('/{item}/{type}', [ItemsController::class, 'update']);
+
+    Route::patch('/{item}', [ItemsController::class, 'updateOld']);
+
+    Route::delete('/{item}', [ItemsController::class, 'destroy']);
+
+    Route::post('/{item}/list', [ItemsController::class, 'list']);
+
+    Route::post('/{item}/util/reset/{attr}', [ItemsController::class, 'resetUtil']);
+});
+
+Route::prefix('/validate')->group(function() {
+    Route::post('/item/variation/{attribute}', [ValidatorsController::class, 'validateVariation']);
 });
 
 Route::prefix('/order')->group(function () {

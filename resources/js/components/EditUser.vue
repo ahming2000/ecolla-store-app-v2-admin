@@ -14,7 +14,7 @@
           <button
             type="button"
             class="close"
-            data-dismiss="modal"
+            data-bs-dismiss="modal"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
@@ -85,7 +85,7 @@
                   v-for="(permission, index) in group.permissions"
                   :key="permission.columnName"
                 >
-                  <li class="list-group-item" :class="{ 'ml-3': index > 0 }">
+                  <li class="list-group-item" :class="{ 'ms-3': index > 0 }">
                     <div class="row">
                       <div class="col-8 d-flex align-items-center">
                         <p class="m-0">{{ permission.cnDisplayName }}</p>
@@ -115,7 +115,7 @@
                   </li>
                 </ul>
                 <!-- subGroup -->
-                <div v-if="group.subGroups.length > 0" class="ml-3">
+                <div v-if="group.subGroups.length > 0" class="ms-3">
                   <div
                     v-for="subGroup in group.subGroups"
                     :key="subGroup.groupName"
@@ -127,7 +127,7 @@
                     >
                       <li
                         class="list-group-item"
-                        :class="{ 'ml-3': index > 0 }"
+                        :class="{ 'ms-3': index > 0 }"
                       >
                         <div class="row">
                           <div class="col-8 d-flex align-items-center">
@@ -166,14 +166,14 @@
             <button
               type="button"
               class="btn btn-outline-danger btn-md shadow-none"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               取消
             </button>
             <button
               type="submit"
               class="btn btn-primary btn-md"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
               @click.prevent="editUser()"
             >
               更新
@@ -287,7 +287,7 @@ export default {
             this.getViewPermissionName(this.getParentGroup(group))
           );
         }
-      } 
+      }
       // if user turned on '{group}_view'
       else if (
         event.target.value == this.getViewPermissionName(group) &&

@@ -45,8 +45,8 @@
                 align-items-center
                 text-nowrap
               "
-              data-toggle="modal"
-              data-target="#editAccountModal"
+              data-bs-toggle="modal"
+              data-bs-target="#editAccountModal"
               @click.prevent="sendUserToParent()"
               :disabled="user.status == 'disabled'"
             >
@@ -78,8 +78,8 @@
                 align-items-center
                 text-nowrap
               "
-              data-toggle="modal"
-              data-target="#deleteAccountModal"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteAccountModal"
               @click.prevent="sendUserToParent()"
             >
               <p class="text-center m-0">删除</p>
