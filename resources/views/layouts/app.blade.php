@@ -9,10 +9,6 @@
 
     <title>@yield('title')</title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -23,7 +19,7 @@
 <body style="min-width: 100%;">
 
 <div id="app">
-    <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow" style="z-index: 10;">
+    <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow">
         <div class="container">
 
             <a class="navbar-brand" href="{{ url('/') }}">
@@ -88,7 +84,7 @@
         </div>
     </nav>
 
-    <main class="py-4" style="margin-top: 100px;">
+    <main class="py-4" style="margin-top: 60px;">
         @yield('content')
     </main>
 

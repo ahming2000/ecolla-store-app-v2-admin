@@ -6820,7 +6820,7 @@ var render = function() {
                                   "li",
                                   {
                                     staticClass: "list-group-item",
-                                    class: { "ml-3": index > 0 }
+                                    class: { "ms-3": index > 0 }
                                   },
                                   [
                                     _c("div", { staticClass: "row" }, [
@@ -6939,7 +6939,7 @@ var render = function() {
                           group.subGroups.length > 0
                             ? _c(
                                 "div",
-                                { staticClass: "ml-3" },
+                                { staticClass: "ms-3" },
                                 _vm._l(group.subGroups, function(subGroup) {
                                   return _c(
                                     "div",
@@ -6959,7 +6959,7 @@ var render = function() {
                                             "li",
                                             {
                                               staticClass: "list-group-item",
-                                              class: { "ml-3": index > 0 }
+                                              class: { "ms-3": index > 0 }
                                             },
                                             [
                                               _c(
@@ -7467,7 +7467,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "label",
-                    attrs: { for: "aeditAccountNewPasswordControl" }
+                    attrs: { for: "editAccountNewPasswordControl" }
                   },
                   [_vm._v("员工密码")]
                 ),
@@ -7538,7 +7538,7 @@ var render = function() {
                                 "li",
                                 {
                                   staticClass: "list-group-item",
-                                  class: { "ml-3": index > 0 }
+                                  class: { "ms-3": index > 0 }
                                 },
                                 [
                                   _c("div", { staticClass: "row" }, [
@@ -7654,7 +7654,7 @@ var render = function() {
                         group.subGroups.length > 0
                           ? _c(
                               "div",
-                              { staticClass: "ml-3" },
+                              { staticClass: "ms-3" },
                               _vm._l(group.subGroups, function(subGroup) {
                                 return _c(
                                   "div",
@@ -7674,7 +7674,7 @@ var render = function() {
                                           "li",
                                           {
                                             staticClass: "list-group-item",
-                                            class: { "ml-3": index > 0 }
+                                            class: { "ms-3": index > 0 }
                                           },
                                           [
                                             _c("div", { staticClass: "row" }, [

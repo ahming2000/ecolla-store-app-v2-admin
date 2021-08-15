@@ -58,7 +58,7 @@
               placeholder="员工密码"
               v-model="password"
             />
-            <label class="label" for="aeditAccountNewPasswordControl"
+            <label class="label" for="editAccountNewPasswordControl"
               >员工密码</label
             >
             <span class="invalid-feedback" role="alert">
@@ -94,7 +94,7 @@
                 v-for="(permission, index) in group.permissions"
                 :key="permission.columnName"
               >
-                <li class="list-group-item" :class="{ 'ml-3': index > 0 }">
+                <li class="list-group-item" :class="{ 'ms-3': index > 0 }">
                   <div class="row">
                     <div class="col-8 d-flex align-items-center">
                       <p class="m-0">{{ permission.cnDisplayName }}</p>
@@ -124,7 +124,7 @@
                 </li>
               </ul>
               <!-- subGroup -->
-              <div v-if="group.subGroups.length > 0" class="ml-3">
+              <div v-if="group.subGroups.length > 0" class="ms-3">
                 <div
                   v-for="subGroup in group.subGroups"
                   :key="subGroup.groupName"
@@ -134,7 +134,7 @@
                     v-for="(permission, index) in subGroup.permissions"
                     :key="permission.columnName"
                   >
-                    <li class="list-group-item" :class="{ 'ml-3': index > 0 }">
+                    <li class="list-group-item" :class="{ 'ms-3': index > 0 }">
                       <div class="row">
                         <div class="col-8 d-flex align-items-center">
                           <p class="m-0">{{ permission.cnDisplayName }}</p>
