@@ -9577,10 +9577,15 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      { staticClass: "form-control form-switch", on: { click: _vm.listItem } },
+      {
+        staticClass: "form-control form-switch",
+        staticStyle: { border: "0" },
+        on: { click: _vm.listItem }
+      },
       [
         _c("input", {
           staticClass: "form-check-input",
+          staticStyle: { "pointer-events": "none" },
           attrs: { type: "checkbox" },
           domProps: { checked: _vm.checkBoxValue }
         }),
