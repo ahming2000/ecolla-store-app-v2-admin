@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="form-control form-switch" @click="listItem">
+        <div class="form-control form-switch" @click="listItem" style="border: 0;">
             <input type="checkbox" class="form-check-input" :checked="checkBoxValue">
             <label class="form-check-label"></label>
         </div>
