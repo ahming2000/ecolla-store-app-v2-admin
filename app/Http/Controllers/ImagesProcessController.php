@@ -13,7 +13,7 @@ class ImagesProcessController extends Controller
         try{
             return response()->json(['image' => (new ImageHandler())->getEncodeDataURL(request('image'), $mode)]);
         } catch (\Exception $exception){
-            return response()->json(["image" => "", 'error' => 'Fail to process image!']);
+            return response()->json(["image" => "", 'error' => '处理照片失败！请尝试其他的照片！']);
         }
     }
 }
