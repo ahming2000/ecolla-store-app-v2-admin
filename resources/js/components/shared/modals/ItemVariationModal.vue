@@ -304,7 +304,7 @@ input:checked + .slider:before {
                         :max="
                           variationDiscountEnd
                             ? dateToString(getPreviousDay(variationDiscountEnd))
-                            : ''
+                            : dateToString(getNextDay(getToday()))
                         "
                         @change="onChange($event, 'discountStart')"
                       />
@@ -472,7 +472,7 @@ export default {
         : this.getToday(),
       variationDiscountEnd: this.variation?.discount?.end
         ? this.stringToDate(this.variation.discount.end)
-        : null,
+        : this.getNextDay(this.getToday()),
       isVariationDiscountEnabled: this.variation?.discount ? true : false,
       isDurationLimited: this.variation?.discount?.end === null ? false : true,
 
@@ -750,7 +750,7 @@ export default {
         : this.getToday();
       this.variationDiscountEnd = val?.discount?.end
         ? this.stringToDate(val.discount.end)
-        : null;
+        : this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = val?.discount ? true : false;
       this.isDurationLimited = val?.discount?.end === null ? false : true;
     },
@@ -776,7 +776,7 @@ export default {
       this.variationDiscount = null;
       this.variationDiscountRate = 0;
       this.variationDiscountStart = this.getToday();
-      this.variationDiscountEnd = null;
+      this.variationDiscountEnd = this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = false;
       this.isDurationLimited = false;
     },
