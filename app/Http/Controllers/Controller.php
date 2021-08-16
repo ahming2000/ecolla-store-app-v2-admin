@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DateInterval;
+use DateTime;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -128,6 +131,7 @@ class Controller extends BaseController
      * @param array $attrToFilter
      * @param bool $isDate
      * @return string
+     * @throws Exception
      */
     protected function generateFilterClause(string $keyword, array $attrToFilter, bool $isDate = false): string
     {
@@ -137,11 +141,24 @@ class Controller extends BaseController
             foreach ($attrToFilter as $tableName => $attributes) {
                 foreach ($attributes as $attributeName) {
                     if($isDate){
-                        if ($isFirst) {
-                            $line = $line . "$tableName.$attributeName LIKE '$keyword%'";
-                            $isFirst = false;
-                        } else {
-                            $line = $line . " OR $tableName.$attributeName LIKE '$keyword%'";
+                        try {
+                            $date = new DateTime($keyword);
+                            $start = $date->sub(new DateInterval('PT8H'))->format('Y-m-d H:i:s');
+                            $end = $date->add(new DateInterval('PT24H'))->format('Y-m-d H:i:s');
+
+                            if ($isFirst) {
+                                $line = $line . "$tableName.$attributeName BETWEEN '$start' AND '$end'";
+                                $isFirst = false;
+                            } else {
+                                $line = $line . " OR $tableName.$attributeName BETWEEN '$start' AND '$end'";
+                            }
+                        } catch (Exception $ignored){
+                            if ($isFirst) {
+                                $line = $line . "$tableName.$attributeName LIKE '$keyword%'";
+                                $isFirst = false;
+                            } else {
+                                $line = $line . " OR $tableName.$attributeName LIKE '$keyword%'";
+                            }
                         }
                     } else{
                         if ($isFirst) {

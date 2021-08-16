@@ -10,14 +10,21 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.2.0 公测版';
-        $updateDate = '2021/08/16';
+        $currentVersion = 'v2.2.2 公测版';
+        $updateDate = '2021/08/17';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
             new LogClass('v2.2', [
+
+                new Log('v2.2.2', '2021/08/17', [
+
+                    new LogDetail('优化', [
+                        '修复了订单日期选择无法搜索指定日期的订单的问题',
+                    ]),
+                ]),
 
                 new Log('v2.2.1', '2021/08/16', [
 
