@@ -19,7 +19,15 @@ class ChangingLogController extends Controller
 
             new LogClass('v2.2', [
 
+                new Log('v2.2.1', '2021/08/16', [
+
+                    new LogDetail('优化', [
+                        '修复了折扣没有跟着设定的时间的问题',
+                    ]),
+                ]),
+
                 new Log('v2.2.0', '2021/08/16', [
+
                     new LogDetail('功能', [
                         '使用了全新商品编辑界面',
                         '使用了新的外观',
