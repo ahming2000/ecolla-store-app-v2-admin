@@ -2256,7 +2256,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var newImage = event.target.files[0];
       console.log(newImage);
       this.newImage = newImage;
-      this.uploadImageModal.show();
       event.target.value = "";
     },
     confirmUpload: function confirmUpload(newImageData) {
@@ -2293,10 +2292,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       if (args[1] === "error") {
-        this.uploadImageModal.hide();
-      }
+        console.log(this.uploadImageModal); // this.uploadImageModal.hide();
 
-      this.$emit.apply(this, ["onResponse"].concat(args));
+        this.$emit.apply(this, ["onResponse"].concat(args));
+      } else {
+        this.uploadImageModal.show();
+      }
     }
   }
 });
@@ -4148,6 +4149,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (res.data.image !== "") {
           _this.framedImage = res.data.image;
+
+          _this.$emit("onResponse", res.data.image, "success");
         } else {
           _this.$emit("onResponse", res.data.error, "error");
         }
@@ -4168,6 +4171,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (res.data.image !== "") {
           _this2.croppedImage = res.data.image;
+
+          _this2.$emit("onResponse", res.data.image, "success");
         } else {
           _this2.$emit("onResponse", res.data.error, "error");
         }

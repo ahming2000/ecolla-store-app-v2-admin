@@ -133,7 +133,6 @@ export default {
       let newImage = event.target.files[0];
       console.log(newImage);
       this.newImage = newImage;
-      this.uploadImageModal.show();
       event.target.value = "";
     },
 
@@ -170,9 +169,12 @@ export default {
 
     onResponse(...args) {
       if (args[1] === "error") {
-        this.uploadImageModal.hide();
+        console.log(this.uploadImageModal);
+        // this.uploadImageModal.hide();
+        this.$emit("onResponse", ...args);
+      } else {
+        this.uploadImageModal.show();
       }
-      this.$emit("onResponse", ...args);
     },
   },
 };
