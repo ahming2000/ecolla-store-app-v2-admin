@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class ImportSystemConfigs extends Migration
+class CreateSystemConfigsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,6 +14,13 @@ class ImportSystemConfigs extends Migration
      */
     public function up()
     {
+        Schema::create('system_configs', function (Blueprint $table) {
+            $table->string('name')->primary();
+            $table->string('value');
+            $table->text('desc');
+
+            $table->timestamps();
+        });
 
         /*
          * Config naming convention
@@ -69,7 +76,6 @@ class ImportSystemConfigs extends Migration
                 'updated_at' => date("Y-m-d H:i:s")
             )
         );
-
     }
 
     /**
@@ -79,6 +85,6 @@ class ImportSystemConfigs extends Migration
      */
     public function down()
     {
-
+        Schema::dropIfExists('system_configs');
     }
 }
