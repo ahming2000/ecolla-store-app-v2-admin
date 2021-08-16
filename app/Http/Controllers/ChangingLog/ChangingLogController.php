@@ -23,6 +23,7 @@ class ChangingLogController extends Controller
 
                     new LogDetail('优化', [
                         '修复了订单日期选择无法搜索指定日期的订单的问题',
+                        '修复了照片上传失败后却可以保存的问题',
                     ]),
                 ]),
 
