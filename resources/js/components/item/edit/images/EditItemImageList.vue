@@ -87,7 +87,14 @@ export default {
       itemImages: this.images ?? [],
       selectedImage: null,
       newImage: null,
+      uploadImageModal: null,
     };
+  },
+
+  mounted() {
+    this.uploadImageModal = new Modal(
+      document.getElementById("itemBasicUploadImageModal")
+    );
   },
 
   methods: {
@@ -126,7 +133,6 @@ export default {
       let newImage = event.target.files[0];
       console.log(newImage);
       this.newImage = newImage;
-      this.openUploadImageModal();
       event.target.value = "";
     },
 
@@ -161,15 +167,14 @@ export default {
         });
     },
 
-    openUploadImageModal() {
-      const uploadImageModal = new Modal(
-        document.getElementById("itemBasicUploadImageModal")
-      );
-      uploadImageModal.show();
-    },
-
     onResponse(...args) {
-      this.$emit("onResponse", ...args);
+      if (args[1] === "error") {
+        console.log(this.uploadImageModal);
+        // this.uploadImageModal.hide();
+        this.$emit("onResponse", ...args);
+      } else {
+        this.uploadImageModal.show();
+      }
     },
   },
 };

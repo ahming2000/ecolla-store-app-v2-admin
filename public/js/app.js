@@ -1360,6 +1360,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2213,8 +2214,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       itemId: (_this$item_id = this.item_id) !== null && _this$item_id !== void 0 ? _this$item_id : null,
       itemImages: (_this$images = this.images) !== null && _this$images !== void 0 ? _this$images : [],
       selectedImage: null,
-      newImage: null
+      newImage: null,
+      uploadImageModal: null
     };
+  },
+  mounted: function mounted() {
+    this.uploadImageModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById("itemBasicUploadImageModal"));
   },
   methods: {
     openDeleteModal: function openDeleteModal(image) {
@@ -2251,7 +2256,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var newImage = event.target.files[0];
       console.log(newImage);
       this.newImage = newImage;
-      this.openUploadImageModal();
       event.target.value = "";
     },
     confirmUpload: function confirmUpload(newImageData) {
@@ -2282,16 +2286,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this2.$emit("onResponse", error.message, "error");
       });
     },
-    openUploadImageModal: function openUploadImageModal() {
-      var uploadImageModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById("itemBasicUploadImageModal"));
-      uploadImageModal.show();
-    },
     onResponse: function onResponse() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
 
-      this.$emit.apply(this, ["onResponse"].concat(args));
+      if (args[1] === "error") {
+        console.log(this.uploadImageModal); // this.uploadImageModal.hide();
+
+        this.$emit.apply(this, ["onResponse"].concat(args));
+      } else {
+        this.uploadImageModal.show();
+      }
     }
   }
 });
@@ -4143,6 +4149,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (res.data.image !== "") {
           _this.framedImage = res.data.image;
+
+          _this.$emit("onResponse", res.data.image, "success");
         } else {
           _this.$emit("onResponse", res.data.error, "error");
         }
@@ -4163,6 +4171,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (res.data.image !== "") {
           _this2.croppedImage = res.data.image;
+
+          _this2.$emit("onResponse", res.data.image, "success");
         } else {
           _this2.$emit("onResponse", res.data.error, "error");
         }
@@ -8388,7 +8398,9 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("message-toast", {
-          staticClass: "fixed-top start-50 translate-middle-x min-vw-100",
+          staticClass:
+            "position-fixed top-0 start-50 translate-middle-x min-vw-100",
+          staticStyle: { "z-index": "2000" },
           attrs: {
             "aria-live": "polite",
             "aria-atomic": "true",

@@ -159,7 +159,8 @@ li:hover {
       <message-toast
         aria-live="polite"
         aria-atomic="true"
-        class="fixed-top start-50 translate-middle-x min-vw-100"
+        class="position-fixed top-0 start-50 translate-middle-x min-vw-100"
+        style="z-index: 2000"
         :message="messageData"
       ></message-toast>
     </div>
