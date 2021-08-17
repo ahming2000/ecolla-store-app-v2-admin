@@ -38,7 +38,7 @@ class ValidationManager
 
         if (!empty($result->toArray())){
             $selected = $result->toArray()[0]->id;
-            $this->errors['barcode'] = "货号 $barcode 已重复在其他商品里！<a href='/item/$selected/edit'>点击</a>进行跳转。";
+            $this->errors['barcode'] = "货号 <b>$barcode</b> 已重复在其他商品里！<a href='/item/$selected/edit'>点击</a>进行跳转。";
             return;
         }
 
@@ -50,7 +50,7 @@ class ValidationManager
             ->get(); // Validate success -> Result not found
 
         if (!empty($result->toArray())){
-            $this->errors['barcode'] = "货号 $barcode 已重复！";
+            $this->errors['barcode'] = "货号 <b>$barcode</b> 已重复！";
         }
     }
 

@@ -1,3 +1,7 @@
+@inject('helper', \App\Util\ViewHelper::class)
+@inject('CategoryTable', \App\Models\Category::class)
+@inject('ItemTable', \App\Models\Item::class)
+
 @extends('layouts.app')
 
 @section('title')
@@ -9,58 +13,43 @@
 
         @if(session()->has('message'))
             <div class="alert alert-info text-center" role="alert">
-                {{ session('message') }}
+                {!! session('message') !!}
             </div>
         @endif
 
-        <div class="row mb-3">
-            <div class="col-md-6 col-sm-12">
-                <div class="h1">
-                    商品管理
-                </div>
+        <div class="d-flex justify-content-between mb-1">
+            <div class="h1">商品管理</div>
+
+            <div>
+                @if(auth()->user()->hasAccess('item_create'))
+                    <button type="button" class="btn btn-outline-primary"
+                            onclick="window.location.href = '{{ url('/item/create') }}'">
+                        <i class="icofont icofont-ui-add"></i> 添加商品
+                    </button>
+                @endif
             </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6 col-sm-12"></div>
 
             <div class="col-md-6 col-sm-12">
-                <div class="text-end mb-2">
-                    @if(auth()->user()->hasAccess('item_create'))
-                        <button type="button" class="btn btn-outline-primary" onclick="window.location.href = '{{ url('/item/create') }}'">
-                            <i class="icofont icofont-ui-add"></i> 添加商品
-                        </button>
-                    @endif
-                </div>
 
                 <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
-                    <option value="25" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25件商品</option>
-                    <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50件商品</option>
-                    <option value="75" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75件商品</option>
-                    <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100件商品</option>
+                    <option value="25" {{ $helper->paramSelected('paginate', '25') }}>一页显示25件商品</option>
+                    <option value="50" {{ $helper->paramSelected('paginate', '50') }}>一页显示50件商品</option>
+                    <option value="75" {{ $helper->paramSelected('paginate', '75') }}>一页显示75件商品</option>
+                    <option value="100" {{ $helper->paramSelected('paginate', '100') }}>一页显示100件商品</option>
                 </select>
 
                 <form action="{{ url('/item') }}" method="get">
-
                     <div class="d-flex justify-content-between mb-2">
-
                         <div class="flex-grow-1 me-2">
-                            @if(isset($_GET['paginate']))
-                                <input type="hidden" name="paginate" value="{{ $_GET['paginate'] }}">
-                            @endif
+                            <input type="hidden" name="paginate" value="{{ $helper->param('paginate', 25) }}">
+                            <input type="hidden" name="category" value="{{ $helper->param('category') }}">
 
-                            @if(isset($_GET['category']))
-                                <input type="hidden" name="category" value="{{ $_GET['category'] }}">
-                            @endif
-
-                            <input type="text"
-                                   class="form-control shadow"
-                                   maxlength="20"
-                                   name="search"
-                                   placeholder="搜索名称、货号、规格、出产地、商品描述"
-                                   value="{{ $_GET["search"] ?? "" }}">
-
-                            @error("search")
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <input type="text" class="form-control shadow" maxlength="20" name="search"
+                                   placeholder="搜索名称、货号、规格、出产地、商品描述" value="{{ $helper->param('search') }}">
                         </div>
 
                         <div>
@@ -71,20 +60,27 @@
                     </div>
                 </form>
 
-                <select class="form-select shadow" name="category" id="categorySelector">
+                <select class="form-select shadow mb-2" name="category" id="categorySelector">
                     <option value="">
-                        全部商品 (<?= \App\Models\Item::all()->count() ?>)
+                        全部商品 ({{ $ItemTable->all()->count() }})
                     </option>
 
                     @foreach($categories as $category)
-                        @if(\App\Models\Category::getItemCount($category->id) != 0)
-                            <option value="{{ $category->name }}"
-                                {{ @$_GET['category'] == $category->name || @$_GET['category'] == $category->name_en ? " selected" : "" }}>
-                                {{ $category->name }}
-                                ({{ \App\Models\Category::getItemCount($category->id) }})
+                        @if($CategoryTable->getItemCount($category->id) != 0)
+                            <option
+                                value="{{ $category->name }}" {{ $helper->paramSelected('category', $category->name) }}>
+                                {{ $category->name }} ({{ $CategoryTable->getItemCount($category->id) }})
                             </option>
                         @endif
                     @endforeach
+                </select>
+
+                <select class="form-select shadow mb-2" name="specialFilter" id="specialFilterSelector" hidden>
+                    <option value="">选择进阶分类</option>
+                    <option value="mostSales" {{ $helper->paramSelected('special', 'mostSales') }}>销量最高</option>
+                    <option value="mostViews" {{ $helper->paramSelected('special', 'mostViews') }}>最多点击</option>
+                    <option value="notListed" {{ $helper->paramSelected('special', 'notListed') }}>已下架</option>
+                    <option value="noStock" {{ $helper->paramSelected('special', 'noStock') }}>无库存</option>
                 </select>
             </div>
         </div>
@@ -92,62 +88,48 @@
         <div class="row mb-3">
 
             @foreach($items as $item)
-                <div class="col-12 col-md-4 col-lg-4 mb-3">
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
                     <div class="card">
 
-                        <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="" loading="lazy">
+                        <a href="{{ url('/item/' . $item->id) }}" class="no-anchor-style">
+                            <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="" loading="lazy">
+                        </a>
 
                         <div class="card-body">
 
-                            <div class="row mb-3">
-                                <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                    @if(auth()->user()->hasAccess('item_list'))
-                                        <listing-switch item-id="{{ $item->id }}"
-                                                    is-listed="{{ $item->util->is_listed }}"></listing-switch>
-                                    @endif
-                                </div>
+                            @if(auth()->user()->hasAccess('item_list'))
+                                <listing-switch item-id="{{ $item->id }}"
+                                                is-listed="{{ $item->util->is_listed }}"></listing-switch>
+                            @endif
+
+                            <a href="{{ url('/item/' . $item->id) }}" class="no-anchor-style">
+                                <h6 class="text-truncate">{{ $item->name }}</h6>
+                            </a>
+
+                            <div class="mb-2">
+                                规格：<br>
+                                @foreach($item->variations as $variation)
+                                    <div class="d-flex justify-content-between">
+                                        <div class="text-truncate">{{ $variation->name }}</div>
+                                        <div>RM{{ $variation->getPrice() }}</div>
+                                    </div>
+                                @endforeach
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <h6 class="text-truncate">
-                                        <a href="{{ url('/item/' . $item->id) }}">{{ $item->name }}</a>
-                                    </h6>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-12">规格：</div>
-                                <div class="col-12">
-                                    @foreach($item->variations as $variation)
-                                        <div class="row">
-                                            <div class="col-6">
-                                                {{ $variation->name }}
-                                            </div>
-                                            <div class="col-6 text-end">
-                                                @if($variation->discount != null)
-                                                    RM{{ number_format($variation->price * $variation->discount->rate, 2, '.', '') }}
-                                                @else
-                                                    RM{{ number_format($variation->price, 2, '.', '') }}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-6">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 mb-1">
                                     @if(auth()->user()->hasAccess('item_update'))
-                                        <button type="button" class=" btn btn-primary btn-sm w-100 ml-0"
+                                        <button type="button" class=" btn btn-primary btn-sm w-100"
                                                 onclick="window.location.href = '{{ url('/item/' . $item->id . '/edit') }}'">
                                             <i class="icofont icofont-ui-edit"></i> 编辑
                                         </button>
                                     @endif
                                 </div>
-                                <div class="col-6">
+
+                                <div class="col-12 col-sm-6 mb-1">
                                     @if(auth()->user()->hasAccess('item_delete'))
-                                        <button type="button" class="btn btn-danger btn-sm w-100 ml-0" onclick="confirmDelete(this)"
+                                        <button type="button" class="btn btn-danger btn-sm w-100"
+                                                onclick="confirmDelete(this)"
                                                 value="{{ $item->name }}">
                                             <i class="icofont icofont-ui-delete"></i> 删除
                                         </button>
@@ -167,7 +149,7 @@
 
         </div>
 
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             {{ $items->links() }}
         </div>
     </main>

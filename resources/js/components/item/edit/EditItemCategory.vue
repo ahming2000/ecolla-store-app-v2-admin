@@ -139,11 +139,11 @@ export default {
         .patch(`/item/${this.itemId}/category`, body)
         .then((res) => {
           console.log(res);
-          if (res.status === 200) {
+          if (res.data.ok) {
             if (res.data.message !== "") {
-              this.$emit("onResponse", res.data.message, "success");
+              this.$emit("onResponse", res.data.messages, "success");
             } else {
-              this.$emit("onResponse", res.data.error, "error");
+              this.$emit("onResponse", res.data.messages, "error");
             }
           }
         })

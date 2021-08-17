@@ -472,9 +472,9 @@ export default {
         : this.getToday(),
       variationDiscountEnd: this.variation?.discount?.end
         ? this.stringToDate(this.variation.discount.end)
-        : null,
+        : this.getNextDay(this.getToday()),
       isVariationDiscountEnabled: this.variation?.discount ? true : false,
-      isDurationLimited: (this.variation?.discount?.end === null) ? false : true,
+      isDurationLimited: this.variation?.discount?.end === null ? false : true,
 
       newImage: null,
     };
@@ -483,6 +483,7 @@ export default {
   watch: {
     variation: function (val) {
       this.clearVariationData();
+      this.clearAllErrorMessages();
       this.fetchVariationData(val);
     },
     action: function (val) {
@@ -568,26 +569,18 @@ export default {
         case "name": {
           this.variationName = newValue;
           if (!this.variationName) {
-            document
-              .getElementById("variationName")
-              .classList.add(["is-invalid"]);
+            this.displayErrorMessage("variationName", true);
           } else {
-            document
-              .getElementById("variationName")
-              .classList.remove(["is-invalid"]);
+            this.displayErrorMessage("variationName", false);
           }
           break;
         }
         case "enName": {
           this.variationEnName = newValue;
           if (!this.variationEnName) {
-            document
-              .getElementById("variationEnName")
-              .classList.add(["is-invalid"]);
+            this.displayErrorMessage("variationEnName", true);
           } else {
-            document
-              .getElementById("variationEnName")
-              .classList.remove(["is-invalid"]);
+            this.displayErrorMessage("variationEnName", false);
           }
           break;
         }
@@ -595,9 +588,7 @@ export default {
           this.variationBarcode = newValue;
           if (!this.variationBarcode) {
             this.variationBarcodeError = "<b>货号</b> 为必填选项";
-            document
-              .getElementById("variationBarcode")
-              .classList.add(["is-invalid"]);
+            this.displayErrorMessage("variationBarcode", true);
           } else {
             this.checkBarcodeDuplicated();
           }
@@ -646,14 +637,10 @@ export default {
         .then((res) => {
           console.log(res);
           if (!res.data.ok) {
-            document
-              .getElementById("variationBarcode")
-              .classList.add(["is-invalid"]);
+            this.displayErrorMessage("variationBarcode", true);
             this.variationBarcodeError = res.data.errors.barcode;
           } else {
-            document
-              .getElementById("variationBarcode")
-              .classList.remove(["is-invalid"]);
+            this.displayErrorMessage("variationBarcode", false);
             this.variationBarcodeError = "";
           }
         })
@@ -763,9 +750,9 @@ export default {
         : this.getToday();
       this.variationDiscountEnd = val?.discount?.end
         ? this.stringToDate(val.discount.end)
-        : null;
+        : this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = val?.discount ? true : false;
-      this.isDurationLimited = (val?.discount?.end === null) ? false : true;
+      this.isDurationLimited = val?.discount?.end === null ? false : true;
     },
 
     fetchActionData(val) {
@@ -789,7 +776,7 @@ export default {
       this.variationDiscount = null;
       this.variationDiscountRate = 0;
       this.variationDiscountStart = this.getToday();
-      this.variationDiscountEnd = null;
+      this.variationDiscountEnd = this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = false;
       this.isDurationLimited = false;
     },
@@ -801,6 +788,27 @@ export default {
       this.actionButtonConfirmClass = null;
       this.actionButtonCancelName = null;
       this.actionButtonCancelClass = null;
+    },
+
+    clearAllErrorMessages() {
+      this.displayErrorMessage("variationName", false);
+      this.displayErrorMessage("variationEnName", false);
+      this.displayErrorMessage("variationBarcode", false);
+      this.variationBarcodeError = "";
+    },
+
+    displayErrorMessage(elementId, show) {
+      const element = document.getElementById(elementId);
+      console.log(elementId, element);
+      if (show) {
+        if (!element?.classList.contains("is-invalid")) {
+          element?.classList.add(["is-invalid"]);
+        }
+      } else {
+        if (element?.classList.contains("is-invalid")) {
+          element?.classList.remove(["is-invalid"]);
+        }
+      }
     },
 
     isAllValid() {

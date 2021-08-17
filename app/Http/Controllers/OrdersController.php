@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use PDF;
 
 class OrdersController extends Controller
@@ -101,7 +98,7 @@ class OrdersController extends Controller
         $pdf = PDF::loadView('pdf.order', $data);
 
         // download PDF file with download method
-        return $pdf->download('ecolla-order-' . $order->code . '.pdf');
+        return $pdf->download($order->code . '.pdf');
 
         // $view = \View::make('pdf.order')->with('order', $order);
         // $html = $view->render();

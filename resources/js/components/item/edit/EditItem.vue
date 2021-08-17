@@ -61,7 +61,7 @@ li:hover {
             >规格资讯</a
           >
         </li>
-        <li class="nav-item" role="presentation">
+        <!-- <li class="nav-item" role="presentation">
           <a
             class="nav-link"
             id="pills-wholesale-discount-tab"
@@ -72,7 +72,7 @@ li:hover {
             aria-selected="false"
             >批发折扣管理</a
           >
-        </li>
+        </li> -->
         <li class="nav-item" role="presentation">
           <a
             class="nav-link"
@@ -163,7 +163,8 @@ li:hover {
       <message-toast
         aria-live="polite"
         aria-atomic="true"
-        class="fixed-top start-50 translate-middle-x min-vw-100"
+        class="position-fixed top-0 start-50 translate-middle-x min-vw-100"
+        style="z-index: 2000"
         :message="messageData"
       ></message-toast>
     </div>

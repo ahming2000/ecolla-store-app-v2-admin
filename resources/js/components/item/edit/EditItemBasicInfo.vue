@@ -140,10 +140,10 @@ export default {
         .patch(`/item/${this.itemId}/itemBasic`, body)
         .then((res) => {
           console.log(res);
-          if (res.data.message !== "") {
-            this.$emit("onResponse", res.data.message, "success");
+          if (res.data.ok) {
+            this.$emit("onResponse", res.data.messages, "success");
           } else {
-            this.$emit("onResponse", res.data.error, "error");
+            this.$emit("onResponse", res.data.messages, "error");
           }
         })
         .catch((error) => {

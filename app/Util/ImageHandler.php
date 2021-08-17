@@ -14,12 +14,20 @@ class ImageHandler
         return $this->processImage($image->getPathName(), $mode, true);
     }
 
-    public function convertToDataURL($binary): string
+    public function convertToDataURL($binary, bool $requireConvert = true): string
     {
         if ((substr($binary, 0, 4) == 'http')){ // Deprecated
-            return $this->processImage($binary, 'frame', true);
+            if ($requireConvert){
+                return $this->processImage($binary, 'frame', true);
+            } else {
+                return $binary;
+            }
         } else {
-            return 'data:image/jpeg;base64,' . base64_encode($binary);
+            if ($binary != null){
+                return 'data:image/jpeg;base64,' . base64_encode($binary);
+            } else {
+                return "";
+            }
         }
     }
 

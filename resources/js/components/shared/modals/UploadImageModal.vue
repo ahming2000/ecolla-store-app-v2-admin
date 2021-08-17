@@ -243,6 +243,7 @@ export default {
           console.log(res);
           if (res.data.image !== "") {
             this.framedImage = res.data.image;
+            this.$emit("onResponse", res.data.image, "success");
           } else {
             this.$emit("onResponse", res.data.error, "error");
           }
@@ -263,6 +264,7 @@ export default {
           console.log(res);
           if (res.data.image !== "") {
             this.croppedImage = res.data.image;
+            this.$emit("onResponse", res.data.image, "success");
           } else {
             this.$emit("onResponse", res.data.error, "error");
           }

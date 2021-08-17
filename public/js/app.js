@@ -187,6 +187,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "add-user",
   props: {
@@ -220,7 +231,7 @@ __webpack_require__.r(__webpack_exports__);
       }).map(function (permission) {
         return permission.columnName;
       });
-      console.log('getPermissionsCheckedByDefault()', checkedPermissionsArray);
+      console.log("getPermissionsCheckedByDefault()", checkedPermissionsArray);
       return checkedPermissionsArray;
     },
     addUser: function addUser() {
@@ -384,8 +395,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "delete-user",
   props: {
@@ -393,8 +402,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      email: '',
-      name: ''
+      email: "",
+      name: ""
     };
   },
   mounted: function mounted() {
@@ -408,7 +417,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteUser: function deleteUser() {
-      this.$emit('deleteUser', this.user);
+      this.$emit("deleteUser", this.user);
     }
   }
 });
@@ -426,6 +435,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -777,15 +791,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1356,9 +1361,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -1383,7 +1385,7 @@ __webpack_require__.r(__webpack_exports__);
     allCategories: Array
   },
   data: function data() {
-    var _this$item$id, _this$item$name, _this$item$name_en, _this$item$desc, _this$item$origin, _this$item$origin_en, _this$item$created_at, _this$item$updated_at, _this$item$variations, _this$item$variations2, _this$item$variations3;
+    var _this$item$id, _this$item$name, _this$item$name_en, _this$item$desc, _this$item$origin, _this$item$origin_en, _this$item$created_at, _this$item$updated_at, _this$item$variations, _this$item$variations2;
 
     return {
       // Extracted basic info from item
@@ -1397,24 +1399,12 @@ __webpack_require__.r(__webpack_exports__);
         created_at: (_this$item$created_at = this.item.created_at) !== null && _this$item$created_at !== void 0 ? _this$item$created_at : null,
         updated_at: (_this$item$updated_at = this.item.updated_at) !== null && _this$item$updated_at !== void 0 ? _this$item$updated_at : null
       },
-      variations: (_this$item$variations = this.item.variations) !== null && _this$item$variations !== void 0 ? _this$item$variations : [],
-      isWholesaleDiscountAllowed: false,
-      firstVariationPrice: (_this$item$variations2 = (_this$item$variations3 = this.item.variations[0]) === null || _this$item$variations3 === void 0 ? void 0 : _this$item$variations3.price) !== null && _this$item$variations2 !== void 0 ? _this$item$variations2 : null,
+      firstVariationPrice: (_this$item$variations = (_this$item$variations2 = this.item.variations[0]) === null || _this$item$variations2 === void 0 ? void 0 : _this$item$variations2.price) !== null && _this$item$variations !== void 0 ? _this$item$variations : null,
       messageData: {
         message: "",
         type: ""
       }
     };
-  },
-  created: function created() {
-    this.checkWholesaleDiscountAllowed(this.variations);
-    console.log("this.isWholesaleDiscountAllowed", this.isWholesaleDiscountAllowed);
-  },
-  watch: {
-    variations: function variations(val) {
-      this.checkWholesaleDiscountAllowed(val);
-      console.log("this.isWholesaleDiscountAllowed", this.isWholesaleDiscountAllowed);
-    }
   },
   methods: {
     onResponse: function onResponse() {
@@ -1435,20 +1425,6 @@ __webpack_require__.r(__webpack_exports__);
         return new bootstrap__WEBPACK_IMPORTED_MODULE_7__.Toast(toastEl, option);
       });
       toastList[0].show();
-    },
-    onVariationsUpdated: function onVariationsUpdated(variations) {
-      this.variations = variations;
-    },
-    checkWholesaleDiscountAllowed: function checkWholesaleDiscountAllowed(variations) {
-      var variationPrices = variations.map(function (variation) {
-        return variation.price;
-      });
-
-      var isPriceEqual = function isPriceEqual(currentPrice) {
-        return currentPrice === variationPrices[0];
-      };
-
-      this.isWholesaleDiscountAllowed = variationPrices.every(isPriceEqual);
     }
   }
 });
@@ -1606,10 +1582,10 @@ __webpack_require__.r(__webpack_exports__);
       axios.patch("/item/".concat(this.itemId, "/itemBasic"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this.$emit("onResponse", res.data.messages, "success");
         } else {
-          _this.$emit("onResponse", res.data.error, "error");
+          _this.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -1814,11 +1790,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.patch("/item/".concat(this.itemId, "/category"), body).then(function (res) {
         console.log(res);
 
-        if (res.status === 200) {
+        if (res.data.ok) {
           if (res.data.message !== "") {
-            _this.$emit("onResponse", res.data.message, "success");
+            _this.$emit("onResponse", res.data.messages, "success");
           } else {
-            _this.$emit("onResponse", res.data.error, "error");
+            _this.$emit("onResponse", res.data.messages, "error");
           }
         }
       })["catch"](function (error) {
@@ -2238,8 +2214,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       itemId: (_this$item_id = this.item_id) !== null && _this$item_id !== void 0 ? _this$item_id : null,
       itemImages: (_this$images = this.images) !== null && _this$images !== void 0 ? _this$images : [],
       selectedImage: null,
-      newImage: null
+      newImage: null,
+      uploadImageModal: null
     };
+  },
+  mounted: function mounted() {
+    this.uploadImageModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById("itemBasicUploadImageModal"));
   },
   methods: {
     openDeleteModal: function openDeleteModal(image) {
@@ -2257,14 +2237,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.patch("/item/".concat(this.itemId, "/images"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this.$emit("onResponse", res.data.messages, "success");
 
           _this.itemImages = _this.itemImages.filter(function (image) {
             return image !== _this.selectedImage;
           });
         } else {
-          _this.$emit("onResponse", res.data.error, "error");
+          _this.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -2276,7 +2256,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var newImage = event.target.files[0];
       console.log(newImage);
       this.newImage = newImage;
-      this.openUploadImageModal();
       event.target.value = "";
     },
     confirmUpload: function confirmUpload(newImageData) {
@@ -2291,15 +2270,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios.patch("/item/".concat(this.itemId, "/images"), body).then(function (res) {
         console.log(res);
 
-        if (res.data.message !== "") {
-          _this2.$emit("onResponse", res.data.message, "success");
+        if (res.data.ok) {
+          _this2.$emit("onResponse", res.data.messages, "success");
 
           _this2.itemImages = [].concat(_toConsumableArray(_this2.itemImages), [{
-            id: res.data.item_image_id,
+            id: res.data.data.id,
             image: newImageData
           }]);
         } else {
-          _this2.$emit("onResponse", res.data.error, "error");
+          _this2.$emit("onResponse", res.data.messages, "error");
         }
       })["catch"](function (error) {
         console.error(error);
@@ -2307,16 +2286,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this2.$emit("onResponse", error.message, "error");
       });
     },
-    openUploadImageModal: function openUploadImageModal() {
-      var uploadImageModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById("itemBasicUploadImageModal"));
-      uploadImageModal.show();
-    },
     onResponse: function onResponse() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
 
-      this.$emit.apply(this, ["onResponse"].concat(args));
+      if (args[1] === "error") {
+        console.log(this.uploadImageModal); // this.uploadImageModal.hide();
+
+        this.$emit.apply(this, ["onResponse"].concat(args));
+      } else {
+        this.uploadImageModal.show();
+      }
     }
   }
 });
@@ -2334,7 +2315,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
 //
 //
 //
@@ -2537,6 +2517,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 
 
@@ -2660,8 +2641,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           };
           _this.variationList = [].concat(_toConsumableArray(_this.variationList), [addedVariation]);
           _this.selectedVariation = null;
-
-          _this.$emit("onVariationsUpdated", _this.variationList);
         } else {
           _this.$emit("onResponse", res.data.messages, "error");
         }
@@ -2706,8 +2685,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             }
           });
           _this2.selectedVariation = null;
-
-          _this2.$emit("onVariationsUpdated", _this2.variationList);
         } else {
           _this2.$emit("onResponse", res.data.messages, "error");
         }
@@ -2737,8 +2714,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             return variation.id !== _this3.selectedVariation.info.id;
           });
           _this3.selectedVariation = null;
-
-          _this3.$emit("onVariationsUpdated", _this3.variationList);
         } else {
           _this3.$emit("onResponse", res.data.messages, "error");
         }
@@ -2777,70 +2752,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-wholesale-discount",
   props: {
@@ -2848,42 +2759,14 @@ __webpack_require__.r(__webpack_exports__);
     wholesale_discount: Object
   },
   data: function data() {
-    var _this$original_price, _this$wholesale_disco, _this$wholesale_disco2, _this$wholesale_disco3, _this$wholesale_disco4, _this$wholesale_disco5, _this$wholesale_disco6, _this$wholesale_disco7, _this$wholesale_disco8, _this$wholesale_disco9, _this$wholesale_disco10, _this$wholesale_disco11, _this$wholesale_disco12, _this$wholesale_disco13, _this$wholesale_disco14, _this$wholesale_disco15;
-
-    return {
-      originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
-      wholesaleDiscountedPrice: (1 - ((_this$wholesale_disco = this.wholesale_discount) === null || _this$wholesale_disco === void 0 ? void 0 : _this$wholesale_disco.rate)) * this.original_price,
-      wholesaleDiscountId: (_this$wholesale_disco2 = (_this$wholesale_disco3 = this.wholesale_discount) === null || _this$wholesale_disco3 === void 0 ? void 0 : _this$wholesale_disco3.id) !== null && _this$wholesale_disco2 !== void 0 ? _this$wholesale_disco2 : null,
-      wholesaleDiscountRate: (_this$wholesale_disco4 = (_this$wholesale_disco5 = this.wholesale_discount) === null || _this$wholesale_disco5 === void 0 ? void 0 : _this$wholesale_disco5.rate) !== null && _this$wholesale_disco4 !== void 0 ? _this$wholesale_disco4 : 0,
-      wholesaleDiscountMin: (_this$wholesale_disco6 = (_this$wholesale_disco7 = this.wholesale_discount) === null || _this$wholesale_disco7 === void 0 ? void 0 : _this$wholesale_disco7.min) !== null && _this$wholesale_disco6 !== void 0 ? _this$wholesale_disco6 : null,
-      wholesaleDiscountMax: (_this$wholesale_disco8 = (_this$wholesale_disco9 = this.wholesale_discount) === null || _this$wholesale_disco9 === void 0 ? void 0 : _this$wholesale_disco9.max) !== null && _this$wholesale_disco8 !== void 0 ? _this$wholesale_disco8 : null,
-      wholesaleDiscountStep: (_this$wholesale_disco10 = (_this$wholesale_disco11 = this.wholesale_discount) === null || _this$wholesale_disco11 === void 0 ? void 0 : _this$wholesale_disco11.step) !== null && _this$wholesale_disco10 !== void 0 ? _this$wholesale_disco10 : 0,
-      wholesaleDiscountPreviousMax: (_this$wholesale_disco12 = (_this$wholesale_disco13 = this.wholesale_discount) === null || _this$wholesale_disco13 === void 0 ? void 0 : _this$wholesale_disco13.previousMax) !== null && _this$wholesale_disco12 !== void 0 ? _this$wholesale_disco12 : null,
-      wholesaleDiscountNextMin: (_this$wholesale_disco14 = (_this$wholesale_disco15 = this.wholesale_discount) === null || _this$wholesale_disco15 === void 0 ? void 0 : _this$wholesale_disco15.nextMin) !== null && _this$wholesale_disco14 !== void 0 ? _this$wholesale_disco14 : null
-    };
-  },
-  watch: {
-    wholesale_discount: function wholesale_discount(val) {
-      var _this$wholesale_disco16;
-
-      this.wholesaleDiscountedPrice = (1 - ((_this$wholesale_disco16 = this.wholesale_discount) === null || _this$wholesale_disco16 === void 0 ? void 0 : _this$wholesale_disco16.rate)) * this.original_price;
-    }
+    return {};
   },
   computed: {
-    originalPriceClass: {
-      get: function get() {
-        return this.wholesaleDiscountRate !== null ? "bg-warning text-decoration-line-through" : "bg-success";
-      }
+    classObject: function classObject() {
+      return {};
     }
   },
-  methods: {
-    onEdit: function onEdit() {
-      this.$emit("onEdit", this.wholesale_discount);
-    },
-    onDelete: function onDelete() {
-      this.$emit("onDelete", this.wholesale_discount);
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -2899,45 +2782,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _shared_modals_WholesaleDiscountModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../shared/modals/WholesaleDiscountModal.vue */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue");
-/* harmony import */ var _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditItemWholesaleDiscount.vue */ "./resources/js/components/item/edit/wholesales/EditItemWholesaleDiscount.vue");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditItemWholesaleDiscount.vue */ "./resources/js/components/item/edit/wholesales/EditItemWholesaleDiscount.vue");
 //
 //
 //
@@ -2950,162 +2795,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-
-
-var fakeWholesaleDiscounts = [{
-  id: 1,
-  rate: 0.2,
-  min: 10,
-  max: 19,
-  step: 10
-}, {
-  id: 2,
-  rate: 0.3,
-  min: 20,
-  max: 29,
-  step: 10
-}, {
-  id: 3,
-  rate: 0.4,
-  min: 30,
-  max: null,
-  step: 10
-}];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    EditItemWholesaleDiscount: _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_1__.default,
-    WholesaleDiscountModal: _shared_modals_WholesaleDiscountModal_vue__WEBPACK_IMPORTED_MODULE_0__.default
+    EditItemWholesaleDiscount: _EditItemWholesaleDiscount_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
   name: "edit-item-wholesale-discount-list",
   props: {
-    item_id: Number,
-    is_wholesale_discount_allowed: Boolean,
     original_price: Number,
     wholesale_discounts: Array
   },
   data: function data() {
-    var _this$original_price, _this$wholesale_disco;
-
-    return {
-      itemId: this.item_id,
-      isWholesaleDiscountAllowed: this.is_wholesale_discount_allowed,
-      originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
-      // TODO remove mock data
-      wholesaleDiscounts: !this.wholesale_discounts || ((_this$wholesale_disco = this.wholesale_discounts) === null || _this$wholesale_disco === void 0 ? void 0 : _this$wholesale_disco.length) === 0 ? this.getModifiedWholesaleDiscounts(fakeWholesaleDiscounts) : this.getModifiedWholesaleDiscounts(this.wholesale_discounts),
-      action: null,
-      selectedWholesaleDiscount: null
-    };
+    return {};
   },
-  watch: {
-    is_wholesale_discount_allowed: function is_wholesale_discount_allowed(val) {
-      this.isWholesaleDiscountAllowed = val;
+  computed: {
+    classObject: function classObject() {
+      return {};
     }
   },
-  methods: {
-    getModifiedWholesaleDiscounts: function getModifiedWholesaleDiscounts(wholesaleDiscounts) {
-      return wholesaleDiscounts.map(function (wholesaleDiscount, index) {
-        var isFirstElement = wholesaleDiscount === wholesaleDiscounts[0];
-        var isLastElement = wholesaleDiscount === wholesaleDiscounts[wholesaleDiscounts.length - 1];
-        var previousMax = !isFirstElement ? wholesaleDiscounts[index - 1].max : null;
-        var nextMin = !isLastElement ? wholesaleDiscounts[index + 1].min : null;
-        return _objectSpread(_objectSpread({}, wholesaleDiscount), {}, {
-          previousMax: previousMax,
-          nextMin: nextMin
-        });
-      });
-    },
-    saveAdd: function saveAdd(newWholesaleDiscount) {// TODO
-    },
-    saveEdit: function saveEdit(wholesaleDiscount) {
-      this.selectedWholesaleDiscount = wholesaleDiscount;
-    },
-    onAdd: function onAdd() {
-      console.log("openAddModal()");
-      this.action = {
-        name: "添加",
-        enName: "Add",
-        value: "add",
-        contentType: "form",
-        button: {
-          confirm: {
-            name: "添加",
-            enName: "Add",
-            "class": "btn-primary"
-          },
-          cancel: {
-            name: "取消",
-            enName: "Cancel",
-            "class": "btn-outline-danger"
-          }
-        }
-      };
-      this.selectedWholesaleDiscount = null;
-      console.log(this.action, this.selectedWholesaleDiscount);
-      this.openModal();
-    },
-    onEdit: function onEdit(wholesaleDiscount) {
-      console.log("openEditModal()");
-      this.action = {
-        name: "编辑",
-        enName: "Edit",
-        value: "edit",
-        contentType: "form",
-        button: {
-          confirm: {
-            name: "保存",
-            enName: "Save",
-            "class": "btn-primary"
-          },
-          cancel: {
-            name: "取消",
-            enName: "Cancel",
-            "class": "btn-outline-danger"
-          }
-        }
-      };
-      this.selectedWholesaleDiscount = wholesaleDiscount;
-      console.log(this.action, this.selectedWholesaleDiscount);
-      this.openModal();
-    },
-    onDelete: function onDelete(wholesaleDiscount) {
-      console.log("openDeleteModal()");
-      this.action = {
-        name: "删除",
-        enName: "Delete",
-        value: "delete",
-        contentType: "confirmation",
-        button: {
-          confirm: {
-            name: "删除",
-            enName: "Delete",
-            "class": "btn-danger"
-          },
-          cancel: {
-            name: "取消",
-            enName: "Cancel",
-            "class": "btn-outline-primary"
-          }
-        }
-      };
-      this.selectedWholesaleDiscount = wholesaleDiscount;
-      console.log(this.action, this.selectedWholesaleDiscount);
-      this.openModal();
-    },
-    openModal: function openModal() {
-      var wholesaleDiscountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById("wholesaleDiscountModal"));
-      wholesaleDiscountModal.show();
-    },
-    confirmDelete: function confirmDelete(wholesaleDiscount) {
-      this.selectedWholesaleDiscount = wholesaleDiscount;
-    },
-    onResponse: function onResponse() {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      this.$emit.apply(this, ["onResponse"].concat(args));
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -3838,7 +3545,7 @@ __webpack_require__.r(__webpack_exports__);
       variationDiscount: (_this$variation$disco = (_this$variation9 = this.variation) === null || _this$variation9 === void 0 ? void 0 : _this$variation9.discount) !== null && _this$variation$disco !== void 0 ? _this$variation$disco : null,
       variationDiscountRate: (_this$variation$disco2 = (_this$variation10 = this.variation) === null || _this$variation10 === void 0 ? void 0 : (_this$variation10$dis = _this$variation10.discount) === null || _this$variation10$dis === void 0 ? void 0 : _this$variation10$dis.rate) !== null && _this$variation$disco2 !== void 0 ? _this$variation$disco2 : 0,
       variationDiscountStart: (_this$variation11 = this.variation) !== null && _this$variation11 !== void 0 && (_this$variation11$dis = _this$variation11.discount) !== null && _this$variation11$dis !== void 0 && _this$variation11$dis.start ? this.stringToDate(this.variation.discount.start) : this.getToday(),
-      variationDiscountEnd: (_this$variation12 = this.variation) !== null && _this$variation12 !== void 0 && (_this$variation12$dis = _this$variation12.discount) !== null && _this$variation12$dis !== void 0 && _this$variation12$dis.end ? this.stringToDate(this.variation.discount.end) : null,
+      variationDiscountEnd: (_this$variation12 = this.variation) !== null && _this$variation12 !== void 0 && (_this$variation12$dis = _this$variation12.discount) !== null && _this$variation12$dis !== void 0 && _this$variation12$dis.end ? this.stringToDate(this.variation.discount.end) : this.getNextDay(this.getToday()),
       isVariationDiscountEnabled: (_this$variation13 = this.variation) !== null && _this$variation13 !== void 0 && _this$variation13.discount ? true : false,
       isDurationLimited: ((_this$variation14 = this.variation) === null || _this$variation14 === void 0 ? void 0 : (_this$variation14$dis = _this$variation14.discount) === null || _this$variation14$dis === void 0 ? void 0 : _this$variation14$dis.end) === null ? false : true,
       newImage: null
@@ -3847,6 +3554,7 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     variation: function variation(val) {
       this.clearVariationData();
+      this.clearAllErrorMessages();
       this.fetchVariationData(val);
     },
     action: function action(val) {
@@ -3931,9 +3639,9 @@ __webpack_require__.r(__webpack_exports__);
             this.variationName = newValue;
 
             if (!this.variationName) {
-              document.getElementById("variationName").classList.add(["is-invalid"]);
+              this.displayErrorMessage("variationName", true);
             } else {
-              document.getElementById("variationName").classList.remove(["is-invalid"]);
+              this.displayErrorMessage("variationName", false);
             }
 
             break;
@@ -3944,9 +3652,9 @@ __webpack_require__.r(__webpack_exports__);
             this.variationEnName = newValue;
 
             if (!this.variationEnName) {
-              document.getElementById("variationEnName").classList.add(["is-invalid"]);
+              this.displayErrorMessage("variationEnName", true);
             } else {
-              document.getElementById("variationEnName").classList.remove(["is-invalid"]);
+              this.displayErrorMessage("variationEnName", false);
             }
 
             break;
@@ -3958,7 +3666,7 @@ __webpack_require__.r(__webpack_exports__);
 
             if (!this.variationBarcode) {
               this.variationBarcodeError = "<b>货号</b> 为必填选项";
-              document.getElementById("variationBarcode").classList.add(["is-invalid"]);
+              this.displayErrorMessage("variationBarcode", true);
             } else {
               this.checkBarcodeDuplicated();
             }
@@ -4018,10 +3726,12 @@ __webpack_require__.r(__webpack_exports__);
         console.log(res);
 
         if (!res.data.ok) {
-          document.getElementById("variationBarcode").classList.add(["is-invalid"]);
+          _this.displayErrorMessage("variationBarcode", true);
+
           _this.variationBarcodeError = res.data.errors.barcode;
         } else {
-          document.getElementById("variationBarcode").classList.remove(["is-invalid"]);
+          _this.displayErrorMessage("variationBarcode", false);
+
           _this.variationBarcodeError = "";
         }
       })["catch"](function (error) {
@@ -4107,7 +3817,7 @@ __webpack_require__.r(__webpack_exports__);
       this.variationDiscount = (_val$discount = val === null || val === void 0 ? void 0 : val.discount) !== null && _val$discount !== void 0 ? _val$discount : null;
       this.variationDiscountRate = (_val$discount$rate = val === null || val === void 0 ? void 0 : (_val$discount2 = val.discount) === null || _val$discount2 === void 0 ? void 0 : _val$discount2.rate) !== null && _val$discount$rate !== void 0 ? _val$discount$rate : 0;
       this.variationDiscountStart = val !== null && val !== void 0 && (_val$discount3 = val.discount) !== null && _val$discount3 !== void 0 && _val$discount3.start ? this.stringToDate(val.discount.start) : this.getToday();
-      this.variationDiscountEnd = val !== null && val !== void 0 && (_val$discount4 = val.discount) !== null && _val$discount4 !== void 0 && _val$discount4.end ? this.stringToDate(val.discount.end) : null;
+      this.variationDiscountEnd = val !== null && val !== void 0 && (_val$discount4 = val.discount) !== null && _val$discount4 !== void 0 && _val$discount4.end ? this.stringToDate(val.discount.end) : this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = val !== null && val !== void 0 && val.discount ? true : false;
       this.isDurationLimited = (val === null || val === void 0 ? void 0 : (_val$discount5 = val.discount) === null || _val$discount5 === void 0 ? void 0 : _val$discount5.end) === null ? false : true;
     },
@@ -4133,7 +3843,7 @@ __webpack_require__.r(__webpack_exports__);
       this.variationDiscount = null;
       this.variationDiscountRate = 0;
       this.variationDiscountStart = this.getToday();
-      this.variationDiscountEnd = null;
+      this.variationDiscountEnd = this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = false;
       this.isDurationLimited = false;
     },
@@ -4144,6 +3854,26 @@ __webpack_require__.r(__webpack_exports__);
       this.actionButtonConfirmClass = null;
       this.actionButtonCancelName = null;
       this.actionButtonCancelClass = null;
+    },
+    clearAllErrorMessages: function clearAllErrorMessages() {
+      this.displayErrorMessage("variationName", false);
+      this.displayErrorMessage("variationEnName", false);
+      this.displayErrorMessage("variationBarcode", false);
+      this.variationBarcodeError = "";
+    },
+    displayErrorMessage: function displayErrorMessage(elementId, show) {
+      var element = document.getElementById(elementId);
+      console.log(elementId, element);
+
+      if (show) {
+        if (!(element !== null && element !== void 0 && element.classList.contains("is-invalid"))) {
+          element === null || element === void 0 ? void 0 : element.classList.add(["is-invalid"]);
+        }
+      } else {
+        if (element !== null && element !== void 0 && element.classList.contains("is-invalid")) {
+          element === null || element === void 0 ? void 0 : element.classList.remove(["is-invalid"]);
+        }
+      }
     },
     isAllValid: function isAllValid() {
       return this.variationName && this.variationEnName && this.variationBarcode && this.variationBarcodeError === "";
@@ -4418,6 +4148,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (res.data.image !== "") {
           _this.framedImage = res.data.image;
+
+          _this.$emit("onResponse", res.data.image, "success");
         } else {
           _this.$emit("onResponse", res.data.error, "error");
         }
@@ -4438,6 +4170,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (res.data.image !== "") {
           _this2.croppedImage = res.data.image;
+
+          _this2.$emit("onResponse", res.data.image, "success");
         } else {
           _this2.$emit("onResponse", res.data.error, "error");
         }
@@ -4449,294 +4183,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearRawImageData: function clearRawImageData() {
       this.rawImageData = null;
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    EditDiscount: _components_EditDiscount_vue__WEBPACK_IMPORTED_MODULE_0__.default
-  },
-  name: "wholesale-discount-modal",
-  props: {
-    item_id: Number,
-    action: Object,
-    original_price: Number,
-    wholesale_discount: Object
-  },
-  data: function data() {
-    var _this$action$name, _this$action, _this$action$contentT, _this$action2, _this$action$button$c, _this$action3, _this$action$button$c2, _this$action4, _this$action$button$c3, _this$action5, _this$action$button$c4, _this$action6, _this$original_price, _this$wholesale_disco, _this$wholesale_disco2, _this$wholesale_disco3, _this$wholesale_disco4, _this$wholesale_disco5, _this$wholesale_disco6, _this$wholesale_disco7, _this$wholesale_disco8, _this$wholesale_disco9, _this$wholesale_disco10, _this$wholesale_disco11, _this$wholesale_disco12, _this$wholesale_disco13, _this$wholesale_disco14;
-
-    return {
-      actionName: (_this$action$name = (_this$action = this.action) === null || _this$action === void 0 ? void 0 : _this$action.name) !== null && _this$action$name !== void 0 ? _this$action$name : null,
-      actionContentType: (_this$action$contentT = (_this$action2 = this.action) === null || _this$action2 === void 0 ? void 0 : _this$action2.contentType) !== null && _this$action$contentT !== void 0 ? _this$action$contentT : null,
-      actionButtonConfirmName: (_this$action$button$c = (_this$action3 = this.action) === null || _this$action3 === void 0 ? void 0 : _this$action3.button.confirm.name) !== null && _this$action$button$c !== void 0 ? _this$action$button$c : null,
-      actionButtonConfirmClass: (_this$action$button$c2 = (_this$action4 = this.action) === null || _this$action4 === void 0 ? void 0 : _this$action4.button.confirm["class"]) !== null && _this$action$button$c2 !== void 0 ? _this$action$button$c2 : null,
-      actionButtonCancelName: (_this$action$button$c3 = (_this$action5 = this.action) === null || _this$action5 === void 0 ? void 0 : _this$action5.button.cancel.name) !== null && _this$action$button$c3 !== void 0 ? _this$action$button$c3 : null,
-      actionButtonCancelClass: (_this$action$button$c4 = (_this$action6 = this.action) === null || _this$action6 === void 0 ? void 0 : _this$action6.button.cancel["class"]) !== null && _this$action$button$c4 !== void 0 ? _this$action$button$c4 : null,
-      originalPrice: (_this$original_price = this.original_price) !== null && _this$original_price !== void 0 ? _this$original_price : null,
-      wholesaleDiscountId: (_this$wholesale_disco = (_this$wholesale_disco2 = this.wholesale_discount) === null || _this$wholesale_disco2 === void 0 ? void 0 : _this$wholesale_disco2.id) !== null && _this$wholesale_disco !== void 0 ? _this$wholesale_disco : null,
-      wholesaleDiscountRate: (_this$wholesale_disco3 = (_this$wholesale_disco4 = this.wholesale_discount) === null || _this$wholesale_disco4 === void 0 ? void 0 : _this$wholesale_disco4.rate) !== null && _this$wholesale_disco3 !== void 0 ? _this$wholesale_disco3 : 0,
-      wholesaleDiscountMin: (_this$wholesale_disco5 = (_this$wholesale_disco6 = this.wholesale_discount) === null || _this$wholesale_disco6 === void 0 ? void 0 : _this$wholesale_disco6.min) !== null && _this$wholesale_disco5 !== void 0 ? _this$wholesale_disco5 : null,
-      wholesaleDiscountMax: (_this$wholesale_disco7 = (_this$wholesale_disco8 = this.wholesale_discount) === null || _this$wholesale_disco8 === void 0 ? void 0 : _this$wholesale_disco8.max) !== null && _this$wholesale_disco7 !== void 0 ? _this$wholesale_disco7 : null,
-      wholesaleDiscountStep: (_this$wholesale_disco9 = (_this$wholesale_disco10 = this.wholesale_discount) === null || _this$wholesale_disco10 === void 0 ? void 0 : _this$wholesale_disco10.step) !== null && _this$wholesale_disco9 !== void 0 ? _this$wholesale_disco9 : 0,
-      wholesaleDiscountPreviousMax: (_this$wholesale_disco11 = (_this$wholesale_disco12 = this.wholesale_discount) === null || _this$wholesale_disco12 === void 0 ? void 0 : _this$wholesale_disco12.previousMax) !== null && _this$wholesale_disco11 !== void 0 ? _this$wholesale_disco11 : null,
-      wholesaleDiscountNextMin: (_this$wholesale_disco13 = (_this$wholesale_disco14 = this.wholesale_discount) === null || _this$wholesale_disco14 === void 0 ? void 0 : _this$wholesale_disco14.nextMin) !== null && _this$wholesale_disco13 !== void 0 ? _this$wholesale_disco13 : null
-    };
-  },
-  watch: {
-    wholesale_discount: function wholesale_discount(val) {
-      this.clearWholesaleDiscountData();
-      this.fetchWholesaleDiscountData(val);
-    },
-    action: function action(val) {
-      this.clearActionData();
-      this.fetchActionData(val);
-    }
-  },
-  methods: {
-    onPrimaryPressed: function onPrimaryPressed() {
-      console.log("onPrimaryPressed()");
-      var wholesaleDiscountData = {};
-
-      switch (this.action.value) {
-        case "add":
-          {
-            this.$emit("onSaveAdd", wholesaleDiscountData);
-            break;
-          }
-
-        case "edit":
-          {
-            this.$emit("onSaveEdit", wholesaleDiscountData);
-            break;
-          }
-
-        case "delete":
-          {
-            this.$emit("onConfirmDelete", wholesaleDiscountData);
-            break;
-          }
-      }
-    },
-    onChange: function onChange(event, name) {
-      var newValue = event.target.value.trim();
-      var limitedValue;
-
-      switch (name) {
-        case "min":
-          {
-            limitedValue = this.minLimit(Number(newValue));
-            this.wholesaleDiscountMin = limitedValue;
-            event.target.value = limitedValue;
-            break;
-          }
-
-        case "max":
-          {
-            limitedValue = this.maxLimit(Number(newValue));
-            this.wholesaleDiscountMax = limitedValue;
-            event.target.value = limitedValue;
-            break;
-          }
-
-        default:
-          {}
-      }
-    },
-    onRateChange: function onRateChange(newRate) {
-      this.variationDiscountRate = newRate;
-    },
-    minLimit: function minLimit(value) {
-      return value;
-    },
-    maxLimit: function maxLimit(value) {
-      return value;
-    },
-    fetchWholesaleDiscountData: function fetchWholesaleDiscountData(val) {
-      var _val$id, _val$rate, _val$min, _val$max, _val$step;
-
-      this.wholesaleDiscountId = (_val$id = val === null || val === void 0 ? void 0 : val.id) !== null && _val$id !== void 0 ? _val$id : null;
-      this.wholesaleDiscountRate = (_val$rate = val === null || val === void 0 ? void 0 : val.rate) !== null && _val$rate !== void 0 ? _val$rate : 0;
-      this.wholesaleDiscountMin = (_val$min = val === null || val === void 0 ? void 0 : val.min) !== null && _val$min !== void 0 ? _val$min : null;
-      this.wholesaleDiscountMax = (_val$max = val === null || val === void 0 ? void 0 : val.max) !== null && _val$max !== void 0 ? _val$max : null;
-      this.wholesaleDiscountStep = (_val$step = val === null || val === void 0 ? void 0 : val.step) !== null && _val$step !== void 0 ? _val$step : 0;
-    },
-    fetchActionData: function fetchActionData(val) {
-      var _val$name, _val$contentType, _val$button$confirm$n, _val$button$confirm$c, _val$button$cancel$na, _val$button$cancel$cl, _this$wholesale_disco15, _this$wholesale_disco16, _this$wholesale_disco17, _this$wholesale_disco18;
-
-      this.actionName = (_val$name = val === null || val === void 0 ? void 0 : val.name) !== null && _val$name !== void 0 ? _val$name : null;
-      this.actionContentType = (_val$contentType = val === null || val === void 0 ? void 0 : val.contentType) !== null && _val$contentType !== void 0 ? _val$contentType : null;
-      this.actionButtonConfirmName = (_val$button$confirm$n = val === null || val === void 0 ? void 0 : val.button.confirm.name) !== null && _val$button$confirm$n !== void 0 ? _val$button$confirm$n : null;
-      this.actionButtonConfirmClass = (_val$button$confirm$c = val === null || val === void 0 ? void 0 : val.button.confirm["class"]) !== null && _val$button$confirm$c !== void 0 ? _val$button$confirm$c : null;
-      this.actionButtonCancelName = (_val$button$cancel$na = val === null || val === void 0 ? void 0 : val.button.cancel.name) !== null && _val$button$cancel$na !== void 0 ? _val$button$cancel$na : null;
-      this.actionButtonCancelClass = (_val$button$cancel$cl = val === null || val === void 0 ? void 0 : val.button.cancel["class"]) !== null && _val$button$cancel$cl !== void 0 ? _val$button$cancel$cl : null;
-      this.wholesaleDiscountPreviousMax = (_this$wholesale_disco15 = (_this$wholesale_disco16 = this.wholesale_discount) === null || _this$wholesale_disco16 === void 0 ? void 0 : _this$wholesale_disco16.previousMax) !== null && _this$wholesale_disco15 !== void 0 ? _this$wholesale_disco15 : null;
-      this.wholesaleDiscountNextMin = (_this$wholesale_disco17 = (_this$wholesale_disco18 = this.wholesale_discount) === null || _this$wholesale_disco18 === void 0 ? void 0 : _this$wholesale_disco18.nextMin) !== null && _this$wholesale_disco17 !== void 0 ? _this$wholesale_disco17 : null;
-    },
-    clearWholesaleDiscountData: function clearWholesaleDiscountData() {
-      this.wholesaleDiscountId = null;
-      this.wholesaleDiscountRate = 0;
-      this.wholesaleDiscountMin = null;
-      this.wholesaleDiscountMax = null;
-      this.wholesaleDiscountStep = 0;
-      this.wholesaleDiscountPreviousMax = null;
-      this.wholesaleDiscountNextMin = null;
-    },
-    clearActionData: function clearActionData() {
-      this.actionName = null;
-      this.actionContentType = null;
-      this.actionButtonConfirmName = null;
-      this.actionButtonConfirmClass = null;
-      this.actionButtonCancelName = null;
-      this.actionButtonCancelClass = null;
-    },
-    isAllValid: function isAllValid() {
-      return this.variationName && this.variationEnName && this.variationBarcode && this.variationBarcodeError === "";
-    },
-    onResponse: function onResponse() {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      this.$emit.apply(this, ["onResponse"].concat(args));
     }
   }
 });
@@ -4884,7 +4330,6 @@ Vue.component('util-table', __webpack_require__(/*! ./components/item/edit/UtilT
 
 Vue.component('edit-discount', __webpack_require__(/*! ./components/shared/components/EditDiscount.vue */ "./resources/js/components/shared/components/EditDiscount.vue").default);
 Vue.component('item-variation-modal', __webpack_require__(/*! ./components/shared/modals/ItemVariationModal.vue */ "./resources/js/components/shared/modals/ItemVariationModal.vue").default);
-Vue.component('wholesale-discount-modal', __webpack_require__(/*! ./components/shared/modals/WholesaleDiscountModal.vue */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue").default);
 Vue.component('upload-image-modal', __webpack_require__(/*! ./components/shared/modals/UploadImageModal.vue */ "./resources/js/components/shared/modals/UploadImageModal.vue").default);
 Vue.component('message-toast', __webpack_require__(/*! ./components/shared/toasts/MessageToast.vue */ "./resources/js/components/shared/toasts/MessageToast.vue").default);
 /**
@@ -6263,45 +5708,6 @@ component.options.__file = "resources/js/components/shared/modals/UploadImageMod
 
 /***/ }),
 
-/***/ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue":
-/*!**************************************************************************!*\
-  !*** ./resources/js/components/shared/modals/WholesaleDiscountModal.vue ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&");
-/* harmony import */ var _WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WholesaleDiscountModal.vue?vue&type=script&lang=js& */ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.render,
-  _WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/shared/modals/WholesaleDiscountModal.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/js/components/shared/toasts/MessageToast.vue":
 /*!****************************************************************!*\
   !*** ./resources/js/components/shared/toasts/MessageToast.vue ***!
@@ -6690,22 +6096,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UploadImageModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/UploadImageModal.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UploadImageModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
-
-/***/ }),
-
-/***/ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./WholesaleDiscountModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -7203,23 +6593,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& ***!
-  \*********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WholesaleDiscountModal_vue_vue_type_template_id_ddc905d0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/shared/toasts/MessageToast.vue?vue&type=template&id=1037d9e4&":
 /*!***********************************************************************************************!*\
   !*** ./resources/js/components/shared/toasts/MessageToast.vue?vue&type=template&id=1037d9e4& ***!
@@ -7266,471 +6639,531 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c("form", [
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.email,
-                      expression: "email"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "email",
-                    id: "addAccountNewEmailControl",
-                    name: "email",
-                    placeholder: "新员工邮箱"
-                  },
-                  domProps: { value: _vm.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+      _c(
+        "div",
+        {
+          staticClass:
+            "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body bg-light" }, [
+              _c("form", [
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.email,
+                        expression: "email"
                       }
-                      _vm.email = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.name,
-                      expression: "name"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "addAccountNewFullNameControl",
-                    name: "name",
-                    placeholder: "新员工姓名"
-                  },
-                  domProps: { value: _vm.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "email",
+                      id: "addAccountNewEmailControl",
+                      name: "email",
+                      placeholder: "新员工邮箱"
+                    },
+                    domProps: { value: _vm.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.email = $event.target.value
                       }
-                      _vm.name = $event.target.value
                     }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.password,
-                      expression: "password"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "password",
-                    id: "addAccountNewPasswordControl",
-                    name: "password",
-                    placeholder: "新员工密码"
-                  },
-                  domProps: { value: _vm.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.password = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.passwordConfirmation,
-                      expression: "passwordConfirmation"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "password",
-                    id: "addAccountConfirmPasswordControl",
-                    name: "password_confirmation",
-                    placeholder: "新员工密码（重填确认）"
-                  },
-                  domProps: { value: _vm.passwordConfirmation },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.passwordConfirmation = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  _c("label", [_vm._v("权限")]),
+                  }),
                   _vm._v(" "),
-                  _vm._l(_vm.permissions, function(group) {
-                    return _c(
-                      "div",
-                      { key: group.groupName, staticClass: "mb-3" },
-                      [
-                        _vm._l(group.permissions, function(permission, index) {
-                          return _c(
-                            "ul",
-                            {
-                              key: permission.columnName,
-                              staticClass: "list-group"
-                            },
-                            [
-                              _c(
-                                "li",
-                                {
-                                  staticClass: "list-group-item",
-                                  class: { "ml-3": index > 0 }
-                                },
-                                [
-                                  _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "col-8 d-flex align-items-center"
-                                      },
-                                      [
-                                        _c("p", { staticClass: "m-0" }, [
-                                          _vm._v(
-                                            _vm._s(permission.cnDisplayName)
-                                          )
-                                        ])
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
-                                      },
-                                      [
-                                        _c(
-                                          "label",
-                                          { staticClass: "switch m-0" },
-                                          [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.checkedPermissions,
-                                                  expression:
-                                                    "checkedPermissions"
-                                                }
-                                              ],
-                                              staticClass: "form-control",
-                                              attrs: {
-                                                type: "checkbox",
-                                                id:
-                                                  "addAccount" +
-                                                  permission.elementId,
-                                                name: permission.columnName
-                                              },
-                                              domProps: {
-                                                value: permission.columnName,
-                                                checked: Array.isArray(
-                                                  _vm.checkedPermissions
-                                                )
-                                                  ? _vm._i(
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountNewEmailControl" }
+                    },
+                    [_vm._v("新员工邮箱")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.name,
+                        expression: "name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      id: "addAccountNewFullNameControl",
+                      name: "name",
+                      placeholder: "新员工姓名"
+                    },
+                    domProps: { value: _vm.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.name = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountNewFullNameControl" }
+                    },
+                    [_vm._v("新员工姓名")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.password,
+                        expression: "password"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "password",
+                      id: "addAccountNewPasswordControl",
+                      name: "password",
+                      placeholder: "新员工密码"
+                    },
+                    domProps: { value: _vm.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.password = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountNewPasswordControl" }
+                    },
+                    [_vm._v("新员工密码")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-floating mb-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.passwordConfirmation,
+                        expression: "passwordConfirmation"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "password",
+                      id: "addAccountConfirmPasswordControl",
+                      name: "password_confirmation",
+                      placeholder: "新员工密码（重填确认）"
+                    },
+                    domProps: { value: _vm.passwordConfirmation },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.passwordConfirmation = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass: "label",
+                      attrs: { for: "addAccountConfirmPasswordControl" }
+                    },
+                    [_vm._v("新员工密码（重填确认）")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", [_vm._v("权限")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.permissions, function(group) {
+                      return _c(
+                        "div",
+                        { key: group.groupName, staticClass: "mb-3" },
+                        [
+                          _vm._l(group.permissions, function(
+                            permission,
+                            index
+                          ) {
+                            return _c(
+                              "ul",
+                              {
+                                key: permission.columnName,
+                                staticClass: "list-group"
+                              },
+                              [
+                                _c(
+                                  "li",
+                                  {
+                                    staticClass: "list-group-item",
+                                    class: { "ms-3": index > 0 }
+                                  },
+                                  [
+                                    _c("div", { staticClass: "row" }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "col-8 d-flex align-items-center"
+                                        },
+                                        [
+                                          _c("p", { staticClass: "m-0" }, [
+                                            _vm._v(
+                                              _vm._s(permission.cnDisplayName)
+                                            )
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            { staticClass: "switch m-0" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
                                                       _vm.checkedPermissions,
-                                                      permission.columnName
-                                                    ) > -1
-                                                  : _vm.checkedPermissions
-                                              },
-                                              on: {
-                                                change: [
-                                                  function($event) {
-                                                    var $$a =
-                                                        _vm.checkedPermissions,
-                                                      $$el = $event.target,
-                                                      $$c = $$el.checked
-                                                        ? true
-                                                        : false
-                                                    if (Array.isArray($$a)) {
-                                                      var $$v =
-                                                          permission.columnName,
-                                                        $$i = _vm._i($$a, $$v)
-                                                      if ($$el.checked) {
-                                                        $$i < 0 &&
-                                                          (_vm.checkedPermissions = $$a.concat(
-                                                            [$$v]
-                                                          ))
-                                                      } else {
-                                                        $$i > -1 &&
-                                                          (_vm.checkedPermissions = $$a
-                                                            .slice(0, $$i)
-                                                            .concat(
-                                                              $$a.slice($$i + 1)
-                                                            ))
-                                                      }
-                                                    } else {
-                                                      _vm.checkedPermissions = $$c
-                                                    }
-                                                  },
-                                                  function($event) {
-                                                    return _vm.onPermissionChange(
-                                                      $event,
-                                                      group
-                                                    )
+                                                    expression:
+                                                      "checkedPermissions"
                                                   }
-                                                ]
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("span", {
-                                              staticClass: "slider round"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ])
-                                ]
-                              )
-                            ]
-                          )
-                        }),
-                        _vm._v(" "),
-                        group.subGroups.length > 0
-                          ? _c(
-                              "div",
-                              { staticClass: "ml-3" },
-                              _vm._l(group.subGroups, function(subGroup) {
-                                return _c(
-                                  "div",
-                                  { key: subGroup.groupName },
-                                  _vm._l(subGroup.permissions, function(
-                                    permission,
-                                    index
-                                  ) {
-                                    return _c(
-                                      "ul",
-                                      {
-                                        key: permission.columnName,
-                                        staticClass: "list-group"
-                                      },
-                                      [
-                                        _c(
-                                          "li",
-                                          {
-                                            staticClass: "list-group-item",
-                                            class: { "ml-3": index > 0 }
-                                          },
-                                          [
-                                            _c("div", { staticClass: "row" }, [
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "checkbox",
+                                                  id:
+                                                    "addAccount" +
+                                                    permission.elementId,
+                                                  name: permission.columnName
+                                                },
+                                                domProps: {
+                                                  value: permission.columnName,
+                                                  checked: Array.isArray(
+                                                    _vm.checkedPermissions
+                                                  )
+                                                    ? _vm._i(
+                                                        _vm.checkedPermissions,
+                                                        permission.columnName
+                                                      ) > -1
+                                                    : _vm.checkedPermissions
+                                                },
+                                                on: {
+                                                  change: [
+                                                    function($event) {
+                                                      var $$a =
+                                                          _vm.checkedPermissions,
+                                                        $$el = $event.target,
+                                                        $$c = $$el.checked
+                                                          ? true
+                                                          : false
+                                                      if (Array.isArray($$a)) {
+                                                        var $$v =
+                                                            permission.columnName,
+                                                          $$i = _vm._i($$a, $$v)
+                                                        if ($$el.checked) {
+                                                          $$i < 0 &&
+                                                            (_vm.checkedPermissions = $$a.concat(
+                                                              [$$v]
+                                                            ))
+                                                        } else {
+                                                          $$i > -1 &&
+                                                            (_vm.checkedPermissions = $$a
+                                                              .slice(0, $$i)
+                                                              .concat(
+                                                                $$a.slice(
+                                                                  $$i + 1
+                                                                )
+                                                              ))
+                                                        }
+                                                      } else {
+                                                        _vm.checkedPermissions = $$c
+                                                      }
+                                                    },
+                                                    function($event) {
+                                                      return _vm.onPermissionChange(
+                                                        $event,
+                                                        group
+                                                      )
+                                                    }
+                                                  ]
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass: "slider round"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          group.subGroups.length > 0
+                            ? _c(
+                                "div",
+                                { staticClass: "ms-3" },
+                                _vm._l(group.subGroups, function(subGroup) {
+                                  return _c(
+                                    "div",
+                                    { key: subGroup.groupName },
+                                    _vm._l(subGroup.permissions, function(
+                                      permission,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "ul",
+                                        {
+                                          key: permission.columnName,
+                                          staticClass: "list-group"
+                                        },
+                                        [
+                                          _c(
+                                            "li",
+                                            {
+                                              staticClass: "list-group-item",
+                                              class: { "ms-3": index > 0 }
+                                            },
+                                            [
                                               _c(
                                                 "div",
-                                                {
-                                                  staticClass:
-                                                    "col-8 d-flex align-items-center"
-                                                },
+                                                { staticClass: "row" },
                                                 [
                                                   _c(
-                                                    "p",
-                                                    { staticClass: "m-0" },
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "col-8 d-flex align-items-center"
+                                                    },
                                                     [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          permission.cnDisplayName
-                                                        )
+                                                      _c(
+                                                        "p",
+                                                        { staticClass: "m-0" },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              permission.cnDisplayName
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "\n                            col-4\n                            d-flex\n                            align-items-center\n                            justify-content-end\n                          "
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "label",
+                                                        {
+                                                          staticClass:
+                                                            "switch m-0"
+                                                        },
+                                                        [
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  _vm.checkedPermissions,
+                                                                expression:
+                                                                  "checkedPermissions"
+                                                              }
+                                                            ],
+                                                            staticClass:
+                                                              "form-control",
+                                                            attrs: {
+                                                              type: "checkbox",
+                                                              id:
+                                                                "addAccount" +
+                                                                permission.elementId,
+                                                              name:
+                                                                permission.columnName
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                permission.columnName,
+                                                              checked: Array.isArray(
+                                                                _vm.checkedPermissions
+                                                              )
+                                                                ? _vm._i(
+                                                                    _vm.checkedPermissions,
+                                                                    permission.columnName
+                                                                  ) > -1
+                                                                : _vm.checkedPermissions
+                                                            },
+                                                            on: {
+                                                              change: [
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  var $$a =
+                                                                      _vm.checkedPermissions,
+                                                                    $$el =
+                                                                      $event.target,
+                                                                    $$c = $$el.checked
+                                                                      ? true
+                                                                      : false
+                                                                  if (
+                                                                    Array.isArray(
+                                                                      $$a
+                                                                    )
+                                                                  ) {
+                                                                    var $$v =
+                                                                        permission.columnName,
+                                                                      $$i = _vm._i(
+                                                                        $$a,
+                                                                        $$v
+                                                                      )
+                                                                    if (
+                                                                      $$el.checked
+                                                                    ) {
+                                                                      $$i < 0 &&
+                                                                        (_vm.checkedPermissions = $$a.concat(
+                                                                          [$$v]
+                                                                        ))
+                                                                    } else {
+                                                                      $$i >
+                                                                        -1 &&
+                                                                        (_vm.checkedPermissions = $$a
+                                                                          .slice(
+                                                                            0,
+                                                                            $$i
+                                                                          )
+                                                                          .concat(
+                                                                            $$a.slice(
+                                                                              $$i +
+                                                                                1
+                                                                            )
+                                                                          ))
+                                                                    }
+                                                                  } else {
+                                                                    _vm.checkedPermissions = $$c
+                                                                  }
+                                                                },
+                                                                function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.onPermissionChange(
+                                                                    $event,
+                                                                    subGroup
+                                                                  )
+                                                                }
+                                                              ]
+                                                            }
+                                                          }),
+                                                          _vm._v(" "),
+                                                          _c("span", {
+                                                            staticClass:
+                                                              "slider round"
+                                                          })
+                                                        ]
                                                       )
                                                     ]
                                                   )
                                                 ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "\n                            col-4\n                            d-flex\n                            align-items-center\n                            justify-content-end\n                          "
-                                                },
-                                                [
-                                                  _c(
-                                                    "label",
-                                                    {
-                                                      staticClass: "switch m-0"
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.checkedPermissions,
-                                                            expression:
-                                                              "checkedPermissions"
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control",
-                                                        attrs: {
-                                                          type: "checkbox",
-                                                          id:
-                                                            "addAccount" +
-                                                            permission.elementId,
-                                                          name:
-                                                            permission.columnName
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            permission.columnName,
-                                                          checked: Array.isArray(
-                                                            _vm.checkedPermissions
-                                                          )
-                                                            ? _vm._i(
-                                                                _vm.checkedPermissions,
-                                                                permission.columnName
-                                                              ) > -1
-                                                            : _vm.checkedPermissions
-                                                        },
-                                                        on: {
-                                                          change: [
-                                                            function($event) {
-                                                              var $$a =
-                                                                  _vm.checkedPermissions,
-                                                                $$el =
-                                                                  $event.target,
-                                                                $$c = $$el.checked
-                                                                  ? true
-                                                                  : false
-                                                              if (
-                                                                Array.isArray(
-                                                                  $$a
-                                                                )
-                                                              ) {
-                                                                var $$v =
-                                                                    permission.columnName,
-                                                                  $$i = _vm._i(
-                                                                    $$a,
-                                                                    $$v
-                                                                  )
-                                                                if (
-                                                                  $$el.checked
-                                                                ) {
-                                                                  $$i < 0 &&
-                                                                    (_vm.checkedPermissions = $$a.concat(
-                                                                      [$$v]
-                                                                    ))
-                                                                } else {
-                                                                  $$i > -1 &&
-                                                                    (_vm.checkedPermissions = $$a
-                                                                      .slice(
-                                                                        0,
-                                                                        $$i
-                                                                      )
-                                                                      .concat(
-                                                                        $$a.slice(
-                                                                          $$i +
-                                                                            1
-                                                                        )
-                                                                      ))
-                                                                }
-                                                              } else {
-                                                                _vm.checkedPermissions = $$c
-                                                              }
-                                                            },
-                                                            function($event) {
-                                                              return _vm.onPermissionChange(
-                                                                $event,
-                                                                subGroup
-                                                              )
-                                                            }
-                                                          ]
-                                                        }
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("span", {
-                                                        staticClass:
-                                                          "slider round"
-                                                      })
-                                                    ]
-                                                  )
-                                                ]
                                               )
-                                            ])
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  }),
-                                  0
-                                )
-                              }),
-                              0
-                            )
-                          : _vm._e()
-                      ],
-                      2
-                    )
-                  })
-                ],
-                2
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    }),
+                                    0
+                                  )
+                                }),
+                                0
+                              )
+                            : _vm._e()
+                        ],
+                        2
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-danger btn-md shadow-none",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" }
+                },
+                [_vm._v("\n          取消\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-md",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.addUser()
+                    }
+                  }
+                },
+                [_vm._v("\n          添加\n        ")]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-outline-danger btn-md shadow-none",
-                attrs: { type: "button", "data-bs-dismiss": "modal" }
-              },
-              [_vm._v("\n          取消\n        ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary btn-md",
-                attrs: { type: "button", "data-bs-dismiss": "modal" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.addUser()
-                  }
-                }
-              },
-              [_vm._v("\n          添加\n        ")]
-            )
           ])
-        ])
-      ])
+        ]
+      )
     ]
   )
 }
@@ -7746,18 +7179,14 @@ var staticRenderFns = [
         [_vm._v("添加员工账户")]
       ),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
     ])
   }
 ]
@@ -7796,64 +7225,71 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _c("div", { staticClass: "col" }, [
-              _c("p", [_vm._v("确定删除此员工账户？此动作无法挽回。")]),
+      _c(
+        "div",
+        {
+          staticClass:
+            "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "col" }, [
+                _c("p", [_vm._v("确定删除此员工账户？此动作无法挽回。")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col flex-column d-inline-flex justify-content-center"
+                  },
+                  [
+                    _c("p", {
+                      staticClass: "m-0 p-0 h5 d-inline-flex",
+                      attrs: { id: "deleteAccountFullNameDisplay" },
+                      domProps: { textContent: _vm._s(_vm.name) }
+                    }),
+                    _vm._v(" "),
+                    _c("p", {
+                      staticClass: "m-0 p-0 text-muted d-inline-flex",
+                      attrs: { id: "deleteAccountEmailDisplay" },
+                      domProps: { textContent: _vm._s(_vm.email) }
+                    })
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-primary btn-md shadow-none",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" }
+                },
+                [_vm._v("\n          取消\n        ")]
+              ),
               _vm._v(" "),
               _c(
-                "div",
+                "button",
                 {
-                  staticClass:
-                    "col flex-column d-inline-flex justify-content-center"
+                  staticClass: "btn btn-danger btn-md",
+                  attrs: { type: "submit", "data-bs-dismiss": "modal" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteUser()
+                    }
+                  }
                 },
-                [
-                  _c("p", {
-                    staticClass: "m-0 p-0 h5 d-inline-flex",
-                    attrs: { id: "deleteAccountFullNameDisplay" },
-                    domProps: { textContent: _vm._s(_vm.name) }
-                  }),
-                  _vm._v(" "),
-                  _c("p", {
-                    staticClass: "m-0 p-0 text-muted d-inline-flex",
-                    attrs: { id: "deleteAccountEmailDisplay" },
-                    domProps: { textContent: _vm._s(_vm.email) }
-                  })
-                ]
+                [_vm._v("\n          确定删除\n        ")]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-outline-primary btn-md shadow-none",
-                attrs: { type: "button", "data-bs-dismiss": "modal" }
-              },
-              [_vm._v("\n          取消\n        ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger btn-md",
-                attrs: { type: "submit", "data-bs-dismiss": "modal" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.deleteUser()
-                  }
-                }
-              },
-              [_vm._v("\n          确定删除\n        ")]
-            )
           ])
-        ])
-      ])
+        ]
+      )
     ]
   )
 }
@@ -7872,18 +7308,14 @@ var staticRenderFns = [
         [_vm._v("删除员工账户")]
       ),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
     ])
   }
 ]
@@ -7922,13 +7354,18 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("form", [
-            _c("div", { staticClass: "modal-body" }, [
-              _c("div", { staticClass: "form-group md-form" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body bg-light" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -7955,10 +7392,19 @@ var render = function() {
                       _vm.email = $event.target.value
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "editAccountNewEmailControl" }
+                  },
+                  [_vm._v("员工邮箱")]
+                )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -7986,10 +7432,19 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "editAccountNewFullNameControl" }
+                  },
+                  [_vm._v("员工姓名")]
+                ),
+                _vm._v(" "),
                 _vm._m(1)
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -8017,10 +7472,19 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "editAccountNewPasswordControl" }
+                  },
+                  [_vm._v("员工密码")]
+                ),
+                _vm._v(" "),
                 _vm._m(2)
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group md-form" }, [
+              _c("div", { staticClass: "form-floating mb-3" }, [
                 _c("input", {
                   directives: [
                     {
@@ -8048,6 +7512,15 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label",
+                    attrs: { for: "editAccountConfirmPasswordControl" }
+                  },
+                  [_vm._v("员工密码（重填确认）")]
+                ),
+                _vm._v(" "),
                 _vm._m(3)
               ]),
               _vm._v(" "),
@@ -8074,7 +7547,7 @@ var render = function() {
                                 "li",
                                 {
                                   staticClass: "list-group-item",
-                                  class: { "ml-3": index > 0 }
+                                  class: { "ms-3": index > 0 }
                                 },
                                 [
                                   _c("div", { staticClass: "row" }, [
@@ -8097,7 +7570,7 @@ var render = function() {
                                       "div",
                                       {
                                         staticClass:
-                                          "\n                        col-4\n                        d-flex\n                        align-items-center\n                        justify-content-end\n                      "
+                                          "\n                      col-4\n                      d-flex\n                      align-items-center\n                      justify-content-end\n                    "
                                       },
                                       [
                                         _c(
@@ -8190,7 +7663,7 @@ var render = function() {
                         group.subGroups.length > 0
                           ? _c(
                               "div",
-                              { staticClass: "ml-3" },
+                              { staticClass: "ms-3" },
                               _vm._l(group.subGroups, function(subGroup) {
                                 return _c(
                                   "div",
@@ -8210,7 +7683,7 @@ var render = function() {
                                           "li",
                                           {
                                             staticClass: "list-group-item",
-                                            class: { "ml-3": index > 0 }
+                                            class: { "ms-3": index > 0 }
                                           },
                                           [
                                             _c("div", { staticClass: "row" }, [
@@ -8239,7 +7712,7 @@ var render = function() {
                                                 "div",
                                                 {
                                                   staticClass:
-                                                    "\n                            col-4\n                            d-flex\n                            align-items-center\n                            justify-content-end\n                          "
+                                                    "\n                          col-4\n                          d-flex\n                          align-items-center\n                          justify-content-end\n                        "
                                                 },
                                                 [
                                                   _c(
@@ -8373,7 +7846,7 @@ var render = function() {
                   staticClass: "btn btn-outline-danger btn-md shadow-none",
                   attrs: { type: "button", "data-bs-dismiss": "modal" }
                 },
-                [_vm._v("\n            取消\n          ")]
+                [_vm._v("\n          取消\n        ")]
               ),
               _vm._v(" "),
               _c(
@@ -8388,12 +7861,12 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("\n            更新\n          ")]
+                [_vm._v("\n          更新\n        ")]
               )
             ])
           ])
-        ])
-      ])
+        ]
+      )
     ]
   )
 }
@@ -8409,18 +7882,14 @@ var staticRenderFns = [
         [_vm._v("编辑员工账户")]
       ),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
     ])
   },
   function() {
@@ -8529,38 +7998,42 @@ var render = function() {
       "div",
       { staticClass: "card-body d-flex justify-content-center flex-wrap" },
       [
-        _c("div", { staticClass: "col-md-8 d-flex align-items-center my-2" }, [
-          _c("div", { staticClass: "flex-column" }, [
-            _c("div", { staticClass: "row d-flex align-items-center" }, [
-              _c("h4", { staticClass: "card-title m-0" }, [
-                _vm._v(_vm._s(_vm.user.name))
+        _c(
+          "div",
+          { staticClass: "col-12 col-lg-8 d-flex align-items-center my-2" },
+          [
+            _c("div", { staticClass: "flex-column" }, [
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("h4", { staticClass: "card-title m-0" }, [
+                  _vm._v(_vm._s(_vm.user.name))
+                ]),
+                _vm._v(" "),
+                _vm.user.status == "disabled"
+                  ? _c(
+                      "span",
+                      {
+                        staticClass:
+                          "badge rounded-pill bg-warning text-white ms-2"
+                      },
+                      [_vm._v("未激活")]
+                    )
+                  : _vm._e()
               ]),
               _vm._v(" "),
-              _vm.user.status == "disabled"
-                ? _c(
-                    "span",
-                    {
-                      staticClass:
-                        "\n              badge\n              rounded-pill\n              bg-warning\n              shadow-none\n              text-dark\n              ml-2\n              px-2\n              h-75\n            "
-                    },
-                    [_vm._v("未激活")]
-                  )
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("p", { staticClass: "card-subtitle m-0" }, [
-                _vm._v(_vm._s(_vm.user.email))
+              _c("div", { staticClass: "row" }, [
+                _c("p", { staticClass: "card-subtitle text-secondary m-0" }, [
+                  _vm._v(_vm._s(_vm.user.email))
+                ])
               ])
             ])
-          ])
-        ]),
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
           {
             staticClass:
-              "\n        flex-column\n        d-flex\n        align-items-center\n        justify-content-center\n        my-2\n      "
+              "\n        col-12 col-lg-4\n        d-flex\n        align-items-center\n        justify-content-center\n        my-2\n      "
           },
           [
             _c("div", { staticClass: "row" }, [
@@ -8569,7 +8042,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "\n              btn btn-secondary btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
+                      "\n              btn btn-primary btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     attrs: {
                       type: "submit",
                       "data-bs-toggle": "modal",
@@ -8596,7 +8069,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "\n              btn btn-md\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
+                      "\n              btn\n              d-flex\n              justify-content-center\n              align-items-center\n              text-nowrap\n            ",
                     class: _vm.classObject,
                     on: {
                       click: function($event) {
@@ -8869,7 +8342,7 @@ var render = function() {
           },
           [
             _c("edit-item-variation-list", {
-              attrs: { item_id: _vm.item.id, variations: _vm.variations },
+              attrs: { item_id: _vm.item.id, variations: _vm.item.variations },
               on: {
                 onResponse: function() {
                   var args = [],
@@ -8877,9 +8350,6 @@ var render = function() {
                   while (len--) args[len] = arguments[len]
 
                   return _vm.onResponse.apply(void 0, args)
-                },
-                onVariationsUpdated: function($event) {
-                  return _vm.onVariationsUpdated($event)
                 }
               }
             })
@@ -8900,8 +8370,6 @@ var render = function() {
           [
             _c("edit-item-wholesale-discount-list", {
               attrs: {
-                item_id: _vm.item.id,
-                is_wholesale_discount_allowed: _vm.isWholesaleDiscountAllowed,
                 wholesale_discounts: _vm.item.discounts,
                 original_price: _vm.firstVariationPrice
               }
@@ -8929,7 +8397,9 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("message-toast", {
-          staticClass: "fixed-top start-50 translate-middle-x min-vw-100",
+          staticClass:
+            "position-fixed top-0 start-50 translate-middle-x min-vw-100",
+          staticStyle: { "z-index": "2000" },
           attrs: {
             "aria-live": "polite",
             "aria-atomic": "true",
@@ -9039,28 +8509,6 @@ var staticRenderFns = [
                   }
                 },
                 [_vm._v("规格资讯")]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item", attrs: { role: "presentation" } },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: {
-                    id: "pills-wholesale-discount-tab",
-                    "data-bs-toggle": "pill",
-                    "data-bs-target": "#pills-wholesale-discount",
-                    role: "tab",
-                    "aria-controls": "pills-wholesale-discount",
-                    "aria-selected": "false"
-                  }
-                },
-                [_vm._v("批发折扣管理")]
               )
             ]
           ),
@@ -9857,10 +9305,10 @@ var render = function() {
                   }
                 })
               : _c("img", {
-                  staticClass: "img-thumbnail img-fluid rounded me-3",
+                  staticClass: "img-thumbnail img-fluid rounded mr-3",
                   attrs: {
                     src:
-                      "http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png",
+                      "data:image/png;base64,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",
                     height: "200px",
                     width: "200px"
                   }
@@ -9878,7 +9326,7 @@ var render = function() {
                 class:
                   "badge rounded-pill " +
                   _vm.originalPriceClass +
-                  " shadow-none p-2 me-3"
+                  " shadow-none p-2 mr-3"
               },
               [
                 _vm._v(
@@ -10072,135 +9520,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("li", { staticClass: "card my-2" }, [
-    _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "row g-3 d-flex align-items-center" }, [
-        _c("div", { staticClass: "col-12 col-sm-12 col-md-6" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-6" }, [
-              _c("div", { staticClass: "row flex-nowrap" }, [
-                _c("div", { staticClass: "col-2 col-md-3" }),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.wholesaleDiscountMin) +
-                      "\n              "
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._m(0),
-                _vm._v(" "),
-                _vm.wholesaleDiscountMax
-                  ? _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(_vm.wholesaleDiscountMax) +
-                          "\n              "
-                      )
-                    ])
-                  : _c("div", { staticClass: "col-2 col-md-3 text-nowrap" }, [
-                      _c("i", { staticClass: "icofont icofont-infinite" })
-                    ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "col-6 d-flex align-items-center justify-content-start"
-              },
-              [
-                _c(
-                  "span",
-                  {
-                    class:
-                      "badge rounded-pill " +
-                      _vm.originalPriceClass +
-                      " shadow-none p-2 me-2"
-                  },
-                  [
-                    _vm._v(
-                      "\n              RM " +
-                        _vm._s(_vm.originalPrice.toFixed(2)) +
-                        "\n            "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _vm.wholesaleDiscountRate !== null
-                  ? _c(
-                      "span",
-                      {
-                        staticClass:
-                          "badge rounded-pill bg-success shadow-none p-2"
-                      },
-                      [
-                        _vm._v(
-                          "\n              RM " +
-                            _vm._s(_vm.wholesaleDiscountedPrice.toFixed(2)) +
-                            "\n            "
-                        )
-                      ]
-                    )
-                  : _vm._e()
-              ]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-12 col-sm-12 col-md-6" }, [
-          _c("div", { staticClass: "row justify-content-center" }, [
-            _c("div", { staticClass: "col-6 col-sm-5 col-md-4 col-lg-3" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary w-100",
-                  attrs: { type: "submit" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.onEdit()
-                    }
-                  }
-                },
-                [_vm._v("\n              编辑\n            ")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-6 col-sm-5 col-md-4 col-lg-3" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger w-100",
-                  attrs: { type: "submit" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.onDelete()
-                    }
-                  }
-                },
-                [_vm._v("\n              删除\n            ")]
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
+  return _c("div", { staticClass: "container" }, [
+    _vm._v("\n  " + _vm._s(_vm.wholesale_discount.id) + "\n")
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-2 col-md-3" }, [
-      _c("span", [_c("i", { staticClass: "icofont icofont-caret-right" })])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -10225,87 +9549,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [
-      _c("div", { staticClass: "container" }, [
-        _vm.isWholesaleDiscountAllowed
-          ? _c(
-              "div",
-              _vm._l(_vm.wholesaleDiscounts, function(wholesaleDiscount) {
-                return _c("edit-item-wholesale-discount", {
-                  key: wholesaleDiscount.id,
-                  attrs: {
-                    wholesale_discount: wholesaleDiscount,
-                    original_price: _vm.originalPrice
-                  },
-                  on: {
-                    onEdit: function($event) {
-                      return _vm.onEdit($event)
-                    },
-                    onDelete: function($event) {
-                      return _vm.onDelete($event)
-                    }
-                  }
-                })
-              }),
-              1
-            )
-          : _c(
-              "div",
-              {
-                staticClass:
-                  "d-flex align-items-center justify-content-center text-center"
-              },
-              [_vm._m(0)]
-            )
-      ]),
-      _vm._v(" "),
-      _c("wholesale-discount-modal", {
+    { staticClass: "container" },
+    _vm._l(_vm.wholesale_discounts, function(wholesale_discount) {
+      return _c("edit-item-wholesale-discount", {
+        key: wholesale_discount.id,
         attrs: {
-          item_id: _vm.itemId,
-          original_price: _vm.originalPrice,
-          wholesale_discount: _vm.selectedWholesaleDiscount,
-          action: _vm.action
-        },
-        on: {
-          onSaveAdd: function($event) {
-            return _vm.saveAdd($event)
-          },
-          onSaveEdit: function($event) {
-            return _vm.saveEdit($event)
-          },
-          onConfirmDelete: function($event) {
-            return _vm.confirmDelete($event)
-          },
-          onResponse: function() {
-            var args = [],
-              len = arguments.length
-            while (len--) args[len] = arguments[len]
-
-            return _vm.onResponse.apply(void 0, args)
-          }
+          wholesale_discount: wholesale_discount,
+          original_price: _vm.original_price
         }
       })
-    ],
+    }),
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "py-5" }, [
-      _c("i", {
-        staticClass: "icofont icofont-close-circled icofont-10x text-secondary",
-        staticStyle: { "font-size": "120px" }
-      }),
-      _vm._v(" "),
-      _c("p", { staticClass: "fs-5 text-secondary" }, [
-        _vm._v("此商品无法使用批发功能")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -10331,10 +9588,15 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      { staticClass: "form-control form-switch", on: { click: _vm.listItem } },
+      {
+        staticClass: "form-control form-switch",
+        staticStyle: { border: "0" },
+        on: { click: _vm.listItem }
+      },
       [
         _c("input", {
           staticClass: "form-check-input",
+          staticStyle: { "pointer-events": "none" },
           attrs: { type: "checkbox" },
           domProps: { checked: _vm.checkBoxValue }
         }),
@@ -10435,7 +9697,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("input", {
-            staticClass: "form-control text-end",
+            staticClass: "form-control",
             attrs: {
               type: "number",
               id: "discountRatePercentage",
@@ -10460,28 +9722,20 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group mb-3 w-100 " }, [
-      _c(
-        "label",
-        {
-          staticClass: "label text-primary",
-          attrs: { for: "discountedPrice" }
-        },
-        [_vm._v("折扣后的价钱")]
-      ),
+    _c("div", { staticClass: "form-group mb-3 w-100" }, [
+      _c("label", { staticClass: "label", attrs: { for: "discountedPrice" } }, [
+        _vm._v("折扣后的价钱")
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "input-group" }, [
         _c(
           "span",
-          {
-            staticClass: "input-group-text text-primary fw-bold",
-            attrs: { id: "currencyUnit" }
-          },
+          { staticClass: "input-group-text", attrs: { id: "currencyUnit" } },
           [_vm._v("RM")]
         ),
         _vm._v(" "),
         _c("input", {
-          staticClass: "form-control text-primary fw-bold",
+          staticClass: "form-control",
           attrs: { type: "number", id: "discountedPrice" },
           domProps: { value: _vm.discountedPrice.toFixed(2) },
           on: {
@@ -10745,7 +9999,7 @@ var render = function() {
                               _c(
                                 "label",
                                 {
-                                  staticClass: "label text-primary",
+                                  staticClass: "label",
                                   attrs: { for: "variationPrice" }
                                 },
                                 [_vm._v("原价")]
@@ -10755,16 +10009,14 @@ var render = function() {
                                 _c(
                                   "span",
                                   {
-                                    staticClass:
-                                      "input-group-text text-primary fw-bold",
+                                    staticClass: "input-group-text",
                                     attrs: { id: "currencyUnit" }
                                   },
                                   [_vm._v("RM")]
                                 ),
                                 _vm._v(" "),
                                 _c("input", {
-                                  staticClass:
-                                    "form-control text-primary fw-bold",
+                                  staticClass: "form-control",
                                   attrs: {
                                     type: "number",
                                     id: "variationPrice",
@@ -10796,7 +10048,7 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _c("input", {
-                                staticClass: "form-control text-end",
+                                staticClass: "form-control",
                                 attrs: {
                                   type: "number",
                                   id: "variationStock",
@@ -10828,7 +10080,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "input-group" }, [
                             _c("input", {
-                              staticClass: "form-control text-end",
+                              staticClass: "form-control",
                               attrs: {
                                 type: "number",
                                 id: "variationWeight",
@@ -10957,7 +10209,7 @@ var render = function() {
                                     ),
                                     _vm._v(" "),
                                     _c("input", {
-                                      staticClass: "form-control text-center",
+                                      staticClass: "form-control",
                                       attrs: {
                                         type: "date",
                                         id: "discountStartDate",
@@ -11006,8 +10258,7 @@ var render = function() {
                                             ),
                                             _vm._v(" "),
                                             _c("input", {
-                                              staticClass:
-                                                "form-control text-center",
+                                              staticClass: "form-control",
                                               attrs: {
                                                 type: "date",
                                                 id: "discountEndDate",
@@ -11507,252 +10758,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0&":
-/*!************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/modals/WholesaleDiscountModal.vue?vue&type=template&id=ddc905d0& ***!
-  \************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "wholesaleDiscountModal",
-          tabindex: "-1",
-          "aria-labelledby": "wholesaleDiscountLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass:
-              "modal-dialog modal-dialog-centered modal-dialog-scrollable"
-          },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "wholesaleDiscountLabel" }
-                  },
-                  [
-                    _vm._v(
-                      "\n            " +
-                        _vm._s(_vm.actionName) +
-                        "批发折扣\n          "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("button", {
-                  staticClass: "btn-close",
-                  attrs: {
-                    type: "button",
-                    "data-bs-dismiss": "modal",
-                    "aria-label": "Close"
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body bg-light" }, [
-                _vm.actionContentType === "form"
-                  ? _c("div", { staticClass: "container" }, [
-                      _c("div", { staticClass: "row mb-3" }, [
-                        _c("div", { staticClass: "col-6" }, [
-                          _c("div", { staticClass: "form-group w-100" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "label",
-                                attrs: { for: "wholesaleDiscountMin" }
-                              },
-                              [_vm._v("批发的开始数量")]
-                            ),
-                            _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control text-end",
-                              attrs: {
-                                type: "number",
-                                id: "wholesaleDiscountMin",
-                                min: _vm.wholesaleDiscountPreviousMax
-                                  ? _vm.wholesaleDiscountPreviousMax + 1
-                                  : 0,
-                                max: _vm.wholesaleDiscountMax - 1,
-                                step: "1"
-                              },
-                              domProps: { value: _vm.wholesaleDiscountMin },
-                              on: {
-                                change: function($event) {
-                                  return _vm.onChange($event, "min")
-                                }
-                              }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-6" }, [
-                          _c("div", { staticClass: "form-group w-100" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "label",
-                                attrs: { for: "wholesaleDiscountMax" }
-                              },
-                              [_vm._v("批发的结束数量")]
-                            ),
-                            _vm._v(" "),
-                            _c("input", {
-                              staticClass: "form-control text-end",
-                              attrs: {
-                                type: "number",
-                                id: "wholesaleDiscountMax",
-                                min: _vm.wholesaleDiscountMin + 1,
-                                max: _vm.wholesaleDiscountNextMin
-                                  ? _vm.wholesaleDiscountNextMin - 1
-                                  : null,
-                                step: "1"
-                              },
-                              domProps: { value: _vm.wholesaleDiscountMax },
-                              on: {
-                                change: function($event) {
-                                  return _vm.onChange($event, "max")
-                                }
-                              }
-                            })
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "row mb-3" }, [
-                        _c("p", { staticClass: "text-primary m-0" }, [
-                          _vm._v("原价")
-                        ]),
-                        _vm._v(" "),
-                        _c("p", { staticClass: "text-primary fw-bold m-0" }, [
-                          _vm._v("RM " + _vm._s(_vm.originalPrice.toFixed(2)))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "row mb-3" },
-                        [
-                          _c("edit-discount", {
-                            attrs: {
-                              original_price: _vm.originalPrice,
-                              rate: _vm.wholesaleDiscountRate
-                            },
-                            on: {
-                              onRateChange: function($event) {
-                                return _vm.onRateChange($event)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  : _vm.actionContentType === "confirmation"
-                  ? _c("div", { staticClass: "container" }, [_vm._m(0)])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "modal-footer justify-content-center w-100" },
-                [
-                  _c("div", { staticClass: "row w-100" }, [
-                    _c("div", { staticClass: "col-6" }, [
-                      _c(
-                        "button",
-                        {
-                          class:
-                            "btn " +
-                            _vm.actionButtonCancelClass +
-                            " btn-md shadow-none w-100",
-                          attrs: { type: "button", "data-bs-dismiss": "modal" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                " +
-                              _vm._s(_vm.actionButtonCancelName) +
-                              "\n              "
-                          )
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-6" }, [
-                      _c(
-                        "button",
-                        {
-                          class:
-                            "btn " +
-                            _vm.actionButtonConfirmClass +
-                            " btn-md w-100",
-                          attrs: {
-                            type: "submit",
-                            "data-bs-dismiss": "modal",
-                            disabled: !_vm.isAllValid()
-                          },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.onPrimaryPressed()
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                " +
-                              _vm._s(_vm.actionButtonConfirmName) +
-                              "\n              "
-                          )
-                        ]
-                      )
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]
-        )
-      ]
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
-      _c("p", [_vm._v("确定删除此批发折扣？此动作无法挽回。")])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/toasts/MessageToast.vue?vue&type=template&id=1037d9e4&":
 /*!**************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/shared/toasts/MessageToast.vue?vue&type=template&id=1037d9e4& ***!
@@ -11787,7 +10792,7 @@ var render = function() {
             staticClass: "rounded me-2",
             attrs: {
               src:
-                "http://management.ecolla.laravel:8081/img/icon/ecolla_icon.png",
+                "data:image/png;base64,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",
               alt: "...",
               height: "25px",
               width: "25px"

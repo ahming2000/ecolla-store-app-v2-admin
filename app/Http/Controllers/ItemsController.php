@@ -144,7 +144,7 @@ class ItemsController extends Controller
             }
         }
 
-        return view('item.edit2', compact('item', 'categories'));
+        return view('item.edit', compact('item', 'categories'));
     }
 
     public function list(Item $item): bool
@@ -311,6 +311,8 @@ class ItemsController extends Controller
                             ->where('barcode', '=', $data['info']['barcode'])
                             ->first()
                             ->toArray();
+
+                        $data_new['image'] = (new ImageHandler())->convertToDataURL($data_new['image']);
 
                         $resMgr->setData($data_new);
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    商品 {{ $item->name }}
+    {{ $item->name }}
 @endsection
 
 @section('content')
@@ -18,8 +18,8 @@
 
                     <div class="my-auto">
                         @if(auth()->user()->hasAccess('item_update'))
-                            <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-outline-primary">
-                                <i class="icofont icofont-ui-edit"></i> 编辑商品
+                            <a href="{{ url('/item/' . $item->id . '/edit') }}" class="btn btn-primary">
+                                <i class="icofont icofont-ui-edit"></i> 编辑
                             </a>
                         @endif
 
@@ -28,7 +28,7 @@
                                     class="btn btn-danger"
                                     onclick="confirmDelete(this)"
                                     value="{{ $item->name }}">
-                                <i class="icofont icofont-ui-delete"></i> 删除商品
+                                <i class="icofont icofont-ui-delete"></i> 删除
                             </button>
 
                             <form action="{{ url('/item/' . $item->id) }}" method="post" class="delete-item-form">
@@ -56,9 +56,6 @@
                                 <span class="badge bg-primary me-1">{{ $category->name }}</span>
                             @endforeach
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">描述</td>
                     </tr>
                     <tr>
                         <td colspan="2" id="desc-display"></td>
@@ -95,7 +92,7 @@
 @section('script')
     <script>
         // Convert textarea format to paragraph
-        document.getElementById('desc-display').innerHTML = document.getElementById('desc').value.split('\n').join('<br>').split(' ').join('&nbsp;');
+        document.getElementById('desc-display').innerHTML = "描述：<br>" + document.getElementById('desc').value.split('\n').join('<br>').split(' ').join('&nbsp;');
     </script>
 
     <script>

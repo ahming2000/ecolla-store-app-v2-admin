@@ -87,7 +87,14 @@ export default {
       itemImages: this.images ?? [],
       selectedImage: null,
       newImage: null,
+      uploadImageModal: null,
     };
+  },
+
+  mounted() {
+    this.uploadImageModal = new Modal(
+      document.getElementById("itemBasicUploadImageModal")
+    );
   },
 
   methods: {
@@ -107,13 +114,13 @@ export default {
         .patch(`/item/${this.itemId}/images`, body)
         .then((res) => {
           console.log(res);
-          if (res.data.message !== "") {
-            this.$emit("onResponse", res.data.message, "success");
+          if (res.data.ok) {
+            this.$emit("onResponse", res.data.messages, "success");
             this.itemImages = this.itemImages.filter(
               (image) => image !== this.selectedImage
             );
           } else {
-            this.$emit("onResponse", res.data.error, "error");
+            this.$emit("onResponse", res.data.messages, "error");
           }
         })
         .catch((error) => {
@@ -126,7 +133,6 @@ export default {
       let newImage = event.target.files[0];
       console.log(newImage);
       this.newImage = newImage;
-      this.openUploadImageModal();
       event.target.value = "";
     },
 
@@ -142,17 +148,17 @@ export default {
         .patch(`/item/${this.itemId}/images`, body)
         .then((res) => {
           console.log(res);
-          if (res.data.message !== "") {
-            this.$emit("onResponse", res.data.message, "success");
+          if (res.data.ok) {
+            this.$emit("onResponse", res.data.messages, "success");
             this.itemImages = [
               ...this.itemImages,
               {
-                id: res.data.item_image_id,
+                id: res.data.data.id,
                 image: newImageData,
               },
             ];
           } else {
-            this.$emit("onResponse", res.data.error, "error");
+            this.$emit("onResponse", res.data.messages, "error");
           }
         })
         .catch((error) => {
@@ -161,15 +167,14 @@ export default {
         });
     },
 
-    openUploadImageModal() {
-      const uploadImageModal = new Modal(
-        document.getElementById("itemBasicUploadImageModal")
-      );
-      uploadImageModal.show();
-    },
-
     onResponse(...args) {
-      this.$emit("onResponse", ...args);
+      if (args[1] === "error") {
+        console.log(this.uploadImageModal);
+        // this.uploadImageModal.hide();
+        this.$emit("onResponse", ...args);
+      } else {
+        this.uploadImageModal.show();
+      }
     },
   },
 };
