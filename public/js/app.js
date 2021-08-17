@@ -2385,7 +2385,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "edit-item-variation",
   props: {
@@ -3546,7 +3545,7 @@ __webpack_require__.r(__webpack_exports__);
       variationDiscount: (_this$variation$disco = (_this$variation9 = this.variation) === null || _this$variation9 === void 0 ? void 0 : _this$variation9.discount) !== null && _this$variation$disco !== void 0 ? _this$variation$disco : null,
       variationDiscountRate: (_this$variation$disco2 = (_this$variation10 = this.variation) === null || _this$variation10 === void 0 ? void 0 : (_this$variation10$dis = _this$variation10.discount) === null || _this$variation10$dis === void 0 ? void 0 : _this$variation10$dis.rate) !== null && _this$variation$disco2 !== void 0 ? _this$variation$disco2 : 0,
       variationDiscountStart: (_this$variation11 = this.variation) !== null && _this$variation11 !== void 0 && (_this$variation11$dis = _this$variation11.discount) !== null && _this$variation11$dis !== void 0 && _this$variation11$dis.start ? this.stringToDate(this.variation.discount.start) : this.getToday(),
-      variationDiscountEnd: (_this$variation12 = this.variation) !== null && _this$variation12 !== void 0 && (_this$variation12$dis = _this$variation12.discount) !== null && _this$variation12$dis !== void 0 && _this$variation12$dis.end ? this.stringToDate(this.variation.discount.end) : null,
+      variationDiscountEnd: (_this$variation12 = this.variation) !== null && _this$variation12 !== void 0 && (_this$variation12$dis = _this$variation12.discount) !== null && _this$variation12$dis !== void 0 && _this$variation12$dis.end ? this.stringToDate(this.variation.discount.end) : this.getNextDay(this.getToday()),
       isVariationDiscountEnabled: (_this$variation13 = this.variation) !== null && _this$variation13 !== void 0 && _this$variation13.discount ? true : false,
       isDurationLimited: ((_this$variation14 = this.variation) === null || _this$variation14 === void 0 ? void 0 : (_this$variation14$dis = _this$variation14.discount) === null || _this$variation14$dis === void 0 ? void 0 : _this$variation14$dis.end) === null ? false : true,
       newImage: null
@@ -3818,7 +3817,7 @@ __webpack_require__.r(__webpack_exports__);
       this.variationDiscount = (_val$discount = val === null || val === void 0 ? void 0 : val.discount) !== null && _val$discount !== void 0 ? _val$discount : null;
       this.variationDiscountRate = (_val$discount$rate = val === null || val === void 0 ? void 0 : (_val$discount2 = val.discount) === null || _val$discount2 === void 0 ? void 0 : _val$discount2.rate) !== null && _val$discount$rate !== void 0 ? _val$discount$rate : 0;
       this.variationDiscountStart = val !== null && val !== void 0 && (_val$discount3 = val.discount) !== null && _val$discount3 !== void 0 && _val$discount3.start ? this.stringToDate(val.discount.start) : this.getToday();
-      this.variationDiscountEnd = val !== null && val !== void 0 && (_val$discount4 = val.discount) !== null && _val$discount4 !== void 0 && _val$discount4.end ? this.stringToDate(val.discount.end) : null;
+      this.variationDiscountEnd = val !== null && val !== void 0 && (_val$discount4 = val.discount) !== null && _val$discount4 !== void 0 && _val$discount4.end ? this.stringToDate(val.discount.end) : this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = val !== null && val !== void 0 && val.discount ? true : false;
       this.isDurationLimited = (val === null || val === void 0 ? void 0 : (_val$discount5 = val.discount) === null || _val$discount5 === void 0 ? void 0 : _val$discount5.end) === null ? false : true;
     },
@@ -3844,7 +3843,7 @@ __webpack_require__.r(__webpack_exports__);
       this.variationDiscount = null;
       this.variationDiscountRate = 0;
       this.variationDiscountStart = this.getToday();
-      this.variationDiscountEnd = null;
+      this.variationDiscountEnd = this.getNextDay(this.getToday());
       this.isVariationDiscountEnabled = false;
       this.isDurationLimited = false;
     },
