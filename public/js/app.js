@@ -10220,9 +10220,7 @@ var render = function() {
                                                 _vm.variationDiscountEnd
                                               )
                                             )
-                                          : _vm.dateToString(
-                                              _vm.getNextDay(_vm.getToday())
-                                            )
+                                          : ""
                                       },
                                       domProps: {
                                         value: _vm.dateToString(

@@ -304,7 +304,7 @@ input:checked + .slider:before {
                         :max="
                           variationDiscountEnd
                             ? dateToString(getPreviousDay(variationDiscountEnd))
-                            : dateToString(getNextDay(getToday()))
+                            : ''
                         "
                         @change="onChange($event, 'discountStart')"
                       />
