@@ -37,10 +37,10 @@
                 <div class="col-md-6 col-sm-12">
 
                     <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
-                        <option value="25" {{ $helper->paramSelected('paginate', '25') }}>一页显示25件商品</option>
                         <option value="50" {{ $helper->paramSelected('paginate', '50') }}>一页显示50件商品</option>
-                        <option value="75" {{ $helper->paramSelected('paginate', '75') }}>一页显示75件商品</option>
                         <option value="100" {{ $helper->paramSelected('paginate', '100') }}>一页显示100件商品</option>
+                        <option value="150" {{ $helper->paramSelected('paginate', '150') }}>一页显示150件商品</option>
+                        <option value="200" {{ $helper->paramSelected('paginate', '200') }}>一页显示200件商品</option>
                     </select>
 
                     <div class="d-flex justify-content-between mb-2">

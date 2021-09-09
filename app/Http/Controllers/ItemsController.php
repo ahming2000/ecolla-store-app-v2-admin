@@ -27,7 +27,7 @@ class ItemsController extends Controller
     public function index()
     {
         // Get request parameter value
-        $paginate = ViewHelper::param('paginate', 25, true);
+        $paginate = ViewHelper::param('paginate', 50, true);
         $search = ViewHelper::param('search');
         $category = ViewHelper::param('category');
         $arrangement = ViewHelper::param('arrangement');
