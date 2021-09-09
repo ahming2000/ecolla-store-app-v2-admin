@@ -30,7 +30,7 @@ class ItemsController extends Controller
         $paginate = ViewHelper::param('paginate', 50, true);
         $search = ViewHelper::param('search');
         $category = ViewHelper::param('category');
-        $arrangement = ViewHelper::param('arrangement');
+        $arrangement = ViewHelper::param('arrangement', 'createdAtDesc');
 
         // Generate Where Clause for SQL Query
         $searchClause = SQLHelper::generateWhereClause(
