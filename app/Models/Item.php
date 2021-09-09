@@ -105,11 +105,6 @@ class Item extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function userRating(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(ItemUserRating::class);
-    }
-
     public function discounts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(WholesaleDiscount::class);

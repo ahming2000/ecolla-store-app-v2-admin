@@ -30,24 +30,21 @@
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6 col-sm-12"></div>
+        <form action="{{ url('/item') }}" method="get" id="filterForm">
 
-            <div class="col-md-6 col-sm-12">
+            <div class="row mb-3">
 
-                <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
-                    <option value="25" {{ $helper->paramSelected('paginate', '25') }}>一页显示25件商品</option>
-                    <option value="50" {{ $helper->paramSelected('paginate', '50') }}>一页显示50件商品</option>
-                    <option value="75" {{ $helper->paramSelected('paginate', '75') }}>一页显示75件商品</option>
-                    <option value="100" {{ $helper->paramSelected('paginate', '100') }}>一页显示100件商品</option>
-                </select>
+                <div class="col-md-6 col-sm-12">
 
-                <form action="{{ url('/item') }}" method="get">
+                    <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
+                        <option value="50" {{ $helper->paramSelected('paginate', '50') }}>一页显示50件商品</option>
+                        <option value="100" {{ $helper->paramSelected('paginate', '100') }}>一页显示100件商品</option>
+                        <option value="150" {{ $helper->paramSelected('paginate', '150') }}>一页显示150件商品</option>
+                        <option value="200" {{ $helper->paramSelected('paginate', '200') }}>一页显示200件商品</option>
+                    </select>
+
                     <div class="d-flex justify-content-between mb-2">
                         <div class="flex-grow-1 me-2">
-                            <input type="hidden" name="paginate" value="{{ $helper->param('paginate', 25) }}">
-                            <input type="hidden" name="category" value="{{ $helper->param('category') }}">
-
                             <input type="text" class="form-control shadow" maxlength="20" name="search"
                                    placeholder="搜索名称、货号、规格、出产地、商品描述" value="{{ $helper->param('search') }}">
                         </div>
@@ -58,32 +55,42 @@
                             </button>
                         </div>
                     </div>
-                </form>
 
-                <select class="form-select shadow mb-2" name="category" id="categorySelector">
-                    <option value="">
-                        全部商品 ({{ $ItemTable->all()->count() }})
-                    </option>
+                </div>
 
-                    @foreach($categories as $category)
-                        @if($CategoryTable->getItemCount($category->id) != 0)
-                            <option
-                                value="{{ $category->name }}" {{ $helper->paramSelected('category', $category->name) }}>
-                                {{ $category->name }} ({{ $CategoryTable->getItemCount($category->id) }})
-                            </option>
-                        @endif
-                    @endforeach
-                </select>
+                <div class="col-md-6 col-sm-12">
 
-                <select class="form-select shadow mb-2" name="specialFilter" id="specialFilterSelector" hidden>
-                    <option value="">选择进阶分类</option>
-                    <option value="mostSales" {{ $helper->paramSelected('special', 'mostSales') }}>销量最高</option>
-                    <option value="mostViews" {{ $helper->paramSelected('special', 'mostViews') }}>最多点击</option>
-                    <option value="notListed" {{ $helper->paramSelected('special', 'notListed') }}>已下架</option>
-                    <option value="noStock" {{ $helper->paramSelected('special', 'noStock') }}>无库存</option>
-                </select>
+                    <select class="form-select shadow mb-2" name="category" id="categorySelector">
+                        <option value="">
+                            全部商品 ({{ $ItemTable->all()->count() }})
+                        </option>
+
+                        @foreach($categories as $category)
+                            @if($CategoryTable->getItemCount($category->id) != 0)
+                                <option
+                                    value="{{ $category->name }}" {{ $helper->paramSelected('category', $category->name) }}>
+                                    {{ $category->name }} ({{ $CategoryTable->getItemCount($category->id) }})
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+
+                    <select class="form-select shadow mb-2" name="arrangement" id="arrangementSelector">
+                        <option value="createdAtDesc" {{ $helper->paramSelected('arrangement', 'createdAtDesc') }}>创建时间新到旧</option>
+                        <option value="createdAtAsc" {{ $helper->paramSelected('arrangement', 'createdAtAsc') }}>创建时间旧到新</option>
+                        <option value="salesDesc" {{ $helper->paramSelected('arrangement', 'salesDesc') }}>销量高至低</option>
+                        <option value="salesAsc" {{ $helper->paramSelected('arrangement', 'salesAsc') }}>销量低至高</option>
+                        <option value="viewsDesc" {{ $helper->paramSelected('arrangement', 'viewsDesc') }}>点击多至少</option>
+                        <option value="viewsAsc" {{ $helper->paramSelected('arrangement', 'viewsAsc') }}>点击少至多</option>
+                        {{--                    <option value="notListed" {{ $helper->paramSelected('arrangement', 'notListed') }}>已下架</option>--}}
+                        {{--                    <option value="noStock" {{ $helper->paramSelected('arrangement', 'noStock') }}>无库存</option>--}}
+                    </select>
+
+                </div>
+
             </div>
-        </div>
+
+        </form>
 
         <div class="row mb-3">
 
@@ -169,10 +176,13 @@
 
         $(document).ready(function () {
             $('#paginateSelector').on('change', function () {
-                window.location.href = "/item{!! $params['paginate'] !!}paginate=" + $('#paginateSelector option:selected').val();
+                $('#filterForm').submit();
             });
             $("#categorySelector").on("change", function () {
-                window.location.href = "/item{!! $params['category'] !!}category=" + $('#categorySelector option:selected').val();
+                $('#filterForm').submit();
+            });
+            $('#arrangementSelector').on("change", function () {
+                $('#filterForm').submit();
             });
         });
     </script>
