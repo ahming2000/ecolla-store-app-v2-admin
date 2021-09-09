@@ -25,8 +25,24 @@ class OrdersController extends Controller
         $mode = ViewHelper::param('mode');
 
         // Generate Where Clause for SQL Query
-        $created_at_filterClause = SQLHelper::generateWhereClause($created_at, $this->ORDER_FILTER_CREATED_AT, 'date');
-        $mode_filterClause = SQLHelper::generateWhereClause($mode, $this->ORDER_FILTER_MODE, 'exact');
+        $created_at_filterClause = SQLHelper::generateWhereClause(
+            $created_at,
+            [
+                'orders' => [
+                    'created_at',
+                ]
+            ],
+            'date'
+        );
+        $mode_filterClause = SQLHelper::generateWhereClause(
+            $mode,
+            [
+                'orders' => [
+                    'mode',
+                ]
+            ],
+            'exact'
+        );
 
         $whereClause = SQLHelper::combineWhereClause([$created_at_filterClause, $mode_filterClause]);
 
@@ -41,7 +57,7 @@ class OrdersController extends Controller
         }
 
         // Set pagination links parameter
-        $paginateParam = $this->generateParameter(
+        $paginateParam = SQLHelper::generateParameter(
             [
                 'paginate' => $paginate,
                 'created_at' => $created_at,

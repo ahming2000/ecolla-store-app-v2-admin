@@ -102,4 +102,15 @@ class SQLHelper
                 return "items.created_at";
         }
     }
+
+    public static function generateParameter(array $attributes, bool $andSym = false): string
+    {
+        $line = "?";
+
+        foreach ($attributes as $key => $value) {
+            $line = array_key_first($attributes) == $key ? $line . "$key=$value&" : $line . "$key=$value";
+        }
+
+        return $andSym ? $line . '&' : $line;
+    }
 }

@@ -87,7 +87,7 @@ class ItemsController extends Controller
         $categories = Category::all();
 
         // Set pagination links parameter
-        $paginationParam = $this->generateParameter([
+        $paginationParam = SQLHelper::generateParameter([
             'paginate' => $paginate,
             'search' => $search,
             'category' => $category,
