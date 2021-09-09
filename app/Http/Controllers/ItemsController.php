@@ -9,15 +9,12 @@ use App\Models\ItemUtil;
 use App\Models\SystemConfig;
 use App\Models\Variation;
 use App\Models\VariationDiscount;
+use App\Util\SQLHelper;
 use App\Util\ImageHandler;
 use App\Util\JsonResponseManager;
-use App\Util\ValidationManager;
+use App\Util\ViewHelper;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
 
 class ItemsController extends Controller
 {
@@ -29,19 +26,41 @@ class ItemsController extends Controller
 
     public function index()
     {
-        // Get request value
-        $paginate = request('paginate') ?? 25;
-        $search = request('search') ?? "";
-        $category = request('category') ?? "";
-        $special = request('special') ?? "";
+        // Get request parameter value
+        $paginate = ViewHelper::param('paginate', 25, true);
+        $search = ViewHelper::param('search');
+        $category = ViewHelper::param('category');
+        $arrangement = ViewHelper::param('arrangement');
 
         // Generate Where Clause for SQL Query
-        $searchClause = $this->generateSearchClause($search, $this->ITEM_SEARCH);
-        $category_filterClause = $this->generateFilterClause($category, $this->ITEM_FILTER_CATEGORY);
-        $whereClause = $this->combineWhereClause([
-            $searchClause,
-            $category_filterClause,
-        ]);
+        $searchClause = SQLHelper::generateWhereClause(
+            $search,
+            [
+                'items' => [
+                    'name',
+                    'name_en',
+                    'origin',
+                    'origin_en',
+                    'desc',
+                ],
+                'variations' => [
+                    'name',
+                    'name_en',
+                    'barcode',
+                ],
+            ]
+        );
+        $category_filterClause = SQLHelper::generateWhereClause(
+            $category,
+            [
+                'categories' => [
+                    'name',
+                    'name_en',
+                ],
+            ],
+            'exact'
+        );
+        $whereClause = SQLHelper::combineWhereClause([$searchClause, $category_filterClause]);
 
         // Query all related Item ID
         if ($whereClause != "") {
@@ -62,28 +81,21 @@ class ItemsController extends Controller
         // Retrieve required data
         $ids = array_column($result->toArray(), 'id');
         $items = Item::whereIn('id', $ids)
-            ->orderBy('created_at', 'desc')
+            ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->orderByRaw(SQLHelper::generateItemsArrangementClause($arrangement))
             ->paginate($paginate);
         $categories = Category::all();
 
         // Set pagination links parameter
-        $items->withPath(
-            '/item' . $this->generateParameter(
-                [
-                    'paginate' => $paginate,
-                    'search' => $search,
-                    'category' => $category,
-                ]
-            )
-        );
+        $paginationParam = $this->generateParameter([
+            'paginate' => $paginate,
+            'search' => $search,
+            'category' => $category,
+            'arrangement' => $arrangement,
+        ]);
+        $items->withPath('/item' . $paginationParam);
 
-        // Generate parameter for filtering (search, category, paginate)
-        $params = [
-            'paginate' => $this->generateParameter(['search' => $search, 'category' => $category], true),
-            'category' => $this->generateParameter(['paginate' => $paginate, 'search' => $search], true),
-        ];
-
-        return view('item.index', compact('items', 'categories', 'params'));
+        return view('item.index', compact('items', 'categories'));
     }
 
     public function show(Item $item)
