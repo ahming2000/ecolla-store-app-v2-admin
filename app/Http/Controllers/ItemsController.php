@@ -33,6 +33,7 @@ class ItemsController extends Controller
         $paginate = request('paginate') ?? 25;
         $search = request('search') ?? "";
         $category = request('category') ?? "";
+        $special = request('special') ?? "";
 
         // Generate Where Clause for SQL Query
         $searchClause = $this->generateSearchClause($search, $this->ITEM_SEARCH);
@@ -177,15 +178,15 @@ class ItemsController extends Controller
             $item->variations()->delete();
             $item->categories()->detach();
             $item->discounts()->delete();
-            $item->userRating()->delete();
             $item->delete();
             DB::commit();
+            session()->flash('message', "成功删除 " . $item->name . "!");
         } catch (Exception $ex) {
             DB::rollBack();
             session()->flash('message', '商品删除失败！请联系客服！');
         }
 
-        return redirect('/item')->with('message', "成功删除 " . $item->name . "!");
+        return redirect('/item');
     }
 
     private function canList(int $item_id, bool $list = false): bool
