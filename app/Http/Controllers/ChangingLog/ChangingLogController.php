@@ -19,7 +19,7 @@ class ChangingLogController extends Controller
 
             new LogClass('v2.2', [
 
-                new Log('v2.2.3', '2021/08=9/09', [
+                new Log('v2.2.3', '2021/09/09', [
 
                     new LogDetail('优化', [
                         '修复了无法完全删除商品的问题和之后导致无法正常显示页面的问题',
