@@ -10,14 +10,21 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.2.2 公测版';
-        $updateDate = '2021/08/17';
+        $currentVersion = 'v2.2.3 公测版';
+        $updateDate = '2021/09/09';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
             new LogClass('v2.2', [
+
+                new Log('v2.2.3', '2021/08=9/09', [
+
+                    new LogDetail('优化', [
+                        '修复了无法完全删除商品的问题和之后导致无法正常显示页面的问题',
+                    ]),
+                ]),
 
                 new Log('v2.2.2', '2021/08/17', [
 
