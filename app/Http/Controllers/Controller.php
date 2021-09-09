@@ -203,10 +203,6 @@ class Controller extends BaseController
     {
         $line = "?";
 
-        $attributes = array_filter($attributes, function ($value){
-            return $value != "";
-        });
-
         foreach ($attributes as $key => $value) {
             $line = array_key_first($attributes) == $key ? $line . "$key=$value&" : $line . "$key=$value";
         }
