@@ -108,7 +108,7 @@ class SQLHelper
         $line = "?";
 
         foreach ($attributes as $key => $value) {
-            $line = array_key_first($attributes) == $key ? $line . "$key=$value&" : $line . "$key=$value";
+            $line = array_key_last($attributes) == $key ? $line . "$key=$value" : $line . "$key=$value&";
         }
 
         return $andSym ? $line . '&' : $line;
