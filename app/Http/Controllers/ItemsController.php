@@ -32,6 +32,17 @@ class ItemsController extends Controller
         $category = ViewHelper::param('category');
         $arrangement = ViewHelper::param('arrangement', 'createdAtDesc');
 
+        $special = ViewHelper::param('special');
+        if ($special == 'notListed|noStock'){
+            $specialClause = "item_utils.is_listed = 0 OR variations.stock = 0";
+        }else if ($special == 'notListed'){
+            $specialClause = "item_utils.is_listed = 0";
+        } else if ($special == 'noStock'){
+            $specialClause = "variations.stock = 0";
+        } else {
+            $specialClause = "";
+        }
+
         // Generate Where Clause for SQL Query
         $searchClause = SQLHelper::generateWhereClause(
             $search,
@@ -60,7 +71,7 @@ class ItemsController extends Controller
             ],
             'exact'
         );
-        $whereClause = SQLHelper::combineWhereClause([$searchClause, $category_filterClause]);
+        $whereClause = SQLHelper::combineWhereClause([$searchClause, $category_filterClause, $specialClause]);
 
         // Query all related Item ID
         if ($whereClause != "") {
@@ -69,6 +80,7 @@ class ItemsController extends Controller
                 ->join('category_item', 'category_item.item_id', '=', 'items.id')
                 ->join('categories', 'categories.id', '=', 'category_item.category_id')
                 ->join('variations', 'variations.item_id', '=', 'items.id')
+                ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
                 ->whereRaw($whereClause)
                 ->distinct('items.id')
                 ->get();

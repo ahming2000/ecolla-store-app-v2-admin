@@ -30,7 +30,25 @@
             </div>
         </div>
 
+            <div class="d-flex justify-content-end mb-1">
+                <button type="button"
+                        class="btn {{ $helper->param('special') == 'notListed' ? 'btn-primary' : 'btn-secondary' }} me-1 mb-1"
+                        onclick="window.location.href = '{{ url('/item?special=notListed') }}'">
+                    <i class="icofont icofont-navigation-menu"></i> 显示未上架
+                </button>
+                <button type="button" class="btn {{ $helper->param('special') == 'noStock' ? 'btn-primary' : 'btn-secondary' }} me-1 mb-1" onclick="window.location.href = '{{ url('/item?special=noStock') }}'">
+                    <i class="icofont icofont-navigation-menu"></i> 显示无库存
+                </button>
+                <button type="button" class="btn btn-outline-primary me-1 mb-1" onclick="window.location.href = '{{ url('/item') }}'">
+                    <i class="icofont icofont-trash"></i> 重置
+                </button>
+            </div>
+
         <form action="{{ url('/item') }}" method="get" id="filterForm">
+
+            @if($helper->param('special') != "")
+                <input type="hidden" name="special" value="{{ $helper->param('special') }}">
+            @endif
 
             <div class="row mb-3">
 
@@ -82,8 +100,6 @@
                         <option value="salesAsc" {{ $helper->paramSelected('arrangement', 'salesAsc') }}>销量低至高</option>
                         <option value="viewsDesc" {{ $helper->paramSelected('arrangement', 'viewsDesc') }}>点击多至少</option>
                         <option value="viewsAsc" {{ $helper->paramSelected('arrangement', 'viewsAsc') }}>点击少至多</option>
-                        {{--                    <option value="notListed" {{ $helper->paramSelected('arrangement', 'notListed') }}>已下架</option>--}}
-                        {{--                    <option value="noStock" {{ $helper->paramSelected('arrangement', 'noStock') }}>无库存</option>--}}
                     </select>
 
                 </div>
