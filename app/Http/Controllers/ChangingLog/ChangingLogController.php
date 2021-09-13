@@ -10,12 +10,23 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.3.1 公测版';
-        $updateDate = '2021/09/11';
+        $currentVersion = 'v2.4.0 公测版';
+        $updateDate = '2021/09/13';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
+
+            new LogClass('v2.4', [
+
+                new Log('v2.4.0', '2021/09/13', [
+
+                    new LogDetail('功能', [
+                        '添加了商品未上架和无库存过滤显示功能',
+                    ]),
+                ]),
+
+            ]),
 
             new LogClass('v2.3', [
 
