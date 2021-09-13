@@ -104,6 +104,7 @@ class ItemsController extends Controller
             'search' => $search,
             'category' => $category,
             'arrangement' => $arrangement,
+            'special' => $special,
         ]);
         $items->withPath('/item' . $paginationParam);
 
