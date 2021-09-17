@@ -10,14 +10,22 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.4.0 公测版';
-        $updateDate = '2021/09/13';
+        $currentVersion = 'v2.4.1 公测版';
+        $updateDate = '2021/09/17';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
             new LogClass('v2.4', [
+
+                new Log('v2.4.1', '2021/09/17', [
+
+                    new LogDetail('优化', [
+                        '修复了无分类商品无法在顾客商品页面正常显示',
+                        '商品创建页面现在可以使用与目前商品名称相同的名称',
+                    ]),
+                ]),
 
                 new Log('v2.4.0', '2021/09/13', [
 
