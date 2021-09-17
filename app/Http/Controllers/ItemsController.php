@@ -124,13 +124,14 @@ class ItemsController extends Controller
     public function add()
     {
         $data = request()->validate([
-            'name' => ['required', 'unique:items']
+            'name' => ['required']
         ]);
 
         $item = new Item();
         $item->setAttribute('name', $data['name']);
         $item->save();
         $item->util()->save(new ItemUtil());
+        $this->processCategories($item, [], ['1']); // Add default category
 
         return redirect('/item/' . $item->id . '/edit');
     }
@@ -309,6 +310,16 @@ class ItemsController extends Controller
 
                 $old = array_column($item->categories->toArray(), 'id');
                 $new = request('categories');
+
+                // Use default category for no category selected
+                // Remove default category if more than 1 category are selected
+                if (empty($new)){
+                    $new = ['1'];
+                } else if (sizeof($new) > 1){
+                    $new = array_filter($new, function ($arr) {
+                        return $arr != '1';
+                    });
+                }
 
                 $this->processCategories($item, $old, $new);
                 $resMgr->addMessage("商品分类保存成功！");
