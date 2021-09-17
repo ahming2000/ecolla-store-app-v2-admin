@@ -124,7 +124,7 @@ class ItemsController extends Controller
     public function add()
     {
         $data = request()->validate([
-            'name' => ['required', 'unique:items']
+            'name' => ['required']
         ]);
 
         $item = new Item();
