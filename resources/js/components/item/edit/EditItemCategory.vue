@@ -66,7 +66,7 @@ input[type="checkbox"] {
     <div class="container" style="margin-bottom: 100px">
       <div
         class="form-check d-flex justify-content-center"
-        v-for="category in allCategories"
+        v-for="category in allItemCategories"
         v-bind:key="category.id"
       >
         <input
@@ -118,6 +118,7 @@ export default {
   data() {
     return {
       itemId: this.item_id ?? null,
+      allItemCategories: this.allCategories ?? [],
       checkedCategories: this.categories.map((category) => category.id),
     };
   },
@@ -130,11 +131,21 @@ export default {
 
   methods: {
     updateCategory() {
+      // Check and decide if need to add or remove Uncategorized
+      if (this.checkedCategories.length === 0) {
+        this.addUncategorized();
+      } else if (
+        this.checkedCategories.length > 1 &&
+        this.checkedCategories.includes(1)
+      ) {
+        this.removeUncategorized();
+      }
+
       const body = {
         categories: this.checkedCategories,
       };
 
-      console.log(body);
+      console.log(this.checkedCategories);
       axios
         .patch(`/item/${this.itemId}/category`, body)
         .then((res) => {
@@ -151,6 +162,18 @@ export default {
           console.error(error);
           this.$emit("onResponse", error.message, "error");
         });
+    },
+
+    removeUncategorized() {
+      console.log("removeUncategorized()");
+      this.checkedCategories = this.checkedCategories.filter(
+        (categoryId) => categoryId != 1
+      );
+    },
+
+    addUncategorized() {
+      console.log("addUncategorized()");
+      this.checkedCategories = [1, ...this.checkedCategories];
     },
   },
 };
