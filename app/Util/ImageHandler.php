@@ -9,7 +9,7 @@ use Intervention\Image\Facades\Image;
 
 class ImageHandler
 {
-    public static function getDisplayableImage($data): string // Pending
+    public static function getDisplayableImage($data): string
     {
         if ($data == '') return '';
 
@@ -18,11 +18,12 @@ class ImageHandler
         } else { // Not readable in string, assume it is binary data
             // Detect is that png image (fix from last release: data stored did not remove base64 header other than jpg format)
             $base64 = ImageHandler::binaryToBase64($data);
-            $test = Utility::getStringBetween($base64, 'data', 'base64');
-            if ($test == '') {
-                return 'data:image/png;base64,' . substr($base64, 19);
-            } else {
-                return $base64;
+            $mediaType = Utility::getStringBetween($base64, 'data', 'base64');
+            switch ($mediaType){
+                case 'image/png': return 'data:image/png;base64,' . substr($base64, 19);
+                case 'image/gif': return 'data:image/gif;base64,' . substr($base64, 19);
+                case 'image/bmp': return 'data:image/bmp;base64,' . substr($base64, 19);
+                default: return 'data:image/jpeg;base64,' . $base64;
             }
         }
     }
