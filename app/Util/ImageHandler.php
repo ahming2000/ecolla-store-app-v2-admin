@@ -4,63 +4,93 @@
 namespace App\Util;
 
 
+use Exception;
 use Intervention\Image\Facades\Image;
 
 class ImageHandler
 {
-
-    public function getEncodeDataURL($image, $mode): string
+    public static function getDisplayableImage($data): string // Pending
     {
-        return $this->processImage($image->getPathName(), $mode, true);
-    }
+        if ($data == '') return '';
 
-    public function convertToDataURL($binary, bool $requireConvert = true): string
-    {
-        if ((substr($binary, 0, 4) == 'http')){ // Deprecated
-            if ($requireConvert){
-                return $this->processImage($binary, 'frame', true);
+        if (substr($data, 0, 4) == 'http') { // Primary display way (Local)
+            return $data;
+        } else { // Not readable in string, assume it is binary data
+            // Detect is that png image (fix from last release: data stored did not remove base64 header other than jpg format)
+            $base64 = ImageHandler::binaryToBase64($data);
+            $test = Utility::getStringBetween($base64, 'data', 'base64');
+            if ($test == '') {
+                return 'data:image/png;base64,' . substr($base64, 19);
             } else {
-                return $binary;
-            }
-        } else {
-            if ($binary != null){
-                return 'data:image/jpeg;base64,' . base64_encode($binary);
-            } else {
-                return "";
+                return $base64;
             }
         }
     }
 
-    public function convertToBinary($base64)
+    public static function binaryToBase64($binary)
     {
-        return base64_decode(str_replace('data:image/jpeg;base64,', '', $base64));
+        return base64_encode($binary);
     }
 
-    private function processImage(string $path, string $mode = 'frame', bool $encodeDataURL = false): \Intervention\Image\Image
+    public static function base64ToBinary($base64)
+    {
+        return base64_decode($base64);
+    }
+
+    public static function convertToLocal(string $base64): string // Pending
+    {
+        if ($base64 == "") return "";
+
+        $image = Image::make($base64);
+
+        $mediaType = Utility::getStringBetween($base64, 'data:', ';base64');
+
+        switch ($mediaType){
+            case 'image/jpeg': $extension = '.jpg'; break;
+            case 'image/bmp': $extension = '.bmp'; break;
+            case 'image/gif': $extension = '.gif'; break;
+            case 'image/png': $extension = '.png'; break;
+            default: $extension = '';
+        }
+
+        $imageName = '';
+        try {
+            $imageName = substr(bin2hex(random_bytes(39)), 0, 40) . $extension;
+        } catch (Exception $ignored) {}
+
+        $image->save("uploads/$imageName");
+        return $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/storage/uploads/' . $imageName;
+    }
+
+    public static function processImage($image, string $mode = 'frame'): string
     {
         // $mode can be 'crop'(fit) or 'frame'(resizeCanvas)
 
-        $image = Image::make($path);
-        $min = $image->getWidth() < $image->getHeight() ? $image->getWidth() : $image->getHeight();
-        $max = $image->getWidth() > $image->getHeight() ? $image->getWidth() : $image->getHeight();
+        $path = $image->store('uploads');
+
+        $img = Image::make(public_path("storage/$path"));
+        $min = $img->getWidth() < $img->getHeight() ? $img->getWidth() : $img->getHeight();
+        $max = $img->getWidth() > $img->getHeight() ? $img->getWidth() : $img->getHeight();
 
         if ($mode == 'crop') {
-            $image->fit($min);
+            $img->fit($min);
         } else {
-            if ($image->width() > $max) {
-                $image->resize($max, null, function ($constraint) {
+            if ($img->width() > $max) {
+                $img->resize($max, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
-            if ($image->height() > $max) {
-                $image->resize(null, $max, function ($constraint) {
+            if ($img->height() > $max) {
+                $img->resize(null, $max, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
-            $image->resizeCanvas($max, $max, 'center', false, '#ffffff');
+            $img->resizeCanvas($max, $max, 'center', false, '#ffffff');
         }
 
-        return $encodeDataURL == true ? $image->encode('data-url') : $image->save();
+        $img->save();
+
+        return $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/storage/' . $path;
     }
 
 
