@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Util\ImageHandler;
+use Exception;
 use Illuminate\Http\Request;
 
 class ImagesProcessController extends Controller
@@ -11,9 +12,9 @@ class ImagesProcessController extends Controller
     {
         $mode = request('mode') ?? 'frame';
         try{
-            return response()->json(['image' => (new ImageHandler())->getEncodeDataURL(request('image'), $mode)]);
-        } catch (\Exception $exception){
-            return response()->json(["image" => "", 'error' => '处理照片失败！请尝试其他的照片！']);
+            return response()->json(['image' => ImageHandler::processImage(request('image'), $mode)]);
+        } catch (Exception $exception){
+            return response()->json(["image" => "", 'error' => $exception->getMessage()]);
         }
     }
 }
