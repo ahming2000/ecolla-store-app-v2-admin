@@ -152,13 +152,13 @@ class ItemsController extends Controller
             ->where("items.id", "=", $item->id)
             ->first();
 
-        // Convert from binary image to base64 (New) or remain as url (Deprecated)
+        // Convert binary to base64 for display (if any)
         foreach ($item->images as $image) {
-            $image['image'] = (new ImageHandler())->convertToDataURL($image['image']);
+            $image['image'] = ImageHandler::getDisplayableImage($image['image']);
         }
         foreach ($item->variations as $variation) {
             if ($variation['image'] != null) {
-                $variation['image'] = (new ImageHandler())->convertToDataURL($variation['image']);
+                $variation['image'] = ImageHandler::getDisplayableImage($variation['image']);
             }
         }
 
@@ -349,8 +349,6 @@ class ItemsController extends Controller
                             ->first()
                             ->toArray();
 
-                        $data_new['image'] = (new ImageHandler())->convertToDataURL($data_new['image']);
-
                         $resMgr->setData($data_new);
 
                         break;
@@ -411,7 +409,7 @@ class ItemsController extends Controller
     private function addItemImage(Item $item, $data): ?bool
     {
         $itemImage = new ItemImage();
-        $itemImage->setAttribute('image', (new ImageHandler())->convertToBinary($data));
+        $itemImage->setAttribute('image', $data);
         return $item->images()->save($itemImage) != false;
     }
 
@@ -422,8 +420,6 @@ class ItemsController extends Controller
 
     private function addVariation(Item $item, $data): bool
     {
-        $data['info']['image'] = (new ImageHandler())->convertToBinary($data['info']['image']);
-
         $variation = new Variation();
         $variation->setRawAttributes($data['info']);
         if (!$item->variations()->save($variation)) return false;
@@ -439,9 +435,6 @@ class ItemsController extends Controller
 
     private function updateVariation($data): bool
     {
-
-        $data['info']['image'] = (new ImageHandler())->convertToBinary($data['info']['image']);
-
         $variation = Variation::find($data['info']['id']);
 
         if (!$variation->update($data['info'])) return false;
