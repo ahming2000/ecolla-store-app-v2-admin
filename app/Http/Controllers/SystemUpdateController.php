@@ -24,7 +24,7 @@ class SystemUpdateController extends Controller
     public function performUpdate(){
 
         echo "Create symbolic link for the storage...<br>";
-        // Artisan::call('storage:link');
+        Artisan::call('storage:link');
         echo "Created Completely!<br>";
 
         echo "Start to store all binary image into storage image...<br>";
