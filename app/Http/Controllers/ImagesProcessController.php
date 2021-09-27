@@ -12,19 +12,18 @@ class ImagesProcessController extends Controller
     {
         $image = request('image');
 
-        // Check extension format (within jpeg, png, gif, webp and bmp)
+        // Check extension format (within jpeg, png, gif and webp)
         $mediaType = $image->getMimeType(null);
         switch ($mediaType){
             case 'image/png':
             case 'image/gif':
-            case 'image/bmp':
             case 'image/webp':
             case 'image/jpeg':
                 break;
             default:
                 return response()->json([
                     'image' => '',
-                    'error' => '请使用照片格式 ".jpg", ".png", ".gif", ".webp" 或 ".bmp"！'
+                    'error' => '请使用照片格式 ".jpg", ".png", ".gif" 或 ".webp"！'
                 ]);
         }
 
