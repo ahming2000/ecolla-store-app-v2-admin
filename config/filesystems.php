@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'public'),
+    'default' => env('FILESYSTEM_DRIVER', 'public_folder'),
 
     /*
     |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ return [
 
         'public_folder' => [
             'driver' => 'local',
-            'root' => public_path() . '/img'
+            'root' => public_path('storage')
         ],
 
         's3' => [
