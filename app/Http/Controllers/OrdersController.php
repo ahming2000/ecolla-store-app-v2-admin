@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Util\SQLHelper;
+use App\Util\ViewHelper;
 use PDF;
 
 class OrdersController extends Controller
@@ -18,18 +20,31 @@ class OrdersController extends Controller
     public function index()
     {
         // Get request value
-        $paginate = request('paginate') ?? 25;
-        $created_at = request('created_at') ?? "";
-        $mode = request('mode') ?? "";
+        $paginate = ViewHelper::param('paginate', 25, true);
+        $created_at = ViewHelper::param('created_at');
+        $mode = ViewHelper::param('mode');
 
         // Generate Where Clause for SQL Query
-        $created_at_filterClause = $this->generateFilterClause($created_at, $this->ORDER_FILTER_CREATED_AT, true);
-        $mode_filterClause = $this->generateFilterClause($mode, $this->ORDER_FILTER_MODE);
+        $created_at_filterClause = SQLHelper::generateWhereClause(
+            $created_at,
+            [
+                'orders' => [
+                    'created_at',
+                ]
+            ],
+            'date'
+        );
+        $mode_filterClause = SQLHelper::generateWhereClause(
+            $mode,
+            [
+                'orders' => [
+                    'mode',
+                ]
+            ],
+            'exact'
+        );
 
-        $whereClause = $this->combineWhereClause([
-            $created_at_filterClause,
-            $mode_filterClause,
-        ]);
+        $whereClause = SQLHelper::combineWhereClause([$created_at_filterClause, $mode_filterClause]);
 
         // Query all related Order
         if ($whereClause != ""){
@@ -42,22 +57,16 @@ class OrdersController extends Controller
         }
 
         // Set pagination links parameter
-        $orders->withPath('/order' . $this->generateParameter(
-                [
-                    'paginate' => $paginate,
-                    'created_at' => $created_at,
-                    'mode' => $mode,
-                ])
+        $paginateParam = SQLHelper::generateParameter(
+            [
+                'paginate' => $paginate,
+                'created_at' => $created_at,
+                'mode' => $mode,
+            ]
         );
+        $orders->withPath('/order' . $paginateParam);
 
-        // Generate parameter for filtering (search, category, paginate)
-        $params = [
-            'paginate' => $this->generateParameter(['created_at' => $created_at, 'mode' => $mode], true),
-            'created_at' => $this->generateParameter(['paginate' => $paginate, 'mode' => $mode], true),
-            'mode' => $this->generateParameter(['paginate' => $paginate, 'created_at' => $created_at], true),
-        ];
-
-        return view('order.index', compact('orders', 'params'));
+        return view('order.index', compact('orders'));
     }
 
     public function show(Order $order)

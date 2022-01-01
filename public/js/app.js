@@ -1650,6 +1650,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -1765,10 +1777,11 @@ __webpack_require__.r(__webpack_exports__);
     categories: Array
   },
   data: function data() {
-    var _this$item_id;
+    var _this$item_id, _this$allCategories;
 
     return {
       itemId: (_this$item_id = this.item_id) !== null && _this$item_id !== void 0 ? _this$item_id : null,
+      allItemCategories: (_this$allCategories = this.allCategories) !== null && _this$allCategories !== void 0 ? _this$allCategories : [],
       checkedCategories: this.categories.map(function (category) {
         return category.id;
       })
@@ -1783,10 +1796,17 @@ __webpack_require__.r(__webpack_exports__);
     updateCategory: function updateCategory() {
       var _this = this;
 
+      // Check and decide if need to add or remove Uncategorized
+      if (this.checkedCategories.length === 0) {
+        this.addUncategorized();
+      } else if (this.checkedCategories.length > 1 && this.checkedCategories.includes(1)) {
+        this.removeUncategorized();
+      }
+
       var body = {
         categories: this.checkedCategories
       };
-      console.log(body);
+      console.log(this.checkedCategories);
       axios.patch("/item/".concat(this.itemId, "/category"), body).then(function (res) {
         console.log(res);
 
@@ -1802,6 +1822,16 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$emit("onResponse", error.message, "error");
       });
+    },
+    removeUncategorized: function removeUncategorized() {
+      console.log("removeUncategorized()");
+      this.checkedCategories = this.checkedCategories.filter(function (categoryId) {
+        return categoryId != 1;
+      });
+    },
+    addUncategorized: function addUncategorized() {
+      console.log("addUncategorized()");
+      this.checkedCategories = [1].concat(_toConsumableArray(this.checkedCategories));
     }
   }
 });
@@ -8738,7 +8768,7 @@ var render = function() {
     _c(
       "div",
       { staticClass: "container", staticStyle: { "margin-bottom": "100px" } },
-      _vm._l(_vm.allCategories, function(category) {
+      _vm._l(_vm.allItemCategories, function(category) {
         return _c(
           "div",
           {

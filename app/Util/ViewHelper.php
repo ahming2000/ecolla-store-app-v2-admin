@@ -13,12 +13,14 @@ class ViewHelper
         }
     }
 
-    public static function param(string $param, $default = "")
+    public static function param(string $param, $default = "", bool $isNum = false)
     {
-        if (!empty($_GET[$param])){
-            return $_GET[$param];
+        if (empty($_GET[$param])) return $default;
+
+        if ($isNum){
+            return is_numeric($_GET[$param]) ? $_GET[$param] : $default;
         } else {
-            return $default;
+            return $_GET[$param];
         }
     }
 

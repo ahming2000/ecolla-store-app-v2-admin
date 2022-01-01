@@ -27,7 +27,7 @@ class Item extends Model
                 }
             }
         }
-        return (new ImageHandler())->convertToDataURL($data, false) ?? "";
+        return ImageHandler::getDisplayableImage($data) ?? "";
     }
 
     public function getPriceRange(): array
@@ -103,11 +103,6 @@ class Item extends Model
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class);
-    }
-
-    public function userRating(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(ItemUserRating::class);
     }
 
     public function discounts(): \Illuminate\Database\Eloquent\Relations\HasMany

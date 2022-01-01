@@ -9,15 +9,12 @@ use App\Models\ItemUtil;
 use App\Models\SystemConfig;
 use App\Models\Variation;
 use App\Models\VariationDiscount;
+use App\Util\SQLHelper;
 use App\Util\ImageHandler;
 use App\Util\JsonResponseManager;
-use App\Util\ValidationManager;
+use App\Util\ViewHelper;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
 
 class ItemsController extends Controller
 {
@@ -29,18 +26,52 @@ class ItemsController extends Controller
 
     public function index()
     {
-        // Get request value
-        $paginate = request('paginate') ?? 25;
-        $search = request('search') ?? "";
-        $category = request('category') ?? "";
+        // Get request parameter value
+        $paginate = ViewHelper::param('paginate', 50, true);
+        $search = ViewHelper::param('search');
+        $category = ViewHelper::param('category');
+        $arrangement = ViewHelper::param('arrangement', 'createdAtDesc');
+
+        $special = ViewHelper::param('special');
+        if ($special == 'notListed|noStock'){
+            $specialClause = "item_utils.is_listed = 0 OR variations.stock = 0";
+        }else if ($special == 'notListed'){
+            $specialClause = "item_utils.is_listed = 0";
+        } else if ($special == 'noStock'){
+            $specialClause = "variations.stock = 0";
+        } else {
+            $specialClause = "";
+        }
 
         // Generate Where Clause for SQL Query
-        $searchClause = $this->generateSearchClause($search, $this->ITEM_SEARCH);
-        $category_filterClause = $this->generateFilterClause($category, $this->ITEM_FILTER_CATEGORY);
-        $whereClause = $this->combineWhereClause([
-            $searchClause,
-            $category_filterClause,
-        ]);
+        $searchClause = SQLHelper::generateWhereClause(
+            $search,
+            [
+                'items' => [
+                    'name',
+                    'name_en',
+                    'origin',
+                    'origin_en',
+                    'desc',
+                ],
+                'variations' => [
+                    'name',
+                    'name_en',
+                    'barcode',
+                ],
+            ]
+        );
+        $category_filterClause = SQLHelper::generateWhereClause(
+            $category,
+            [
+                'categories' => [
+                    'name',
+                    'name_en',
+                ],
+            ],
+            'exact'
+        );
+        $whereClause = SQLHelper::combineWhereClause([$searchClause, $category_filterClause, $specialClause]);
 
         // Query all related Item ID
         if ($whereClause != "") {
@@ -49,6 +80,7 @@ class ItemsController extends Controller
                 ->join('category_item', 'category_item.item_id', '=', 'items.id')
                 ->join('categories', 'categories.id', '=', 'category_item.category_id')
                 ->join('variations', 'variations.item_id', '=', 'items.id')
+                ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
                 ->whereRaw($whereClause)
                 ->distinct('items.id')
                 ->get();
@@ -61,28 +93,22 @@ class ItemsController extends Controller
         // Retrieve required data
         $ids = array_column($result->toArray(), 'id');
         $items = Item::whereIn('id', $ids)
-            ->orderBy('created_at', 'desc')
+            ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->orderByRaw(SQLHelper::generateItemsArrangementClause($arrangement))
             ->paginate($paginate);
         $categories = Category::all();
 
         // Set pagination links parameter
-        $items->withPath(
-            '/item' . $this->generateParameter(
-                [
-                    'paginate' => $paginate,
-                    'search' => $search,
-                    'category' => $category,
-                ]
-            )
-        );
+        $paginationParam = SQLHelper::generateParameter([
+            'paginate' => $paginate,
+            'search' => $search,
+            'category' => $category,
+            'arrangement' => $arrangement,
+            'special' => $special,
+        ]);
+        $items->withPath('/item' . $paginationParam);
 
-        // Generate parameter for filtering (search, category, paginate)
-        $params = [
-            'paginate' => $this->generateParameter(['search' => $search, 'category' => $category], true),
-            'category' => $this->generateParameter(['paginate' => $paginate, 'search' => $search], true),
-        ];
-
-        return view('item.index', compact('items', 'categories', 'params'));
+        return view('item.index', compact('items', 'categories'));
     }
 
     public function show(Item $item)
@@ -98,13 +124,14 @@ class ItemsController extends Controller
     public function add()
     {
         $data = request()->validate([
-            'name' => ['required', 'unique:items']
+            'name' => ['required']
         ]);
 
         $item = new Item();
         $item->setAttribute('name', $data['name']);
         $item->save();
         $item->util()->save(new ItemUtil());
+        $this->processCategories($item, [], ['1']); // Add default category
 
         return redirect('/item/' . $item->id . '/edit');
     }
@@ -125,13 +152,13 @@ class ItemsController extends Controller
             ->where("items.id", "=", $item->id)
             ->first();
 
-        // Convert from binary image to base64 (New) or remain as url (Deprecated)
+        // Convert binary to base64 for display (if any)
         foreach ($item->images as $image) {
-            $image['image'] = (new ImageHandler())->convertToDataURL($image['image']);
+            $image['image'] = ImageHandler::getDisplayableImage($image['image']);
         }
         foreach ($item->variations as $variation) {
             if ($variation['image'] != null) {
-                $variation['image'] = (new ImageHandler())->convertToDataURL($variation['image']);
+                $variation['image'] = ImageHandler::getDisplayableImage($variation['image']);
             }
         }
 
@@ -177,15 +204,15 @@ class ItemsController extends Controller
             $item->variations()->delete();
             $item->categories()->detach();
             $item->discounts()->delete();
-            $item->userRating()->delete();
             $item->delete();
             DB::commit();
+            session()->flash('message', "成功删除 " . $item->name . "!");
         } catch (Exception $ex) {
             DB::rollBack();
             session()->flash('message', '商品删除失败！请联系客服！');
         }
 
-        return redirect('/item')->with('message', "成功删除 " . $item->name . "!");
+        return redirect('/item');
     }
 
     private function canList(int $item_id, bool $list = false): bool
@@ -284,6 +311,16 @@ class ItemsController extends Controller
                 $old = array_column($item->categories->toArray(), 'id');
                 $new = request('categories');
 
+                // Use default category for no category selected
+                // Remove default category if more than 1 category are selected
+                if (empty($new)){
+                    $new = ['1'];
+                } else if (sizeof($new) > 1){
+                    $new = array_filter($new, function ($arr) {
+                        return $arr != '1';
+                    });
+                }
+
                 $this->processCategories($item, $old, $new);
                 $resMgr->addMessage("商品分类保存成功！");
 
@@ -311,8 +348,6 @@ class ItemsController extends Controller
                             ->where('barcode', '=', $data['info']['barcode'])
                             ->first()
                             ->toArray();
-
-                        $data_new['image'] = (new ImageHandler())->convertToDataURL($data_new['image']);
 
                         $resMgr->setData($data_new);
 
@@ -374,7 +409,7 @@ class ItemsController extends Controller
     private function addItemImage(Item $item, $data): ?bool
     {
         $itemImage = new ItemImage();
-        $itemImage->setAttribute('image', (new ImageHandler())->convertToBinary($data));
+        $itemImage->setAttribute('image', $data);
         return $item->images()->save($itemImage) != false;
     }
 
@@ -385,8 +420,6 @@ class ItemsController extends Controller
 
     private function addVariation(Item $item, $data): bool
     {
-        $data['info']['image'] = (new ImageHandler())->convertToBinary($data['info']['image']);
-
         $variation = new Variation();
         $variation->setRawAttributes($data['info']);
         if (!$item->variations()->save($variation)) return false;
@@ -402,9 +435,6 @@ class ItemsController extends Controller
 
     private function updateVariation($data): bool
     {
-
-        $data['info']['image'] = (new ImageHandler())->convertToBinary($data['info']['image']);
-
         $variation = Variation::find($data['info']['id']);
 
         if (!$variation->update($data['info'])) return false;

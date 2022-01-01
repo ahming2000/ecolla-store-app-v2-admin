@@ -10,14 +10,75 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.2.2 公测版';
-        $updateDate = '2021/08/17';
+        $currentVersion = 'v2.5.0 公测版';
+        $updateDate = '2021/09/27';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
+            new LogClass('v2.5', [
+
+                new Log('v2.5.0', '2021/09/27', [
+
+                    new LogDetail('优化', [
+                        '使用了全新的图片上传系统',
+                        '修复了PNG, WEBP, GIF图片格式无法正常上传和显示的问题',
+                        '修复了图片无法再购物车页面正常显示的问题',
+                    ]),
+                ]),
+
+            ]),
+
+            new LogClass('v2.4', [
+
+                new Log('v2.4.1', '2021/09/17', [
+
+                    new LogDetail('优化', [
+                        '修复了无分类商品无法在顾客商品页面正常显示',
+                        '商品创建页面现在可以使用与目前商品名称相同的名称',
+                    ]),
+                ]),
+
+                new Log('v2.4.0', '2021/09/13', [
+
+                    new LogDetail('功能', [
+                        '添加了商品未上架和无库存过滤显示功能',
+                    ]),
+                ]),
+
+            ]),
+
+            new LogClass('v2.3', [
+
+                new Log('v2.3.1', '2021/09/11', [
+
+                    new LogDetail('优化', [
+                        '修复了商品主页无法更换页数的问题',
+                    ]),
+                ]),
+
+                new Log('v2.3.0', '2021/09/10', [
+
+                    new LogDetail('功能', [
+                        '添加了排序过滤的功能',
+                    ]),
+
+                    new LogDetail('优化', [
+                        '优化了显示页面',
+                    ]),
+                ]),
+
+            ]),
+
             new LogClass('v2.2', [
+
+                new Log('v2.2.3', '2021/09/09', [
+
+                    new LogDetail('优化', [
+                        '修复了无法完全删除商品的问题和之后导致无法正常显示页面的问题',
+                    ]),
+                ]),
 
                 new Log('v2.2.2', '2021/08/17', [
 

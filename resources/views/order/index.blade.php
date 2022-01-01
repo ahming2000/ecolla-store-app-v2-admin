@@ -1,3 +1,5 @@
+@inject('helper', \App\Util\ViewHelper::class)
+
 @extends('layouts.app')
 
 @section('title')
@@ -43,43 +45,36 @@
 
             <div class="col-md-6 col-sm-12">
 
-                <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
-                    <option value="25" {{ @$_GET['paginate'] == 25 ? "selected" : "" }}>一页显示25个订单</option>
-                    <option value="50" {{ @$_GET['paginate'] == 50 ? "selected" : "" }}>一页显示50个订单</option>
-                    <option value="75" {{ @$_GET['paginate'] == 75 ? "selected" : "" }}>一页显示75个订单</option>
-                    <option value="100" {{ @$_GET['paginate'] == 100 ? "selected" : "" }}>一页显示100个订单</option>
-                </select>
+                <form action="{{ url('/order') }}" method="get" id="filterForm">
+                    <select name="paginate" id="paginateSelector" class="form-select shadow mb-2">
+                        <option value="25" {{ $helper->paramSelected('paginate', '25') }}>一页显示25个订单</option>
+                        <option value="50" {{ $helper->paramSelected('paginate', '50') }}>一页显示50个订单</option>
+                        <option value="75" {{ $helper->paramSelected('paginate', '75') }}>一页显示75个订单</option>
+                        <option value="100" {{ $helper->paramSelected('paginate', '100') }}>一页显示100个订单</option>
+                    </select>
 
-                <div class="d-flex justify-content-between mb-2">
-                    <div class="flex-grow-1 me-2">
-                        <input type="date"
-                               class="form-control shadow"
-                               name="created_at"
-                               id="dateSelector"
-                               value="{{ $_GET['created_at'] ?? '' }}">
-                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="flex-grow-1 me-2">
+                            <input type="date"
+                                   class="form-control shadow"
+                                   name="created_at"
+                                   id="dateSelector"
+                                   value="{{ $_GET['created_at'] ?? '' }}">
+                        </div>
 
-                    <div>
-                        <form action="{{ url('/order') }}" method="get">
-                            @if(isset($_GET['paginate']))
-                                <input type="hidden" name="paginate" value="{{ $_GET['paginate'] }}">
-                            @endif
-                            @if(isset($_GET['mode']))
-                                <input type="hidden" name="mode" value="{{ $_GET['mode'] }}">
-                            @endif
-
-                            <button type="submit" class="btn btn-primary">
+                        <div>
+                            <button type="button" class="btn btn-primary" id="dateFilterResetButton">
                                 <i class="icofont icofont-trash"></i> 重置
                             </button>
-                        </form>
+                        </div>
                     </div>
-                </div>
 
-                <select class="form-select shadow" name="mode" id="modeSelector">
-                    <option value="">全部订单模式</option>
-                    <option value="pickup" {{ @$_GET['mode'] == 'pickup' ? "selected" : "" }}>预购取货</option>
-                    <option value="delivery" {{ @$_GET['mode'] == 'delivery' ? "selected" : "" }}>外送</option>
-                </select>
+                    <select class="form-select shadow" name="mode" id="modeSelector">
+                        <option value="">全部订单模式</option>
+                        <option value="pickup" {{ $helper->paramSelected('mode', 'pickup') }}>预购取货</option>
+                        <option value="delivery" {{ $helper->paramSelected('mode', 'delivery') }}>外送</option>
+                    </select>
+                </form>
 
             </div>
 
@@ -238,13 +233,18 @@
 
         $(document).ready(function () {
             $('#paginateSelector').on('change', function () {
-                window.location.href = "/order{!! $params['paginate'] !!}paginate=" + $('#paginateSelector option:selected').val();
+                $('#filterForm').submit();
             });
             $('#dateSelector').on('change', function () {
-                window.location.href = "/order{!! $params['created_at'] !!}created_at=" + $('#dateSelector').val();
+                $('#filterForm').submit();
             });
             $("#modeSelector").on("change", function () {
-                window.location.href = "/order{!! $params['mode'] !!}mode=" + $('#modeSelector option:selected').val();
+                $('#filterForm').submit();
+            });
+
+            $('#dateFilterResetButton').on('click', function () {
+                $('#dateSelector').val("");
+                $('#filterForm').submit();
             });
         });
     </script>
