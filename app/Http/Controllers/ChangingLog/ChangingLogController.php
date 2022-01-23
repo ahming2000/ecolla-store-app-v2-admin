@@ -10,8 +10,8 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.5.0 公测版';
-        $updateDate = '2021/09/27';
+        $currentVersion = 'v2.5.1 公测版';
+        $updateDate = '2022/01/23';
         $color = 'orange'; // Beta: orange, Release: green
 
 
@@ -19,10 +19,20 @@ class ChangingLogController extends Controller
 
             new LogClass('v2.5', [
 
-                new Log('v2.5.0', '2021/09/27', [
+                new Log('v2.5.1', '2022/01/23', [
 
                     new LogDetail('优化', [
+                        '修复了PDF下载没有显示邮费的问题',
+                    ]),
+                ]),
+
+                new Log('v2.5.0', '2021/09/27', [
+
+                    new LogDetail('功能', [
                         '使用了全新的图片上传系统',
+                    ]),
+
+                    new LogDetail('优化', [
                         '修复了PNG, WEBP, GIF图片格式无法正常上传和显示的问题',
                         '修复了图片无法再购物车页面正常显示的问题',
                     ]),

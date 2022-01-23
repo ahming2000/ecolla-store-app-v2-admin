@@ -119,13 +119,35 @@
                 </tr>
             @endforeach
 
+
+
+            @if($order->mode == 'delivery')
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-align-center">商品总计：</td>
+                    <td class="text-align-right">RM{{ number_format($order->getSubtotal(), 2, '.', '') }}</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-align-center">邮费总计：</td>
+                    <td class="text-align-right">RM{{ number_format($order->shipping_fee, 2, '.', '') }}</td>
+                </tr>
+            @endif
+
             <tr>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-align-center">总计：</td>
-                <td class="text-align-right">RM{{ number_format($order->getSubtotal(), 2, '.', '') }}</td>
+                <td class="text-align-center">全部总计：</td>
+                <td class="text-align-right">RM{{ number_format($order->getSubtotal() + $order->shipping_fee, 2, '.', '') }}</td>
             </tr>
+
             </tbody>
         </table>
     </div>
