@@ -119,7 +119,7 @@
                         </div>
 
                         <div id="additional">
-                            @if($order->mode == 'delivery' && $order->status != 'pending')
+                            @if($order->mode == 'delivery' && $order->status != 'pending' || old('status') == 'completed')
                                 <label for="delivery_id">邮寄追踪ID</label>
                                 <input type="text"
                                        class="form-control @error('delivery_id') is-invalid @enderror"
@@ -184,15 +184,15 @@
     <script>
 
         function getDeliveryIdLayout() {
-            return `<label for="delivery_id">邮寄追踪ID</label><input type="text" class="form-control" name="delivery_id" value="{{ $order->delivery_id ?? "" }}">`;
+            return `<label for="delivery_id">邮寄追踪ID</label><input type="text" class="form-control @error('delivery_id') is-invalid @enderror" name="delivery_id" value="{{ $order->delivery_id ?? "" }}">@error('delivery_id')<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror`;
         }
 
         $(document).ready(function () {
             // Check the current status
-            $('#{{ $order->status }}').attr('checked', 'checked');
+            $('#{{ old('status') ?? $order->status }}').attr('checked', 'checked');
 
             // Only display the delivery id key in column when it is delivery mode and other than status pending
-            @if($order->mode == 'delivery')
+            @if($order->mode == 'delivery' || error('delivery_id') )
             $('input[name=status]').on('change', function () {
                 if ($(this).val() == 'pending') {
                     $('#additional').html('');
