@@ -10,14 +10,21 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.5.1 公测版';
-        $updateDate = '2022/01/23';
+        $currentVersion = 'v2.5.2 公测版';
+        $updateDate = '2022/01/25';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
             new LogClass('v2.5', [
+
+                new Log('v2.5.2', '2022/01/25', [
+
+                    new LogDetail('优化', [
+                        '修复了订单状态修改从未完成更换到其他状态，未填写追踪ID后无法更换状态的问题',
+                    ]),
+                ]),
 
                 new Log('v2.5.1', '2022/01/23', [
 
