@@ -46,7 +46,12 @@
                     </tr>
                     <tr>
                         <td>邮寄费用</td>
-                        <td>RM{{ number_format($order->shipping_fee, 2, '.','') }}</td>
+                        <td>
+                            RM{{ number_format($order->shipping_fee, 2, '.','') }}
+                            @if($order->free_shipping_note != null)
+                                （{{ $order->free_shipping_note }}）
+                            @endif
+                        </td>
                     </tr>
                     @if($order->mode == 'delivery')
                         <tr>

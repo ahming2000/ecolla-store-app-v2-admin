@@ -135,7 +135,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="text-align-center">邮费总计：</td>
+                    <td class="text-align-center">邮费总计：<br>@if($order->free_shipping_note != null)（{{ $order->free_shipping_note }}）@endif</td>
                     <td class="text-align-right">RM{{ number_format($order->shipping_fee, 2, '.', '') }}</td>
                 </tr>
             @endif

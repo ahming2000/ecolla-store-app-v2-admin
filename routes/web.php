@@ -83,6 +83,7 @@ Route::prefix('/setting')->group(function () {
     Route::get('/account', [SettingsController::class, 'account'])->middleware('access:setting_view');
 
     Route::patch('/item/{action}', [SettingsController::class, 'updateItemSettings']);
+    Route::patch('/order/freeShipping', [SettingsController::class, 'updateFreeShippingSettings']);
     Route::patch('/order/{property}', [SettingsController::class, 'updateOrderSettings']);
     Route::patch('/account/{action}', [SettingsController::class, 'updateAccountSettings']);
     Route::patch('/pagination/{type}', [SettingsController::class, 'UpdatePaginationSettings']);
