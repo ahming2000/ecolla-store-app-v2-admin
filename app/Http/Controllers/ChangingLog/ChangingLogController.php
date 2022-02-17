@@ -39,6 +39,13 @@ class ChangingLogController extends Controller
 
             new LogClass('v2.5', [
 
+                new Log('v2.5.4', '2022/02/17', [
+
+                    new LogDetail('优化', [
+                        '修复了相同顾客下单第二次的时候出现错误的问题',
+                    ]),
+                ]),
+
                 new Log('v2.5.3', '2022/02/16', [
 
                     new LogDetail('优化', [
