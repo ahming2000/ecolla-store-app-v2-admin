@@ -10,21 +10,34 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.5.4 公测版';
+        $currentVersion = 'v2.6.0 公测版';
         $updateDate = '2022/02/17';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
-            new LogClass('v2.5', [
+            new LogClass('v2.6', [
 
-                new Log('v2.5.4', '2022/02/17', [
+                new Log('v2.6.0', '2022/02/18', [
+
+                    new LogDetail('功能', [
+                        '添加了订单包邮功能',
+                    ]),
 
                     new LogDetail('优化', [
-                        '修复了相同顾客下单第二次的时候出现错误的问题',
+                        '修复了更换金宝邮费后，顾客页面价钱没有更改的问题',
+                    ]),
+
+                    new LogDetail('其他', [
+                        '在下单成功的页面添加了联系客服的链接',
+                        '添加了更多外送和邮费的信息',
                     ]),
                 ]),
+
+            ]),
+
+            new LogClass('v2.5', [
 
                 new Log('v2.5.3', '2022/02/16', [
 

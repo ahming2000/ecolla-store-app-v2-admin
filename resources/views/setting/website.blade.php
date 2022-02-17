@@ -221,17 +221,20 @@
                                     @method('patch')
                                     <div class="row">
                                         <div class="col-9">
-                                            <input type="number"
-                                                   class="form-control form-control-sm m-0 @error('clt_o_shippingFeeKampar') is-invalid @enderror"
-                                                   name="clt_o_shippingFeeKampar"
-                                                   value="{{ old('clt_o_shippingFeeKampar') ?? $order['clt_o_shippingFeeKampar'] ?? "0.00" }}"
-                                                   placeholder="价格（RM）">
+                                            <div class="input-group">
+                                                <span class="input-group-text">RM</span>
+                                                <input type="number"
+                                                       class="form-control form-control-sm m-0 @error('clt_o_shippingFeeKampar') is-invalid @enderror"
+                                                       name="clt_o_shippingFeeKampar"
+                                                       value="{{ old('clt_o_shippingFeeKampar') ?? $order['clt_o_shippingFeeKampar'] ?? "0.00" }}"
+                                                       placeholder="价格">
 
-                                            @error('clt_o_shippingFeeKampar')
+                                                @error('clt_o_shippingFeeKampar')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
-                                            @enderror
+                                                @enderror
+                                            </div>
                                         </div>
 
                                         <div class="col-3">
@@ -241,6 +244,62 @@
                                 </form>
                             </div>
                         </div>
+
+                            <div class="row" id="setting-order-free-shipping">
+                                <div class="col-12 col-sm-4 col-md-3 col-lg-4 align-content-center text-sm-start text-md-end mb-2">
+                                    外送免邮费设定：
+                                </div>
+
+                                <div class="col-12 col-sm-8 col-md-9 col-lg-8 mb-3">
+                                    <form action="{{ url('/setting/order/freeShipping') }}" method="post">
+                                        @csrf
+                                        @method('patch')
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <div class="form-check form-switch mb-1">
+                                                    <input class="form-check-input" type="checkbox" name="clt_o_shipping_discount" id="clt_o_shipping_discount" @if($order['clt_o_shipping_discount'] == '1') {{'checked'}} @endif>
+                                                    <label class="form-check-label" for="clt_o_shipping_discount">包邮优惠开关</label>
+                                                </div>
+
+                                                <div class="input-group mb-1">
+                                                    <span class="input-group-text">超过 RM</span>
+                                                    <input type="number"
+                                                           class="form-control form-control-sm m-0 @error('clt_o_shipping_discount_threshold') is-invalid @enderror"
+                                                           name="clt_o_shipping_discount_threshold"
+                                                           value="{{ old('clt_o_shipping_discount_threshold') ?? $order['clt_o_shipping_discount_threshold'] ?? "0.00" }}"
+                                                           placeholder="价格">
+                                                    <span class="input-group-text">包邮</span>
+
+                                                    @error('clt_o_shipping_discount_threshold')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="input-group">
+                                                    <span class="input-group-text">备注</span>
+                                                    <input type="text"
+                                                           class="form-control form-control-sm m-0 @error('clt_o_shipping_discount_desc') is-invalid @enderror"
+                                                           name="clt_o_shipping_discount_desc"
+                                                           value="{{ old('clt_o_shipping_discount_desc') ?? $order['clt_o_shipping_discount_desc'] ?? "" }}"
+                                                           placeholder="免运备注">
+
+                                                    @error('clt_o_shipping_discount_desc')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col-3">
+                                                <button type="submit" class="btn btn-primary btn-sm m-0 w-100">保存</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         @endif
                     </div>
 

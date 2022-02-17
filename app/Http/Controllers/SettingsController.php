@@ -29,6 +29,9 @@ class SettingsController extends Controller
         $order = [
             'clt_o_codePrefix' => SystemConfig::where('name', '=', 'clt_o_codePrefix')->first()->value,
             'clt_o_shippingFeeKampar' => SystemConfig::where('name', '=', 'clt_o_shippingFeeKampar')->first()->value,
+            'clt_o_shipping_discount' => SystemConfig::where('name', '=', 'clt_o_shipping_discount')->first()->value,
+            'clt_o_shipping_discount_threshold' => SystemConfig::where('name', '=', 'clt_o_shipping_discount_threshold')->first()->value,
+            'clt_o_shipping_discount_desc' => SystemConfig::where('name', '=', 'clt_o_shipping_discount_desc')->first()->value,
         ];
 
         return view('setting.website', compact('categories', 'DEFAULT_CATEGORY_COUNT', 'order'));
@@ -66,6 +69,29 @@ class SettingsController extends Controller
         }
 
         SystemConfig::where('name', '=', $property)->update(['value' => request($property)]);
+        return redirect('/setting/website?show=order')->with('message', '保存成功！');
+    }
+
+    public function updateFreeShippingSettings() {
+        if (request('clt_o_shipping_discount') == "on") {
+            $validator = Validator::make(request()->all(), [
+                'clt_o_shipping_discount_threshold' => 'required|numeric',
+                'clt_o_shipping_discount_desc' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect('/setting/website?show=order')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            SystemConfig::where('name', '=', 'clt_o_shipping_discount')->update(['value' => '1']);
+            SystemConfig::where('name', '=', 'clt_o_shipping_discount_threshold')->update(['value' => request('clt_o_shipping_discount_threshold')]);
+            SystemConfig::where('name', '=', 'clt_o_shipping_discount_desc')->update(['value' => request('clt_o_shipping_discount_desc')]);
+        } else {
+            SystemConfig::where('name', '=', 'clt_o_shipping_discount')->update(['value' => '0']);
+        }
+
         return redirect('/setting/website?show=order')->with('message', '保存成功！');
     }
 
