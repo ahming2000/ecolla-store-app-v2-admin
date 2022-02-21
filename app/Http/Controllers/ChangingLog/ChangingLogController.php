@@ -10,14 +10,21 @@ class ChangingLogController extends Controller
     public function index()
     {
 
-        $currentVersion = 'v2.6.0 公测版';
-        $updateDate = '2022/02/17';
+        $currentVersion = 'v2.6.1 公测版';
+        $updateDate = '2022/02/21';
         $color = 'orange'; // Beta: orange, Release: green
 
 
         $logs = [
 
             new LogClass('v2.6', [
+
+                new Log('v2.6.1', '2022/02/21', [
+
+                    new LogDetail('优化', [
+                        '修复了当前购物车数量超过库存的时候还能下单的问题',
+                    ]),
+                ]),
 
                 new Log('v2.6.0', '2022/02/18', [
 
