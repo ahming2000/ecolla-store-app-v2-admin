@@ -10,7 +10,7 @@ use App\Http\Controllers\SystemUpdateController;
 use App\Http\Controllers\ValidatorsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use \App\Http\Controllers\OrderItemsController;
 
 /*
@@ -33,7 +33,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/home', [HomeController::class, 'homeDoGet'])->name('home');
+Route::get('/home', [DashboardController::class, 'dashboard'])->name('home');
 
 Route::prefix('/item')->group(function () {
     Route::get('/', [ItemsController::class, 'index'])->middleware('access:item_view');

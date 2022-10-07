@@ -5,9 +5,213 @@
 @endsection
 
 @section('style')
-    <link href="{{ asset('css/home_styles.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.ui.datepicker.monthyearpicker.css') }}" />
+
+    <style rel="stylesheet">
+
+
+        body,
+        html {
+            height: 100%;
+        }
+
+
+        /* workaround modal-open padding issue */
+
+        body.modal-open {
+            padding-right: 0 !important;
+        }
+
+        .card {
+            overflow: hidden;
+        }
+
+        .card-block .rotate {
+            z-index: 8;
+            float: right;
+            height: 100%;
+        }
+
+        .card-block .rotate i {
+            color: rgba(20, 20, 20, 0.15);
+            position: absolute;
+            left: 0;
+            left: auto;
+            right: -10px;
+            bottom: 0;
+            display: block;
+            -webkit-transform: rotate(-44deg);
+            -moz-transform: rotate(-44deg);
+            -o-transform: rotate(-44deg);
+            -ms-transform: rotate(-44deg);
+            transform: rotate(-44deg);
+        }
+
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+            background-color: transparent;
+            border-bottom: 3px solid #dd0000;
+            border-right: none;
+            border-left: none;
+            border-top: none;
+        }
+
+        .card_small_col,
+        .card_large_col {
+            width: 45%;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .card_large_col {
+            padding-top: 10px;
+        }
+
+        .form_small_col,
+        .form_large_col,
+        .form_button_col {
+            width: 100%;
+        }
+
+        .form_button_col .btn {
+            margin-left: 0px;
+        }
+
+        .display_card_text {
+            font-size: 12px;
+        }
+
+        .display_card_header {
+            font-size: 16px;
+        }
+
+        .half_width {
+            width: 100%;
+        }
+
+        .border_graph_css {
+            height: 400px;
+        }
+
+        .item_table tr th:first-child,
+        .item_table tr td:first-child {
+            width: 6em;
+            word-break: break-all;
+        }
+
+        .item_table tr th:last-child,
+        .item_table tr td:last-child {
+            display: none;
+        }
+
+        @media only screen and (max-width: 319px) {
+            .order_table tr th:nth-child(1),
+            .order_table tr td:nth-child(1) {
+                width: 6em;
+                word-break: break-all;
+            }
+            .order_table tr th:first-child~th,
+            .order_table tr td:first-child~td {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-width: 320px) and (max-width: 449px) {
+            .order_table tr th:nth-child(1),
+            .order_table tr th:nth-child(2),
+            .order_table tr td:nth-child(1),
+            .order_table tr td:nth-child(2) {
+                width: 8em;
+                word-break: break-all;
+            }
+            .order_table tr th:nth-child(2)~th,
+            .order_table tr td:nth-child(2)~td {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-width: 450px) and (max-width: 768px) {
+            .order_table tr th:nth-child(1),
+            .order_table tr td:nth-child(1) {
+                width: 8em;
+                word-break: break-all;
+            }
+            .order_table tr th:nth-child(3)~th,
+            .order_table tr td:nth-child(3)~td {
+                display: none;
+            }
+        }
+
+
+        /* Tablet */
+
+        @media only screen and (min-width:450px) and (max-width:1199px) {
+            .display_card_text {
+                font-size: 1.5rem;
+            }
+            .border_graph_css {
+                height: 400px;
+            }
+            .item_table tr th:first-child,
+            .item_table tr td:first-child {
+                width: 12em;
+                word-break: break-all;
+            }
+            .item_table tr th:last-child,
+            .item_table tr td:last-child {
+                display: block;
+            }
+        }
+
+
+        /* Desktop */
+
+        @media (min-width: 1200px) {
+            .form_small_col {
+                width: 10%;
+            }
+            .form_large_col {
+                width: 50%;
+            }
+            .form_button_col {
+                width: 15%;
+                position: relative;
+                left: 5px;
+            }
+            .card_small_col {
+                width: 15%;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .card_large_col {
+                width: 30%;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 0px;
+            }
+            .display_card_header {
+                font-size: 20px;
+            }
+            .display_card_text {
+                font-size: 36px;
+            }
+            .half_width {
+                width: 50%
+            }
+            .border_graph_css,
+            .border_table_css {
+                height: 450px;
+            }
+            .item_table tr th:first-child,
+            .item_table tr td:first-child {
+                width: 12em;
+                word-break: break-all;
+            }
+            .item_table tr th:last-child,
+            .item_table tr td:last-child {
+                display: block;
+            }
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -416,12 +620,133 @@
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js" integrity="sha512-FJ2OYvUIXUqCcPf1stu+oTBlhn54W0UisZB/TNrZaVMHHhYvLBV9jMbvJYtvDe5x/WVaoXZ6KB+Uqe5hT2vlyA==" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ asset('js/jquery.ui.datepicker.monthyearpicker.js') }}"></script>
-    <script src="{{ asset('js/weekPicker.js') }}"></script>
+    <script src="{{ asset('js/canvasjs-3.4.13/jquery.canvasjs.min.js') }}"></script>
+
     @if(auth()->user()->hasAccess('dashboard_view'))
     <script>
+
+
+        // weekPicker.js
+        var globalTriggeringElement;
+        var globalAdditionalFunction = function() { null; };
+
+        var getDateFromISOWeek = function(ywString, separator) {
+            try {
+                var ywArray = ywString.split(separator);
+                var y = ywArray[0];
+                var w = ywArray[1];
+                var simple = new Date(y, 0, 1 + (w - 1) * 7);
+                var dow = simple.getDay();
+                var ISOweekStart = simple;
+                if (dow <= 4)
+                    ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+                else
+                    ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+                return ISOweekStart;
+            } catch (err) {
+                console.error("Cannot convert Week into date");
+                return new Date();
+            }
+        };
+
+        var showWeekCalendar = function(triggeringElement, additionalFunction) {
+            globalTriggeringElement = triggeringElement;
+            globalAdditionalFunction = additionalFunction;
+            var prevItem = $(triggeringElement).prev();
+            var weekValue = prevItem.val();
+            prevItem.datepicker("option", "defaultDate", getDateFromISOWeek(weekValue, '-'));
+            prevItem.val(weekValue);
+            prevItem.datepicker("show");
+        };
+
+        var setWeekCalendar = function(settingElement) {
+            var startDate;
+            var endDate;
+            var selectCurrentWeek = function() {
+                window.setTimeout(function() {
+                    var activeElement = $("#ui-datepicker-div .ui-state-active");
+                    var tdElement = activeElement.parent();
+                    var trElement = tdElement.parent();
+
+                    trElement.find("a").addClass("ui-state-active")
+
+                }, 1);
+            };
+
+            $(settingElement).datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                showWeek: true,
+                firstDay: 1,
+                onSelect: function(dateText, inst) {
+                    var datepickerValue = $(this).datepicker('getDate');
+                    var dateObj = new Date(datepickerValue.getFullYear(), datepickerValue.getMonth(), datepickerValue.getDate());
+                    var weekNum = $.datepicker.iso8601Week(dateObj);
+                    if (weekNum < 10) {
+                        weekNum = "0" + weekNum;
+                    }
+                    var weekYear = datepickerValue.getFullYear();
+                    if (datepickerValue.getMonth() == 11 && weekNum == 01) {
+                        weekYear += 1;
+                    }
+                    var ywString = weekYear + '-' + weekNum;
+                    $(this).val(ywString);
+                    $(this).prev().html(ywString);
+                    startDate = new Date(datepickerValue.getFullYear(), datepickerValue.getMonth(), datepickerValue.getDate() - datepickerValue.getDay());
+                    endDate = new Date(datepickerValue.getFullYear(), datepickerValue.getMonth(), datepickerValue.getDate() - datepickerValue.getDay() + 6);
+                    selectCurrentWeek();
+                    $(this).data('datepicker').inline = true;
+                    globalAdditionalFunction(globalTriggeringElement);
+                },
+                onClose: function() {
+                    $(this).data('datepicker').inline = false;
+                },
+                beforeShow: function() {
+                    selectCurrentWeek();
+                },
+                beforeShowDay: function(datepickerValue) {
+                    let cssClass = '';
+                    if (datepickerValue >= startDate && datepickerValue <= endDate)
+                        cssClass = 'ui-datepicker-current-day';
+                    selectCurrentWeek();
+                    return enableAllTheseWeeks(datepickerValue, week_option_arr, cssClass);
+                },
+                onChangeMonthYear: function(year, month, inst) {
+                    selectCurrentWeek();
+                }
+            }).datepicker('widget').addClass('ui-weekpicker');
+
+            $('body').on('mousemove', '#weekPicker .ui-weekpicker .ui-datepicker-calendar tr', function() { $(this).find('td a').addClass('ui-state-hover'); });
+            $('body').on('mouseleave', '#weekPicker .ui-weekpicker .ui-datepicker-calendar tr', function() { $(this).find('td a').removeClass('ui-state-hover'); });
+
+            // function for doing something more
+
+        };
+
+        function enableAllTheseWeeks(date, date_arr, cssClass) {
+            let sdate = $.datepicker.formatDate('yy-mm-dd', date);
+            return [$.inArray(sdate, date_arr) != -1, cssClass];
+        }
+
+        var convertToWeekPicker = function(targetElement, fontAwesomeIcon) {
+            if (targetElement.prop("tagName") == "INPUT" && (targetElement.attr("type") == "text" || targetElement.attr("type") == "hidden")) {
+                var week = targetElement.val();
+                $('<span class="displayDate" style="display:none">' + week + '</span>').insertBefore(targetElement);
+                if (fontAwesomeIcon) {
+                    $('<i class="fa fa-' + fontAwesomeIcon + ' showCalendar" aria-hidden="true" style="cursor:pointer;margin-left: 10px;margin-top: 3px;" onclick="javascript:showWeekCalendar(this)"></i>').insertAfter(targetElement);
+                }
+                setWeekCalendar(targetElement);
+            } else {
+                targetElement.replaceWith("<span>ERROR: please control js console</span>");
+                console.error("convertToWeekPicker() - ERROR: The target element is not compatible with this conversion, try to use an <input type=\"text\" /> or an <input type=\"hidden\" />");
+            }
+        };
+
+
+
+
+
+
         let date_option_arr = [],
             week_option_arr = [],
             month_option_hashmap = {},
