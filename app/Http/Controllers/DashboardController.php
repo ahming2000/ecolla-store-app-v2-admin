@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use DateTime;
 use DateInterval;
 
-class HomeController extends Controller
+class DashboardController extends Controller
 {
     private int $num_of_items = 5;
 
@@ -19,12 +19,8 @@ class HomeController extends Controller
         $this->middleware(['auth', 'access:status_check']);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function homeDoGet(Request $request)
+    public function dashboard()
     {
-
 
         // Get Order Arrays => All Existing Orders, Completed Orders, Cancelled Orders
         $all_order_arr = DB::select("SELECT * FROM orders");
@@ -46,9 +42,9 @@ class HomeController extends Controller
         // If the array is not empty, it is set to the last value of the array
         // Format: 2021-05-15, 2021-20, May 2021
         // Returns the value of String used to Filter Order Array
-        $daily_str = $request->input('day', date("Y-m-d"));
-        $week_str = $request->input('week', date('Y') . "-" . date('W'));
-        $month_str = $request->input('month', date("M") . " " . date("Y"));
+        $daily_str = request()->input('day', date("Y-m-d"));
+        $week_str = request()->input('week', date('Y') . "-" . date('W'));
+        $month_str = request()->input('month', date("M") . " " . date("Y"));
         /* Use request() helper function instead */
         $requestData = [
             'daily' => request('day', date('Y-m-d')),
@@ -96,7 +92,7 @@ class HomeController extends Controller
         $month_info_arr = $this->get_info_arr($month_order_arr, $canceled_month_arr, $month_hashmap, $month_str, $month_option_str);
 
         // Tab Active controls which tab the dashboard shows to the user
-        $tab_active = $request->input('type', "daily");
+        $tab_active = request()->input('type', "daily");
 
         $test = $this->order_details_info($all_order_arr);
 
