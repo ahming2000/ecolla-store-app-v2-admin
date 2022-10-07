@@ -4394,6 +4394,8 @@ try {
 } catch (e) {}
 
 __webpack_require__(/*! selectize */ "./node_modules/selectize/dist/js/selectize.js");
+
+__webpack_require__(/*! jquery-ui/ui/widgets/datepicker */ "./node_modules/jquery-ui/ui/widgets/datepicker.js");
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

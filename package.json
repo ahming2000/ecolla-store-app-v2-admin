@@ -19,6 +19,7 @@
         "commitizen": "^4.2.4",
         "cz-conventional-changelog": "^3.3.0",
         "jquery": "^3.6.0",
+        "jquery-ui": "^1.13.1",
         "laravel-mix": "^6.0.25",
         "lodash": "^4.17.19",
         "popper.js": "^1.16.1",

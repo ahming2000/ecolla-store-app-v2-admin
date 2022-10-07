@@ -12,6 +12,7 @@ try {
 } catch (e) {}
 
 require('selectize');
+require('jquery-ui/ui/widgets/datepicker');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
