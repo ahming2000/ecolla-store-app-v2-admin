@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image;
+use Ulid\Ulid;
 
 class SystemUpdateController extends Controller
 {
@@ -26,9 +27,66 @@ class SystemUpdateController extends Controller
 
     public function performUpdate()
     {
-        $this->removeResidualImages();
+        echo "WARNING: THIS ACTION WILL CREATE HUGE AMOUNT OF SPACE, PLEASE RUN ONLY ONCE!";
+
+        $this->resortImages('App\Models\ItemImage');
+        $this->resortImages('App\Models\Variation');
 
         die('<br/>All Tasks completed.');
+    }
+
+    private function resortImages($model)
+    {
+        // get rows with id and image src
+        // update src path in the same row with id (old: with domain name, new: without domain name)
+        $rows = $this->getImagePaths($model);
+
+        // loop through all the rows
+        // move the file to /public/images/
+        // rename into ULID format
+        foreach ($rows as $image) {
+            // avoid duplicated (assume all using weblink)
+//            if (!str_starts_with($image['image'], 'http')) continue;
+
+            $path = '/images/' . Ulid::generate() . $this->getFileExtension($image['image']);
+            $originalPath = public_path($image['image']);
+            $destinationPath = public_path($path);
+
+            try {
+                if (copy($originalPath, $destinationPath)) {
+                    // save to database
+                    $model::query()->where('id', '=', $image['id'])->update(['image' => $path]);
+                } else {
+                    dump("Error when converting $model image at id " . $image['id'] . '<br>');
+                }
+            } catch (Exception $e) {
+                dump("Error when converting $model image at id " . $image['id'] . '<br>');
+            }
+
+        }
+    }
+
+    private function getImagePaths($model)
+    {
+        $rows = $model::query()
+            ->whereNotNull('image')
+            ->get(['id', 'image'])
+            ->toArray();
+
+        // remove html link
+        for ($i = 0; $i < sizeof($rows); $i++) {
+            $path = str_replace('https://www.management.newrainbowmarket.com:443/', '', $rows[$i]['image']);
+            if ($path == $rows[$i]['image']) $path = str_replace('https://management.newrainbowmarket.com:443/', '', $rows[$i]['image']);
+            if ($path == $rows[$i]['image']) $path = str_replace('https://management.newrainbowmarket.com/', '', $rows[$i]['image']);
+            $rows[$i]['image'] = $path;
+        }
+
+        return $rows;
+    }
+
+    private function getFileExtension($path)
+    {
+        return '.' . substr(strrchr($path, '.'), 1);
     }
 
     private function removeResidualImages()
