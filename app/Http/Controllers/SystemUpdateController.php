@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\ItemImage;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Variation;
 use App\Util\ImageHandler;
@@ -27,15 +28,16 @@ class SystemUpdateController extends Controller
 
     public function performUpdate()
     {
-        echo "WARNING: THIS ACTION WILL CREATE HUGE AMOUNT OF SPACE, PLEASE RUN ONLY ONCE!";
+        echo "WARNING: THIS ACTION WILL CREATE HUGE AMOUNT OF SPACE, PLEASE RUN ONLY ONCE!<br><br>";
 
-        $this->resortImages('App\Models\ItemImage');
-        $this->resortImages('App\Models\Variation');
+//        $this->resortImages('App\Models\ItemImage', false);
+//        $this->resortImages('App\Models\Variation', false);
+//        $this->resortReceipt(false);
 
         die('<br/>All Tasks completed.');
     }
 
-    private function resortImages($model)
+    private function resortImages($model, $updateColumn = false)
     {
         // get rows with id and image src
         // update src path in the same row with id (old: with domain name, new: without domain name)
@@ -55,7 +57,7 @@ class SystemUpdateController extends Controller
             try {
                 if (copy($originalPath, $destinationPath)) {
                     // save to database
-                    $model::query()->where('id', '=', $image['id'])->update(['image' => $path]);
+                    if ($updateColumn) $model::query()->where('id', '=', $image['id'])->update(['image' => $path]);
                 } else {
                     dump("Error when converting $model image at id " . $image['id'] . '<br>');
                 }
@@ -63,6 +65,33 @@ class SystemUpdateController extends Controller
                 dump("Error when converting $model image at id " . $image['id'] . '<br>');
             }
 
+        }
+    }
+
+    private function resortReceipt($updateColumn = false) {
+        $orders = Order::query()
+            ->get(['id', 'receipt_image'])
+            ->toArray();
+
+        for ($i = 0; $i < sizeof($orders); $i++) {
+            $orders[$i]['receipt_image'] = str_replace('https://www.newrainbowmarket.com/', '', $orders[$i]['receipt_image']);
+        }
+
+        foreach ($orders as $order) {
+            $path = '/images/' . Ulid::generate() . $this->getFileExtension($order['receipt_image']);
+            $originalPath = public_path($order['receipt_image']);
+            $destinationPath = public_path($path);
+
+            try {
+                if (copy($originalPath, $destinationPath)) {
+                    // save to database
+                    if ($updateColumn) Order::query()->where('id', '=', $order['id'])->update(['receipt_image' => $path]);
+                } else {
+                    dump("Error when converting receipt image at order id " . $order['id'] . '<br>');
+                }
+            } catch (Exception $e) {
+                dump("Error when converting receipt image at order id " . $order['id'] . '<br>');
+            }
         }
     }
 
